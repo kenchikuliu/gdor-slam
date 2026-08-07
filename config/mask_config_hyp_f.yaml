@@ -1,0 +1,122 @@
+%YAML:1.0
+
+# ============================================================================
+# DyGeoFusion-SLAM+ DynamicMaskRefiner Configuration
+# ============================================================================
+#
+# Hypothesis F: enable flow with stronger semantic and weaker geometric weights.
+#
+# This configuration file controls the three-prior dynamic mask fusion system.
+#
+# Three Priors:
+#   1. Semantic Prior (M_sem): YOLOv8 segmentation for dynamic object detection
+#   2. Motion Prior (M_flow): LK optical flow for inter-frame motion detection
+#   3. Geometric Prior (P_geo): 3DGS rendered depth consistency check
+#
+# Fusion Formula (Sigmoid with bias):
+#   logit = w_sem * M_sem + w_flow * M_flow + w_geo * (1 - P_geo) - bias
+#   P_dyn = sigmoid(logit) = 1 / (1 + exp(-logit))
+#
+# P_dyn is consumed as a soft 3DGS training weight. The final binary mask is
+# the union of semantic detections and gated high-confidence geometry.
+#
+# ============================================================================
+
+# ======================== Feature Toggles ===================================
+# Enable/disable individual priors for ablation studies
+
+mask.use_yolo: 1                    # Enable YOLO semantic segmentation (1=true, 0=false)
+mask.use_flow: 1                    # Enable LK optical-flow prior
+mask.use_depth_consistency: 1       # ENABLED: Dense 3DGS depth rendering integrated (Phase 1)
+
+# ======================== Timing Parameters =================================
+
+mask.warmup_frames: 200             # Allow 3DGS convergence before geometric prior
+mask.yolo_every_n_frames: 1         # YOLO inference interval (1 = every frame)
+                                    # Increase to 2-3 for faster performance
+
+# ======================== Threshold Parameters ==============================
+
+mask.tau_flow: 1.5                  # Optical flow magnitude threshold (pixels)
+                                    # Lower = more sensitive to motion
+mask.tau_depth: 0.03                # Depth difference threshold (meters)
+                                    # Lower = more sensitive to depth inconsistency
+
+# ======================== Prior Weights =====================================
+# Adjust these weights to control the influence of each prior
+# Higher weight = more influence on final dynamic probability
+
+mask.w_sem: 1.5                     # Semantic prior weight
+mask.w_flow: 1.0                    # Motion prior weight
+mask.w_geo: 0.5                     # Reduced geometric prior weight
+
+# ======================== Output Parameters =================================
+
+mask.dyn_threshold: 0.40            # Diagnostic P_dyn threshold; not the final hard-mask threshold
+mask.morph_kernel: 3                # Morphological kernel size for mask refinement
+                                    # Larger = smoother mask boundaries
+
+# ======================== YOLO Model Parameters =============================
+
+mask.yolo_model_path: "model/yolov8s.engine"
+                                    # Path to YOLOv8 TensorRT engine (detection)
+                                    # Leave empty to disable YOLO
+mask.yolo_conf_threshold: 0.25      # YOLO confidence threshold
+mask.yolo_nms_threshold: 0.45       # YOLO NMS threshold
+mask.yolo_input_width: 640          # YOLO input width
+mask.yolo_input_height: 640         # YOLO input height
+
+# ======================== LK Optical Flow Parameters ========================
+
+mask.lk_win_size: 21                # LK window size (pixels)
+mask.lk_max_level: 3                # LK pyramid max level
+mask.lk_grid_step: 8                # Grid step for sparse LK sampling
+                                    # Lower = denser sampling (slower but more accurate)
+
+# ======================== Adaptive Mechanism Parameters =====================
+# Viewpoint Gating: Disable geometric prior during large camera motion
+
+mask.viewpoint_gating_rot_thresh: 0.1745     # Rotation threshold (radians, ~10 degrees)
+                                             # Geometric prior scaled down when rotation > threshold
+mask.viewpoint_gating_trans_thresh: 0.08     # Translation threshold (meters)
+                                             # Geometric prior scaled down when translation > threshold
+
+# Global Geo Scaling: Disable geometric prior when no semantic dynamics detected
+
+mask.global_geo_warmup_frames: 50            # Frames to check for no-semantic scene
+                                             # During warmup, count frames with no YOLO detections
+mask.global_geo_no_semantic_thresh: 45       # Threshold to disable geo if no YOLO detections
+                                             # If no_semantic_frames >= threshold, disable geo
+
+# ======================== Debug/Visualization ===============================
+
+mask.save_debug_images: 0           # Save intermediate mask images (1=true, 0=false)
+mask.debug_output_dir: ""           # Directory for debug outputs
+                                    # Will save: sem_*.png, flow_*.png, geo_*.png, pdyn_*.png, static_*.png
+
+# ============================================================================
+# Recommended Configurations for Different Scenarios
+# ============================================================================
+#
+# === High Dynamic Ratio (many moving people) ===
+# mask.w_sem: 1.5
+# mask.w_flow: 1.0
+# mask.w_geo: 0.5
+# mask.dyn_threshold: 0.4
+#
+# === Low Dynamic Ratio (occasional movement) ===
+# mask.w_sem: 0.8
+# mask.w_flow: 1.2
+# mask.w_geo: 1.0
+# mask.dyn_threshold: 0.6
+#
+# === Reduced-compute example ===
+# mask.yolo_every_n_frames: 3
+# mask.lk_grid_step: 16
+#
+# === High Accuracy Mode (slower but more precise) ===
+# mask.yolo_every_n_frames: 1
+# mask.lk_grid_step: 4
+# mask.morph_kernel: 5
+#
+# ============================================================================

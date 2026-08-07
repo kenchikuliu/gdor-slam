@@ -1,0 +1,72 @@
+%YAML:1.0
+
+# Matched shadow for the initialization-only ablation. It evaluates the same
+# hypotheses and full RGB-D gate, then restores the static branch.
+mask.use_yolo: 1
+mask.use_flow: 0
+mask.use_depth_consistency: 0
+mask.use_soft_mapping: 0
+mask.enable_flow_hard: 0
+mask.use_motion_pose_prior: 1
+mask.motion_pose_prior_shadow_only: 1
+mask.enable_geo_hard: 0
+
+mask.warmup_frames: 200
+mask.yolo_every_n_frames: 1
+mask.tau_flow: 1.5
+mask.tau_depth: 0.03
+mask.w_sem: 1.0
+mask.w_flow: 1.0
+mask.w_geo: 2.0
+mask.dyn_threshold: 0.6
+mask.morph_kernel: 3
+
+mask.motion_max_features: 400
+mask.motion_min_features_per_object: 20
+mask.motion_min_component_area: 400
+mask.motion_min_track_age: 3
+mask.motion_ransac_threshold: 0.05
+mask.motion_min_inlier_ratio: 0.5
+mask.motion_min_information: 5.0
+mask.motion_max_translation: 0.5
+mask.motion_max_rotation: 0.5236
+mask.motion_use_depth_foreground_filter: 1
+mask.motion_foreground_depth_separation: 0.15
+mask.motion_foreground_min_fraction: 0.08
+mask.motion_min_object_translation_speed: 0.03
+mask.motion_min_object_rotation_speed: 0.05
+mask.motion_measurement_translation_sigma: 0.01
+mask.motion_measurement_rotation_sigma: 0.02
+mask.motion_camera_translation_sigma: 0.02
+mask.motion_camera_rotation_sigma: 0.02
+mask.motion_velocity_process_translation_sigma: 0.20
+mask.motion_velocity_process_rotation_sigma: 0.35
+mask.motion_max_information_eigenvalue: 10000.0
+mask.motion_candidate_mahalanobis_threshold: 16.812
+
+mask.motion_gate_min_inlier_gain: 1
+mask.motion_gate_min_inlier_gain_ratio: 0.0
+mask.motion_gate_max_static_inliers: 150
+mask.motion_gate_min_translation_innovation: 0.0
+mask.motion_gate_max_translation_innovation: 0.01
+mask.motion_gate_max_rotation_innovation: 0.00872665
+mask.motion_prior_information_scale: 0.5
+mask.motion_prior_use_direct_validation: 1
+mask.motion_prior_direct_score_mode: 2
+mask.motion_prior_inject_local_map: 0
+mask.motion_prior_initialization_only: 1
+mask.motion_prior_require_common_support_improvement: 0
+mask.motion_prior_bypass_reliability_gate: 0
+mask.motion_prior_shuffle_lag_frames: 0
+
+mask.yolo_model_path: "model/yolov8s.engine"
+mask.yolo_conf_threshold: 0.25
+mask.yolo_nms_threshold: 0.45
+mask.yolo_input_width: 640
+mask.yolo_input_height: 640
+mask.lk_win_size: 21
+mask.lk_max_level: 3
+mask.lk_grid_step: 8
+
+mask.save_debug_images: 0
+mask.debug_output_dir: ""

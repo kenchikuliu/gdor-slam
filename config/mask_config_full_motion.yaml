@@ -1,0 +1,66 @@
+%YAML:1.0
+
+# Full fusion plus motion-marginalized dynamic feature pose prior.
+mask.use_yolo: 1
+mask.use_flow: 1
+mask.use_depth_consistency: 1
+mask.use_soft_mapping: 1
+mask.enable_flow_hard: 1
+mask.use_motion_pose_prior: 1
+mask.motion_pose_prior_shadow_only: 0
+mask.enable_geo_hard: 1
+
+mask.warmup_frames: 50
+mask.yolo_every_n_frames: 1
+mask.tau_flow: 1.5
+mask.tau_depth: 0.05
+mask.w_sem: 1.0
+mask.w_flow: 1.0
+mask.w_geo: 2.0
+mask.dyn_threshold: 0.6
+mask.morph_kernel: 3
+mask.soft_mapping_alpha: 0.7
+mask.soft_mapping_min_weight: 0.3
+
+mask.geo_dyn_thresh: 0.6
+mask.global_geo_min: 0.6
+mask.vp_scale_min: 0.5
+mask.viewpoint_gating_rot_thresh: 0.1745
+mask.viewpoint_gating_trans_thresh: 0.08
+mask.global_geo_warmup_frames: 50
+mask.global_geo_no_semantic_thresh: 45
+
+mask.motion_max_features: 400
+mask.motion_min_features_per_object: 20
+mask.motion_min_component_area: 400
+mask.motion_min_track_age: 3
+mask.motion_ransac_threshold: 0.05
+mask.motion_min_inlier_ratio: 0.5
+mask.motion_min_information: 5.0
+mask.motion_max_translation: 0.5
+mask.motion_max_rotation: 0.5236
+mask.motion_use_depth_foreground_filter: 1
+mask.motion_foreground_depth_separation: 0.15
+mask.motion_foreground_min_fraction: 0.08
+mask.motion_min_object_translation_speed: 0.03
+mask.motion_min_object_rotation_speed: 0.05
+mask.motion_measurement_translation_sigma: 0.01
+mask.motion_measurement_rotation_sigma: 0.02
+mask.motion_camera_translation_sigma: 0.02
+mask.motion_camera_rotation_sigma: 0.02
+mask.motion_velocity_process_translation_sigma: 0.20
+mask.motion_velocity_process_rotation_sigma: 0.35
+mask.motion_max_information_eigenvalue: 10000.0
+mask.motion_candidate_mahalanobis_threshold: 16.812
+
+mask.yolo_model_path: "model/yolov8s.engine"
+mask.yolo_conf_threshold: 0.25
+mask.yolo_nms_threshold: 0.45
+mask.yolo_input_width: 640
+mask.yolo_input_height: 640
+mask.lk_win_size: 21
+mask.lk_max_level: 3
+mask.lk_grid_step: 8
+
+mask.save_debug_images: 0
+mask.debug_output_dir: ""

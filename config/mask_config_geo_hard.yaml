@@ -1,0 +1,95 @@
+%YAML:1.0
+
+# ============================================================================
+# DyGeoFusion-SLAM+ Config C_hard: YOLO + Geo Soft Weight + Geo Hard Mask
+# ============================================================================
+#
+# This configuration enables:
+#   - YOLO semantic prior for hard mask (feature extraction filtering)
+#   - Geometric consistency for soft weight (3DGS loss weighting)
+#   - Geo Hard Mask: supplement YOLO with strong geometric evidence
+#
+# Key differences from Config C_soft (Geo Soft Only):
+#   - enable_geo_hard: 1 (enables geometric hard mask)
+#   - geo_dyn_thresh: 0.6 (threshold for strong dynamic evidence)
+#   - global_geo_min: 0.6 (minimum map reliability for geo hard mask)
+#   - vp_scale_min: 0.5 (minimum viewpoint stability for geo hard mask)
+#
+# Three Red Lines (Safety Principles):
+#   1. YOLO's dynamic decisions are NEVER overridden (YOLO says dynamic = always dynamic)
+#   2. Geo can only ADD to dynamic regions, never convert dynamic to static
+#   3. Geo hard mask only enabled when ALL conditions are satisfied:
+#      - global_geo > global_geo_min (map is reliable)
+#      - viewpoint_scale > vp_scale_min (camera motion is small)
+#      - Not in warmup period
+#      - Not a pure static scene (detected by YOLO)
+#
+# Final Mask Logic:
+#   M_dyn_final = M_sem_bin OR geo_dyn_strong
+#   M_static_final = 1 - M_dyn_final
+#
+# ============================================================================
+
+# ======================== Feature Toggles ===================================
+
+mask.use_yolo: 1                    # Enable YOLO semantic segmentation
+mask.use_flow: 0                    # DISABLED: Flow needs ego-motion compensation
+mask.use_depth_consistency: 1       # ENABLED: Use 3DGS rendered depth for geometric consistency
+mask.use_soft_mapping: 0
+mask.enable_flow_hard: 0
+mask.use_motion_pose_prior: 0
+
+# ======================== Timing Parameters =================================
+
+mask.warmup_frames: 50              # Frames before enabling depth consistency
+                                    # (3DGS needs time to build initial map)
+mask.yolo_every_n_frames: 1         # YOLO inference every frame
+
+# ======================== Threshold Parameters ==============================
+
+mask.tau_flow: 1.5                  # Optical flow magnitude threshold (pixels)
+mask.tau_depth: 0.05                # Depth difference threshold (5cm)
+                                    # P_geo = exp(-diff^2 / (2 * tau_depth^2))
+
+# ======================== Prior Weights =====================================
+# For sigmoid fusion: logit = w_sem*M_sem + w_flow*M_flow + w_geo*(1-P_geo)
+
+mask.w_sem: 1.0                     # Semantic prior weight
+mask.w_flow: 1.0                    # Motion prior weight (not used when use_flow=0)
+mask.w_geo: 2.0                     # Geometric prior weight (boosted)
+
+# ======================== Output Parameters =================================
+
+mask.dyn_threshold: 0.6             # P_dyn binarization threshold
+                                    # After sigmoid: 0.6 is moderately conservative
+mask.morph_kernel: 3                # Morphological kernel size
+
+# ======================== Geo Hard Mask Parameters ==========================
+# These control when geometric evidence can add to the dynamic mask
+# Key principle: YOLO decisions are never overridden, geo can only ADD
+
+mask.enable_geo_hard: 1             # ENABLED: Allow geo to supplement YOLO
+mask.geo_dyn_thresh: 0.6            # Geo dynamic threshold: (1-P_geo) > this = strong dynamic
+mask.global_geo_min: 0.55           # Minimum global_geo required to enable geo hard mask
+mask.vp_scale_min: 0.5              # Minimum viewpoint_scale required to enable geo hard mask
+
+# ======================== YOLO Model Parameters =============================
+
+mask.yolo_model_path: "model/yolov8s.engine"
+mask.yolo_conf_threshold: 0.25      # YOLO confidence threshold
+mask.yolo_nms_threshold: 0.45       # YOLO NMS threshold
+mask.yolo_input_width: 640          # YOLO input width
+mask.yolo_input_height: 640         # YOLO input height
+
+# ======================== LK Optical Flow Parameters ========================
+
+mask.lk_win_size: 21                # LK window size (pixels)
+mask.lk_max_level: 3                # LK pyramid max level
+mask.lk_grid_step: 8                # Grid step for sparse LK sampling
+
+# ======================== Debug/Visualization ===============================
+
+mask.save_debug_images: 1           # Save intermediate mask images for analysis
+mask.debug_output_dir: ""           # Will be set automatically by the application
+
+# ============================================================================

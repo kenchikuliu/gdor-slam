@@ -1,0 +1,131 @@
+%YAML:1.0
+
+# ============================================================================
+# DynaGS-SLAM Full Fusion Ablation
+# ============================================================================
+#
+# This enables semantic, residual-flow, and geometric evidence together.
+# It is an ablation preset, not the default accuracy configuration.
+#
+# Use mask_config.yaml for the Semantic-only reference.
+#
+# ============================================================================
+
+# Three Priors:
+#   1. Semantic Prior (M_sem): YOLOv8 segmentation for dynamic object detection
+#   2. Motion Prior (M_flow): LK optical flow for inter-frame motion detection
+#   3. Geometric Prior (P_geo): 3DGS rendered depth consistency check
+#
+# Fusion Formula (Sigmoid with bias):
+#   logit = w_sem * M_sem + w_flow * M_flow + w_geo * (1 - P_geo) - bias
+#   P_dyn = sigmoid(logit) = 1 / (1 + exp(-logit))
+#
+# Output:
+#   staticMask = (P_dyn <= dyn_threshold) ? 1 : 0
+#
+# ============================================================================
+
+# ======================== Feature Toggles ===================================
+# ALL PRIORS ENABLED for full three-prior fusion
+
+mask.use_yolo: 1                    # ENABLED: YOLO semantic segmentation
+mask.use_flow: 1                    # ENABLED: ego-motion-compensated LK residual flow
+mask.use_depth_consistency: 1       # ENABLED: 3DGS depth consistency check
+mask.use_soft_mapping: 1            # ENABLED: continuous mapping confidence
+mask.enable_flow_hard: 1            # Residual flow supplements the tracking mask
+mask.use_motion_pose_prior: 0       # Fusion-only gate; new mechanism is evaluated separately
+mask.enable_geo_hard: 1             # Reliable geometry supplements the tracking mask
+mask.geo_dyn_thresh: 0.6
+mask.global_geo_min: 0.6
+mask.vp_scale_min: 0.5
+mask.soft_mapping_alpha: 0.7
+mask.soft_mapping_min_weight: 0.3
+
+# ======================== Timing Parameters =================================
+
+mask.warmup_frames: 50              # Frames before enabling depth consistency
+                                    # (3DGS needs time to build initial map)
+mask.yolo_every_n_frames: 1         # YOLO inference interval (1 = every frame)
+                                    # Increase to 2-3 for faster performance
+
+# ======================== Threshold Parameters ==============================
+
+mask.tau_flow: 1.5                  # Optical flow magnitude threshold (pixels)
+                                    # Lower = more sensitive to motion
+mask.tau_depth: 0.03                # Depth difference threshold (meters)
+                                    # Lower = more sensitive to depth inconsistency
+
+# ======================== Prior Weights =====================================
+# Fixed values used by the registered Full Fusion ablation.
+
+mask.w_sem: 1.0                     # Semantic prior weight
+mask.w_flow: 1.0                    # Motion prior weight
+mask.w_geo: 2.0                     # Geometric evidence response scale
+
+# ======================== Output Parameters =================================
+
+mask.dyn_threshold: 0.60            # P_dyn binarization threshold (sigmoid output)
+                                    # With sigmoid fusion, neutral=0.5, so threshold must be > 0.5
+                                    # 0.60 = conservative (marks as dynamic only when priors agree)
+mask.morph_kernel: 3                # Morphological kernel size for mask refinement
+                                    # Larger = smoother mask boundaries
+
+# ======================== YOLO Model Parameters =============================
+
+mask.yolo_model_path: "model/yolov8s.engine"
+                                    # Path to YOLOv8 TensorRT engine (detection)
+                                    # Leave empty to disable YOLO
+mask.yolo_conf_threshold: 0.25      # YOLO confidence threshold
+mask.yolo_nms_threshold: 0.45       # YOLO NMS threshold
+mask.yolo_input_width: 640          # YOLO input width
+mask.yolo_input_height: 640         # YOLO input height
+
+# ======================== LK Optical Flow Parameters ========================
+
+mask.lk_win_size: 21                # LK window size (pixels)
+mask.lk_max_level: 3                # LK pyramid max level
+mask.lk_grid_step: 8                # Grid step for sparse LK sampling
+                                    # Lower = denser sampling (slower but more accurate)
+
+# ======================== Adaptive Mechanism Parameters =====================
+# Viewpoint Gating: Disable geometric prior during large camera motion
+# These parameters help handle scenes with large viewpoint changes (e.g., halfsphere trajectories)
+
+mask.viewpoint_gating_rot_thresh: 0.1745     # Rotation threshold (radians, ~10 degrees)
+                                             # Geometric prior scaled down when rotation > threshold
+mask.viewpoint_gating_trans_thresh: 0.08     # Translation threshold (meters)
+                                             # Geometric prior scaled down when translation > threshold
+
+# Global Geo Scaling: Disable geometric prior when no semantic dynamics detected
+# This prevents false positives in truly static scenes
+
+mask.global_geo_warmup_frames: 50            # Frames to check for no-semantic scene
+                                             # During warmup, count frames with no YOLO detections
+mask.global_geo_no_semantic_thresh: 45       # Threshold to disable geo if no YOLO detections
+                                             # If no_semantic_frames >= threshold, disable geo
+
+# ======================== Debug/Visualization ===============================
+
+mask.save_debug_images: 0           # Save intermediate mask images (1=true, 0=false)
+mask.debug_output_dir: ""           # Directory for debug outputs
+                                    # Will save: sem_*.png, flow_*.png, geo_*.png, pdyn_*.png, static_*.png
+
+# ============================================================================
+# Performance Notes (based on experimental results)
+# ============================================================================
+#
+# === Config C Performance on TUM RGB-D Dynamic ===
+# Full Fusion must pass scripts/run_reproducible_benchmark.py's claim gate
+# before any general improvement claim is made.
+# - fr3/walking_halfsphere: 3.32 cm ATE (slightly worse than Config A due to large viewpoint changes)
+#
+# === When to Use Config C ===
+# - Dynamic scenes with moderate camera motion
+# - Static camera scenarios (best geometric prior effectiveness)
+# - When 3DGS reconstruction quality is high
+#
+# === When to Use Config A (YOLO-only) ===
+# - Large camera viewpoint changes (halfsphere trajectories)
+# - Initial testing or when geometric prior introduces noise
+#
+# ============================================================================

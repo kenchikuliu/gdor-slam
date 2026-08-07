@@ -1,0 +1,48 @@
+%YAML:1.0
+
+# ============================================================================
+# DyGeoFusion-SLAM+ mask config: DINO-Flow external mask (replaces YOLO)
+# ============================================================================
+# Load precomputed DINO+Flow consensus masks as the semantic prior while
+# retaining the LK optical-flow and 3DGS geometric priors.
+
+# Feature toggles
+mask.use_yolo: 0
+mask.use_external_mask: 1
+# PNG files: 00000000.png, 00000001.png, ...; 255=dynamic, 0=static.
+mask.external_mask_dir: "data/dino_flow_masks"
+mask.use_flow: 1
+mask.use_depth_consistency: 1
+
+# Timing
+mask.warmup_frames: 200
+mask.yolo_every_n_frames: 1
+
+# Thresholds
+mask.tau_flow: 1.5
+mask.tau_depth: 0.03
+
+# Prior weights
+mask.w_sem: 1.0
+mask.w_flow: 1.0
+mask.w_geo: 2.0
+
+# Output
+mask.dyn_threshold: 0.6
+mask.morph_kernel: 3
+
+# Geo hard mask
+mask.enable_geo_hard: 1
+mask.geo_dyn_thresh: 0.8
+mask.global_geo_min: 0.3
+mask.vp_scale_min: 0.2
+
+# Adaptive mechanism
+mask.viewpoint_gating_rot_thresh: 0.5236  # radians (30 degrees)
+mask.viewpoint_gating_trans_thresh: 0.3
+mask.global_geo_warmup_frames: 50
+mask.global_geo_no_semantic_thresh: 45
+
+# Debug
+mask.save_debug_images: 0
+mask.debug_output_dir: ""

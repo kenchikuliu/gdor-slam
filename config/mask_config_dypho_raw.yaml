@@ -1,0 +1,34 @@
+%YAML:1.0
+
+# DyPho-compatible raw-mask control: semantic + residual flow only.
+mask.use_yolo: 1
+mask.use_flow: 1
+mask.use_depth_consistency: 0
+mask.use_soft_mapping: 0
+mask.use_hard_mapping_mask: 1
+mask.enable_flow_hard: 1
+mask.use_temporal_background_refinement: 0
+mask.use_adaptive_feature_extraction: 0
+mask.use_motion_pose_prior: 0
+mask.enable_geo_hard: 0
+
+mask.warmup_frames: 50
+mask.yolo_every_n_frames: 1
+mask.tau_flow: 1.5
+mask.tau_depth: 0.05
+mask.w_sem: 1.0
+mask.w_flow: 1.0
+mask.w_geo: 0.0
+mask.dyn_threshold: 0.6
+mask.morph_kernel: 3
+
+mask.yolo_model_path: "model/yolov8s.engine"
+mask.yolo_conf_threshold: 0.25
+mask.yolo_nms_threshold: 0.45
+mask.yolo_input_width: 640
+mask.yolo_input_height: 640
+
+mask.lk_win_size: 21
+mask.lk_max_level: 3
+mask.lk_grid_step: 8
+mask.save_debug_images: 0

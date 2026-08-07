@@ -1,0 +1,43 @@
+%YAML:1.0
+
+# No dynamic filtering: Photo-SLAM-compatible backbone baseline.
+
+mask.use_yolo: 0
+mask.use_flow: 0
+mask.use_depth_consistency: 0
+mask.use_soft_mapping: 0
+mask.enable_flow_hard: 0
+mask.use_motion_pose_prior: 0
+mask.enable_geo_hard: 0
+mask.use_external_mask: 0
+
+mask.warmup_frames: 200
+mask.yolo_every_n_frames: 1
+
+mask.tau_flow: 1.5
+mask.tau_depth: 0.03
+
+mask.w_sem: 1.0
+mask.w_flow: 1.0
+mask.w_geo: 2.0
+
+mask.dyn_threshold: 0.60
+mask.morph_kernel: 3
+
+mask.yolo_model_path: ""            # Empty path
+mask.yolo_conf_threshold: 0.25
+mask.yolo_nms_threshold: 0.45
+mask.yolo_input_width: 640
+mask.yolo_input_height: 640
+
+mask.lk_win_size: 21
+mask.lk_max_level: 3
+mask.lk_grid_step: 8
+
+mask.viewpoint_gating_rot_thresh: 0.1745
+mask.viewpoint_gating_trans_thresh: 0.08
+mask.global_geo_warmup_frames: 50
+mask.global_geo_no_semantic_thresh: 45
+
+mask.save_debug_images: 0
+mask.debug_output_dir: ""

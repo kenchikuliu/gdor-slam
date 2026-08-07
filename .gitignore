@@ -1,0 +1,174 @@
+# Build artifacts
+build/
+build_*/
+**/build_*/
+Testing/
+bin/
+lib/
+*.so
+*.a
+*.o
+*.d
+*.slo
+*.lo
+*.obj
+*.dylib
+*.dll
+*.lai
+*.la
+*.lib
+*.exe
+*.out
+*.app
+*.gch
+*.pch
+*.mod
+*.smod
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Experiment outputs
+exp_*/
+output_*/
+output/
+outputs/
+results/
+logs/
+*_shutdown/
+test_*/
+deliverables/
+figure1_outputs/
+paper_assets/
+
+# Mask debug visualizations
+mask_debug/
+mask_visualization/
+
+# Dataset directories (too large for git)
+data/
+datasets/
+rgbd_dataset_*/
+Replica/
+EuRoC/
+ORB-SLAM3/evaluation/Ground_truth/
+
+# Point clouds and 3DGS models
+*.ply
+point_cloud/
+model/*.pth
+model/*.pt
+model/*.onnx
+model/*.engine
+*.weights
+
+# ORB-SLAM3 outputs
+KeyFrameTrajectory*.txt
+CameraTrajectory*.txt
+*.csv
+*.log
+
+# Vocabulary (compressed, will be extracted locally)
+# ORB-SLAM3/Vocabulary/ORBvoc.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+*.ipynb_checkpoints/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# LaTeX auxiliary files
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.synctex.gz
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.toc
+paper/*.lof
+paper/*.lot
+paper/sections/*.aux
+
+# Keep only final PDF
+# paper/main.pdf  # Uncomment to also ignore PDF (anonymity)
+
+# Internal analysis reports (not for public release)
+*_REPORT.md
+*_ANALYSIS.md
+*_REVIEW.md
+*_COMPLETION*.md
+*_PROGRESS.md
+*_VALIDATION.md
+*_STRATEGY*.md
+*_PLAN.md
+*_DECISION*.md
+*_SUMMARY*.md
+*_JUSTIFICATION.md
+*_STATUS*.md
+*_COMPARISON*.md
+*_UPDATE*.md
+*_FIX*.md
+*_CRITIQUE*.md
+*_GUIDE*.md
+AGENTS.md
+DIAGNOSTIC_*.md
+FRAMEWORK_*.md
+EXPERIMENT_*.md
+BASELINE_*.md
+CONFIG_*.md
+CRITICAL_*.md
+PRELIMINARY_*.md
+PHASE*.md
+PHOTO_*.md
+PEER_*.md
+POSE_*.md
+RECONSTRUCTION_*.md
+RESEARCH_*.md
+RUNTIME_*.md
+STATISTICAL_*.md
+VERIFICATION_*.md
+IJCAI_*.md
+
+# Experiment archives (optional - uncomment if too large)
+# experiments_archive/
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+*.backup_*
+temp/
+tmp/
+
+# Generated paper assets and private working notes
+paper/ccfa-review-reports/
+paper/sections/backup/
+paper/figures/figure1_*.pdf
+paper/figures/figure1_*.png
+paper/figures/figure3_trajectories.pdf
+paper/figures/figure3_trajectories.png
+paper/figures/figure4_*.pdf
+paper/figures/figure5_*.pdf
+FIX_*.md
+NEXT_STEPS*.md
+QUICK_*CHECKLIST.md
+SUBMISSION_*ASSESSMENT.md
+
+# ImGui .ini
+*imgui.ini
+
+# Git
+.git/
