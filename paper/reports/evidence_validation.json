@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "failures": [],
+  "figure_count": 4,
+  "table_count": 3,
+  "computed": {
+    "dyn15_all7_semantic_cm": 11.330995238095237,
+    "dyn15_all7_gdor_cm": 3.7980809523809524,
+    "dyn18_tum4_semantic_cm": 9.745975,
+    "dyn18_tum4_gdor_cm": 3.414825,
+    "dyn17_matched_cm": 7.816199999999999,
+    "dyn17_gdor_cm": 4.053,
+    "dyn16_online_static_region": {
+      "Semantic": {
+        "psnr": 19.06816685386955,
+        "ssim": 0.6899878218770028,
+        "lpips": 0.3536665391176939
+      },
+      "Guarded/GDOR": {
+        "psnr": 20.15388745926044,
+        "ssim": 0.7396080851554871,
+        "lpips": 0.2872165564447641
+      },
+      "Strict": {
+        "psnr": 20.176590492291822,
+        "ssim": 0.7375704323252044,
+        "lpips": 0.287060921266675
+      }
+    }
+  },
+  "claim_boundary": {
+    "official_dypho_superiority": false,
+    "multi_seed_mapping_superiority": false
+  }
+}

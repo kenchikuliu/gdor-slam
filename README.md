@@ -7,6 +7,31 @@ recovers dynamic-region observations that pass conservative temporal, geometric,
 and camera-motion checks, while keeping dynamic evidence out of persistent
 Gaussian map admission by default.
 
+![GDOR-SLAM overview](paper/figures/fig1_overview.png)
+
+## Paper And Evidence
+
+The public paper artifact is available in [`paper/`](paper/README.md):
+
+- [9-page TMM pre-submission manuscript](paper/GDOR-SLAM_TMM_v5r3_preprint.pdf);
+- [four paper figures](paper/figures/);
+- [claim-bearing aggregate CSV files](paper/data/);
+- [figure-generation and evidence-validation scripts](paper/scripts/);
+- [public evidence manifest](paper/EVIDENCE_MANIFEST.md) and checksums.
+
+The main same-source results are:
+
+| Protocol | Comparison | Result |
+| --- | --- | ---: |
+| DYN-15, 63 runs | Semantic hard exclusion -> GDOR, All7 mean ATE | 11.331 -> **3.798 cm** |
+| DYN-18, 36 cells | Semantic hard exclusion -> GDOR, TUM4 mean ATE | 9.746 -> **3.415 cm** |
+| DYN-17, 9 runs | Map-matched control -> GDOR, subset mean ATE | 7.816 -> **4.053 cm** |
+| DYN-16, 40 views | Semantic -> GDOR, static-region PSNR | 19.068 -> **20.154 dB** |
+
+These are local same-source comparisons. They do not establish superiority over
+an official, protocol-matched DyPho-SLAM rerun; see the evidence manifest for the
+complete claim boundary.
+
 ## Method Boundary
 
 The implementation separates transient tracking evidence from persistent mapping:
@@ -114,7 +139,7 @@ runtime information in its manifest.
 
 ## Evidence Boundary
 
-The included local report supports a comparison against a clean
+The included public evidence supports a comparison against a clean
 **DyPho-compatible local reproduction**. It does not establish superiority over
 the official DyPho-SLAM implementation. Official paper numbers must remain
 external-report context unless the official implementation is independently

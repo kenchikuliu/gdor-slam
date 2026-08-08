@@ -1,0 +1,4 @@
+sequence,semantic_ate_cm,mapmatched_no_track_reuse_ate_cm,guarded_gdor_ate_cm,strict_ate_cm,mapmatched_mapping_static_ratio,guarded_mapping_static_ratio,mapmatched_recovered_static_pixels_mean,guarded_recovered_static_pixels_mean,mapmatched_adaptive_frames_mean,guarded_adaptive_frames_mean,mapmatched_time_s,guarded_time_s
+tum_walking_xyz,2.2955,2.1671,2.1121,2.1218,0.631286551,0.631286551,0.0,7637145.0,0.0,27.7,37.89,56.46
+bonn_crowd2,52.1840,13.5969,3.2264,24.6277,0.567281967,0.567281967,0.0,6934523.0,0.0,36.7,37.56,59.98
+bonn_person_tracking2,7.2239,7.6846,6.8205,8.4542,0.706565950,0.706565950,0.0,3858922.7,0.0,0.0,26.81,39.01

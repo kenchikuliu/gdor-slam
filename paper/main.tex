@@ -1,0 +1,56 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={GDOR-SLAM: Guarded Dynamic Observation Recovery for RGB-D Gaussian SLAM},
+  pdfauthor={Author List To Be Finalized}
+}
+
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\ie}{\emph{i.e.}}
+\newcommand{\etal}{\emph{et al.}}
+
+\begin{document}
+
+\title{GDOR-SLAM: Guarded Dynamic Observation Recovery for RGB-D Gaussian SLAM}
+
+% IEEE TMM uses single-blind review. Replace this placeholder before submission.
+\author{Author List To Be Finalized}
+
+\maketitle
+
+\begin{abstract}
+Dynamic masks protect a persistent Gaussian map, but hard exclusion can also remove background and camera-consistent observations that remain useful for localization.
+This paper studies a task mismatch in dynamic RGB-D Gaussian SLAM: an observation that is useful for transient camera tracking is not necessarily eligible to modify a static world model.
+We present \textbf{GDOR-SLAM}, which implements separate tracking-support and persistent-mapping routes for dynamic-region evidence.
+Temporal depth consistency, residual-flow consistency, and tracking-risk state qualify a conservative subset of excluded observations for current-frame feature extraction and pose estimation, while the original conservative mask continues to govern ORB landmark insertion and Gaussian initialization, optimization, and densification.
+The method therefore recovers tracking support without granting recovered dynamic-region observations persistent map authority.
+Evaluation includes a 63-run TUM/Bonn same-source protocol, a separately frozen 36-cell TUM4 validation, a 9-run map-matched no-track-reuse control, and a single-seed common-view mapping diagnostic.
+GDOR reduces the 63-run All7 mean ATE from 11.331 cm to 3.798 cm relative to semantic hard exclusion.
+On the frozen TUM4 protocol, it improves all four sequence means and reduces the grand mean from 9.746 cm to 3.415 cm.
+The matched control uses the same persistent mapping weight but disables qualified tracking recovery; it obtains 7.816 cm mean ATE, compared with 4.053 cm for GDOR on the tested subset.
+These results support the concrete guarded recovery and two-route mechanism, while conceptual priority, protocol-matched superiority over official DyPho-SLAM, and multi-seed mapping superiority are not claimed.
+\end{abstract}
+
+\begin{IEEEkeywords}
+3D Gaussian splatting, dynamic RGB-D SLAM, visual tracking, dynamic observation recovery, Gaussian mapping.
+\end{IEEEkeywords}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/method}
+\input{sections/experiments}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,13 @@
+\section{Conclusion}
+
+GDOR-SLAM implements an auditable two-route contract for dynamic-region evidence in an RGB-D/ORB Gaussian SLAM pipeline.
+Temporal depth, residual flow, and tracking-risk evidence qualify a conservative subset of excluded observations for transient localization, while persistent ORB and Gaussian mapping remain governed by the conservative map mask.
+This separation allows tracking utility without automatic map-writing authority.
+
+The 63-run TUM/Bonn protocol and separately frozen 36-cell TUM4 validation show consistent improvement over the same-source Semantic parent.
+The map-matched no-track-reuse control further shows that a fixed raw-mask tracking route with the same persistent mapping weight does not match GDOR on the tested three-sequence subset.
+The single-seed common-view audit indicates that the tracking intervention does not require degrading static-region Gaussian rendering, although broader mapping validation remains necessary.
+
+The current evidence supports the specific guarded recovery and routing mechanism; it does not claim conceptual priority for tracking--mapping separation.
+It does not yet establish superiority over the official DyPho-SLAM implementation or multi-seed mapping superiority.
+Closing those two protocol gaps is the required next step for broader external claims.

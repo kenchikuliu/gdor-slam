@@ -1,0 +1,160 @@
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Protocols and Metrics}
+
+We evaluate GDOR-SLAM on dynamic RGB-D sequences from TUM RGB-D~\cite{sturm2012benchmark} and Bonn RGB-D Dynamic~\cite{palazzolo2019bonn}.
+Four evidence blocks are kept separate.
+
+\textbf{DYN-15} is the primary same-source tracking protocol: Semantic, GDOR, and Strict are run with three seeds on TUM walking\_xyz and all six Bonn dynamic sequences, for 63 completed runs.
+\textbf{DYN-18} is a separately sealed validation using the unchanged configurations on the four TUM sequences named in the DyPho-SLAM tracking table: walking\_xyz, walking\_halfsphere, walking\_static, and sitting\_halfsphere.
+It contains 36 planned cells after one exact Semantic sitting seed-0 repair; the initial failure and repair are retained in the audit.
+\textbf{DYN-17} evaluates the map-matched no-track-reuse control on three sequences and three seeds, for 9 completed runs.
+\textbf{DYN-16} is a seed-0 common-view mapping diagnostic on TUM walking\_xyz and Bonn crowd, with 20 shared non-keyframe views per sequence.
+
+All tracking runs process the full association file and retain invalid intervals in the all-input-frame trajectory.
+We report SE(3)-aligned ATE RMSE, one-frame translational RPE RMSE, failure rate, and end-to-end wall time.
+The mapping diagnostic evaluates PSNR, SSIM, and LPIPS on a fixed static-region mask shared by all compared configurations.
+
+The benchmark harness stores the source snapshot, executable and library hashes, detector-engine hash, mask-configuration hash, association and ground-truth hashes, sequence, seed, command line, and output identity.
+The archived campaigns contain per-frame tracking state, recovery, insertion-gate, trajectory, runtime, and manifest records.
+The public release additionally contains the explicit overlap audit in Eq.~\eqref{eq:leak-audit}; the archived DYN-15--18 summaries predate that field and therefore do not provide an empirical zero-overlap count.
+The DYN-18 protocol was sealed before evaluation; the one failed Semantic cell was repeated once without code or configuration changes in a fresh output root.
+The failure and repaired result both remain registered.
+
+\subsection{Tracking Accuracy and Frozen Generalization}
+
+\begin{table*}[t]
+\centering
+\caption{Same-source tracking evidence. Values are three-seed ATE RMSE in centimeters; lower is better. DYN-15 is the 63-run TUM/Bonn protocol. DYN-18 is a separately sealed 36-cell TUM4 validation. Reduction is GDOR relative to Semantic.}
+\label{tab:main-tracking}
+\footnotesize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrrrr}
+\toprule
+Evidence & Scope & Cells represented & Semantic & GDOR & Strict & GDOR reduction \\
+\midrule
+DYN-15 & TUM walking\_xyz & 9 & 2.296 & \textbf{2.112} & 2.122 & 8.0\% \\
+DYN-15 & Bonn6 mean & 54 & 12.837 & \textbf{4.079} & 8.526 & 68.2\% \\
+DYN-15 & All7 mean & 63 & 11.331 & \textbf{3.798} & 7.611 & 66.5\% \\
+\midrule
+DYN-18 & TUM walking\_xyz & 9 & 2.347 & 2.119 & \textbf{2.101} & 9.7\% \\
+DYN-18 & TUM walking\_halfsphere & 9 & 3.416 & \textbf{3.344} & 3.350 & 2.1\% \\
+DYN-18 & TUM walking\_static & 9 & 0.848 & 0.843 & \textbf{0.745} & 0.6\% \\
+DYN-18 & TUM sitting\_halfsphere & 9 & 32.374 & 7.354 & \textbf{7.182} & 77.3\% \\
+DYN-18 & TUM4 mean & 36 & 9.746 & 3.415 & \textbf{3.345} & 65.0\% \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+Table~\ref{tab:main-tracking} shows two complementary results.
+In DYN-15, GDOR reduces the All7 mean ATE from 11.331 cm to 3.798 cm and wins every declared sequence mean relative to Semantic.
+The largest rescue is Bonn crowd2, where the mean falls from 52.184 cm to 3.226 cm.
+Across Bonn6, GDOR reduces the mean ATE by 68.2\%.
+Because this mean is dominated by crowd2, the median of the seven sequence means is also reported: 4.278 cm for Semantic and 3.261 cm for GDOR.
+
+DYN-18 tests the frozen method on a separate TUM4 campaign.
+GDOR improves all four sequence means over the same-source Semantic parent and wins 9 of 12 paired sequence/seed cells.
+The median paired improvement is 0.209 cm; the corresponding two-sided exact sign test is not significant ($p=0.146$).
+The improvement is small on walking\_static and walking\_halfsphere, but large on sitting\_halfsphere, where Semantic suffers repeated tracking failures.
+Sitting\_halfsphere contributes a 25.020 cm mean paired improvement and three wins, whereas the other nine cells yield six wins, a 0.102 cm mean improvement, and a 0.188 cm median improvement.
+We therefore interpret DYN-18 as conditional rescue of a failure regime plus near-identity behavior elsewhere, not as a uniformly large effect.
+Strict is slightly lower than GDOR on three DYN-18 rows, but it is not promoted to the main method because the broader DYN-15 protocol shows substantially worse mean ATE and higher runtime.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig3_trajectory_examples.png}
+  \caption{Seed-0 trajectory examples aligned to public ground truth from the DYN-15 experiment family. The plots are qualitative diagnostics; Tables~\ref{tab:main-tracking} and~\ref{tab:safety-efficiency} use all input frames and three-seed means.}
+  \label{fig:trajectories}
+\end{figure*}
+
+\subsection{Matched Map-Admission Control}
+
+\begin{table}[t]
+\centering
+\caption{DYN-17 map-matched no-track-reuse control. Matched and GDOR use the same persistent mapping weight and raw semantic-plus-flow support, while only GDOR enables qualified tracking recovery and adaptive replenishment. ATE is in centimeters.}
+\label{tab:matched-control}
+\footnotesize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrrr}
+\toprule
+Sequence & Semantic & Matched & GDOR & Map support & GDOR vs. Matched \\
+\midrule
+TUM walking\_xyz & 2.296 & 2.167 & \textbf{2.112} & 63.13\% & 2.5\% \\
+Bonn crowd2 & 52.184 & 13.597 & \textbf{3.226} & 56.73\% & 76.3\% \\
+Bonn person\_tracking2 & 7.224 & 7.685 & \textbf{6.821} & 70.66\% & 11.2\% \\
+\midrule
+Mean & 20.568 & 7.816 & \textbf{4.053} & 63.50\% & 48.1\% \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Table~\ref{tab:matched-control} addresses a central alternative explanation.
+Matched applies the raw semantic-plus-flow support to both tracking and the persistent mapping weight, while GDOR keeps that mapping weight fixed and recovers only the qualified tracking support.
+Across the three tested sequences, the matched control obtains 7.816 cm mean ATE, compared with 4.053 cm for GDOR.
+Thus, a fixed raw-mask tracking route with the same persistent mapping weight does not explain the reported GDOR result on this subset.
+The control does not separate temporal recovery from adaptive replenishment, but it isolates their combined tracking-side effect from a persistent mapping-weight change.
+
+\subsection{Safety, Efficiency, and Mapping Diagnostic}
+
+\begin{table*}[t]
+\centering
+\caption{Safety, efficiency, and common-view mapping audit. Panel A reports the DYN-15 All7 mean. Panel B reports DYN-16 seed-0 online static-region rendering over two sequences and 40 shared views. Mapping values are diagnostic rather than multi-seed superiority evidence.}
+\label{tab:safety-efficiency}
+\footnotesize
+\begin{tabular}{llrrrrr}
+\toprule
+Panel & Method & ATE [cm] $\downarrow$ & t-RPE [cm] $\downarrow$ & Failure [\%] $\downarrow$ & Time [s/run] $\downarrow$ & Map support [\%] \\
+\midrule
+A: DYN-15 All7 & Semantic & 11.331 & 4.277 & 0.785 & \textbf{32.46} & 100.00 \\
+& GDOR & \textbf{3.798} & \textbf{3.945} & \textbf{0.144} & 49.84 & 63.31 \\
+& Strict & 7.611 & 4.556 & 0.318 & 63.61 & 63.31 \\
+\midrule
+\multicolumn{7}{c}{}\\[-1.8ex]
+\toprule
+Panel & Method & PSNR $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ & Views & Seed \\
+\midrule
+B: DYN-16 static region & Semantic & 19.068 & 0.690 & 0.354 & 40 & 0 \\
+& GDOR & 20.154 & \textbf{0.740} & \textbf{0.287} & 40 & 0 \\
+& Strict & \textbf{20.177} & 0.738 & \textbf{0.287} & 40 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+GDOR lowers the All7 failure rate but increases wall time from 32.46 s/run to 49.84 s/run.
+The overhead comes from residual-flow estimation, temporal-depth maintenance, and feature bookkeeping.
+Strict is slower and less stable in the broader protocol, which motivates the Guarded configuration as the accuracy--cost compromise.
+
+Map support is not a quality score.
+It is the mean fraction of processed-frame pixels satisfying $W_t^{\mathrm{map}}\ge0.5$.
+Semantic supplies no static weight, so 100\% denotes the mapper's default unit weight rather than the static fraction of its tracking mask.
+For GDOR and Strict, the value records the conservative persistent mapping boundary; recovered tracking observations do not alter that weight.
+In the same DYN-15 audit, GDOR rejects 11.25\% of considered ORB insertions and 11.94\% of RGB-D Gaussian densification candidates at the static-mask boundary.
+These rejection counters show that the mapping gates are active, but they are not substitutes for the overlap counter in Eq.~\eqref{eq:leak-audit}, which is unavailable in the archived summaries.
+
+The DYN-16 common-view audit checks whether this tracking intervention damages static-region reconstruction.
+GDOR improves the two-sequence online mean from 19.068 to 20.154 dB PSNR, from 0.690 to 0.740 SSIM, and from 0.354 to 0.287 LPIPS.
+Strict is marginally higher in PSNR.
+Because this audit uses one seed and two scenes, it supports map preservation and a positive diagnostic, not a general mapping-superiority claim.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig4_commonview_mapping_audit.png}
+  \caption{DYN-16 common-view online mapping diagnostic. Each row uses the same held-out frame, fixed static-region mask, and final-map render for Semantic, GDOR, and Strict. Dynamic people in the reference are excluded from the static-region metric.}
+  \label{fig:mapping}
+\end{figure*}
+
+\subsection{External Positioning and Limitations}
+
+Published DGS-SLAM, DG-SLAM, and DyPho-SLAM values are retained as related-work context, not mixed with the local tables as protocol-matched reruns.
+The DyPho-SLAM paper reports 1.6, 2.6, 0.6, and 1.6 cm on the four corresponding TUM sequences.
+GDOR is not below those external values in DYN-18.
+Differences in implementation, masks, preprocessing, hardware, and evaluation prevent a valid direct ranking.
+An official protocol-matched DyPho-SLAM rerun is therefore required before claiming external superiority.
+
+The second limitation is mapping breadth.
+The current common-view evaluation is stricter than method-specific render selection because views and masks are shared, but it is single-seed and covers two scenes.
+A multi-seed common-manifest mapping study is required for a quantitative mapping-superiority claim.
+Finally, the experiments establish the combined GDOR mechanism and a matched persistent-weight/no-track-reuse control; they do not claim that any one internal cue independently causes the entire gain.

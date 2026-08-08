@@ -1,0 +1,19 @@
+{
+  "generator": "scripts/generate_gdor_tmm_figures.py",
+  "inputs": {
+    "data/dyn15_tracking_per_sequence.csv": "8a28a298adc624dc7f95284e4fda0d0f23efb336d58848a3112bde59ae58fa8b",
+    "data/dyn16_commonview_mapping.csv": "167f18a251d5d9c871b8012f5122ca73ff95740fc020803a71e81d07b93855e6",
+    "data/dyn17_mapmatched_control.csv": "871db7ec66b2cc74b9d231e52bcda96807cfd3c068834d802562827d45e2825a",
+    "data/dyn18_tum4_cells.csv": "c501404e34045e4a3aa4fc483d57f7da5c18bcec52b4f4f0c4dbceb99721e6a5",
+    "figure_sources/fig1/input_t1.png": "19c662adeef9214b60594208dc62aa099cadc990f6306adfb5423935da62a53d",
+    "figure_sources/fig1/input_t2.png": "d3f02ab7856b618c9ef25c2527d4c2ab4701bd08f987401e3ab85e807ea22ba8",
+    "figure_sources/fig1/input_t3.png": "737d00956b4509f13f6f62faba7125a988820b6e5a09f14a67c2298fc08bcab8"
+  },
+  "outputs": {
+    "figures/fig1_overview.png": "54900ba3075e9718abda20576d09708b92831d0f2c6d2e592c60d652794f7f11",
+    "figures/fig1_overview.pdf": "d7046da65cd379b7c8a113d0da2d3a27091955bb38c1e2a71cbacc8c5355030f",
+    "figures/fig2_method_schematic.png": "9a27cd88d1b681f0f3a2c3cdfc2243790f4c7518a6790f7dba7b7eec0b19e6bb",
+    "figures/fig2_method_schematic.pdf": "8e87cc6c417c05b3755c4fd317860b560bacda603883f9ced90b988dc770101c"
+  },
+  "claim_boundary": "Figures summarize local same-source GDOR evidence. They do not establish superiority over the official DyPho-SLAM implementation."
+}

@@ -17,5 +17,6 @@ sequences. Rotational RPE is not uniformly improved: Bonn
 `person_tracking` is a documented counterexample.
 
 These values are a local-reproduction result, not an official-baseline result.
-The complete source, result, trajectory, camera, and point-cloud provenance is
-kept in the private experiment asset ledger rather than in this source release.
+The claim-bearing aggregate evidence used by the paper is public under
+[`paper/data/`](../paper/data/). Full trajectories, generated Gaussian maps,
+per-frame masks, datasets, and point clouds remain outside the source release.

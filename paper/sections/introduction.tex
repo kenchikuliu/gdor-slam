@@ -1,0 +1,43 @@
+\section{Introduction}
+
+3D Gaussian Splatting (3DGS) provides an explicit differentiable representation for dense scene rendering and has become a practical substrate for online visual world modeling~\cite{kerbl20233dgaussian}.
+Gaussian SLAM systems such as Photo-SLAM, SplaTAM, GS-SLAM, and Gaussian-SLAM combine camera tracking with dense Gaussian reconstruction~\cite{huai2024photoSLAM,keetha2024splatam,yan2023gs,yugay2023gaussianslam}.
+Their tracking frontends and persistent maps, however, still depend on a predominantly static world.
+When people or objects occupy a large image region, dynamic observations can corrupt camera estimation and produce persistent Gaussian artifacts.
+
+Semantic and geometric exclusion is therefore a natural defense.
+Classical dynamic SLAM removes features associated with movable classes~\cite{bescos2018dynaslam,yu2018ds,xiao2019dynamic}, while recent dynamic Gaussian SLAM systems combine semantics, temporal consistency, depth warping, photometric evidence, or uncertainty to suppress unsafe observations~\cite{xu2024dgslam,kong2024dgsslam,liu2025dyphoslam,zhang2026dagsslam}.
+This policy is appropriate for static map construction, but it can be too restrictive for tracking.
+A semantic mask can cover visible background, object boundaries, temporarily stationary surfaces, or pixels whose image motion is dominated by camera motion.
+Removing all such observations can leave the pose estimator poorly constrained exactly when dynamic occlusion is strongest.
+
+The key issue is not only whether an observation is static, but what authority it should receive.
+Tracking and mapping have different failure costs and persistence.
+A locally consistent observation may be useful for estimating the current camera pose while still being too uncertain to initialize or optimize persistent static structure.
+Treating both decisions with one binary mask conflates \emph{tracking utility} with \emph{map eligibility}.
+
+We propose \textbf{GDOR-SLAM}, a dynamic RGB-D Gaussian SLAM system based on Guarded Dynamic Observation Recovery (GDOR).
+GDOR evaluates temporal depth consistency, residual optical-flow consistency, and the current tracking-risk state to recover a conservative subset of observations inside excluded dynamic regions.
+Recovered observations may replenish features and support the current camera estimate.
+They do not modify the conservative mask used for persistent ORB landmarks or Gaussian initialization, update, and densification.
+The method therefore separates transient tracking privilege from persistent map privilege.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig1_overview.png}
+  \caption{GDOR-SLAM overview and evidence summary. Real TUM dynamic frames show large semantic exclusion regions. The frozen TUM4 validation improves all four sequence means over the same-source Semantic parent, while the 63-run and map-matched control summaries show the broader tracking effect and the role of tracking-side recovery. Published DyPho-SLAM values remain external-report context.}
+  \label{fig:overview}
+\end{figure*}
+
+Our contributions are:
+\begin{itemize}
+    \item We instantiate an auditable two-channel observation contract for RGB-D/ORB Gaussian SLAM: tracking utility does not automatically grant persistent Gaussian map authority.
+    \item We introduce GDOR, which combines temporal depth, residual-flow, and tracking-risk evidence to selectively recover dynamic-region observations for transient tracking.
+    \item We route the recovered tracking mask and conservative mapping weight independently; the release implements explicit recovered-support overlap, MapPoint-rejection, and RGB-D densification-rejection audits.
+    \item We provide evidence from a 63-run same-source TUM/Bonn protocol, a frozen 36-cell TUM4 validation, a 9-run map-matched causal control, and a common-view static-region mapping diagnostic.
+\end{itemize}
+
+The supported claim is deliberately bounded.
+GDOR improves the same-source semantic parent in the declared tracking protocols and remains better than a matched persistent-weight/no-track-reuse control on three tested sequences.
+The current assets do not constitute an official DyPho-SLAM rerun, and the mapping evaluation is single-seed.
+The paper therefore argues for a concrete RGB-D/ORB recovery and routing mechanism rather than conceptual priority for tracking--mapping separation, universal improvement, or external SOTA superiority.

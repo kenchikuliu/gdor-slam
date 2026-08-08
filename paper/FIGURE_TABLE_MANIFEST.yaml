@@ -1,0 +1,40 @@
+version: gdor_tmm_v5
+generated: 2026-08-07
+figures:
+  fig1:
+    file: figures/fig1_overview.png
+    role: teaser_and_evidence_summary
+    evidence: [DYN-15, DYN-17, DYN-18]
+    real_inputs: figure_sources/fig1
+    status: generated_needs_human_review
+  fig2:
+    file: figures/fig2_method_schematic.png
+    role: method_and_privilege_contract
+    evidence: method_diagram
+    status: generated_needs_human_review
+  fig3:
+    file: figures/fig3_trajectory_examples.png
+    role: qualitative_tracking_trajectories
+    evidence: DYN-15
+    status: existing_real_evidence_needs_human_review
+  fig4:
+    file: figures/fig4_commonview_mapping_audit.png
+    role: common_view_mapping_diagnostic
+    evidence: DYN-16
+    status: existing_real_evidence_needs_human_review
+tables:
+  table1:
+    label: tab:main-tracking
+    role: main_tracking_and_frozen_generalization
+    evidence: [DYN-15, DYN-18]
+  table2:
+    label: tab:matched-control
+    role: map_matched_no_track_reuse_control
+    evidence: DYN-17
+  table3:
+    label: tab:safety-efficiency
+    role: safety_runtime_and_mapping_diagnostic
+    evidence: [DYN-15, DYN-16]
+claim_boundary: >-
+  Local same-source results cannot be presented as an official DyPho-SLAM
+  rerun or external SOTA ranking. DYN-16 remains a single-seed diagnostic.

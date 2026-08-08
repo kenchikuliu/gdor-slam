@@ -170,5 +170,30 @@ SUBMISSION_*ASSESSMENT.md
 # ImGui .ini
 *imgui.ini
 
+# Public paper artifact. These exceptions intentionally override the generic
+# experiment-output, CSV, and generated-figure exclusions above.
+!paper/
+!paper/data/
+!paper/data/*.csv
+!paper/figures/
+!paper/figures/*.png
+!paper/figure_sources/
+!paper/figure_sources/fig1/
+!paper/figure_sources/fig1/*.png
+!paper/reports/
+!paper/reports/*.json
+!paper/scripts/
+!paper/scripts/*.py
+!paper/sections/
+!paper/sections/*.tex
+!paper/*.bib
+!paper/*.bst
+!paper/*.cls
+!paper/*.md
+!paper/*.pdf
+!paper/*.tex
+!paper/*.yaml
+!paper/SHA256SUMS
+
 # Git
 .git/

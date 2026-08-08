@@ -1,0 +1,36 @@
+\section{Related Work}
+
+\subsection{Visual SLAM in Dynamic Environments}
+
+Classical feature and dense SLAM systems rely on robust estimation but still assume that most observations belong to a static scene~\cite{mur2015orb,campos2021orbslam3,whelan2016elasticfusion,tan2013robustslam}.
+Semantic dynamic SLAM makes this assumption explicit by removing features or pixels associated with potentially moving classes.
+DynaSLAM combines learned instance masks with multi-view geometry~\cite{bescos2018dynaslam}, while DS-SLAM and Dynamic-SLAM use semantic predictions to reject dynamic correspondences~\cite{yu2018ds,xiao2019dynamic}.
+Residual-based reconstruction instead detects observations that disagree with the estimated static model, as in ReFusion~\cite{palazzolo2019bonn}.
+
+Motion-aware systems retain more information about the moving scene.
+VDO-SLAM estimates camera and object motion from dynamic observations~\cite{zhang2020vdo}, and optical-flow tracking provides a standard source of short temporal correspondences~\cite{lucas1981optical}.
+The central difficulty is identifiability: image motion alone mixes camera motion, object motion, and correspondence error.
+Our method uses camera-motion inconsistency as a guarded cue, but the main distinction is role assignment: recovered dynamic-region observations may support short-term tracking while remaining ineligible for persistent static-map landmarks.
+
+\subsection{Dense Neural and Gaussian SLAM}
+
+Dense neural SLAM has represented scene geometry with implicit fields or feature grids~\cite{sucar2021imap,zhu2022nice,yang2022vox}, while 3DGS provides an explicit representation with differentiable rasterization~\cite{kerbl20233dgaussian}.
+Photo-SLAM couples ORB-SLAM3 with a Gaussian mapper~\cite{huai2024photoSLAM}; SplaTAM jointly tracks and maps RGB-D observations with Gaussians~\cite{keetha2024splatam}; GS-SLAM and Gaussian-SLAM develop online Gaussian densification and optimization strategies~\cite{yan2023gs,yugay2023gaussianslam}.
+These methods establish dense Gaussian mapping in static scenes but do not by themselves resolve whether a measurement should influence camera tracking, map optimization, both, or neither in a dynamic scene.
+
+\subsection{Dynamic Gaussian SLAM}
+
+The closest static-output Gaussian SLAM systems suppress dynamic evidence using combinations of semantics, temporal consistency, and geometry.
+DG-SLAM fuses semantic and multi-frame depth-warp masks and refines a coarse pose against the Gaussian map~\cite{xu2024dgslam}.
+DGS-SLAM refines segmentation through photometric consistency and filters dynamic content during Gaussian insertion and keyframe selection~\cite{kong2024dgsslam}.
+DyGS-SLAM improves dynamic-scene localization and Gaussian reconstruction in real time~\cite{hu2025dygsslam}, and MPDG-SLAM introduces motion-probability reasoning for dynamic 3DGS-SLAM~\cite{huang2025mpdgslam}.
+DyPho-SLAM uses refined masks and adaptive feature extraction for real-time dynamic Gaussian SLAM~\cite{liu2025dyphoslam}.
+DAGS-SLAM maintains a spatiotemporal motion probability for each Gaussian and schedules semantic inference from uncertainty~\cite{zhang2026dagsslam}.
+Concurrent DL-SLAM explicitly uses transiently static objects for pose estimation while suppressing their persistent contribution through dual-level probabilities~\cite{xu2026dlslam}.
+This establishes tracking--mapping role separation as a shared recent direction rather than a conceptual priority claim of GDOR.
+
+Dynamic-output systems address a different objective.
+D$^2$GSLAM combines static 3D Gaussians with dynamic 4D Gaussians and uses motion information for progressive pose refinement~\cite{zhu2025d2gslam}.
+Our output remains a static Gaussian map.
+Rather than reconstructing object trajectories, estimating object-level probabilities, or injecting object-motion priors, GDOR instantiates a narrower RGB-D/ORB mechanism: binary local recovery from temporal depth and residual-flow checks, separate \texttt{staticMask}/\texttt{staticWeight} routes, hard persistent-weight gating for MapPoints and Gaussians, and an explicit recovered-support overlap audit.
+The contribution is this auditable implementation and its matched no-track-reuse control, not the first statement that tracking and mapping can use different dynamic evidence.
