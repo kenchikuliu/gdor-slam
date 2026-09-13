@@ -150,6 +150,35 @@ def failed(config: str, sequence: str, seed: int) -> dict:
     }
 
 
+def freeze_dyn19_main_plan(root: Path) -> list[dict]:
+    tasks, _ = BENCHMARK.build_task_blocks(
+        list(BENCHMARK.DYN19_MAIN_CONFIGS),
+        list(BENCHMARK.DYN19_CLAIM_SEQUENCES),
+        list(BENCHMARK.DYN19_REQUIRED_SEEDS),
+        ["0"],
+        0,
+        {"commit": "synthetic-clean-commit", "dirty": False},
+        root,
+        export_static_masks=True,
+        dyn19_phase="main",
+    )
+    payload = {
+        "contract": "reproducible-benchmark-plan-v3",
+        "tasks": tasks,
+        "dyn19": {
+            "experiment_id": BENCHMARK.DYN19_EXPERIMENT_ID,
+            "phase": "main",
+            "claim_bearing_sequences": BENCHMARK.DYN19_CLAIM_SEQUENCES,
+            "required_seeds": BENCHMARK.DYN19_REQUIRED_SEEDS,
+            "phase_configs": BENCHMARK.DYN19_MAIN_CONFIGS,
+            "factor_matrix": BENCHMARK.DYN19_FACTOR_MATRIX,
+            "config_contract": BENCHMARK.dyn19_config_contract(),
+        },
+    }
+    BENCHMARK.freeze_benchmark_plan(root, payload, tasks)
+    return tasks
+
+
 class AggregateGateTest(unittest.TestCase):
     def run_aggregate(self, results: list[dict]) -> Path:
         directory = tempfile.TemporaryDirectory()
@@ -1493,6 +1522,162 @@ class AggregateGateTest(unittest.TestCase):
 
         self.assertEqual(gate["status"], "pass")
         self.assertEqual(gate["paired_win_rate_over_shadow"], 1.0)
+
+    def test_dyn19_claim_union_and_phase_denominator_are_frozen(self) -> None:
+        expected = {
+            "tum_walking_xyz",
+            "tum_walking_halfsphere",
+            "tum_walking_static",
+            "tum_sitting_halfsphere",
+            "bonn_balloon",
+            "bonn_crowd",
+            "bonn_crowd2",
+            "bonn_crowd3",
+            "bonn_person_tracking",
+            "bonn_person_tracking2",
+        }
+        self.assertEqual(set(BENCHMARK.DYN19_CLAIM_SEQUENCES), expected)
+        self.assertIn(
+            "tum_sitting_halfsphere", BENCHMARK.DYN19_CLAIM_SEQUENCES)
+        self.assertEqual(
+            len(BENCHMARK.DYN19_MAIN_CONFIGS) *
+            len(BENCHMARK.DYN19_CLAIM_SEQUENCES) *
+            len(BENCHMARK.DYN19_REQUIRED_SEEDS),
+            90,
+        )
+        self.assertEqual(
+            len(BENCHMARK.DYN19_MECHANISM_CONFIGS) *
+            len(BENCHMARK.DYN19_CLAIM_SEQUENCES) *
+            len(BENCHMARK.DYN19_REQUIRED_SEEDS),
+            120,
+        )
+
+    def test_dyn19_config_contract_allows_only_declared_factor_changes(self) -> None:
+        contract = BENCHMARK.dyn19_config_contract()
+
+        self.assertTrue(contract["valid"])
+        self.assertTrue(contract["key_sets_match"])
+        self.assertTrue(contract["factor_values_match"])
+        for config in BENCHMARK.DYN19_TRACKING_CONFIGS:
+            self.assertEqual(
+                contract["configs"][config]["non_factor_differences"], [])
+        self.assertEqual(
+            BENCHMARK.DYN19_FACTOR_MATRIX["dyn19_full"][
+                "description"],
+            "T+F+R+A+M",
+        )
+        self.assertEqual(
+            BENCHMARK.DYN19_FACTOR_MATRIX["dyn19_full_no_mapping"][
+                "description"],
+            "T+F+R+A+NoM",
+        )
+
+    def test_dyn19_main_exports_only_semantic_static_masks(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            tasks, _ = BENCHMARK.build_task_blocks(
+                list(BENCHMARK.DYN19_MAIN_CONFIGS),
+                list(BENCHMARK.DYN19_CLAIM_SEQUENCES),
+                list(BENCHMARK.DYN19_REQUIRED_SEEDS),
+                ["0"],
+                0,
+                {"commit": "synthetic-clean-commit", "dirty": False},
+                Path(directory),
+                export_static_masks=True,
+                dyn19_phase="main",
+            )
+
+        semantic_exports = {
+            (task["config"], task["sequence"], task["seed"])
+            for task in tasks
+            if task["export_static_masks"]
+        }
+        expected = {
+            ("dyn19_semantic", sequence, seed)
+            for sequence in BENCHMARK.DYN19_CLAIM_SEQUENCES
+            for seed in BENCHMARK.DYN19_REQUIRED_SEEDS
+        }
+        self.assertEqual(semantic_exports, expected)
+        self.assertTrue(all(
+            task["dyn19"]["phase"] == "main" for task in tasks))
+
+    def test_dyn19_main_report_preserves_pass_and_vacuous_certificates(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            freeze_dyn19_main_plan(root)
+            results = []
+            for config in BENCHMARK.DYN19_MAIN_CONFIGS:
+                for sequence in BENCHMARK.DYN19_CLAIM_SEQUENCES:
+                    for seed in BENCHMARK.DYN19_REQUIRED_SEEDS:
+                        result = complete(config, sequence, seed, 0.1)
+                        if config == "dyn19_full":
+                            recovered = (
+                                sequence == "tum_sitting_halfsphere" and
+                                seed == 1
+                            )
+                            result["metrics"][
+                                "recovered_support_overlap_certificate"
+                            ] = {
+                                "status": "pass" if recovered else "vacuous",
+                                "evidence": {
+                                    "tracking_recovery_audit_pixels": (
+                                        10 if recovered else 0),
+                                    "tracking_recovery_mapping_leak_pixels": 0,
+                                },
+                            }
+                        results.append(result)
+
+            BENCHMARK.write_dyn19_phase_reports(root, results)
+            report = json.loads(
+                (root / "dyn19_recovered_support_overlap_aggregate.json")
+                .read_text())
+            phase_report = json.loads(
+                (root / "dyn19_phase_report.json").read_text())
+
+        self.assertEqual(report["status"], "pass")
+        self.assertEqual(report["safety_status"], "pass")
+        self.assertTrue(report["all_completed"])
+        self.assertTrue(report["all_zero_leak"])
+        self.assertEqual(report["certificate_status_counts"]["pass"], 1)
+        self.assertEqual(report["certificate_status_counts"]["vacuous"], 29)
+        self.assertEqual(report["positive_recovery_evidence"], "observed")
+        self.assertEqual(phase_report["status"], "complete")
+
+    def test_dyn19_main_report_marks_all_vacuous_rows_as_safety_only(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            freeze_dyn19_main_plan(root)
+            results = []
+            for config in BENCHMARK.DYN19_MAIN_CONFIGS:
+                for sequence in BENCHMARK.DYN19_CLAIM_SEQUENCES:
+                    for seed in BENCHMARK.DYN19_REQUIRED_SEEDS:
+                        result = complete(config, sequence, seed, 0.1)
+                        if config == "dyn19_full":
+                            result["metrics"][
+                                "recovered_support_overlap_certificate"
+                            ] = {
+                                "status": "vacuous",
+                                "evidence": {
+                                    "tracking_recovery_audit_pixels": 0,
+                                    "tracking_recovery_mapping_leak_pixels": 0,
+                                },
+                            }
+                        results.append(result)
+
+            BENCHMARK.write_dyn19_phase_reports(root, results)
+            report = json.loads(
+                (root / "dyn19_recovered_support_overlap_aggregate.json")
+                .read_text())
+
+        self.assertEqual(report["status"], "vacuous")
+        self.assertEqual(report["safety_status"], "pass")
+        self.assertTrue(report["all_completed"])
+        self.assertTrue(report["all_zero_leak"])
+        self.assertEqual(report["certificate_status_counts"]["pass"], 0)
+        self.assertEqual(report["certificate_status_counts"]["vacuous"], 30)
+        self.assertEqual(
+            report["positive_recovery_evidence"], "not_observed_all_vacuous")
 
 
 if __name__ == "__main__":

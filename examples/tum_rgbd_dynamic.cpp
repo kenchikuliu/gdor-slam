@@ -943,6 +943,10 @@ int main(int argc, char **argv)
     const bool adaptive_feature_risk_gate =
         mask_cfg.use_adaptive_feature_extraction &&
         mask_cfg.adaptive_feature_min_previous_inliers > 0;
+    const bool temporal_recovery_risk_gate =
+        mask_cfg.temporal_recovery_only &&
+        mask_cfg.temporal_recovery_require_tracking_risk &&
+        mask_cfg.temporal_recovery_min_previous_inliers > 0;
     pSLAM->ConfigureAdaptiveMaskFeatures(
         mask_cfg.use_adaptive_feature_extraction &&
             !adaptive_feature_risk_gate,
@@ -1149,7 +1153,7 @@ int main(int argc, char **argv)
         std::cerr << "Cannot open per-frame metrics log" << std::endl;
         return 1;
     }
-    frame_metrics << "frame,timestamp,tracking_state,pose_valid,lost,mask_seconds,motion_prior_seconds,tracking_seconds,compute_seconds,dynamic_ratio,motion_foreground_fraction,prior_valid,prior_raw_valid,prior_source_frame,prior_shuffle_lag_frames,prior_gate_bypassed,prior_candidate,prior_consensus_pass,direct_validation_valid,direct_validation_pass,prior_common_support_pass,prior_would_use,prior_used,oracle_valid,oracle_prefers_dynamic,oracle_applied,oracle_static_translation_error_m,oracle_dynamic_translation_error_m,oracle_static_rotation_error_rad,oracle_dynamic_rotation_error_rad,shadow_translation_active,shadow_translation_applied,shadow_translation_remaining,shadow_translation_innovation_m,shadow_translation_stop_reason,shadow_translation_factor_injected,posterior_valid,posterior_pass,posterior_static_inliers,posterior_dynamic_inliers,posterior_common_support,posterior_static_score,posterior_dynamic_score,velocity_neutralized,prior_information,prior_objects_observed,prior_objects_used,prior_feature_tracks,prior_inlier_tracks,prior_static_matches,prior_dynamic_matches,prior_static_inliers,prior_dynamic_inliers,prior_common_support,prior_static_common_score,prior_dynamic_common_score,direct_common_support,direct_static_depth_score,direct_dynamic_depth_score,direct_static_photometric_score,direct_dynamic_photometric_score,direct_static_combined_score,direct_dynamic_combined_score,trajectory_carried_forward,mask_pose_predicted,temporal_refinement_applied,temporal_recovered_static_pixels,temporal_added_dynamic_pixels,temporal_flow_guard_valid,temporal_flow_guard_rejected_pixels,tracking_recovery_audit_pixels,tracking_recovery_mapping_leak_pixels,static_mask_ratio,mapping_weight_present,mapping_static_ratio,adaptive_feature_active,adaptive_feature_previous_inliers,adaptive_fast_threshold,extracted_features\n";
+    frame_metrics << "frame,timestamp,tracking_state,pose_valid,lost,mask_seconds,motion_prior_seconds,tracking_seconds,compute_seconds,dynamic_ratio,motion_foreground_fraction,prior_valid,prior_raw_valid,prior_source_frame,prior_shuffle_lag_frames,prior_gate_bypassed,prior_candidate,prior_consensus_pass,direct_validation_valid,direct_validation_pass,prior_common_support_pass,prior_would_use,prior_used,oracle_valid,oracle_prefers_dynamic,oracle_applied,oracle_static_translation_error_m,oracle_dynamic_translation_error_m,oracle_static_rotation_error_rad,oracle_dynamic_rotation_error_rad,shadow_translation_active,shadow_translation_applied,shadow_translation_remaining,shadow_translation_innovation_m,shadow_translation_stop_reason,shadow_translation_factor_injected,posterior_valid,posterior_pass,posterior_static_inliers,posterior_dynamic_inliers,posterior_common_support,posterior_static_score,posterior_dynamic_score,velocity_neutralized,prior_information,prior_objects_observed,prior_objects_used,prior_feature_tracks,prior_inlier_tracks,prior_static_matches,prior_dynamic_matches,prior_static_inliers,prior_dynamic_inliers,prior_common_support,prior_static_common_score,prior_dynamic_common_score,direct_common_support,direct_static_depth_score,direct_dynamic_depth_score,direct_static_photometric_score,direct_dynamic_photometric_score,direct_static_combined_score,direct_dynamic_combined_score,trajectory_carried_forward,mask_pose_predicted,temporal_refinement_applied,temporal_recovered_static_pixels,temporal_added_dynamic_pixels,temporal_flow_guard_valid,temporal_flow_guard_rejected_pixels,temporal_recovery_risk_active,temporal_recovery_risk_previous_inliers,temporal_recovery_risk_hold_remaining,tracking_recovery_candidate_pixels,tracking_recovery_blocked_pixels,tracking_recovery_audit_pixels,tracking_recovery_mapping_leak_pixels,static_mask_ratio,mapping_weight_present,mapping_static_ratio,adaptive_feature_active,adaptive_feature_previous_inliers,adaptive_fast_threshold,extracted_features\n";
     frame_metrics << std::fixed << std::setprecision(9);
     std::ofstream background_support_metrics;
     std::ofstream background_support_pose_metrics;
@@ -1354,6 +1358,10 @@ int main(int argc, char **argv)
     std::uint64_t temporal_added_dynamic_pixels = 0;
     int temporal_flow_guard_valid_frames = 0;
     std::uint64_t temporal_flow_guard_rejected_pixels = 0;
+    int temporal_recovery_risk_active_frames = 0;
+    int temporal_recovery_risk_blocked_frames = 0;
+    std::uint64_t tracking_recovery_candidate_pixels = 0;
+    std::uint64_t tracking_recovery_blocked_pixels = 0;
     std::uint64_t tracking_recovery_audit_pixels = 0;
     std::uint64_t tracking_recovery_mapping_leak_pixels = 0;
     std::uint64_t extracted_features_total = 0;
@@ -1362,9 +1370,11 @@ int main(int argc, char **argv)
     double mapping_static_ratio_sum = 0.0;
     int adaptive_feature_active_frames = 0;
     int adaptive_feature_hold_remaining = 0;
+    int temporal_recovery_risk_hold_remaining = 0;
     int previous_tracking_inliers =
         std::numeric_limits<int>::max();
     bool adaptive_feature_has_inlier_history = false;
+    bool temporal_recovery_risk_has_inlier_history = false;
     double adaptive_fast_threshold_sum = 0.0;
     struct BufferedMotionPrior {
         int frame = -1;
@@ -1479,6 +1489,58 @@ int main(int argc, char **argv)
             imBGR, imD_float, maskPoseTcw,
             renderedDepth.empty() ? nullptr : &renderedDepth,
             tframe, hasValidPose);
+
+        const int recovery_risk_previous_inliers =
+            previous_tracking_inliers ==
+                    std::numeric_limits<int>::max()
+                ? -1
+                : previous_tracking_inliers;
+        if (temporal_recovery_risk_gate &&
+            temporal_recovery_risk_has_inlier_history &&
+            previous_tracking_inliers <
+                mask_cfg.temporal_recovery_min_previous_inliers) {
+            temporal_recovery_risk_hold_remaining = std::max(
+                temporal_recovery_risk_hold_remaining,
+                mask_cfg.temporal_recovery_hold_frames);
+        }
+        const int recovery_risk_hold_for_frame =
+            temporal_recovery_risk_hold_remaining;
+        const bool temporal_recovery_risk_active =
+            temporal_recovery_risk_gate &&
+            recovery_risk_hold_for_frame > 0;
+        const bool temporal_recovery_allowed =
+            !temporal_recovery_risk_gate ||
+            temporal_recovery_risk_active;
+        const cv::Mat raw_dynamic =
+            pMaskRefiner->getRawDynamicMask();
+        const cv::Mat temporal_static_mask = staticMask.clone();
+        int frame_tracking_recovery_candidate_pixels = 0;
+        if (!raw_dynamic.empty() &&
+            raw_dynamic.type() == CV_8UC1 &&
+            raw_dynamic.size() == temporal_static_mask.size()) {
+            cv::Mat candidate_tracking_support;
+            cv::bitwise_and(
+                raw_dynamic, temporal_static_mask,
+                candidate_tracking_support);
+            frame_tracking_recovery_candidate_pixels =
+                cv::countNonZero(candidate_tracking_support);
+        }
+        int frame_tracking_recovery_blocked_pixels = 0;
+        if (!temporal_recovery_allowed) {
+            const cv::Mat raw_static =
+                pMaskRefiner->getRawStaticMask();
+            if (!raw_static.empty() &&
+                raw_static.type() == CV_8UC1 &&
+                raw_static.size() == staticMask.size()) {
+                staticMask = raw_static;
+                frame_tracking_recovery_blocked_pixels =
+                    frame_tracking_recovery_candidate_pixels;
+            }
+        }
+        if (temporal_recovery_risk_gate &&
+            temporal_recovery_risk_hold_remaining > 0) {
+            --temporal_recovery_risk_hold_remaining;
+        }
         if (export_static_masks) {
             cv::Mat static_mask_u8;
             staticMask.convertTo(static_mask_u8, CV_8UC1, 255.0);
@@ -1551,18 +1613,8 @@ int main(int argc, char **argv)
             staticMask.convertTo(pdyn_weight, CV_32FC1);
         }
         if (mask_cfg.temporal_conservative_mapping) {
-            cv::Mat raw_dynamic = pMaskRefiner->getRawDynamicMask();
-            if (!raw_dynamic.empty()) {
-                if (mask_cfg.morph_kernel > 1) {
-                    const cv::Mat kernel = cv::getStructuringElement(
-                        cv::MORPH_ELLIPSE,
-                        cv::Size(
-                            mask_cfg.morph_kernel,
-                            mask_cfg.morph_kernel));
-                    cv::morphologyEx(
-                        raw_dynamic, raw_dynamic, cv::MORPH_CLOSE, kernel);
-                }
-                cv::Mat raw_static = 1 - raw_dynamic;
+            const cv::Mat raw_static = pMaskRefiner->getRawStaticMask();
+            if (!raw_static.empty()) {
                 raw_static.convertTo(pdyn_weight, CV_32FC1);
             }
         }
@@ -2039,6 +2091,7 @@ int main(int argc, char **argv)
         }
         if (current_tracking_inliers > 0) {
             adaptive_feature_has_inlier_history = true;
+            temporal_recovery_risk_has_inlier_history = true;
         }
         previous_tracking_inliers = current_tracking_inliers;
         const bool prior_candidate = pSLAM->WasExternalPosePriorCandidate();
@@ -2432,6 +2485,18 @@ int main(int argc, char **argv)
         temporal_flow_guard_rejected_pixels +=
             static_cast<std::uint64_t>(
                 std::max(0, flow_guard_rejected_pixels));
+        if (temporal_recovery_risk_active) {
+            ++temporal_recovery_risk_active_frames;
+        }
+        if (frame_tracking_recovery_blocked_pixels > 0) {
+            ++temporal_recovery_risk_blocked_frames;
+        }
+        tracking_recovery_candidate_pixels +=
+            static_cast<std::uint64_t>(std::max(
+                0, frame_tracking_recovery_candidate_pixels));
+        tracking_recovery_blocked_pixels +=
+            static_cast<std::uint64_t>(std::max(
+                0, frame_tracking_recovery_blocked_pixels));
         tracking_recovery_audit_pixels +=
             static_cast<std::uint64_t>(
                 std::max(0, frame_tracking_recovery_audit_pixels));
@@ -2546,6 +2611,11 @@ int main(int argc, char **argv)
                       << added_dynamic_pixels << ','
                       << (temporal_flow_guard_valid ? 1 : 0) << ','
                       << flow_guard_rejected_pixels << ','
+                      << (temporal_recovery_risk_active ? 1 : 0) << ','
+                      << recovery_risk_previous_inliers << ','
+                      << recovery_risk_hold_for_frame << ','
+                      << frame_tracking_recovery_candidate_pixels << ','
+                      << frame_tracking_recovery_blocked_pixels << ','
                       << frame_tracking_recovery_audit_pixels << ','
                       << frame_tracking_recovery_mapping_leak_pixels << ','
                       << static_mask_ratio << ','
@@ -2769,6 +2839,22 @@ int main(int argc, char **argv)
                 << temporal_flow_guard_valid_frames << ",\n"
                 << "  \"temporal_flow_guard_rejected_pixels\": "
                 << temporal_flow_guard_rejected_pixels << ",\n"
+                << "  \"temporal_recovery_require_tracking_risk\": "
+                << (mask_cfg.temporal_recovery_require_tracking_risk
+                        ? "true" : "false") << ",\n"
+                << "  \"temporal_recovery_min_previous_inliers\": "
+                << mask_cfg.temporal_recovery_min_previous_inliers
+                << ",\n"
+                << "  \"temporal_recovery_hold_frames\": "
+                << mask_cfg.temporal_recovery_hold_frames << ",\n"
+                << "  \"temporal_recovery_risk_active_frames\": "
+                << temporal_recovery_risk_active_frames << ",\n"
+                << "  \"temporal_recovery_risk_blocked_frames\": "
+                << temporal_recovery_risk_blocked_frames << ",\n"
+                << "  \"tracking_recovery_candidate_pixels\": "
+                << tracking_recovery_candidate_pixels << ",\n"
+                << "  \"tracking_recovery_blocked_pixels\": "
+                << tracking_recovery_blocked_pixels << ",\n"
                 << "  \"tracking_recovery_audit_pixels\": "
                 << tracking_recovery_audit_pixels << ",\n"
                 << "  \"tracking_recovery_mapping_leak_pixels\": "

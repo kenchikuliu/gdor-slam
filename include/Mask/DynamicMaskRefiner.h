@@ -107,6 +107,7 @@ public:
     cv::Mat getRawDynamicMask() const {
         return M_raw_dynamic_.clone();
     }
+    cv::Mat getRawStaticMask() const;
     cv::Mat getTemporalBackgroundDepth() const {
         return temporal_background_depth_.clone();
     }

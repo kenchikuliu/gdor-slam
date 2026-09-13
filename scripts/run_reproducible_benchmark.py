@@ -91,6 +91,143 @@ CONFIGS = {
         PROJECT / "config/mask_config_dypho_flow_exact.yaml"),
     "dypho_flow_adaptive": (
         PROJECT / "config/mask_config_dypho_flow_adaptive.yaml"),
+    "dyn19_semantic": (
+        PROJECT / "config/mask_config_dyn19_semantic.yaml"),
+    "dyn19_mapmatched": (
+        PROJECT / "config/mask_config_dyn19_mapmatched.yaml"),
+    "dyn19_temporal_map": (
+        PROJECT / "config/mask_config_dyn19_temporal_map.yaml"),
+    "dyn19_temporal_flow_map": (
+        PROJECT / "config/mask_config_dyn19_temporal_flow_map.yaml"),
+    "dyn19_temporal_flow_risk_map": (
+        PROJECT / "config/mask_config_dyn19_temporal_flow_risk_map.yaml"),
+    "dyn19_full": (
+        PROJECT / "config/mask_config_dyn19_full.yaml"),
+    "dyn19_full_no_mapping": (
+        PROJECT / "config/mask_config_dyn19_full_no_mapping.yaml"),
+}
+
+DYN19_EXPERIMENT_ID = "DYN-19_FULL_CAUSAL_MAP_INTEGRITY_20260913"
+DYN19_CLAIM_SEQUENCES = (
+    "tum_walking_xyz",
+    "tum_walking_halfsphere",
+    "tum_walking_static",
+    "tum_sitting_halfsphere",
+    "bonn_balloon",
+    "bonn_crowd",
+    "bonn_crowd2",
+    "bonn_crowd3",
+    "bonn_person_tracking",
+    "bonn_person_tracking2",
+)
+DYN19_REQUIRED_SEEDS = (0, 1, 2)
+DYN19_MAIN_CONFIGS = (
+    "dyn19_semantic",
+    "dyn19_mapmatched",
+    "dyn19_full",
+)
+DYN19_MECHANISM_CONFIGS = (
+    "dyn19_temporal_map",
+    "dyn19_temporal_flow_map",
+    "dyn19_temporal_flow_risk_map",
+    "dyn19_full_no_mapping",
+)
+DYN19_TRACKING_CONFIGS = (
+    *DYN19_MAIN_CONFIGS,
+    *DYN19_MECHANISM_CONFIGS,
+)
+DYN19_PHASE_CONFIGS = {
+    "main": DYN19_MAIN_CONFIGS,
+    "mechanisms": DYN19_MECHANISM_CONFIGS,
+}
+DYN19_FACTOR_KEYS = (
+    "mask.use_flow",
+    "mask.enable_flow_hard",
+    "mask.use_temporal_background_refinement",
+    "mask.use_adaptive_feature_extraction",
+    "mask.temporal_recovery_only",
+    "mask.temporal_conservative_mapping",
+    "mask.temporal_recovery_flow_guard",
+    "mask.temporal_recovery_require_tracking_risk",
+)
+DYN19_FACTOR_MATRIX = {
+    "dyn19_semantic": {
+        "temporal_depth": False,
+        "recovery_flow_guard": False,
+        "tracking_risk_gate": False,
+        "adaptive_fast": False,
+        "raw_mapping_weight": False,
+        "description": "Semantic hard exclusion",
+    },
+    "dyn19_mapmatched": {
+        "temporal_depth": False,
+        "recovery_flow_guard": False,
+        "tracking_risk_gate": False,
+        "adaptive_fast": False,
+        "raw_mapping_weight": True,
+        "description": "MapMatched-NoTrackReuse",
+    },
+    "dyn19_temporal_map": {
+        "temporal_depth": True,
+        "recovery_flow_guard": False,
+        "tracking_risk_gate": False,
+        "adaptive_fast": False,
+        "raw_mapping_weight": True,
+        "description": "T+M",
+    },
+    "dyn19_temporal_flow_map": {
+        "temporal_depth": True,
+        "recovery_flow_guard": True,
+        "tracking_risk_gate": False,
+        "adaptive_fast": False,
+        "raw_mapping_weight": True,
+        "description": "T+F+M",
+    },
+    "dyn19_temporal_flow_risk_map": {
+        "temporal_depth": True,
+        "recovery_flow_guard": True,
+        "tracking_risk_gate": True,
+        "adaptive_fast": False,
+        "raw_mapping_weight": True,
+        "description": "T+F+R+M",
+    },
+    "dyn19_full": {
+        "temporal_depth": True,
+        "recovery_flow_guard": True,
+        "tracking_risk_gate": True,
+        "adaptive_fast": True,
+        "raw_mapping_weight": True,
+        "description": "T+F+R+A+M",
+    },
+    "dyn19_full_no_mapping": {
+        "temporal_depth": True,
+        "recovery_flow_guard": True,
+        "tracking_risk_gate": True,
+        "adaptive_fast": True,
+        "raw_mapping_weight": False,
+        "description": "T+F+R+A+NoM",
+    },
+}
+DYN19_EXPECTED_FACTOR_VALUES = {
+    config: {
+        "mask.use_flow": "1" if factors["raw_mapping_weight"] or
+        factors["temporal_depth"] else "0",
+        "mask.enable_flow_hard": "1" if factors["raw_mapping_weight"] or
+        factors["temporal_depth"] else "0",
+        "mask.use_temporal_background_refinement": (
+            "1" if factors["temporal_depth"] else "0"),
+        "mask.use_adaptive_feature_extraction": (
+            "1" if factors["adaptive_fast"] else "0"),
+        "mask.temporal_recovery_only": (
+            "0" if config == "dyn19_semantic" else "1"),
+        "mask.temporal_conservative_mapping": (
+            "1" if factors["raw_mapping_weight"] else "0"),
+        "mask.temporal_recovery_flow_guard": (
+            "1" if factors["recovery_flow_guard"] else "0"),
+        "mask.temporal_recovery_require_tracking_risk": (
+            "1" if factors["tracking_risk_gate"] else "0"),
+    }
+    for config, factors in DYN19_FACTOR_MATRIX.items()
 }
 DYPHO_ABLATION_CONFIGS = (
     "semantic",
@@ -323,6 +460,122 @@ def opencv_yaml_contract(path: Path) -> dict[str, str]:
                 value = value[1:-1]
             values[key] = value
     return values
+
+
+def dyn19_config_contract() -> dict[str, Any]:
+    contracts = {
+        config: opencv_yaml_contract(CONFIGS[config])
+        for config in DYN19_TRACKING_CONFIGS
+    }
+    reference = contracts["dyn19_full"]
+    key_sets_match = all(
+        set(values) == set(reference)
+        for values in contracts.values())
+    factor_values_match = all(
+        all(
+            contracts[config].get(key) == expected
+            for key, expected in expected_values.items())
+        for config, expected_values in DYN19_EXPECTED_FACTOR_VALUES.items())
+    non_factor_differences = {
+        config: sorted(
+            key for key in set(reference) & set(values)
+            if key not in DYN19_FACTOR_KEYS and
+            values[key] != reference[key])
+        for config, values in contracts.items()
+    }
+    return {
+        "contract": "dyn19-factor-config-matrix-v1",
+        "valid": bool(
+            key_sets_match and factor_values_match and
+            not any(non_factor_differences.values())),
+        "configs": {
+            config: {
+                "path": str(CONFIGS[config]),
+                "sha256": sha256(CONFIGS[config]),
+                "factors": DYN19_FACTOR_MATRIX[config],
+                "expected_factor_values":
+                    DYN19_EXPECTED_FACTOR_VALUES[config],
+                "actual_factor_values": {
+                    key: contracts[config].get(key)
+                    for key in DYN19_FACTOR_KEYS
+                },
+                "non_factor_differences":
+                    non_factor_differences[config],
+            }
+            for config in DYN19_TRACKING_CONFIGS
+        },
+        "key_sets_match": key_sets_match,
+        "factor_values_match": factor_values_match,
+    }
+
+
+def dyn19_phase_plan_contract(root: Path) -> dict[str, Any]:
+    plan_path = root / "benchmark_plan.json"
+    digest_path = root / "benchmark_plan.sha256"
+    result: dict[str, Any] = {
+        "contract": "dyn19-phase-plan-audit-v1",
+        "valid": False,
+        "plan_path": str(plan_path),
+        "phase": None,
+        "expected_tasks": 0,
+        "actual_tasks": 0,
+    }
+    if not plan_path.is_file() or not digest_path.is_file():
+        result["error"] = "missing frozen benchmark plan or digest"
+        return result
+    digest_fields = digest_path.read_text().strip().split()
+    actual_digest = sha256(plan_path)
+    if not digest_fields or digest_fields[0] != actual_digest:
+        result["error"] = "benchmark plan digest mismatch"
+        return result
+    plan = json.loads(plan_path.read_text())
+    dyn19 = plan.get("dyn19")
+    if not isinstance(dyn19, dict):
+        result["error"] = "plan is not a DYN-19 phase plan"
+        return result
+    phase = dyn19.get("phase")
+    result["phase"] = phase
+    if phase not in DYN19_PHASE_CONFIGS:
+        result["error"] = "unknown DYN-19 phase"
+        return result
+    expected_configs = DYN19_PHASE_CONFIGS[phase]
+    expected = {
+        (config, sequence, seed)
+        for config in expected_configs
+        for sequence in DYN19_CLAIM_SEQUENCES
+        for seed in DYN19_REQUIRED_SEEDS
+    }
+    tasks = plan.get("tasks", [])
+    actual = {
+        (task.get("config"), task.get("sequence"), task.get("seed"))
+        for task in tasks
+        if isinstance(task, dict)
+    }
+    expected_exports = {
+        ("dyn19_semantic", sequence, seed)
+        for sequence in DYN19_CLAIM_SEQUENCES
+        for seed in DYN19_REQUIRED_SEEDS
+    } if phase == "main" else set()
+    export_tasks = {
+        (task.get("config"), task.get("sequence"), task.get("seed"))
+        for task in tasks
+        if isinstance(task, dict) and task.get("export_static_masks")
+    }
+    result.update({
+        "expected_tasks": len(expected),
+        "actual_tasks": len(tasks),
+        "task_identity_match": len(tasks) == len(expected) and actual == expected,
+        "semantic_mask_exports_match": export_tasks == expected_exports,
+        "config_contract": dyn19_config_contract(),
+        "recorded_config_contract": dyn19.get("config_contract"),
+    })
+    result["valid"] = bool(
+        dyn19.get("experiment_id") == DYN19_EXPERIMENT_ID and
+        result["task_identity_match"] and
+        result["semantic_mask_exports_match"] and
+        result["config_contract"]["valid"] and
+        result["recorded_config_contract"] == result["config_contract"])
+    return result
 
 
 def flow_adaptive_config_contract() -> dict[str, Any]:
@@ -736,6 +989,8 @@ def run_one(
         command.append("--sync-loop-closing")
     if task.get("disable_gaussian_mapper", False):
         command.append("--disable-gaussian-mapper")
+    if task.get("export_static_masks", False):
+        command.append("--export-static-masks")
     if task["heldout_stride"] > 0:
         command += ["--heldout-stride", str(task["heldout_stride"])]
 
@@ -756,6 +1011,8 @@ def run_one(
             task.get("synchronize_loop_closing", False),
         "disable_gaussian_mapper":
             task.get("disable_gaussian_mapper", False),
+        "export_static_masks":
+            task.get("export_static_masks", False),
         "matched_oracle_mode": matched_oracle_mode,
         "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "host": socket.gethostname(),
@@ -909,6 +1166,14 @@ def run_one(
             "temporal_flow_guard_valid_frames", 0),
         "temporal_flow_guard_rejected_pixels": run_summary.get(
             "temporal_flow_guard_rejected_pixels", 0),
+        "temporal_recovery_risk_active_frames": run_summary.get(
+            "temporal_recovery_risk_active_frames", 0),
+        "temporal_recovery_risk_blocked_frames": run_summary.get(
+            "temporal_recovery_risk_blocked_frames", 0),
+        "tracking_recovery_candidate_pixels": run_summary.get(
+            "tracking_recovery_candidate_pixels", 0),
+        "tracking_recovery_blocked_pixels": run_summary.get(
+            "tracking_recovery_blocked_pixels", 0),
         "tracking_recovery_audit_pixels": run_summary.get(
             "tracking_recovery_audit_pixels", 0),
         "tracking_recovery_mapping_leak_pixels": run_summary.get(
@@ -945,6 +1210,41 @@ def run_one(
             "carried_forward_rate",
             1.0 - run_summary["tracked_frames"] / run_summary["processed_frames"]),
     })
+
+    certificate_path = (
+        run_dir / "recovered_support_overlap_certificate.json")
+    certifier = subprocess.run(
+        [
+            sys.executable,
+            str(PROJECT / "scripts/certify_recovered_support_overlap.py"),
+            "--run-dir",
+            str(run_dir),
+            "--output",
+            str(certificate_path),
+        ],
+        cwd=PROJECT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    (run_dir / "recovered_support_overlap_certificate.log").write_text(
+        certifier.stdout)
+    if certifier.returncode != 0 or not certificate_path.is_file():
+        raise RuntimeError(
+            "Recovered-support overlap certificate failed with "
+            f"exit code {certifier.returncode}")
+    certificate = json.loads(certificate_path.read_text())
+    metrics["recovered_support_overlap_certificate"] = certificate
+    certificate_evidence = certificate.get("evidence", {})
+    metrics["recovered_support_certificate_status"] = certificate.get(
+        "status", "missing")
+    metrics["recovered_support_certificate_audit_pixels"] = (
+        certificate_evidence.get("tracking_recovery_audit_pixels", 0))
+    metrics["recovered_support_certificate_leak_pixels"] = (
+        certificate_evidence.get(
+            "tracking_recovery_mapping_leak_pixels", 0))
+    metrics["recovered_support_certificate_vacuous"] = (
+        certificate.get("status") == "vacuous")
 
     if metrics["counterfactual_pose_pairs"] > 0:
         evaluator = subprocess.run(
@@ -2164,6 +2464,182 @@ def write_motion_ablation_summary(
     })
 
 
+def write_dyn19_phase_reports(
+    root: Path,
+    results: list[dict[str, Any]],
+) -> None:
+    plan_audit = dyn19_phase_plan_contract(root)
+    if plan_audit.get("error") == "plan is not a DYN-19 phase plan":
+        return
+
+    phase = plan_audit.get("phase")
+    if phase not in DYN19_PHASE_CONFIGS:
+        atomic_json(root / "dyn19_phase_report.json", {
+            "experiment_id": DYN19_EXPERIMENT_ID,
+            "status": "invalid_plan",
+            "plan_audit": plan_audit,
+        })
+        return
+
+    expected_configs = DYN19_PHASE_CONFIGS[phase]
+    expected = {
+        (config, sequence, seed)
+        for config in expected_configs
+        for sequence in DYN19_CLAIM_SEQUENCES
+        for seed in DYN19_REQUIRED_SEEDS
+    }
+    result_by_identity: dict[tuple[str, str, int], dict[str, Any]] = {}
+    duplicate_results = []
+    for result in results:
+        identity = (
+            result.get("config"),
+            result.get("sequence"),
+            result.get("seed"),
+        )
+        if identity in result_by_identity:
+            duplicate_results.append(identity)
+        result_by_identity[identity] = result
+
+    complete = {
+        identity: result
+        for identity, result in result_by_identity.items()
+        if identity in expected and result.get("status") == "complete"
+    }
+    missing = sorted(
+        identity for identity in expected if identity not in complete)
+    unexpected = sorted(
+        identity for identity in result_by_identity if identity not in expected)
+
+    by_config: dict[str, dict[str, Any]] = {}
+    for config in expected_configs:
+        expected_config = {
+            (config, sequence, seed)
+            for sequence in DYN19_CLAIM_SEQUENCES
+            for seed in DYN19_REQUIRED_SEEDS
+        }
+        config_complete = {
+            identity: result
+            for identity, result in complete.items()
+            if identity in expected_config
+        }
+        certificates = {}
+        for identity, result in config_complete.items():
+            certificate = result.get("metrics", {}).get(
+                "recovered_support_overlap_certificate")
+            certificates[f"{identity[1]}/seed_{identity[2]:04d}"] = (
+                certificate if isinstance(certificate, dict) else {
+                    "status": "missing"})
+        by_config[config] = {
+            "factors": DYN19_FACTOR_MATRIX[config],
+            "expected_runs": len(expected_config),
+            "completed_runs": len(config_complete),
+            "missing_runs": [
+                f"{sequence}/seed_{seed:04d}"
+                for _, sequence, seed in sorted(expected_config - set(config_complete))
+            ],
+            "certificates": certificates,
+        }
+
+    full_certificate_report: dict[str, Any] = {
+        "status": "not_planned",
+        "safety_status": "not_planned",
+        "positive_recovery_evidence": "not_planned",
+        "per_sequence_seed": {},
+    }
+    if "dyn19_full" in expected_configs:
+        full_runs = by_config["dyn19_full"]
+        per_sequence_seed = full_runs["certificates"]
+        certificate_statuses = [
+            certificate.get("status", "missing")
+            for certificate in per_sequence_seed.values()
+        ]
+        leak_values = [
+            certificate.get("evidence", {}).get(
+                "tracking_recovery_mapping_leak_pixels", None)
+            for certificate in per_sequence_seed.values()
+        ]
+        complete_full = full_runs["completed_runs"] == full_runs["expected_runs"]
+        no_leak = (
+            complete_full and
+            len(leak_values) == full_runs["expected_runs"] and
+            all(isinstance(value, int) and value == 0 for value in leak_values)
+        )
+        certificate_failures = any(status == "fail" for status in certificate_statuses)
+        pass_count = sum(status == "pass" for status in certificate_statuses)
+        vacuous_count = sum(
+            status == "vacuous" for status in certificate_statuses)
+        if not complete_full:
+            safety_status = "incomplete"
+            aggregate_status = "incomplete"
+        elif certificate_failures or not no_leak:
+            safety_status = "fail"
+            aggregate_status = "fail"
+        elif pass_count > 0:
+            safety_status = "pass"
+            aggregate_status = "pass"
+        else:
+            # Complete zero-leak runs with no recovered support are safe but
+            # cannot substantiate a recovery claim.
+            safety_status = "pass"
+            aggregate_status = "vacuous"
+        full_certificate_report = {
+            "contract": "dyn19-main-recovered-support-overlap-aggregate-v1",
+            "status": aggregate_status,
+            "safety_status": safety_status,
+            "zero_leak_required": True,
+            "all_completed": complete_full,
+            "all_zero_leak": no_leak,
+            "certificate_status_counts": {
+                "pass": pass_count,
+                "vacuous": vacuous_count,
+                "fail": sum(status == "fail" for status in certificate_statuses),
+                "missing": sum(
+                    status not in {"pass", "vacuous", "fail"}
+                    for status in certificate_statuses),
+            },
+            "positive_recovery_evidence": (
+                "observed" if pass_count > 0 else "not_observed_all_vacuous"
+            ),
+            "per_sequence_seed": per_sequence_seed,
+            "interpretation": (
+                "status=pass requires observed recovered support plus zero "
+                "leaks; status=vacuous retains complete zero-leak rows with "
+                "no observed recovery as safety-only evidence. safety_status "
+                "tracks the independent complete zero-leak invariant.")
+        }
+        atomic_json(
+            root / "dyn19_recovered_support_overlap_aggregate.json",
+            full_certificate_report)
+
+    report = {
+        "experiment_id": DYN19_EXPERIMENT_ID,
+        "contract": "dyn19-phase-report-v1",
+        "phase": phase,
+        "status": (
+            "complete" if plan_audit.get("valid") and
+            len(complete) == len(expected) and not duplicate_results and
+            not unexpected else "incomplete"),
+        "plan_audit": plan_audit,
+        "expected_runs": len(expected),
+        "completed_runs": len(complete),
+        "missing_runs": [
+            f"{config}/{sequence}/seed_{seed:04d}"
+            for config, sequence, seed in missing
+        ],
+        "unexpected_results": [
+            f"{config}/{sequence}/seed_{seed:04d}"
+            for config, sequence, seed in unexpected
+        ],
+        "duplicate_results": [
+            f"{config}/{sequence}/seed_{seed:04d}"
+            for config, sequence, seed in duplicate_results
+        ],
+        "configs": by_config,
+        "main_full_overlap_certificate": full_certificate_report,
+    }
+    atomic_json(root / "dyn19_phase_report.json", report)
+
+
 def aggregate(root: Path, results: list[dict[str, Any]]) -> None:
     identities = [
         (result["config"], result["sequence"], result["seed"])
@@ -2200,6 +2676,10 @@ def aggregate(root: Path, results: list[dict[str, Any]]) -> None:
         "temporal_added_dynamic_pixels_mean",
         "temporal_flow_guard_valid_frames_mean",
         "temporal_flow_guard_rejected_pixels_mean",
+        "temporal_recovery_risk_active_frames_mean",
+        "temporal_recovery_risk_blocked_frames_mean",
+        "tracking_recovery_candidate_pixels_mean",
+        "tracking_recovery_blocked_pixels_mean",
         "tracking_recovery_audit_pixels_mean",
         "tracking_recovery_mapping_leak_pixels_mean",
         "static_mask_ratio_mean",
@@ -2291,6 +2771,22 @@ def aggregate(root: Path, results: list[dict[str, Any]]) -> None:
             flow_guard_rejected_pixels = [
                 run["metrics"].get(
                     "temporal_flow_guard_rejected_pixels", 0)
+                for run in runs]
+            recovery_risk_active_frames = [
+                run["metrics"].get(
+                    "temporal_recovery_risk_active_frames", 0)
+                for run in runs]
+            recovery_risk_blocked_frames = [
+                run["metrics"].get(
+                    "temporal_recovery_risk_blocked_frames", 0)
+                for run in runs]
+            recovery_candidate_pixels = [
+                run["metrics"].get(
+                    "tracking_recovery_candidate_pixels", 0)
+                for run in runs]
+            recovery_blocked_pixels = [
+                run["metrics"].get(
+                    "tracking_recovery_blocked_pixels", 0)
                 for run in runs]
             recovery_audit_pixels = [
                 run["metrics"].get(
@@ -2409,6 +2905,14 @@ def aggregate(root: Path, results: list[dict[str, Any]]) -> None:
                     statistics.mean(flow_guard_valid_frames),
                 "temporal_flow_guard_rejected_pixels_mean":
                     statistics.mean(flow_guard_rejected_pixels),
+                "temporal_recovery_risk_active_frames_mean":
+                    statistics.mean(recovery_risk_active_frames),
+                "temporal_recovery_risk_blocked_frames_mean":
+                    statistics.mean(recovery_risk_blocked_frames),
+                "tracking_recovery_candidate_pixels_mean":
+                    statistics.mean(recovery_candidate_pixels),
+                "tracking_recovery_blocked_pixels_mean":
+                    statistics.mean(recovery_blocked_pixels),
                 "tracking_recovery_audit_pixels_mean":
                     statistics.mean(recovery_audit_pixels),
                 "tracking_recovery_mapping_leak_pixels_mean":
@@ -2929,6 +3433,7 @@ def aggregate(root: Path, results: list[dict[str, Any]]) -> None:
     )
     write_motion_ablation_summary(root, results)
     write_flow_adaptive_incumbent_gate(root, results)
+    write_dyn19_phase_reports(root, results)
 
 
 def validate_inputs(configs: list[str], sequences: list[str]) -> None:
@@ -2958,6 +3463,12 @@ def validate_inputs(configs: list[str], sequences: list[str]) -> None:
             raise ValueError(
                 "Flow-Adaptive/Exact config pair violates its frozen "
                 f"contract: {contract}")
+    if set(configs) & set(DYN19_TRACKING_CONFIGS):
+        contract = dyn19_config_contract()
+        if not contract["valid"]:
+            raise ValueError(
+                "DYN-19 factor matrix violates its frozen config contract: "
+                f"{contract}")
 
 
 def build_task_blocks(
@@ -2971,6 +3482,8 @@ def build_task_blocks(
     synchronize_local_mapping: bool = False,
     synchronize_loop_closing: bool = False,
     disable_gaussian_mapper: bool = False,
+    export_static_masks: bool = False,
+    dyn19_phase: str | None = None,
 ) -> tuple[list[dict[str, Any]], list[list[dict[str, Any]]]]:
     tasks = []
     blocks = []
@@ -2997,10 +3510,20 @@ def build_task_blocks(
                         synchronize_loop_closing,
                     "disable_gaussian_mapper":
                         disable_gaussian_mapper,
+                    "export_static_masks": (
+                        export_static_masks and
+                        (dyn19_phase != "main" or
+                         config == "dyn19_semantic")),
                     "source": source,
                     "run_dir": str(
                         root / config / sequence / f"seed_{seed:04d}"),
                 }
+                if dyn19_phase is not None:
+                    task["dyn19"] = {
+                        "experiment_id": DYN19_EXPERIMENT_ID,
+                        "phase": dyn19_phase,
+                        "factors": DYN19_FACTOR_MATRIX[config],
+                    }
                 tasks.append(task)
                 block.append(task)
             blocks.append(block)
@@ -3011,14 +3534,25 @@ def main() -> int:
     global GPU_LOCKS
     parser = argparse.ArgumentParser()
     parser.add_argument("--configs", nargs="+", choices=sorted(CONFIGS),
-                        default=["semantic", "full"])
+                        default=None)
     parser.add_argument("--sequences", nargs="+", choices=sorted(SEQUENCES),
-                        default=["tum_walking_xyz", "tum_walking_halfsphere",
-                                 "tum_walking_static", "tum_sitting_halfsphere", "bonn_crowd"])
-    parser.add_argument("--seeds", nargs="+", type=int, default=[0, 1, 2, 3, 4])
+                        default=None)
+    parser.add_argument("--seeds", nargs="+", type=int, default=None)
     parser.add_argument("--gpus", nargs="+", default=["0"])
     parser.add_argument("--jobs", type=int, default=1)
-    parser.add_argument("--heldout-stride", type=int, default=20)
+    parser.add_argument("--heldout-stride", type=int, default=None)
+    parser.add_argument(
+        "--dyn19-phase",
+        choices=sorted(DYN19_PHASE_CONFIGS),
+        help=(
+            "freeze the DYN-19 main or incremental mechanism phase; this "
+            "sets the exact 10-sequence, three-seed denominator"),
+    )
+    parser.add_argument(
+        "--export-static-masks",
+        action="store_true",
+        help="export every final tracking static mask as a frozen PNG snapshot",
+    )
     parser.add_argument(
         "--sync-local-mapping", action="store_true",
         help="wait for LocalMapping to become idle after every input frame")
@@ -3036,6 +3570,44 @@ def main() -> int:
         "--allow-dirty", action="store_true",
         help="allow diagnostic runs from a dirty source tree")
     args = parser.parse_args()
+    default_configs = ["semantic", "full"]
+    default_sequences = [
+        "tum_walking_xyz",
+        "tum_walking_halfsphere",
+        "tum_walking_static",
+        "tum_sitting_halfsphere",
+        "bonn_crowd",
+    ]
+    default_seeds = [0, 1, 2, 3, 4]
+    if args.dyn19_phase is not None:
+        phase_configs = list(DYN19_PHASE_CONFIGS[args.dyn19_phase])
+        if args.configs is not None and args.configs != phase_configs:
+            parser.error(
+                f"--dyn19-phase {args.dyn19_phase} requires configs "
+                f"{phase_configs}")
+        if (args.sequences is not None and
+                args.sequences != list(DYN19_CLAIM_SEQUENCES)):
+            parser.error(
+                f"--dyn19-phase {args.dyn19_phase} requires the frozen "
+                "DYN-19 claim-bearing sequence union")
+        if args.seeds is not None and args.seeds != list(DYN19_REQUIRED_SEEDS):
+            parser.error(
+                f"--dyn19-phase {args.dyn19_phase} requires seeds "
+                f"{list(DYN19_REQUIRED_SEEDS)}")
+        if args.heldout_stride not in (None, 0):
+            parser.error("--dyn19-phase uses heldout_stride=0 for tracking runs")
+        args.configs = phase_configs
+        args.sequences = list(DYN19_CLAIM_SEQUENCES)
+        args.seeds = list(DYN19_REQUIRED_SEEDS)
+        args.heldout_stride = 0
+        if args.dyn19_phase == "main":
+            args.export_static_masks = True
+    else:
+        args.configs = args.configs or default_configs
+        args.sequences = args.sequences or default_sequences
+        args.seeds = args.seeds or default_seeds
+        args.heldout_stride = (
+            20 if args.heldout_stride is None else args.heldout_stride)
     if any(seed < 0 for seed in args.seeds):
         parser.error("seeds must be non-negative")
     for name, values in (
@@ -3070,7 +3642,9 @@ def main() -> int:
         args.heldout_stride, state, root,
         synchronize_local_mapping=args.sync_local_mapping,
         synchronize_loop_closing=args.sync_loop_closing,
-        disable_gaussian_mapper=args.disable_gaussian_mapper)
+        disable_gaussian_mapper=args.disable_gaussian_mapper,
+        export_static_masks=args.export_static_masks,
+        dyn19_phase=args.dyn19_phase)
     asset_contracts = {
         (config, sequence): benchmark_task_asset_contract(config, sequence)
         for config in args.configs
@@ -3214,6 +3788,30 @@ def main() -> int:
             "each sequence/seed block executes all configurations serially "
             "under one GPU lock; configuration order alternates between blocks"),
     }
+    if args.dyn19_phase is not None:
+        plan_payload["dyn19"] = {
+            "experiment_id": DYN19_EXPERIMENT_ID,
+            "phase": args.dyn19_phase,
+            "claim_bearing_sequences": DYN19_CLAIM_SEQUENCES,
+            "required_seeds": DYN19_REQUIRED_SEEDS,
+            "phase_configs": DYN19_PHASE_CONFIGS[args.dyn19_phase],
+            "factor_matrix": DYN19_FACTOR_MATRIX,
+            "config_contract": dyn19_config_contract(),
+            "semantic_mask_snapshot_contract": {
+                "required_for_main_phase": True,
+                "reference_config": "dyn19_semantic",
+                "task_flag": "--export-static-masks",
+                "description": (
+                    "Semantic static-mask snapshots freeze both common-view "
+                    "static regions and occluded-background proxy sources."),
+            },
+            "recovered_support_overlap_contract": {
+                "required_for_main_full": True,
+                "full_config": "dyn19_full",
+                "zero_leak_required": True,
+                "vacuous_rows_are_not_positive_recovery_evidence": True,
+            },
+        }
     freeze_benchmark_plan(root, plan_payload, tasks)
     if args.dry_run:
         print(root)

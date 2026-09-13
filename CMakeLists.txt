@@ -534,6 +534,11 @@ if(BUILD_TESTS)
                 ${PROJECT_SOURCE_DIR}/tests/test_run_reproducible_benchmark.py)
 
     add_test(
+        NAME RecoveredSupportOverlapCertificateTest
+        COMMAND ${Python3_EXECUTABLE}
+                ${PROJECT_SOURCE_DIR}/tests/test_certify_recovered_support_overlap.py)
+
+    add_test(
         NAME MappingHeldoutPreparationTest
         COMMAND ${Python3_EXECUTABLE}
                 ${PROJECT_SOURCE_DIR}/tests/test_prepare_mapping_heldout.py)
@@ -542,6 +547,16 @@ if(BUILD_TESTS)
         NAME HeldoutRenderingMetricsTest
         COMMAND ${Python3_EXECUTABLE}
                 ${PROJECT_SOURCE_DIR}/tests/test_evaluate_heldout_rendering.py)
+
+    add_test(
+        NAME OccludedBackgroundProxyTest
+        COMMAND ${Python3_EXECUTABLE}
+                ${PROJECT_SOURCE_DIR}/tests/test_evaluate_occluded_background_proxy.py)
+
+    add_test(
+        NAME Dyn19MapIntegritySummaryTest
+        COMMAND ${Python3_EXECUTABLE}
+                ${PROJECT_SOURCE_DIR}/tests/test_summarize_dyn19_map_integrity.py)
 
     add_test(
         NAME MappingAblationSummaryTest

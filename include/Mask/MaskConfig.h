@@ -46,6 +46,9 @@ struct MaskConfig
     bool temporal_recovery_only = false; ///< Temporal evidence may restore tracking support but not add exclusions
     bool temporal_conservative_mapping = false; ///< Keep raw semantic/flow exclusions in the Gaussian mapper
     bool temporal_recovery_flow_guard = false; ///< Require a valid full-frame residual-flow model and no independent motion before temporal recovery
+    bool temporal_recovery_require_tracking_risk = false; ///< Apply temporal recovery only while the previous tracking support is weak
+    int temporal_recovery_min_previous_inliers = 0; ///< Previous-frame inlier threshold for the independent recovery-risk gate; 0 disables it
+    int temporal_recovery_hold_frames = 1; ///< Minimum consecutive recovery-risk frames after a low-inlier trigger
     int temporal_flow_guard_safe_radius = 0; ///< Reject recovery if residual motion appears within this pixel radius
     bool temporal_flow_guard_adaptive_radius = false; ///< Apply the safety radius only to high-confidence residual motion
     float temporal_flow_guard_high_confidence_scale = 2.0f; ///< Residual threshold multiplier for adaptive neighborhood veto

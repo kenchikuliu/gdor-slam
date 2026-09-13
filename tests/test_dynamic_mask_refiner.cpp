@@ -21,6 +21,9 @@ TEST(DynamicMaskRefinerTest, DefaultsShadowTranslationInterventionOff) {
     EXPECT_FALSE(config.temporal_flow_guard_adaptive_radius);
     EXPECT_FLOAT_EQ(
         config.temporal_flow_guard_high_confidence_scale, 2.0f);
+    EXPECT_FALSE(config.temporal_recovery_require_tracking_risk);
+    EXPECT_EQ(config.temporal_recovery_min_previous_inliers, 0);
+    EXPECT_EQ(config.temporal_recovery_hold_frames, 1);
 }
 
 TEST(DynamicMaskRefinerTest, RejectsEmptyRequiredYoloEngine) {
@@ -129,6 +132,28 @@ TEST(DynamicMaskRefinerTest, LoadsDyPhoCompatibleControls) {
     EXPECT_FLOAT_EQ(config.adaptive_feature_relaxation, 0.4f);
     EXPECT_EQ(config.adaptive_feature_min_previous_inliers, 120);
     EXPECT_EQ(config.adaptive_feature_hold_frames, 4);
+}
+
+TEST(DynamicMaskRefinerTest, LoadsAndClampsIndependentRecoveryRiskControls) {
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() /
+        "dynags_recovery_risk_controls.yaml";
+    {
+        std::ofstream storage(path);
+        ASSERT_TRUE(storage.is_open());
+        storage << "%YAML:1.0\n"
+                << "mask.temporal_recovery_require_tracking_risk: 1\n"
+                << "mask.temporal_recovery_min_previous_inliers: -5\n"
+                << "mask.temporal_recovery_hold_frames: -2\n";
+    }
+
+    DyGeoFusion::MaskConfig config;
+    ASSERT_TRUE(config.loadFromYAML(path.string()));
+    std::filesystem::remove(path);
+
+    EXPECT_TRUE(config.temporal_recovery_require_tracking_risk);
+    EXPECT_EQ(config.temporal_recovery_min_previous_inliers, 0);
+    EXPECT_EQ(config.temporal_recovery_hold_frames, 1);
 }
 
 TEST(DynamicMaskRefinerTest, LoadsFrozenDyPhoPresetMatrix) {
@@ -364,6 +389,44 @@ TEST(DynamicMaskRefinerTest, TemporalRecoveryOnlyNeverAddsExclusions) {
     EXPECT_GT(refiner.temporalRecoveredStaticPixels(), 0);
     EXPECT_EQ(refiner.temporalAddedDynamicPixels(), 0);
     EXPECT_EQ(refiner.getRawDynamicMask().at<uchar>(4, 2), 1);
+
+    std::filesystem::remove_all(mask_dir);
+}
+
+TEST(DynamicMaskRefinerTest, RawMaskIsAvailableWithoutTemporalRefinement) {
+    const std::filesystem::path mask_dir =
+        std::filesystem::temp_directory_path() /
+        "dynags_raw_mask_without_temporal";
+    std::filesystem::create_directories(mask_dir);
+
+    cv::Mat semantic_mask = cv::Mat::zeros(7, 7, CV_8UC1);
+    semantic_mask(cv::Rect(2, 2, 3, 3)).setTo(255);
+    ASSERT_TRUE(cv::imwrite(
+        (mask_dir / "00000000.png").string(), semantic_mask));
+
+    DyGeoFusion::MaskConfig config;
+    config.use_yolo = false;
+    config.use_external_mask = true;
+    config.external_mask_dir = mask_dir.string();
+    config.use_flow = false;
+    config.use_temporal_background_refinement = false;
+    config.morph_kernel = 1;
+
+    DyGeoFusion::DynamicMaskRefiner refiner(config, torch::kCPU);
+    const cv::Mat rgb = cv::Mat::zeros(7, 7, CV_8UC3);
+    const cv::Mat depth(7, 7, CV_32FC1, cv::Scalar(1.0f));
+    const cv::Mat static_mask = refiner.compute(
+        rgb, depth, Sophus::SE3f(), nullptr, 0.0, true);
+
+    const cv::Mat raw_dynamic = refiner.getRawDynamicMask();
+    const cv::Mat raw_static = refiner.getRawStaticMask();
+    ASSERT_FALSE(raw_dynamic.empty());
+    ASSERT_FALSE(raw_static.empty());
+    EXPECT_EQ(raw_dynamic.at<uchar>(3, 3), 1);
+    EXPECT_EQ(raw_dynamic.at<uchar>(0, 0), 0);
+    EXPECT_EQ(raw_static.at<uchar>(3, 3), 0);
+    EXPECT_EQ(raw_static.at<uchar>(0, 0), 1);
+    EXPECT_EQ(cv::norm(raw_static, static_mask, cv::NORM_INF), 0.0);
 
     std::filesystem::remove_all(mask_dir);
 }

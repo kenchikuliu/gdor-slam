@@ -422,3 +422,45 @@ SplaTAM rendering requires an explicit `frame,checkpoint_index` mapping.
 Per-frame-mapped SplaTAM checkpoints are seen-view qualitative references, not
 held-out quantitative baselines. The complete commands and evidence contract
 are documented in `../MAPPING_EVALUATION.md`.
+
+## DYN-19 Causal Map Integrity
+
+The frozen DYN-19 tracking protocol is documented in
+[`docs/DYN19_PROTOCOL.md`](../docs/DYN19_PROTOCOL.md). It fixes the DYN-15 and
+DYN-18 claim-bearing union at 10 sequences, includes
+`tum_sitting_halfsphere`, and uses seeds `0 1 2`.
+
+Create a plan before any GPU execution:
+
+```bash
+DYNAGS_DATASETS_ROOT=/mnt/nvme_data/datasets \
+python3 scripts/run_reproducible_benchmark.py \
+  --dyn19-phase main --gpus 0 --jobs 1 --dry-run \
+  --output-root /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_dryrun_YYYYMMDD
+
+DYNAGS_DATASETS_ROOT=/mnt/nvme_data/datasets \
+python3 scripts/run_reproducible_benchmark.py \
+  --dyn19-phase mechanisms --gpus 0 --jobs 1 --dry-run \
+  --output-root /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_mechanisms_dryrun_YYYYMMDD
+```
+
+`dyn19_full` emits a per-run
+`recovered_support_overlap_certificate.json`; the main aggregate keeps
+`pass`, `vacuous`, and `fail` distinct. A zero-overlap row with no recovered
+support is safety-only and not positive recovery evidence.
+
+After a completed, clean DYN-19 main root exists, run the map-integrity
+orchestrator:
+
+```bash
+DYNAGS_DATASETS_ROOT=/mnt/nvme_data/datasets \
+python3 scripts/run_dyn19_map_integrity.py \
+  --tracking-root /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_YYYYMMDD \
+  --output-root /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_map_integrity_YYYYMMDD \
+  --gpus 0
+```
+
+It freezes 4 core scenes x 3 seeds x Semantic/MapMatched/Full maps, renders
+both online and GT-aligned common held-out views, and evaluates normal
+rendering metrics plus the explicit `occluded-background proxy`. The proxy
+metrics are not true ghost counts.

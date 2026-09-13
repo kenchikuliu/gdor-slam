@@ -1,0 +1,56 @@
+%YAML:1.0
+
+# DYN-19 T+F+R+M: recovery opens only in independent tracking-risk windows.
+mask.use_yolo: 1
+mask.use_flow: 1
+mask.use_depth_consistency: 0
+mask.use_soft_mapping: 0
+mask.use_hard_mapping_mask: 1
+mask.enable_flow_hard: 1
+mask.use_temporal_background_refinement: 1
+mask.use_adaptive_feature_extraction: 0
+mask.temporal_recovery_only: 1
+mask.temporal_conservative_mapping: 1
+mask.temporal_recovery_flow_guard: 1
+mask.temporal_recovery_require_tracking_risk: 1
+mask.temporal_recovery_min_previous_inliers: 150
+mask.temporal_recovery_hold_frames: 5
+mask.temporal_flow_guard_safe_radius: 1
+mask.temporal_flow_guard_adaptive_radius: 0
+mask.temporal_flow_guard_high_confidence_scale: 2.0
+mask.adaptive_feature_relaxation: 0.9
+mask.adaptive_feature_min_previous_inliers: 150
+mask.adaptive_feature_hold_frames: 5
+mask.use_motion_pose_prior: 0
+mask.enable_geo_hard: 0
+
+mask.warmup_frames: 50
+mask.yolo_every_n_frames: 1
+mask.temporal_background_warmup_frames: 5
+mask.tau_flow: 1.5
+mask.tau_depth: 0.05
+mask.temporal_render_weight: 0.6
+mask.temporal_observation_weight: 0.2
+mask.temporal_depth_threshold: 0.20
+mask.temporal_neighbor_radius: 2
+mask.temporal_min_consistent_neighbors: 9
+mask.temporal_min_valid_fraction: 0.02
+mask.temporal_min_render_opacity: 0.5
+mask.temporal_prediction_max_translation: 0.5
+mask.temporal_prediction_max_rotation: 0.7854
+
+mask.w_sem: 1.0
+mask.w_flow: 1.0
+mask.w_geo: 0.0
+mask.dyn_threshold: 0.6
+mask.morph_kernel: 3
+
+mask.yolo_model_path: "model/yolov8s.engine"
+mask.yolo_conf_threshold: 0.25
+mask.yolo_nms_threshold: 0.45
+mask.yolo_input_width: 640
+mask.yolo_input_height: 640
+mask.lk_win_size: 21
+mask.lk_max_level: 3
+mask.lk_grid_step: 8
+mask.save_debug_images: 0

@@ -70,6 +70,15 @@ bool MaskConfig::loadFromYAML(const std::string& yaml_path)
         if (!fs["mask.temporal_recovery_flow_guard"].empty())
             fs["mask.temporal_recovery_flow_guard"] >>
                 temporal_recovery_flow_guard;
+        if (!fs["mask.temporal_recovery_require_tracking_risk"].empty())
+            fs["mask.temporal_recovery_require_tracking_risk"] >>
+                temporal_recovery_require_tracking_risk;
+        if (!fs["mask.temporal_recovery_min_previous_inliers"].empty())
+            fs["mask.temporal_recovery_min_previous_inliers"] >>
+                temporal_recovery_min_previous_inliers;
+        if (!fs["mask.temporal_recovery_hold_frames"].empty())
+            fs["mask.temporal_recovery_hold_frames"] >>
+                temporal_recovery_hold_frames;
         if (!fs["mask.temporal_flow_guard_safe_radius"].empty())
             fs["mask.temporal_flow_guard_safe_radius"] >>
                 temporal_flow_guard_safe_radius;
@@ -333,6 +342,10 @@ bool MaskConfig::loadFromYAML(const std::string& yaml_path)
             std::max(0.0f, temporal_prediction_max_translation);
         temporal_prediction_max_rotation =
             std::max(0.0f, temporal_prediction_max_rotation);
+        temporal_recovery_min_previous_inliers =
+            std::max(0, temporal_recovery_min_previous_inliers);
+        temporal_recovery_hold_frames =
+            std::max(1, temporal_recovery_hold_frames);
         temporal_flow_guard_safe_radius =
             std::max(0, temporal_flow_guard_safe_radius);
         temporal_flow_guard_high_confidence_scale =
@@ -445,6 +458,12 @@ bool MaskConfig::saveToYAML(const std::string& yaml_path) const
            << temporal_conservative_mapping;
         fs << "mask.temporal_recovery_flow_guard"
            << temporal_recovery_flow_guard;
+        fs << "mask.temporal_recovery_require_tracking_risk"
+           << temporal_recovery_require_tracking_risk;
+        fs << "mask.temporal_recovery_min_previous_inliers"
+           << temporal_recovery_min_previous_inliers;
+        fs << "mask.temporal_recovery_hold_frames"
+           << temporal_recovery_hold_frames;
         fs << "mask.temporal_flow_guard_safe_radius"
            << temporal_flow_guard_safe_radius;
         fs << "mask.temporal_flow_guard_adaptive_radius"
@@ -619,6 +638,14 @@ void MaskConfig::print() const
     std::cout << "  recovery_flow_guard:  "
               << (temporal_recovery_flow_guard ? "true" : "false")
               << std::endl;
+    std::cout << "  recovery_risk_gate:  "
+              << (temporal_recovery_require_tracking_risk
+                      ? "true" : "false")
+              << std::endl;
+    std::cout << "  recovery_min_inliers:"
+              << temporal_recovery_min_previous_inliers << std::endl;
+    std::cout << "  recovery_hold_frames:"
+              << temporal_recovery_hold_frames << std::endl;
     std::cout << "  flow_guard_radius:    "
               << temporal_flow_guard_safe_radius << std::endl;
     std::cout << "  adaptive_guard_radius:"

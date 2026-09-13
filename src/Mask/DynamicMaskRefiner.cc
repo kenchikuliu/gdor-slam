@@ -179,6 +179,15 @@ cv::Mat DynamicMaskRefiner::compute(const cv::Mat& rgb,
         computeMotionPrior(rgb, gray);
     }
 
+    // The conservative mapping route must be available even when temporal
+    // refinement is disabled. Keep this raw semantic-plus-flow mask separate
+    // from the optional temporal tracking correction.
+    M_raw_dynamic_ = M_sem_.clone();
+    if (cfg_.use_flow && !M_flow_.empty()) {
+        cv::bitwise_or(M_raw_dynamic_, M_flow_, M_raw_dynamic_);
+    }
+    M_temporal_dynamic_ = M_raw_dynamic_.clone();
+
     if (cfg_.use_temporal_background_refinement) {
         refineWithTemporalBackground(depth, rendered_depth);
     }
@@ -383,12 +392,7 @@ void DynamicMaskRefiner::computeMotionPrior(const cv::Mat& rgb, const cv::Mat& g
 void DynamicMaskRefiner::refineWithTemporalBackground(
     const cv::Mat& depth, const cv::Mat* rendered_depth)
 {
-    M_temporal_dynamic_ = M_sem_.clone();
-    if (cfg_.use_flow && !M_flow_.empty()) {
-        cv::bitwise_or(
-            M_temporal_dynamic_, M_flow_, M_temporal_dynamic_);
-    }
-    M_raw_dynamic_ = M_temporal_dynamic_.clone();
+    M_temporal_dynamic_ = M_raw_dynamic_.clone();
 
     if (depth.empty() || depth.type() != CV_32FC1) {
         return;
@@ -936,6 +940,20 @@ cv::Mat DynamicMaskRefiner::getStaticMappingWeight() const
         }
     }
     return weight;
+}
+
+cv::Mat DynamicMaskRefiner::getRawStaticMask() const
+{
+    if (M_raw_dynamic_.empty()) {
+        return cv::Mat();
+    }
+
+    cv::Mat raw_dynamic = M_raw_dynamic_.clone();
+    if (!morph_kernel_.empty()) {
+        cv::morphologyEx(
+            raw_dynamic, raw_dynamic, cv::MORPH_CLOSE, morph_kernel_);
+    }
+    return 1 - raw_dynamic;
 }
 
 void DynamicMaskRefiner::saveDebugImages(const cv::Mat& static_mask)
