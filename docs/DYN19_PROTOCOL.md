@@ -1,8 +1,13 @@
-# DYN-19 Causal Map-Integrity Protocol
+# DYN-19 Ordered-Ablation Map-Integrity Protocol
 
 Registered: September 13, 2026
 Experiment ID: `DYN-19_FULL_CAUSAL_MAP_INTEGRITY_20260913`
-Status: frozen plan; no GPU run is authorized from an uncommitted or dirty source tree.
+Status: frozen ordered-ablation plan; no GPU run is authorized from an
+uncommitted or dirty source tree.
+
+The legacy experiment identifier is retained in manifests and run contracts
+for provenance compatibility. It is not a claim that the design identifies
+independent causal effects.
 
 ## Purpose
 
@@ -12,9 +17,9 @@ temporal depth recovery, residual-flow recovery veto, tracking-risk gating,
 adaptive FAST, and conservative mapping weight rather than describing them as
 one guarded bundle.
 
-The protocol tests route separation. It does not revive the terminated Schur
-or motion-reuse line, and it does not turn external DyPho-SLAM reports into
-local evidence.
+The protocol tests route separation with a predeclared **ordered ablation**.
+It does not revive the terminated Schur or motion-reuse line, and it does not
+turn external DyPho-SLAM reports into local evidence.
 
 ## Tracking Denominator
 
@@ -65,7 +70,7 @@ waiting for all incremental mechanism rows.
 
 ## Factor Matrix
 
-The causal ladder is:
+The ordered ablation schedule is:
 
 ```text
 Semantic
@@ -100,6 +105,17 @@ or closes the other.
 `dyn19_full_no_mapping` is an intentional counterfactual: recovered tracking
 support is permitted to enter persistent mapping. Its overlap certificate can
 fail by design and is a negative/boundary result, not a runner failure.
+
+### Interpretation Boundary
+
+This matrix is an ordered ablation, not a factorial experiment. Adjacent
+contrasts are protocol-defined bundle contrasts because several component
+states change along the schedule. The results must not be described as
+independent causal effects for temporal depth, flow, risk, adaptive FAST, or
+mapping weight, and the matrix does not identify interaction effects. A claim
+about an independent component effect or an interaction requires a separately
+predeclared factorial or fractional-factorial design with an interaction
+analysis.
 
 ## Recovered-Support Overlap Certificate
 
@@ -229,8 +245,9 @@ manifests, summaries, and checksums only.
 ## Claim Boundary
 
 DYN-19 can support only the result scope that completes with matching frozen
-plans, source identities, and certificates. It may establish that a stated
-route keeps observed recovered tracking support out of map admission under the
-declared protocol. It cannot, by itself, establish external SOTA, official
-DyPho-SLAM superiority, universal tracking improvement, or true 3D ghost
-ground truth.
+plans, source identities, and certificates. It may establish ordered-ablation
+contrasts and whether a stated route keeps observed recovered tracking support
+out of map admission under the declared protocol. It cannot, by itself,
+establish independent component causality, interaction effects, external SOTA,
+official DyPho-SLAM superiority, universal tracking improvement, or true 3D
+ghost ground truth.
