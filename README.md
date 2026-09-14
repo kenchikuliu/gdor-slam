@@ -32,6 +32,13 @@ These are local same-source comparisons. They do not establish superiority over
 an official, protocol-matched DyPho-SLAM rerun; see the evidence manifest for the
 complete claim boundary.
 
+The completed DYN-19 ordered-ablation result package is published in the
+[`dyn19-results-20260914` release](https://github.com/kenchikuliu/gdor-slam/releases/tag/dyn19-results-20260914).
+It contains 90 main tracking runs, 120 mechanism runs, and 72 common-view
+mapping cells, including `tum_sitting_halfsphere`. See
+[`docs/DYN19_RESULTS.md`](docs/DYN19_RESULTS.md) for the result boundary and
+artifact inventory.
+
 ## Method Boundary
 
 The implementation separates transient tracking evidence from persistent mapping:
