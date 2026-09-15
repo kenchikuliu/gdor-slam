@@ -25,7 +25,7 @@ The method therefore separates transient tracking privilege from persistent map 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig1_overview.png}
-  \caption{GDOR-SLAM overview and evidence summary. Real TUM dynamic frames show large semantic exclusion regions. The frozen TUM4 validation improves all four sequence means over the same-source Semantic parent, while the 63-run and map-matched control summaries show the broader tracking effect and the role of tracking-side recovery. Published DyPho-SLAM values remain external-report context.}
+  \caption{GDOR-SLAM overview and DYN-19 main evidence. Real TUM dynamic frames show large semantic exclusion regions. The ten-sequence, three-seed comparison exposes both failure-regime rescue and non-uniform cell outcomes against Semantic and the map-matched control. Published external-method values remain context rather than protocol-matched rows.}
   \label{fig:overview}
 \end{figure*}
 
@@ -34,10 +34,10 @@ Our contributions are:
     \item We instantiate an auditable two-channel observation contract for RGB-D/ORB Gaussian SLAM: tracking utility does not automatically grant persistent Gaussian map authority.
     \item We introduce GDOR, which combines temporal depth, residual-flow, and tracking-risk evidence to selectively recover dynamic-region observations for transient tracking.
     \item We route the recovered tracking mask and conservative mapping weight independently; the release implements explicit recovered-support overlap, MapPoint-rejection, and RGB-D densification-rejection audits.
-    \item We provide evidence from a 63-run same-source TUM/Bonn protocol, a frozen 36-cell TUM4 validation, a 9-run map-matched causal control, and a common-view static-region mapping diagnostic.
+    \item We release a completed DYN-19 package with 90 main runs, 120 ordered-ablation runs, 72 multi-seed mapping cells, and per-run route certificates, together with the earlier frozen DYN-15--18 evidence.
 \end{itemize}
 
 The supported claim is deliberately bounded.
-GDOR improves the same-source semantic parent in the declared tracking protocols and remains better than a matched persistent-weight/no-track-reuse control on three tested sequences.
-The current assets do not constitute an official DyPho-SLAM rerun, and the mapping evaluation is single-seed.
-The paper therefore argues for a concrete RGB-D/ORB recovery and routing mechanism rather than conceptual priority for tracking--mapping separation, universal improvement, or external SOTA superiority.
+GDOR improves the DYN-19 aggregate relative to the same-source Semantic and map-matched routes, but the paired results are non-uniform and concentrated in severe failure regimes.
+The multi-seed mapping package supplies route and rendering diagnostics, while its occluded-background fields remain proxies rather than independent ghost or completeness truth.
+The paper therefore argues for a concrete RGB-D/ORB recovery and routing mechanism rather than conceptual priority, independent component causality, universal improvement, or external SOTA superiority.

@@ -32,12 +32,11 @@ This paper studies a task mismatch in dynamic RGB-D Gaussian SLAM: an observatio
 We present \textbf{GDOR-SLAM}, which implements separate tracking-support and persistent-mapping routes for dynamic-region evidence.
 Temporal depth consistency, residual-flow consistency, and tracking-risk state qualify a conservative subset of excluded observations for current-frame feature extraction and pose estimation, while the original conservative mask continues to govern ORB landmark insertion and Gaussian initialization, optimization, and densification.
 The method therefore recovers tracking support without granting recovered dynamic-region observations persistent map authority.
-Evaluation includes a 63-run TUM/Bonn same-source protocol, a separately frozen 36-cell TUM4 validation, a 9-run map-matched no-track-reuse control, and a single-seed common-view mapping diagnostic.
-GDOR reduces the 63-run All7 mean ATE from 11.331 cm to 3.798 cm relative to semantic hard exclusion.
-The sequence-median ATE shifts from 4.278 cm to 3.261 cm, GDOR has a 7/0/0 win/tie/loss record over Semantic, and the largest failure-case rescue is Bonn crowd2 at 52.184 cm to 3.226 cm.
-On the frozen TUM4 protocol, GDOR reduces the grand mean from 9.746 cm to 3.415 cm; the paired-cell median improvement is 0.209 cm with a 9/0/3 win/tie/loss record, driven mainly by the sitting\_halfsphere failure case at 32.374 cm to 7.354 cm.
-The matched control uses the same persistent mapping weight but disables qualified tracking recovery; it obtains 7.816 cm mean ATE, compared with 4.053 cm for GDOR on the tested subset, with 0.864 cm median sequence improvement and a 3/0/0 win/tie/loss record.
-These results support the concrete guarded recovery and two-route mechanism, while conceptual priority, protocol-matched superiority over official DyPho-SLAM, and multi-seed mapping superiority are not claimed.
+The completed DYN-19 release contains a 90-run main comparison over ten sequences and three seeds, a 120-run ordered ablation, and a 72-cell multi-seed mapping diagnostic; earlier frozen DYN-15 and DYN-18 campaigns provide complementary validation.
+Against semantic hard exclusion in DYN-19, GDOR lowers mean ATE from 10.119 cm to 4.930 cm (51.3\%); the paired-cell median gain is 0.213 cm, the win/tie/loss count is 19/0/11, and the largest failure-case rescue is Bonn crowd2 at 42.500 cm to 11.080 cm.
+Against the map-matched no-track-reuse control, the mean decreases from 7.392 cm to 4.930 cm, but the paired-cell median gain is only 0.016 cm with a 16/0/14 record and a 4/0/6 record over sequence means; this aggregate is driven by sitting\_halfsphere at 36.775 cm to 4.864 cm.
+All 30 GDOR cells pass the recovered-support overlap certificate, covering 79.498M audited pixels with no observed map-admission overlap under the declared route invariant.
+This certificate establishes route behavior, not zero ghost contamination; the ordered ablation does not identify independent component effects or interactions, and protocol-matched external-baseline and independent ghost/completeness claims remain pending.
 \end{abstract}
 
 \begin{IEEEkeywords}

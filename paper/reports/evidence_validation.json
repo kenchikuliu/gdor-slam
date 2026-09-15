@@ -26,11 +26,385 @@
         "ssim": 0.7375704323252044,
         "lpips": 0.287060921266675
       }
+    },
+    "dyn19_main": {
+      "semantic": {
+        "mean_cm": 10.119090000000002,
+        "median_cell_cm": 4.348,
+        "sequence_means_cm": {
+          "bonn_balloon": 3.388066666666667,
+          "bonn_crowd": 4.3582,
+          "bonn_crowd2": 42.49986666666667,
+          "bonn_crowd3": 7.098433333333333,
+          "bonn_person_tracking": 4.433566666666667,
+          "bonn_person_tracking2": 8.779833333333334,
+          "tum_sitting_halfsphere": 24.1754,
+          "tum_walking_halfsphere": 3.3792000000000004,
+          "tum_walking_static": 0.7370000000000001,
+          "tum_walking_xyz": 2.341333333333333
+        }
+      },
+      "mapmatched": {
+        "mean_cm": 7.39243,
+        "median_cell_cm": 3.8238499999999993,
+        "sequence_means_cm": {
+          "bonn_balloon": 3.4509666666666665,
+          "bonn_crowd": 3.2464,
+          "bonn_crowd2": 6.347433333333334,
+          "bonn_crowd3": 4.209833333333333,
+          "bonn_person_tracking": 4.6811,
+          "bonn_person_tracking2": 8.896966666666666,
+          "tum_sitting_halfsphere": 36.774966666666664,
+          "tum_walking_halfsphere": 3.4233999999999996,
+          "tum_walking_static": 0.7900666666666667,
+          "tum_walking_xyz": 2.1031666666666666
+        }
+      },
+      "full": {
+        "mean_cm": 4.929776666666666,
+        "median_cell_cm": 3.6400499999999996,
+        "sequence_means_cm": {
+          "bonn_balloon": 3.1696333333333335,
+          "bonn_crowd": 3.215866666666667,
+          "bonn_crowd2": 11.079666666666666,
+          "bonn_crowd3": 5.7562,
+          "bonn_person_tracking": 5.516933333333333,
+          "bonn_person_tracking2": 9.209033333333332,
+          "tum_sitting_halfsphere": 4.8639,
+          "tum_walking_halfsphere": 3.6092,
+          "tum_walking_static": 0.7297333333333333,
+          "tum_walking_xyz": 2.1476
+        }
+      },
+      "full_vs_semantic": {
+        "baseline_mean_cm": 10.119090000000002,
+        "method_mean_cm": 4.929776666666666,
+        "mean_reduction_percent": 51.28241109954882,
+        "paired_cell_median_gain_cm": 0.21284999999999998,
+        "cell_wtl": [
+          19,
+          0,
+          11
+        ],
+        "sequence_mean_median_gain_cm": 0.20608333333333317,
+        "sequence_wtl": [
+          7,
+          0,
+          3
+        ]
+      },
+      "full_vs_mapmatched": {
+        "baseline_mean_cm": 7.39243,
+        "method_mean_cm": 4.929776666666666,
+        "mean_reduction_percent": 33.31317757940669,
+        "paired_cell_median_gain_cm": 0.01619999999999988,
+        "cell_wtl": [
+          16,
+          0,
+          14
+        ],
+        "sequence_mean_median_gain_cm": -0.11511666666666698,
+        "sequence_wtl": [
+          4,
+          0,
+          6
+        ]
+      }
+    },
+    "dyn19_route_certificate": {
+      "full_cells": 30,
+      "recovered_support_frames": 3751,
+      "audit_pixels": 79498476,
+      "mapping_leak_pixels": 0,
+      "full_no_mapping_failed_cells": 30,
+      "full_no_mapping_overlap_pixels": 90790462
+    },
+    "dyn19_ordered_ablation": {
+      "configs": {
+        "dyn19_semantic": {
+          "mean_cm": 10.119090000000002,
+          "median_cell_cm": 4.348,
+          "sequence_means_cm": {
+            "bonn_balloon": 3.388066666666667,
+            "bonn_crowd": 4.3582,
+            "bonn_crowd2": 42.49986666666667,
+            "bonn_crowd3": 7.098433333333333,
+            "bonn_person_tracking": 4.433566666666667,
+            "bonn_person_tracking2": 8.779833333333334,
+            "tum_sitting_halfsphere": 24.1754,
+            "tum_walking_halfsphere": 3.3792000000000004,
+            "tum_walking_static": 0.7370000000000001,
+            "tum_walking_xyz": 2.341333333333333
+          }
+        },
+        "dyn19_mapmatched": {
+          "mean_cm": 7.39243,
+          "median_cell_cm": 3.8238499999999993,
+          "sequence_means_cm": {
+            "bonn_balloon": 3.4509666666666665,
+            "bonn_crowd": 3.2464,
+            "bonn_crowd2": 6.347433333333334,
+            "bonn_crowd3": 4.209833333333333,
+            "bonn_person_tracking": 4.6811,
+            "bonn_person_tracking2": 8.896966666666666,
+            "tum_sitting_halfsphere": 36.774966666666664,
+            "tum_walking_halfsphere": 3.4233999999999996,
+            "tum_walking_static": 0.7900666666666667,
+            "tum_walking_xyz": 2.1031666666666666
+          }
+        },
+        "dyn19_temporal_map": {
+          "mean_cm": 3.858983333333333,
+          "median_cell_cm": 3.4886999999999997,
+          "sequence_means_cm": {
+            "bonn_balloon": 3.7632,
+            "bonn_crowd": 3.3221333333333334,
+            "bonn_crowd2": 4.185866666666667,
+            "bonn_crowd3": 4.5379,
+            "bonn_person_tracking": 4.537933333333334,
+            "bonn_person_tracking2": 9.687233333333333,
+            "tum_sitting_halfsphere": 2.6896,
+            "tum_walking_halfsphere": 2.9385,
+            "tum_walking_static": 0.8508666666666667,
+            "tum_walking_xyz": 2.0765999999999996
+          }
+        },
+        "dyn19_temporal_flow_map": {
+          "mean_cm": 6.37725,
+          "median_cell_cm": 3.74765,
+          "sequence_means_cm": {
+            "bonn_balloon": 3.746833333333333,
+            "bonn_crowd": 3.2185666666666672,
+            "bonn_crowd2": 3.655866666666667,
+            "bonn_crowd3": 4.182966666666666,
+            "bonn_person_tracking": 4.315933333333334,
+            "bonn_person_tracking2": 10.700333333333333,
+            "tum_sitting_halfsphere": 28.057600000000004,
+            "tum_walking_halfsphere": 3.002933333333333,
+            "tum_walking_static": 0.7953666666666667,
+            "tum_walking_xyz": 2.0961
+          }
+        },
+        "dyn19_temporal_flow_risk_map": {
+          "mean_cm": 4.906963333333334,
+          "median_cell_cm": 3.72105,
+          "sequence_means_cm": {
+            "bonn_balloon": 3.7433666666666667,
+            "bonn_crowd": 3.145566666666667,
+            "bonn_crowd2": 3.5967000000000002,
+            "bonn_crowd3": 4.261433333333333,
+            "bonn_person_tracking": 5.197133333333334,
+            "bonn_person_tracking2": 9.953133333333334,
+            "tum_sitting_halfsphere": 12.914866666666668,
+            "tum_walking_halfsphere": 3.363433333333333,
+            "tum_walking_static": 0.7429333333333333,
+            "tum_walking_xyz": 2.151066666666667
+          }
+        },
+        "dyn19_full": {
+          "mean_cm": 4.929776666666666,
+          "median_cell_cm": 3.6400499999999996,
+          "sequence_means_cm": {
+            "bonn_balloon": 3.1696333333333335,
+            "bonn_crowd": 3.215866666666667,
+            "bonn_crowd2": 11.079666666666666,
+            "bonn_crowd3": 5.7562,
+            "bonn_person_tracking": 5.516933333333333,
+            "bonn_person_tracking2": 9.209033333333332,
+            "tum_sitting_halfsphere": 4.8639,
+            "tum_walking_halfsphere": 3.6092,
+            "tum_walking_static": 0.7297333333333333,
+            "tum_walking_xyz": 2.1476
+          }
+        },
+        "dyn19_full_no_mapping": {
+          "mean_cm": 4.060433333333333,
+          "median_cell_cm": 3.6269,
+          "sequence_means_cm": {
+            "bonn_balloon": 3.092333333333333,
+            "bonn_crowd": 3.177133333333334,
+            "bonn_crowd2": 4.845166666666667,
+            "bonn_crowd3": 4.190966666666667,
+            "bonn_person_tracking": 4.636,
+            "bonn_person_tracking2": 8.402766666666666,
+            "tum_sitting_halfsphere": 5.7254000000000005,
+            "tum_walking_halfsphere": 3.592866666666667,
+            "tum_walking_static": 0.7866,
+            "tum_walking_xyz": 2.1551
+          }
+        }
+      },
+      "adjacent_contrasts": {
+        "dyn19_semantic->dyn19_mapmatched": {
+          "baseline_mean_cm": 10.119090000000002,
+          "method_mean_cm": 7.39243,
+          "mean_reduction_percent": 26.94570361564134,
+          "paired_cell_median_gain_cm": 0.21084999999999998,
+          "cell_wtl": [
+            18,
+            0,
+            12
+          ],
+          "sequence_mean_median_gain_cm": -0.04863333333333286,
+          "sequence_wtl": [
+            4,
+            0,
+            6
+          ]
+        },
+        "dyn19_mapmatched->dyn19_temporal_map": {
+          "baseline_mean_cm": 7.39243,
+          "method_mean_cm": 3.858983333333333,
+          "mean_reduction_percent": 47.798175520994675,
+          "paired_cell_median_gain_cm": 0.02285000000000026,
+          "cell_wtl": [
+            17,
+            0,
+            13
+          ],
+          "sequence_mean_median_gain_cm": -0.017116666666666447,
+          "sequence_wtl": [
+            5,
+            0,
+            5
+          ]
+        },
+        "dyn19_temporal_map->dyn19_temporal_flow_map": {
+          "baseline_mean_cm": 3.858983333333333,
+          "method_mean_cm": 6.37725,
+          "mean_reduction_percent": -65.25725687681125,
+          "paired_cell_median_gain_cm": -0.019999999999999962,
+          "cell_wtl": [
+            15,
+            0,
+            15
+          ],
+          "sequence_mean_median_gain_cm": 0.03593333333333343,
+          "sequence_wtl": [
+            6,
+            0,
+            4
+          ]
+        },
+        "dyn19_temporal_flow_map->dyn19_temporal_flow_risk_map": {
+          "baseline_mean_cm": 6.37725,
+          "method_mean_cm": 4.906963333333334,
+          "mean_reduction_percent": 23.055183137977444,
+          "paired_cell_median_gain_cm": -0.023999999999999966,
+          "cell_wtl": [
+            14,
+            0,
+            16
+          ],
+          "sequence_mean_median_gain_cm": 0.02794999999999981,
+          "sequence_wtl": [
+            6,
+            0,
+            4
+          ]
+        },
+        "dyn19_temporal_flow_risk_map->dyn19_full": {
+          "baseline_mean_cm": 4.906963333333334,
+          "method_mean_cm": 4.929776666666666,
+          "mean_reduction_percent": -0.4649175423496681,
+          "paired_cell_median_gain_cm": -0.005649999999999988,
+          "cell_wtl": [
+            15,
+            0,
+            15
+          ],
+          "sequence_mean_median_gain_cm": -0.03341666666666665,
+          "sequence_wtl": [
+            5,
+            0,
+            5
+          ]
+        },
+        "dyn19_full->dyn19_full_no_mapping": {
+          "baseline_mean_cm": 4.929776666666666,
+          "method_mean_cm": 4.060433333333333,
+          "mean_reduction_percent": 17.63453787291243,
+          "paired_cell_median_gain_cm": 0.024849999999999817,
+          "cell_wtl": [
+            18,
+            0,
+            12
+          ],
+          "sequence_mean_median_gain_cm": 0.05801666666666683,
+          "sequence_wtl": [
+            7,
+            0,
+            3
+          ]
+        }
+      }
+    },
+    "dyn19_mapping": {
+      "aggregates": {
+        "dyn19_semantic/online": {
+          "psnr_static": 18.866394521165333,
+          "ssim_static": 0.6949611284295124,
+          "proxy_completeness": 0.5821230502315543,
+          "proxy_ghost_risk": 0.18116931396128041
+        },
+        "dyn19_mapmatched/online": {
+          "psnr_static": 18.989920667881538,
+          "ssim_static": 0.7001392158910504,
+          "proxy_completeness": 0.5789622339068617,
+          "proxy_ghost_risk": 0.18440375596231662
+        },
+        "dyn19_full/online": {
+          "psnr_static": 19.762605494316894,
+          "ssim_static": 0.7278443333610594,
+          "proxy_completeness": 0.5823388807486747,
+          "proxy_ghost_risk": 0.18787823344964613
+        },
+        "dyn19_semantic/gt_aligned": {
+          "psnr_static": 12.082211954567823,
+          "ssim_static": 0.49174447746209776,
+          "proxy_completeness": 0.4018952452191666,
+          "proxy_ghost_risk": 0.3508373678275219
+        },
+        "dyn19_mapmatched/gt_aligned": {
+          "psnr_static": 12.441791193958254,
+          "ssim_static": 0.5031973246867075,
+          "proxy_completeness": 0.4283646754337727,
+          "proxy_ghost_risk": 0.32882956828185944
+        },
+        "dyn19_full/gt_aligned": {
+          "psnr_static": 13.490962219348269,
+          "ssim_static": 0.5332548188555063,
+          "proxy_completeness": 0.4402365620573488,
+          "proxy_ghost_risk": 0.3123384876828192
+        }
+      },
+      "online_static_psnr_comparisons": {
+        "dyn19_semantic": {
+          "mean_gain_db": 0.8962109731515585,
+          "median_gain_db": 0.5437449191462242,
+          "wtl": [
+            9,
+            0,
+            3
+          ]
+        },
+        "dyn19_mapmatched": {
+          "mean_gain_db": 0.7726848264353526,
+          "median_gain_db": 0.5149161430263067,
+          "wtl": [
+            11,
+            0,
+            1
+          ]
+        }
+      }
     }
   },
   "claim_boundary": {
-    "official_dypho_superiority": false,
-    "multi_seed_mapping_superiority": false,
+    "official_external_superiority": false,
+    "factorial_or_interaction_effects": false,
+    "multi_seed_mapping_diagnostic": true,
+    "independent_ghost_or_completeness_truth": false,
     "zero_ghost_or_contamination_proof": false
   }
 }

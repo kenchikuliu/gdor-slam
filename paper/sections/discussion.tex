@@ -9,22 +9,22 @@ GDOR does not attempt to classify every recovered pixel as truly static.
 Instead, it asks a narrower question: whether the pixel is sufficiently consistent with the current camera-induced motion and temporal background to support transient localization.
 This narrower decision is why recovery can be useful without changing the static-map contract.
 
-The matched control strengthens this interpretation.
-It shares GDOR's raw semantic-plus-flow tracking support before recovery and the same persistent mapping weight.
-Its substantial improvement over Semantic on Bonn crowd2 therefore reflects the combined raw flow mask and persistent-weight route, not a mapping-only intervention.
-Its remaining gap to GDOR shows that the qualified tracking recovery and adaptive replenishment add value on the tested subset without changing the persistent mapping weight.
+The completed DYN-19 matched control sharpens this interpretation while exposing its regime dependence.
+MapMatched shares GDOR's raw semantic-plus-flow support and persistent mapping weight but disables temporal recovery and adaptive replenishment.
+Full is substantially better on the sitting\_halfsphere failure regime, yet it wins only four of ten sequence means and 16 of 30 paired cells.
+The evidence therefore supports conditional tracking-side rescue on top of a fixed mapping route, not uniform superiority.
 
 \subsection{Regime Dependence and Failure Boundaries}
 
 The results do not imply that every masked region should be recovered.
-On DYN-18 walking\_static and walking\_halfsphere, the Semantic parent is already stable and GDOR's mean improvement is below 3\%.
+On DYN-18 walking\_static and walking\_halfsphere, the Semantic parent is already stable and GDOR remains close to it.
 The larger gain occurs on sitting\_halfsphere, where semantic exclusion removes a large portion of the image and the parent experiences repeated invalid intervals.
 This pattern is consistent with conditional rescue: recovery is most valuable when exclusion creates an observability deficit.
 
-The Strict control exposes another boundary.
-It is numerically best on several TUM4 rows, but loses substantially to GDOR on the broader Bonn matrix and costs more runtime.
-More detailed motion modeling and tighter gates do not produce a monotonic accuracy improvement because prediction quality, intervention coverage, and tracker state interact.
-The method choice therefore uses the broader DYN-15 accuracy--stability tradeoff rather than selecting the lowest number from the later TUM4 validation.
+The ordered ablation exposes another boundary.
+T+M has the lowest overall DYN-19 tracking mean, while subsequent flow, risk, and adaptive stages are non-monotonic across cells and sequences.
+Because the schedule is not factorial, these adjacent contrasts cannot be interpreted as independent effects or interactions.
+The Full configuration is retained for its declared guarded route and failure-case behavior rather than because every incremental stage lowers aggregate ATE.
 
 GDOR also does not eliminate all local errors.
 Semantic remains competitive on several translational RPE rows, and GDOR is not uniformly best in rotational RPE.
@@ -32,23 +32,20 @@ The positive claim is sequence-level ATE rescue and reduced failure under the de
 
 \subsection{Persistent Map Interpretation}
 
-The source routes recovered tracking support and persistent mapping weight independently and implements a direct overlap audit, but the archived DYN-15--18 summaries do not contain that newer counter.
-The available MapPoint and RGB-D densification counters show that static-weight checks actively reject candidates; they do not empirically certify zero recovered-support overlap for those archived runs.
-The common-view diagnostic adds an output-level check: under fixed views and fixed static masks, GDOR does not degrade the two evaluated static-region reconstructions and improves the reported mean metrics.
-However, this evidence is only a limited preservation diagnostic.
-It is not a complete dynamic-contamination projection over every Gaussian and every viewpoint, and it is not an independent zero-ghost or zero-contamination proof.
-
-A stronger mapping certificate would require multiple seeds, a shared held-out manifest across more scenes, geometric completeness, and an independent ghost-contamination metric.
-Until that experiment is complete, mapping should be described as preserved under the declared diagnostic rather than generally superior.
+DYN-19 directly audits the separation between recovered tracking support and persistent mapping weight.
+All 30 Full cells contain observed recovery and pass the zero-overlap route certificate, whereas all 30 Full-NoM counterfactual cells fail when recovered support is intentionally admitted to mapping.
+The 72-cell common-manifest evaluation adds a multi-seed output-level diagnostic and shows higher online static-region PSNR for Full on most paired cells.
+These results support the implemented route invariant and limited rendering preservation under the declared protocol.
+They do not constitute independent ghost-contamination ground truth, complete-background truth, or a universal mapping-superiority claim.
 
 \subsection{Reproducibility and External Validity}
 
-The clean source release contains the GDOR implementation, configurations, tests, and benchmark scripts but excludes datasets, model weights, maps, trajectories, and experiment outputs.
-The private experiment ledger retains the authoritative run roots and source hashes.
-The current release passes the C++ build and test suite and 107 Python tests in the clean publication tree.
+The clean source branch contains the GDOR implementation, configurations, tests, benchmark scripts, compact claim-bearing CSV files, and validators.
+The separate DYN-19 result release publishes the retained trajectories, masks, maps, renders, per-frame logs, certificates, summaries, plans, and checksums; datasets and model weights remain external dependencies.
+Every claim-bearing DYN-19 run is bound to the same clean source commit and frozen plan hash.
 
-External validity and concurrent-method differentiation remain the main blockers to a broader ranking.
+External validity and independent mapping truth remain the main blockers to a broader ranking.
 Published DyPho-SLAM numbers are stronger than the local GDOR values on the four TUM sequences, but the implementations and protocols are not matched.
 DL-SLAM also overlaps with the high-level tracking--mapping separation premise, so GDOR's claim is restricted to its RGB-D/ORB routing mechanism and same-source evidence.
-The correct next experiment is therefore a frozen official-baseline rerun, not threshold adjustment on GDOR.
-If that runner remains unavailable, the final paper should retain the current same-source claim and present published systems only as related-work context.
+The correct next evidence package is therefore a frozen eligible external-baseline rerun plus blind or external revealed-background annotation, not threshold adjustment on GDOR.
+Until those gates pass, published systems remain related-work context and proxy mapping metrics remain diagnostic.

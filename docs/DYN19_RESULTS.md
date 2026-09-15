@@ -31,6 +31,37 @@ failures are intentional negative counterfactual evidence: recovered tracking
 support is allowed into persistent mapping and the overlap invariant is
 expected to fail.
 
+## Claim-Bearing Aggregate Results
+
+Across the 30 paired main cells, Full reduces mean ATE from 10.119 cm to
+4.930 cm relative to Semantic. The paired-cell median gain is 0.213 cm, the
+cell W/T/L count is 19/0/11, and the sequence-mean count is 7/0/3. The largest
+failure-case rescue is Bonn `crowd2`, from 42.500 cm to 11.080 cm.
+
+Relative to MapMatched, Full reduces the mean from 7.392 cm to 4.930 cm, but
+the paired-cell median gain is only 0.016 cm, with 16/0/14 cell W/T/L and
+4/0/6 sequence-mean W/T/L. This aggregate is driven by TUM
+`sitting_halfsphere`, from 36.775 cm to 4.864 cm. The correct interpretation is
+failure-regime rescue, not uniform improvement.
+
+The ordered tracking means are non-monotonic: Semantic 10.119 cm, MapMatched
+7.392 cm, T+M 3.859 cm, T+F+M 6.377 cm, T+F+R+M 4.907 cm, Full 4.930 cm, and
+Full-NoM 4.060 cm. Full-NoM is not a positive replacement: all 30 certificates
+fail by design, with 90,790,462 recovered-support pixels admitted to mapping.
+
+For the 12 online mapping cells per method, Full static PSNR is 19.763 dB,
+compared with 18.866 dB for Semantic and 18.990 dB for MapMatched. The Full
+gain over Semantic has a 0.544 dB paired median and 9/0/3 W/T/L; the gain over
+MapMatched has a 0.515 dB paired median and 11/0/1 W/T/L. These are static-view
+rendering diagnostics, not independent ghost/completeness measurements.
+
+Compact public rows used by the paper are under `paper/data/`:
+
+- `dyn19_main_90_cells.csv`;
+- `dyn19_mechanism_120_cells.csv`;
+- `dyn19_mapping_72_cells.csv`;
+- `dyn19_release_provenance.json`.
+
 ## Release Assets
 
 The release contains:

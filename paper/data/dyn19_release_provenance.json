@@ -1,0 +1,62 @@
+{
+  "release_tag": "dyn19-results-20260914",
+  "release_date": "2026-09-14",
+  "source_commit": "14c6b2ca696a7eacda8f193e5c8a0a44e55d527e",
+  "metadata_archive": {
+    "name": "DYN19_metadata.tar.gz",
+    "sha256": "925d3d80ad0b9c586875a267bec8170bc3b1a580b19a1a05ad64780bd5ec2fb2"
+  },
+  "completion": {
+    "main": {
+      "expected": 90,
+      "completed": 90,
+      "status": "complete"
+    },
+    "mechanisms": {
+      "expected": 120,
+      "completed": 120,
+      "status": "complete"
+    },
+    "mapping": {
+      "expected": 72,
+      "completed": 72,
+      "status": "complete"
+    }
+  },
+  "main_overlap_certificate": {
+    "status": "pass",
+    "safety_status": "pass",
+    "positive_recovery_evidence": "observed",
+    "certificate_status_counts": {
+      "fail": 0,
+      "missing": 0,
+      "pass": 30,
+      "vacuous": 0
+    },
+    "cells": 30,
+    "recovered_support_frames": 3751,
+    "audit_pixels": 79498476,
+    "mapping_leak_pixels": 0
+  },
+  "claim_boundary": {
+    "design": "ordered ablation",
+    "independent_component_effects": false,
+    "interaction_effects": false,
+    "proxy_is_independent_ground_truth": false,
+    "external_baselines_protocol_matched": false
+  },
+  "generated_files": {
+    "dyn19_main_90_cells.csv": {
+      "rows": 90,
+      "sha256": "65f8e93daf515490cd5b33a239ab4e4d2e4fbf864762350ff2a797472b657e13"
+    },
+    "dyn19_mechanism_120_cells.csv": {
+      "rows": 120,
+      "sha256": "3ef53fd090ed7f2787e21c9f42830db53bdfb612ad856b11d94ad9e394f25815"
+    },
+    "dyn19_mapping_72_cells.csv": {
+      "rows": 72,
+      "sha256": "cae4660c4d6e13d7a11b653af50af82b114caa3cb8447ea5f42b5ca64545f2f0"
+    }
+  }
+}

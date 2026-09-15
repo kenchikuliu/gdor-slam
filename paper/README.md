@@ -10,13 +10,15 @@ It uses an unfinished author placeholder and is not a publication record.
 
 ## Contents
 
-- `GDOR-SLAM_TMM_v5r4_preprint.pdf`: rebuilt manuscript PDF.
+- `GDOR-SLAM_TMM_v5r5_preprint.pdf`: DYN-19-integrated manuscript PDF.
+- `GDOR-SLAM_TMM_v5r4_preprint.pdf`: earlier evidence-boundary revision retained
+  for provenance.
 - `GDOR-SLAM_TMM_v5r3_preprint.pdf`: earlier frozen manuscript PDF retained
   for provenance.
 - `main.tex`, `sections/`, `references.bib`: matching LaTeX source.
 - `figures/`: the five figures used by the manuscript source.
-- `data/`: aggregate claim-bearing CSV files for DYN-15 through DYN-18 and the
-  DYN-19 failure-recovery-control episode diagnostic.
+- `data/`: claim-bearing CSV files for DYN-15 through DYN-19, including the
+  90 main cells, 120 mechanism cells, 72 mapping cells, and release provenance.
 - `scripts/`: deterministic figure generation and evidence validation.
 - `reports/evidence_validation.json`: computed values checked against the text.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
@@ -37,9 +39,10 @@ From the repository root:
 python3 paper/scripts/validate_gdor_tmm_evidence.py
 ```
 
-The validator recomputes the principal table values from the public CSV files,
-checks that they occur in the manuscript source, verifies the expected five
-figures and three tables, and writes `paper/reports/evidence_validation.json`.
+The validator recomputes the principal means, medians, W/T/L counts, route
+certificate totals, and mapping comparisons from the public CSV files, checks
+that they occur in the manuscript source, verifies the expected five figures
+and three tables, and writes `paper/reports/evidence_validation.json`.
 
 The validator requires Python 3 and NumPy. Regenerating Figures 1 and 2 also
 requires Matplotlib and Pillow:
@@ -63,6 +66,9 @@ support, and the matched no-track-reuse control.
 | DYN-15 | 63 runs, TUM walking_xyz plus Bonn6 | All7 mean ATE: 11.331 cm Semantic, 3.798 cm GDOR |
 | DYN-18 | 36 cells, frozen TUM4 validation | Mean ATE: 9.746 cm Semantic, 3.415 cm GDOR; 9/12 paired wins |
 | DYN-17 | 9-run map-matched control | Mean ATE: 7.816 cm Matched, 4.053 cm GDOR |
+| DYN-19 main | 90 runs, ten sequences, three seeds | Mean ATE: 10.119 cm Semantic, 7.392 cm MapMatched, 4.930 cm Full |
+| DYN-19 mechanisms | 120 runs, ordered ablation | Non-monotonic adjacent contrasts; Full-NoM has 30/30 expected certificate failures |
+| DYN-19 mapping | 72 cells, four scenes and three seeds | Online static PSNR: 18.866 dB Semantic, 18.990 dB MapMatched, 19.763 dB Full |
 | DYN-19 episode | TUM sitting_halfsphere seed 0 | Semantic 89 lost frames, Matched 174, GDOR 0; GDOR certificate pass |
 | DYN-16 | Seed-0, 40 shared held-out views | Static PSNR: 19.068 dB Semantic, 20.154 dB GDOR |
 
@@ -74,11 +80,11 @@ not claim:
 
 - an official DyPho-SLAM reproduction or protocol-matched superiority;
 - universal sequence or metric superiority;
-- multi-seed mapping superiority;
+- independent component or interaction effects from the ordered ablation;
 - archived empirical zero-overlap counts for DYN-15 through DYN-18;
 - independent zero-ghost or zero-contamination proof.
 
-The source release implements the newer tracking-to-mapping overlap audit, and
-the completed DYN-19 episode diagnostic reports zero observed recovered-support
-overlap with map admission. That audit is a route-invariant diagnostic, not an
-independent ghost-contamination or complete-background ground truth.
+The completed DYN-19 release reports 30/30 passing Full overlap certificates
+and a 72-cell multi-seed mapping diagnostic. The certificate establishes the
+declared route invariant; the occluded-background fields remain proxies rather
+than independent ghost-contamination or complete-background ground truth.

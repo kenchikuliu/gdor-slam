@@ -1,10 +1,10 @@
-version: gdor_tmm_v5r4
+version: gdor_tmm_v5r5
 generated: 2026-09-15
 figures:
   fig1:
     file: figures/fig1_overview.png
     role: teaser_and_evidence_summary
-    evidence: [DYN-15, DYN-17, DYN-18]
+    evidence: DYN-19-main
     real_inputs: figure_sources/fig1
     status: generated_needs_human_review
   fig2:
@@ -25,7 +25,7 @@ figures:
   fig5:
     file: figures/fig5_failure_recovery_control.png
     role: failure_interval_recovered_support_and_matched_control
-    evidence: DYN-19
+    evidence: DYN-19-episode
     status: generated_from_public_episode_summary
 tables:
   table1:
@@ -33,15 +33,15 @@ tables:
     role: main_tracking_and_frozen_generalization
     evidence: [DYN-15, DYN-18]
   table2:
-    label: tab:matched-control
-    role: map_matched_no_track_reuse_control
-    evidence: DYN-17
+    label: tab:dyn19
+    role: main_extension_and_ordered_ablation
+    evidence: [DYN-19-main, DYN-19-mechanisms]
   table3:
     label: tab:safety-efficiency
     role: safety_runtime_and_mapping_diagnostic
-    evidence: [DYN-15, DYN-16]
+    evidence: [DYN-15, DYN-16, DYN-19-mapping, DYN-19-certificates]
 claim_boundary: >-
-  Local same-source results cannot be presented as an official DyPho-SLAM
-  rerun or external SOTA ranking. DYN-16 remains a limited single-seed
-  preservation diagnostic and cannot be presented as zero ghost or zero
-  contamination proof.
+  Local same-source results cannot be presented as a protocol-matched external
+  SOTA ranking. DYN-19 is an ordered ablation and cannot identify independent
+  component effects or interactions. Its mapping proxy is not independent
+  ghost/completeness truth. DYN-16 remains a limited preservation diagnostic.

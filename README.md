@@ -13,8 +13,8 @@ Gaussian map admission by default.
 
 The public paper artifact is available in [`paper/`](paper/README.md):
 
-- [9-page TMM pre-submission manuscript](paper/GDOR-SLAM_TMM_v5r3_preprint.pdf);
-- [four paper figures](paper/figures/);
+- [DYN-19-integrated TMM pre-submission manuscript](paper/GDOR-SLAM_TMM_v5r5_preprint.pdf);
+- [five paper figures](paper/figures/);
 - [claim-bearing aggregate CSV files](paper/data/);
 - [figure-generation and evidence-validation scripts](paper/scripts/);
 - [public evidence manifest](paper/EVIDENCE_MANIFEST.md) and checksums.
@@ -27,6 +27,8 @@ The main same-source results are:
 | DYN-18, 36 cells | Semantic hard exclusion -> GDOR, TUM4 mean ATE | 9.746 -> **3.415 cm** |
 | DYN-17, 9 runs | Map-matched control -> GDOR, subset mean ATE | 7.816 -> **4.053 cm** |
 | DYN-16, 40 views | Semantic -> GDOR, static-region PSNR | 19.068 -> **20.154 dB** |
+| DYN-19, 90 runs | Semantic / MapMatched -> Full, ten-sequence mean ATE | 10.119 / 7.392 -> **4.930 cm** |
+| DYN-19, 72 cells | Semantic / MapMatched -> Full, online static PSNR | 18.866 / 18.990 -> **19.763 dB** |
 
 These are local same-source comparisons. They do not establish superiority over
 an official, protocol-matched DyPho-SLAM rerun; see the evidence manifest for the
@@ -34,8 +36,9 @@ complete claim boundary.
 
 The completed DYN-19 ordered-ablation result package is published in the
 [`dyn19-results-20260914` release](https://github.com/kenchikuliu/gdor-slam/releases/tag/dyn19-results-20260914).
-It contains 90 main tracking runs, 120 mechanism runs, and 72 common-view
-mapping cells, including `tum_sitting_halfsphere`. See
+It contains 90 main tracking runs, 120 ordered-ablation runs, and 72 common-view
+mapping cells, including `tum_sitting_halfsphere`, plus trajectories, masks,
+maps, renders, per-frame logs, and certificates. See
 [`docs/DYN19_RESULTS.md`](docs/DYN19_RESULTS.md) for the result boundary and
 artifact inventory.
 

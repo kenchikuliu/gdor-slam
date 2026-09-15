@@ -27,6 +27,12 @@ CONFIG_LABELS = {
     "dypho_flow_camera_guided_strict": "Strict",
 }
 
+DYN19_LABELS = {
+    "dyn19_semantic": "Semantic",
+    "dyn19_mapmatched": "Matched",
+    "dyn19_full": "GDOR",
+}
+
 COLORS = {
     "Semantic": "#6b7280",
     "Matched": "#7c3aed",
@@ -70,6 +76,23 @@ def load_dyn19_episode() -> list[dict[str, str]]:
         return list(csv.DictReader(stream))
 
 
+def load_dyn19_main() -> tuple[dict[str, dict[str, float]], dict[tuple[str, str, int], float]]:
+    grouped: dict[tuple[str, str], list[float]] = defaultdict(list)
+    cells: dict[tuple[str, str, int], float] = {}
+    with (DATA / "dyn19_main_90_cells.csv").open(newline="") as stream:
+        for row in csv.DictReader(stream):
+            label = DYN19_LABELS[row["config"]]
+            sequence = row["sequence"]
+            ate = float(row["ate_cm"])
+            grouped[(label, sequence)].append(ate)
+            cells[(label, sequence, int(row["seed"]))] = ate
+
+    means: dict[str, dict[str, float]] = defaultdict(dict)
+    for (label, sequence), values in grouped.items():
+        means[label][sequence] = float(np.mean(values))
+    return dict(means), cells
+
+
 def load_dyn15_all7() -> tuple[float, float]:
     values: dict[str, list[float]] = defaultdict(list)
     with (DATA / "dyn15_tracking_per_sequence.csv").open(newline="") as stream:
@@ -103,17 +126,32 @@ def add_arrow(ax, start, end, color="#4b5563", width=1.8):
 
 
 def generate_overview() -> list[Path]:
-    means = load_dyn18_means()
-    dyn15_semantic, dyn15_gdor = load_dyn15_all7()
-    dyn17_semantic, dyn17_matched, dyn17_gdor = load_dyn17_mean()
+    means, cells = load_dyn19_main()
 
     sequence_order = [
         "tum_walking_xyz",
         "tum_walking_halfsphere",
         "tum_walking_static",
         "tum_sitting_halfsphere",
+        "bonn_balloon",
+        "bonn_crowd",
+        "bonn_crowd2",
+        "bonn_crowd3",
+        "bonn_person_tracking",
+        "bonn_person_tracking2",
     ]
-    sequence_labels = ["Walking xyz", "Walking half", "Walking static", "Sitting half"]
+    sequence_labels = [
+        "T-wxyz",
+        "T-whalf",
+        "T-wstatic",
+        "T-shalf",
+        "B-balloon",
+        "B-crowd",
+        "B-crowd2",
+        "B-crowd3",
+        "B-person1",
+        "B-person2",
+    ]
 
     fig = plt.figure(figsize=(15.8, 8.9), constrained_layout=False)
     grid = fig.add_gridspec(2, 6, height_ratios=[1.0, 1.25], hspace=0.26, wspace=0.28)
@@ -134,7 +172,7 @@ def generate_overview() -> list[Path]:
     ax_bar = fig.add_subplot(grid[1, :4])
     x = np.arange(len(sequence_order))
     width = 0.24
-    for offset, method in zip([-width, 0.0, width], ["Semantic", "GDOR", "Strict"]):
+    for offset, method in zip([-width, 0.0, width], ["Semantic", "Matched", "GDOR"]):
         values = [means[method][sequence] for sequence in sequence_order]
         bars = ax_bar.bar(x + offset, values, width=width, color=COLORS[method], label=method)
         for bar, value in zip(bars, values):
@@ -143,30 +181,35 @@ def generate_overview() -> list[Path]:
     ax_bar.set_yscale("log")
     ax_bar.set_ylim(0.55, 55)
     ax_bar.set_ylabel("ATE RMSE [cm], log scale (lower is better)", fontsize=11)
-    ax_bar.set_xticks(x, sequence_labels)
+    ax_bar.set_xticks(x, sequence_labels, rotation=24, ha="right")
     ax_bar.grid(axis="y", which="both", alpha=0.24)
     ax_bar.legend(frameon=False, ncol=3, loc="upper left")
-    ax_bar.set_title("Frozen DYN-18 TUM4 validation: three seeds, full sequences", fontsize=14,
+    ax_bar.set_title("DYN-19 main comparison: ten sequences, three seeds", fontsize=14,
                      fontweight="bold")
 
     ax_text = fig.add_subplot(grid[1, 4:])
     ax_text.axis("off")
-    tum4_semantic = float(np.mean([means["Semantic"][s] for s in sequence_order]))
-    tum4_gdor = float(np.mean([means["GDOR"][s] for s in sequence_order]))
-    dyn15_gain = 100.0 * (dyn15_semantic - dyn15_gdor) / dyn15_semantic
-    tum4_gain = 100.0 * (tum4_semantic - tum4_gdor) / tum4_semantic
-    matched_gain = 100.0 * (dyn17_matched - dyn17_gdor) / dyn17_matched
+    semantic_values = [cells[("Semantic", s, seed)] for s in sequence_order for seed in range(3)]
+    matched_values = [cells[("Matched", s, seed)] for s in sequence_order for seed in range(3)]
+    gdor_values = [cells[("GDOR", s, seed)] for s in sequence_order for seed in range(3)]
+    semantic_deltas = np.asarray(semantic_values) - np.asarray(gdor_values)
+    matched_deltas = np.asarray(matched_values) - np.asarray(gdor_values)
+    semantic_wins = int(np.sum(semantic_deltas > 0.0))
+    matched_wins = int(np.sum(matched_deltas > 0.0))
+    semantic_losses = int(np.sum(semantic_deltas < 0.0))
+    matched_losses = int(np.sum(matched_deltas < 0.0))
     summary = (
         "Evidence summary\n\n"
-        f"DYN-15 All7 (63 runs)\n"
-        f"{dyn15_semantic:.3f} -> {dyn15_gdor:.3f} cm  (-{dyn15_gain:.1f}%)\n\n"
-        f"DYN-18 frozen TUM4 (36 cells)\n"
-        f"{tum4_semantic:.3f} -> {tum4_gdor:.3f} cm  (-{tum4_gain:.1f}%)\n\n"
-        f"DYN-17 matched persistent weight\n"
-        f"Semantic {dyn17_semantic:.3f} | matched {dyn17_matched:.3f}\n"
-        f"GDOR {dyn17_gdor:.3f} cm  ({matched_gain:.1f}% below matched)\n\n"
-        "Recovered observations may support tracking,\n"
-        "but never bypass persistent Gaussian admission."
+        f"Semantic {np.mean(semantic_values):.3f} -> GDOR {np.mean(gdor_values):.3f} cm\n"
+        f"median paired gain {np.median(semantic_deltas):.3f} cm; "
+        f"W/T/L {semantic_wins}/0/{semantic_losses}\n"
+        "failure case: crowd2 42.500 -> 11.080 cm\n\n"
+        f"Matched {np.mean(matched_values):.3f} -> GDOR {np.mean(gdor_values):.3f} cm\n"
+        f"median paired gain {np.median(matched_deltas):.3f} cm; "
+        f"W/T/L {matched_wins}/0/{matched_losses}\n"
+        "failure case: sitting-half 36.775 -> 4.864 cm\n\n"
+        "30/30 Full route certificates pass.\n"
+        "Route evidence is not ghost ground truth."
     )
     ax_text.text(
         0.02,
@@ -183,7 +226,7 @@ def generate_overview() -> list[Path]:
     fig.text(
         0.5,
         0.012,
-        "All values are local same-source comparisons. Published DyPho-SLAM values remain external-report context.",
+        "DYN-19 is an ordered ablation. External baselines and independent ghost/completeness truth remain outside the claim.",
         ha="center",
         fontsize=10.5,
         color="#475569",
@@ -390,8 +433,8 @@ def main() -> None:
         "outputs": {str(path.relative_to(ROOT)): sha256(path) for path in outputs},
         "claim_boundary": (
             "Figures summarize local same-source GDOR evidence. They do not establish "
-            "superiority over the official DyPho-SLAM implementation, zero ghost "
-            "contamination, or mapping superiority."
+            "superiority over protocol-matched external implementations, independent "
+            "component effects, or measured zero ghost contamination."
         ),
     }
     report_dir = ROOT / "reports"
