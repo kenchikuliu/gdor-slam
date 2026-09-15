@@ -118,3 +118,12 @@ python3 scripts/run_reproducible_benchmark.py \
 
 After registration, remove `--dry-run` and use a new output root for actual
 execution. The registered plan is never reused as a result directory.
+
+## Completed Registration
+
+The dry-run plan was frozen on September 15, 2026 from clean source commit
+`a927a7959b2e4febedac13df01780107fe463e6b`. It contains exactly 48 tasks and
+has SHA-256
+`9b20aafd4760c1a8f92cc1583258e08280954fc02ceafa41d65a7170453b3145`.
+The machine-readable registration, input hashes, and audit result are recorded
+in `DYN20_TPLUSM_HELDOUT_REGISTRATION.json`.

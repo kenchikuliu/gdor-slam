@@ -1,0 +1,64 @@
+{
+  "contract": "dyn20-tplusm-heldout-registration-v1",
+  "experiment_id": "DYN-20_TPLUSM_FRESH_HELDOUT_20260915",
+  "protocol": "dyn20-tplusm-fresh-heldout-v1",
+  "registered_at_utc": "2026-09-15T14:59:23.410991+00:00",
+  "source": {
+    "commit": "a927a7959b2e4febedac13df01780107fe463e6b",
+    "dirty": false,
+    "runtime_source_snapshot_sha256": "0f3ea476226b398bbbaba3c132835e14385b71bf358a1f1ecee2ef893edd478c",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "benchmark_plan": {
+    "output_root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn20_tplusm_fresh_heldout_registered_20260915",
+    "file": "benchmark_plan.json",
+    "sha256": "9b20aafd4760c1a8f92cc1583258e08280954fc02ceafa41d65a7170453b3145",
+    "bytes": 220061,
+    "checksum_file": "benchmark_plan.sha256",
+    "checksum_file_sha256": "5ac6dddd7f9ed88d6e82d642bab0071a74644330097d9cf45f793395d1ca3589",
+    "dry_run": true,
+    "task_count": 48
+  },
+  "denominator": {
+    "configs": [
+      "dyn19_semantic",
+      "dyn19_mapmatched",
+      "dyn19_temporal_map",
+      "dyn19_full"
+    ],
+    "sequences": [
+      "tum_sitting_static",
+      "tum_walking_rpy",
+      "tum_sitting_xyz",
+      "tum_sitting_rpy"
+    ],
+    "seeds": [0, 1, 2]
+  },
+  "input_hashes": {
+    "tum_sitting_static": {
+      "association_sha256": "1eb67a1054e1548f2037d47276f6b6f85725e80e056032be47744d8dae4878e6",
+      "ground_truth_sha256": "13b03e2568833bb0a5ca901df587a882549b155682fff722eb94d726a3a4451c"
+    },
+    "tum_walking_rpy": {
+      "association_sha256": "34e8fb45667449f11d853de05f3a3eab9748c5559fc093e7004644b4c70607f3",
+      "ground_truth_sha256": "9a565a8ea40b6c009c861c955341dd92c2c05924bca33909d0d5283f7bd59739"
+    },
+    "tum_sitting_xyz": {
+      "association_sha256": "e386b50e295c1ca6cd1d21d690e849218afb617b95b4b8006eef550e7452f6c8",
+      "ground_truth_sha256": "17bfc4d03f725c7769eef468449ef0dae68b97309714f1561eec4a89807a0066"
+    },
+    "tum_sitting_rpy": {
+      "association_sha256": "ef1a296f30b5adfa3a8b3f8b98f0b45e06e708a4e0ac06a57b2564f9284cd5ee",
+      "ground_truth_sha256": "b27e1cbe302cdc3998d47b66809f2fce5af4d8fc1b23713fa08cfcbc6831bfcd"
+    }
+  },
+  "audit": {
+    "contract": "dyn20-tplusm-heldout-plan-audit-v1",
+    "valid": true,
+    "task_identity_match": true,
+    "heldout_stride_zero": true,
+    "no_static_mask_exports": true,
+    "dyn19_sequence_overlap": [],
+    "config_contract_valid": true
+  }
+}
