@@ -34,8 +34,9 @@ Temporal depth consistency, residual-flow consistency, and tracking-risk state q
 The method therefore recovers tracking support without granting recovered dynamic-region observations persistent map authority.
 Evaluation includes a 63-run TUM/Bonn same-source protocol, a separately frozen 36-cell TUM4 validation, a 9-run map-matched no-track-reuse control, and a single-seed common-view mapping diagnostic.
 GDOR reduces the 63-run All7 mean ATE from 11.331 cm to 3.798 cm relative to semantic hard exclusion.
-On the frozen TUM4 protocol, it improves all four sequence means and reduces the grand mean from 9.746 cm to 3.415 cm.
-The matched control uses the same persistent mapping weight but disables qualified tracking recovery; it obtains 7.816 cm mean ATE, compared with 4.053 cm for GDOR on the tested subset.
+The sequence-median ATE shifts from 4.278 cm to 3.261 cm, GDOR has a 7/0/0 win/tie/loss record over Semantic, and the largest failure-case rescue is Bonn crowd2 at 52.184 cm to 3.226 cm.
+On the frozen TUM4 protocol, GDOR reduces the grand mean from 9.746 cm to 3.415 cm; the paired-cell median improvement is 0.209 cm with a 9/0/3 win/tie/loss record, driven mainly by the sitting\_halfsphere failure case at 32.374 cm to 7.354 cm.
+The matched control uses the same persistent mapping weight but disables qualified tracking recovery; it obtains 7.816 cm mean ATE, compared with 4.053 cm for GDOR on the tested subset, with 0.864 cm median sequence improvement and a 3/0/0 win/tie/loss record.
 These results support the concrete guarded recovery and two-route mechanism, while conceptual priority, protocol-matched superiority over official DyPho-SLAM, and multi-seed mapping superiority are not claimed.
 \end{abstract}
 

@@ -27,9 +27,24 @@
 - Public aggregate: `data/dyn17_mapmatched_control.csv`.
 - Supported result: with persistent mapping weight held identical, the
   raw-mask no-track-reuse control does not match GDOR tracking performance on
-  the tested subset.
+  the tested subset. The companion statistics are a 0.864 cm median sequence
+  improvement, 3/0/0 wins/ties/losses, and Bonn `crowd2` as the failure-case
+  contrast.
 - Boundary: this control isolates the combined temporal-recovery and adaptive
   tracking-replenishment path, not each cue separately.
+
+## DYN-19: Failure-Recovery-Control Episode Diagnostic
+
+- Scope: TUM `sitting_halfsphere`, seed 0, Semantic / map-matched / GDOR from
+  the completed DYN-19 main campaign.
+- Public aggregate: `data/dyn19_failure_recovery_episode.csv`.
+- Supported result: Semantic has one 89-frame failure interval, the matched
+  no-track-reuse control has two intervals totaling 174 frames, and GDOR has no
+  failure interval while observing 567 recovered-support frames.
+- Route certificate: the GDOR episode records 11,918,366 audited recovered
+  support pixels and zero observed recovered-support/map-admission overlap.
+- Boundary: this is a route-invariant diagnostic, not independent
+  ghost-contamination or complete-background truth.
 
 ## DYN-16: Common-View Mapping Diagnostic
 
@@ -38,8 +53,9 @@
 - Public aggregate: `data/dyn16_commonview_mapping.csv`.
 - Supported result: GDOR improves the declared online static-region rendering
   diagnostic over Semantic.
-- Boundary: this is a single-seed diagnostic, not a multi-seed mapping
-  superiority result.
+- Boundary: this is a limited preservation diagnostic with one seed and two
+  scenes, not a zero-ghost proof, zero-contamination proof, or multi-seed
+  mapping-superiority result.
 
 ## Provenance And Reproduction
 
@@ -59,3 +75,4 @@
 - No multi-seed mapping-superiority certificate.
 - No photorealistic-superiority claim.
 - No archived empirical zero-overlap certificate for DYN-15 through DYN-18.
+- No independent zero-ghost or zero-contamination proof.

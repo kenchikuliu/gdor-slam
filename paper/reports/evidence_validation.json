@@ -1,7 +1,7 @@
 {
   "passed": true,
   "failures": [],
-  "figure_count": 4,
+  "figure_count": 5,
   "table_count": 3,
   "computed": {
     "dyn15_all7_semantic_cm": 11.330995238095237,
@@ -30,6 +30,7 @@
   },
   "claim_boundary": {
     "official_dypho_superiority": false,
-    "multi_seed_mapping_superiority": false
+    "multi_seed_mapping_superiority": false,
+    "zero_ghost_or_contamination_proof": false
   }
 }

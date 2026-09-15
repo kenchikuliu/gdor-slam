@@ -77,6 +77,12 @@ def main() -> None:
         f"{mapping['Guarded/GDOR']['psnr']:.3f}",
         f"{mapping['Guarded/GDOR']['ssim']:.3f}",
         f"{mapping['Guarded/GDOR']['lpips']:.3f}",
+        "limited preservation diagnostic",
+        "7/0/0",
+        "9/0/3",
+        "3/0/0",
+        "0.864 cm median sequence improvement",
+        "frame that contains recovered tracking support does not receive a persistent-map admission privilege",
         "does not yet establish superiority over the official DyPho-SLAM implementation",
     ]
     for value in expected_strings:
@@ -84,8 +90,8 @@ def main() -> None:
 
     figure_count = len(re.findall(r"\\begin\{figure\*?\}", manuscript))
     table_count = len(re.findall(r"\\begin\{table\*?\}", manuscript))
-    if figure_count != 4:
-        failures.append(f"expected 4 figures, found {figure_count}")
+    if figure_count != 5:
+        failures.append(f"expected 5 figures, found {figure_count}")
     if table_count != 3:
         failures.append(f"expected 3 tables, found {table_count}")
 
@@ -94,6 +100,7 @@ def main() -> None:
         ROOT / "figures" / "fig2_method_schematic.png",
         ROOT / "figures" / "fig3_trajectory_examples.png",
         ROOT / "figures" / "fig4_commonview_mapping_audit.png",
+        ROOT / "figures" / "fig5_failure_recovery_control.png",
     ]
     for path in figure_files:
         if not path.is_file() or path.stat().st_size == 0:
@@ -116,6 +123,7 @@ def main() -> None:
         "claim_boundary": {
             "official_dypho_superiority": False,
             "multi_seed_mapping_superiority": False,
+            "zero_ghost_or_contamination_proof": False,
         },
     }
     report_dir = ROOT / "reports"

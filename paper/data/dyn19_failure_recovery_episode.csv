@@ -1,0 +1,4 @@
+config,label,sequence,seed,frames,lost_intervals,lost_frames,ate_cm,failure_rate_percent,recovered_support_frames,tracking_recovery_audit_pixels,tracking_recovery_mapping_leak_pixels,temporal_recovered_static_pixels,adaptive_feature_active_frames,extracted_features_mean,certificate_status
+dyn19_semantic,Semantic,tum_sitting_halfsphere,0,1074,133-221,89,15.7718,8.2867784,0,0,0,0,0,822.229050279,vacuous
+dyn19_mapmatched,Matched,tum_sitting_halfsphere,0,1074,73-157;584-672,174,37.1206,16.2011173,0,0,0,0,0,781.083798883,vacuous
+dyn19_full,GDOR,tum_sitting_halfsphere,0,1074,none,0,3.8567,0.0,567,11918366,0,21098060,619,1432.133147114,pass

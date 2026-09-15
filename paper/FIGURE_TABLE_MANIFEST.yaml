@@ -1,5 +1,5 @@
-version: gdor_tmm_v5
-generated: 2026-08-07
+version: gdor_tmm_v5r4
+generated: 2026-09-15
 figures:
   fig1:
     file: figures/fig1_overview.png
@@ -22,6 +22,11 @@ figures:
     role: common_view_mapping_diagnostic
     evidence: DYN-16
     status: existing_real_evidence_needs_human_review
+  fig5:
+    file: figures/fig5_failure_recovery_control.png
+    role: failure_interval_recovered_support_and_matched_control
+    evidence: DYN-19
+    status: generated_from_public_episode_summary
 tables:
   table1:
     label: tab:main-tracking
@@ -37,4 +42,6 @@ tables:
     evidence: [DYN-15, DYN-16]
 claim_boundary: >-
   Local same-source results cannot be presented as an official DyPho-SLAM
-  rerun or external SOTA ranking. DYN-16 remains a single-seed diagnostic.
+  rerun or external SOTA ranking. DYN-16 remains a limited single-seed
+  preservation diagnostic and cannot be presented as zero ghost or zero
+  contamination proof.

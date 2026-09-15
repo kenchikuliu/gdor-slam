@@ -92,6 +92,8 @@ Strict is retained as a stronger-intervention control, not as the proposed defau
 
 Recovered observations are transient.
 They may support current-frame ORB extraction and pose optimization, but the mapping route continues to use Eq.~\eqref{eq:mapping-weight} for Gaussian loss weighting, RGB-D densification, and MapPoint-to-Gaussian admission.
+The route invariant is frame-local and admission-local: a frame that contains recovered tracking support does not receive a persistent-map admission privilege.
+Every ORB MapPoint, Gaussian initialization, RGB-D densification candidate, and Gaussian loss term is still admitted or weighted only through $W_t^{\mathrm{map}}$; recovered support cannot set that weight to one, bypass keyframe static-weight checks, or waive the conservative mapping boundary.
 The implemented routing cases are summarized compactly as
 \begin{equation}
 \begin{array}{c|cc}

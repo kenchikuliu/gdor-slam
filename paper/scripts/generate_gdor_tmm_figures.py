@@ -29,6 +29,7 @@ CONFIG_LABELS = {
 
 COLORS = {
     "Semantic": "#6b7280",
+    "Matched": "#7c3aed",
     "GDOR": "#15803d",
     "Strict": "#c2410c",
 }
@@ -62,6 +63,11 @@ def load_dyn17_mean() -> tuple[float, float, float]:
             matched.append(float(row["mapmatched_no_track_reuse_ate_cm"]))
             gdor.append(float(row["guarded_gdor_ate_cm"]))
     return float(np.mean(semantic)), float(np.mean(matched)), float(np.mean(gdor))
+
+
+def load_dyn19_episode() -> list[dict[str, str]]:
+    with (DATA / "dyn19_failure_recovery_episode.csv").open(newline="") as stream:
+        return list(csv.DictReader(stream))
 
 
 def load_dyn15_all7() -> tuple[float, float]:
@@ -231,9 +237,152 @@ def generate_method() -> list[Path]:
     return outputs
 
 
+def parse_intervals(value: str) -> list[tuple[int, int]]:
+    if not value or value == "none":
+        return []
+    intervals = []
+    for item in value.split(";"):
+        start, end = item.split("-")
+        intervals.append((int(start), int(end)))
+    return intervals
+
+
+def generate_failure_recovery_control() -> list[Path]:
+    rows = load_dyn19_episode()
+    labels = [row["label"] for row in rows]
+    frames = max(int(row["frames"]) for row in rows)
+    y_pos = np.arange(len(labels))[::-1]
+
+    fig = plt.figure(figsize=(15.8, 8.8), constrained_layout=False)
+    grid = fig.add_gridspec(3, 1, height_ratios=[0.95, 1.15, 1.0], hspace=0.58)
+    fig.suptitle(
+        "Failure interval, recovered tracking support, and matched control",
+        fontsize=20,
+        fontweight="bold",
+        y=0.975,
+    )
+
+    ax_fail = fig.add_subplot(grid[0, 0])
+    for row, y in zip(rows, y_pos):
+        label = row["label"]
+        intervals = parse_intervals(row["lost_intervals"])
+        if intervals:
+            for start, end in intervals:
+                ax_fail.broken_barh(
+                    [(start, end - start + 1)],
+                    (y - 0.28, 0.56),
+                    facecolors=COLORS[label],
+                    alpha=0.92,
+                )
+        else:
+            ax_fail.plot([0, frames], [y, y], color=COLORS[label], linewidth=3.0)
+        ax_fail.text(
+            frames + 14,
+            y,
+            f"{int(row['lost_frames'])} lost frames",
+            va="center",
+            fontsize=10.5,
+            color="#334155",
+        )
+    ax_fail.set_xlim(0, frames + 170)
+    ax_fail.set_yticks(y_pos, labels)
+    ax_fail.set_xlabel("Frame index")
+    ax_fail.set_title("Per-frame failure intervals on TUM sitting_halfsphere, seed 0",
+                      fontsize=13.5, fontweight="bold")
+    ax_fail.grid(axis="x", alpha=0.2)
+    ax_fail.spines[["top", "right"]].set_visible(False)
+
+    ax_support = fig.add_subplot(grid[1, 0])
+    x = np.arange(len(rows))
+    width = 0.24
+    temporal_mpx = [
+        float(row["temporal_recovered_static_pixels"]) / 1_000_000.0
+        for row in rows
+    ]
+    audit_mpx = [
+        float(row["tracking_recovery_audit_pixels"]) / 1_000_000.0
+        for row in rows
+    ]
+    extracted = [float(row["extracted_features_mean"]) / 100.0 for row in rows]
+    ax_support.bar(x - width, temporal_mpx, width, color="#86efac",
+                   label="Temporal recovered support [Mpx]")
+    ax_support.bar(x, audit_mpx, width, color="#15803d",
+                   label="Audited recovered support [Mpx]")
+    ax_support.bar(x + width, extracted, width, color="#94a3b8",
+                   label="Extracted features mean / 100")
+    for index, row in enumerate(rows):
+        label_y = max(temporal_mpx[index], audit_mpx[index], extracted[index]) + 1.2
+        ax_support.text(
+            index,
+            label_y,
+            f"{int(row['recovered_support_frames'])} recovered frames\n"
+            f"{int(row['adaptive_feature_active_frames'])} adaptive frames",
+            ha="center",
+            va="bottom",
+            fontsize=9.5,
+            color="#334155",
+        )
+    ax_support.set_xticks(x, labels)
+    ax_support.set_ylim(0, max(max(temporal_mpx), max(audit_mpx), max(extracted)) + 7.0)
+    ax_support.set_ylabel("Count scale")
+    ax_support.set_title("Recovered support and feature replenishment are tracking-side signals",
+                         fontsize=13.5, fontweight="bold")
+    ax_support.grid(axis="y", alpha=0.22)
+    ax_support.legend(frameon=False, ncol=3, loc="upper left")
+    ax_support.spines[["top", "right"]].set_visible(False)
+
+    ax_control = fig.add_subplot(grid[2, 0])
+    ate = [float(row["ate_cm"]) for row in rows]
+    bars = ax_control.bar(labels, ate, color=[COLORS[label] for label in labels], alpha=0.92)
+    for bar, row in zip(bars, rows):
+        height = bar.get_height()
+        if height > 8.0:
+            y = height - 1.2
+            va = "top"
+            text_color = "white"
+        else:
+            y = height + 1.0
+            va = "bottom"
+            text_color = "#334155"
+        ax_control.text(
+            bar.get_x() + bar.get_width() / 2,
+            y,
+            f"{float(row['ate_cm']):.2f} cm\n"
+            f"fail {float(row['failure_rate_percent']):.1f}%\n"
+            f"cert {row['certificate_status']}",
+            ha="center",
+            va=va,
+            fontsize=10,
+            color=text_color,
+        )
+    ax_control.set_ylim(0, max(ate) * 1.28)
+    ax_control.set_ylabel("ATE RMSE [cm]")
+    ax_control.set_title("Matched control keeps the persistent mapping route but disables recovery",
+                         fontsize=13.5, fontweight="bold")
+    ax_control.grid(axis="y", alpha=0.22)
+    ax_control.spines[["top", "right"]].set_visible(False)
+
+    fig.text(
+        0.5,
+        0.006,
+        "The zero-overlap certificate is a route-invariant diagnostic, not independent ghost-contamination ground truth.",
+        ha="center",
+        fontsize=10.5,
+        color="#475569",
+    )
+    outputs = [
+        FIGURES / "fig5_failure_recovery_control.png",
+        FIGURES / "fig5_failure_recovery_control.pdf",
+    ]
+    fig.savefig(outputs[0], dpi=220, bbox_inches="tight", facecolor="white")
+    fig.savefig(outputs[1], bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return outputs
+
+
 def main() -> None:
     FIGURES.mkdir(parents=True, exist_ok=True)
-    outputs = generate_overview() + generate_method()
+    outputs = generate_overview() + generate_method() + generate_failure_recovery_control()
     inputs = sorted(DATA.glob("*.csv")) + sorted(SOURCES.glob("*.png"))
     manifest = {
         "generator": str(Path(__file__).resolve().relative_to(ROOT)),
@@ -241,7 +390,8 @@ def main() -> None:
         "outputs": {str(path.relative_to(ROOT)): sha256(path) for path in outputs},
         "claim_boundary": (
             "Figures summarize local same-source GDOR evidence. They do not establish "
-            "superiority over the official DyPho-SLAM implementation."
+            "superiority over the official DyPho-SLAM implementation, zero ghost "
+            "contamination, or mapping superiority."
         ),
     }
     report_dir = ROOT / "reports"
