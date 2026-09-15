@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "failures": [],
+  "figure_count": 2,
+  "table_count": 3,
+  "computed": {
+    "tracking": {
+      "dyn19_full": {
+        "ate_cm": 4.9297766666000005,
+        "rpe_cm": 3.3126266666,
+        "failure_percent": 0.1474289833,
+        "runtime_seconds": 47.749955042299995
+      },
+      "dyn19_mapmatched": {
+        "ate_cm": 7.392430000099999,
+        "rpe_cm": 3.3617233333,
+        "failure_percent": 2.0456476332999998,
+        "runtime_seconds": 34.3563983726
+      },
+      "dyn19_semantic": {
+        "ate_cm": 10.119089999999998,
+        "rpe_cm": 3.4195266667,
+        "failure_percent": 1.49684913,
+        "runtime_seconds": 37.902716697100004
+      },
+      "dyn19_full_no_mapping": {
+        "ate_cm": 4.060433333400001,
+        "rpe_cm": 3.1812433333000003,
+        "failure_percent": 0.17880711,
+        "runtime_seconds": 49.2020746715
+      },
+      "dyn19_temporal_flow_map": {
+        "ate_cm": 6.377250000000001,
+        "rpe_cm": 3.2127600001,
+        "failure_percent": 2.06897764,
+        "runtime_seconds": 48.562333364100006
+      },
+      "dyn19_temporal_flow_risk_map": {
+        "ate_cm": 4.906963333300001,
+        "rpe_cm": 3.1862166666,
+        "failure_percent": 0.71880418,
+        "runtime_seconds": 48.104821926599996
+      },
+      "dyn19_temporal_map": {
+        "ate_cm": 3.8589833332999994,
+        "rpe_cm": 3.0624800001,
+        "failure_percent": 0.00719166,
+        "runtime_seconds": 48.583608196300005
+      }
+    },
+    "full_sequence_mean_wins_vs_semantic": 7,
+    "certificate_status": {
+      "dyn19_full": {
+        "pass": 30
+      },
+      "dyn19_mapmatched": {
+        "vacuous": 30
+      },
+      "dyn19_semantic": {
+        "vacuous": 30
+      },
+      "dyn19_full_no_mapping": {
+        "fail": 30
+      },
+      "dyn19_temporal_flow_map": {
+        "pass": 30
+      },
+      "dyn19_temporal_flow_risk_map": {
+        "pass": 30
+      },
+      "dyn19_temporal_map": {
+        "pass": 30
+      }
+    },
+    "mapping": {
+      "gt_aligned:dyn19_full": {
+        "psnr_full": 12.723798782649306,
+        "psnr_static": 13.49096221934827,
+        "ssim_full": 0.4965795908038347,
+        "ssim_static": 0.5332548188555063
+      },
+      "gt_aligned:dyn19_mapmatched": {
+        "psnr_full": 11.737343897098787,
+        "psnr_static": 12.441791193958254,
+        "ssim_full": 0.46774809368676434,
+        "ssim_static": 0.5031973246867076
+      },
+      "gt_aligned:dyn19_semantic": {
+        "psnr_full": 11.4766054339061,
+        "psnr_static": 12.082211954567823,
+        "ssim_full": 0.45983620262213926,
+        "ssim_static": 0.49174447746209776
+      },
+      "online:dyn19_full": {
+        "psnr_full": 16.33903529342727,
+        "psnr_static": 19.762605494316894,
+        "ssim_full": 0.6652943560731547,
+        "ssim_static": 0.7278443333610594
+      },
+      "online:dyn19_mapmatched": {
+        "psnr_full": 15.760628757985335,
+        "psnr_static": 18.989920667881538,
+        "ssim_full": 0.6391958254408038,
+        "ssim_static": 0.7001392158910505
+      },
+      "online:dyn19_semantic": {
+        "psnr_full": 15.756675505359214,
+        "psnr_static": 18.866394521165336,
+        "ssim_full": 0.6361983198407198,
+        "ssim_static": 0.6949611284295124
+      }
+    }
+  },
+  "claim_boundary": {
+    "dyn19_design": "ordered ablation",
+    "t_plus_m_held_out_final": false,
+    "official_dypho_superiority": false,
+    "universal_sequence_superiority": false,
+    "independent_ghost_ground_truth": false
+  }
+}

@@ -1,0 +1,135 @@
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Protocol, Metrics, and Evidence Identity}
+
+We evaluate GDOR-SLAM on dynamic RGB-D sequences from TUM RGB-D~\cite{sturm2012benchmark} and Bonn RGB-D Dynamic~\cite{palazzolo2019bonn}.
+DYN-19 predeclares ten sequences: TUM walking\_xyz, walking\_halfsphere, walking\_static, and sitting\_halfsphere, plus all six Bonn dynamic sequences.
+Each configuration uses seeds 0, 1, and 2, processes the full association file, and retains invalid intervals in the all-input-frame trajectory.
+We report SE(3)-aligned ATE RMSE, one-frame translational RPE RMSE, failure rate, and end-to-end wall time.
+
+The main phase contains Semantic, MapMatched, and Full for $3\times10\times3=90$ runs.
+The mechanism phase adds T+M, T+F+M, T+F+R+M, and Full-NoM for $4\times10\times3=120$ runs.
+Here T is temporal-depth recovery, F is its residual-flow veto, R is the tracking-risk gate, A is adaptive FAST replenishment, M is conservative raw-mask mapping, and NoM deliberately allows recovered support into the mapping route.
+The resulting ladder is an ordered ablation, not a factorial design; row differences do not identify independent component effects or interactions.
+
+Every tracking run stores source and executable identities, the frozen plan hash, configuration and dataset hashes, all-frame trajectories, per-frame counters, and a route certificate.
+The certificate is non-vacuous only when recovered tracking support is observed, a mapping weight is present for those frames, and recovered support has zero intersection with map-admissible pixels.
+DYN-19 release \texttt{DYN19\_RESULTS\_20260914\_R1} binds these records to source commit \texttt{14c6b2c}.
+
+The mapping phase reuses completed main-phase maps on four predeclared scenes: TUM walking\_xyz and sitting\_halfsphere, and Bonn crowd2 and person\_tracking2.
+For each scene and seed, one manifest selects 20 common non-keyframe views shared by Semantic, MapMatched, and Full.
+Rendering at online and GT-aligned poses produces $4\times3\times3\times2=72$ metric cells.
+We report full-frame and fixed-static-region PSNR/SSIM; LPIPS was unavailable for this campaign.
+GT-aligned rendering remains an end-to-end reconstruction diagnostic because online poses constructed each map.
+
+\subsection{Main Tracking Result and Regime Dependence}
+
+\begin{table*}[t]
+\centering
+\caption{DYN-19 main tracking result. Values are three-seed ATE RMSE in centimeters; lower is better. The mean is over the ten sequence means. Full improves 7/10 sequence means against Semantic and 4/10 against MapMatched.}
+\label{tab:dyn19-main}
+\footnotesize
+\begin{tabular}{lrrrlrrr}
+\toprule
+Sequence & Semantic & MapMatched & Full & Sequence & Semantic & MapMatched & Full \\
+\midrule
+Bonn balloon & 3.388 & 3.451 & \textbf{3.170} & Bonn person & \textbf{4.434} & 4.681 & 5.517 \\
+Bonn crowd & 4.358 & 3.246 & \textbf{3.216} & Bonn person2 & \textbf{8.780} & 8.897 & 9.209 \\
+Bonn crowd2 & 42.500 & \textbf{6.347} & 11.080 & TUM sitting half & 24.175 & 36.775 & \textbf{4.864} \\
+Bonn crowd3 & 7.098 & \textbf{4.210} & 5.756 & TUM walking half & \textbf{3.379} & 3.423 & 3.609 \\
+TUM walking static & 0.737 & 0.790 & \textbf{0.730} & TUM walking xyz & 2.341 & \textbf{2.103} & 2.148 \\
+\midrule
+\multicolumn{5}{r}{Ten-sequence mean} & 10.119 & 7.392 & \textbf{4.930} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Table~\ref{tab:dyn19-main} shows a positive aggregate result with clear regime dependence.
+Full lowers mean ATE from 10.119 to 4.930 cm, a 51.3\% reduction, and lowers one-frame translation RPE from 3.420 to 3.313 cm.
+It wins 19/30 paired sequence-seed ATE cells and 18/30 translation-RPE cells against Semantic.
+At sequence level, Full wins 7/10 means against Semantic but only 4/10 against MapMatched.
+The largest rescue is TUM sitting\_halfsphere, while Full is worse on Bonn person, Bonn person2, and TUM walking\_halfsphere.
+This pattern supports conditional recovery under observability loss, not universal sequence superiority.
+
+Failure falls from 1.497\% for Semantic to 0.147\% for Full, while runtime rises from 37.90 to 47.75 s/run, a 26.0\% increase.
+MapMatched reaches 7.392 cm mean ATE but has a 2.046\% failure rate and does not recover tracking support.
+A separately frozen predecessor validation, DYN-18, provides an additional non-DYN-19 check: the Guarded configuration improved all four TUM sequence means and 9/12 paired cells over its same-source Semantic parent, while remaining above published DyPho-SLAM values under an unmatched protocol.
+
+\subsection{Ordered Mechanism Matrix and Route Certificate}
+
+\begin{table*}[t]
+\centering
+\caption{DYN-19 ordered configurations. Metrics average ten sequence means. ``Pass'' requires observed recovered support, mapping support on recovered frames, and zero recovered-support/map-admission overlap. Full-NoM is an intentional leakage counterfactual; its certificate failures are expected boundary evidence, not runner failures.}
+\label{tab:dyn19-ablation}
+\footnotesize
+\begin{tabular}{lrrrrl}
+\toprule
+Configuration & ATE [cm] $\downarrow$ & t-RPE [cm] $\downarrow$ & Failure [\%] $\downarrow$ & Time [s] $\downarrow$ & Route certificate \\
+\midrule
+Semantic & 10.119 & 3.420 & 1.497 & 37.90 & 30 vacuous \\
+MapMatched & 7.392 & 3.362 & 2.046 & \textbf{34.36} & 30 vacuous \\
+T+M & \textbf{3.859} & \textbf{3.062} & \textbf{0.007} & 48.58 & 30/30 pass \\
+T+F+M & 6.377 & 3.213 & 2.069 & 48.56 & 30/30 pass \\
+T+F+R+M & 4.907 & 3.186 & 0.719 & 48.10 & 30/30 pass \\
+T+F+R+A+M (Full) & 4.930 & 3.313 & 0.147 & \textbf{47.75} & 30/30 pass \\
+T+F+R+A+NoM (Full-NoM) & 4.060 & 3.181 & 0.179 & 49.20 & 30/30 fail: overlap \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The route result is exact rather than inferred from downstream image quality.
+All 30 Full cells contain observed recovered tracking support and zero pixels that simultaneously receive persistent map admission.
+T+M, T+F+M, and T+F+R+M also pass 30/30 non-vacuous certificates.
+Full-NoM deliberately removes the conservative mapping boundary; all 30 cells then expose recovered-support overlap and fail the certificate as designed.
+The contrast shows that the zero overlap of Full is enforced by routing, rather than arising because recovery never activates.
+It does not prove zero dynamic content in the final 3D map, which would require independent scene-level contamination ground truth.
+
+The ordered matrix also changes the successor hypothesis.
+T+M has the lowest aggregate ATE (3.859 cm), translation RPE (3.062 cm), and failure rate (0.007\%).
+Against Semantic it wins 20/30 ATE cells and 24/30 translation-RPE cells while retaining 30/30 route-certificate passes.
+The non-monotonic ladder shows that adding F, R, and A does not yield monotonic tracking gains.
+Because all DYN-19 sequences were used to inspect this ladder, T+M is the strongest consumed-data candidate, not yet a held-out final method.
+
+\subsection{Multi-Seed Common-View Mapping Diagnostic}
+
+\begin{table}[t]
+\centering
+\caption{DYN-19 common-view mapping metrics. Each row averages 12 scene-seed cells and 240 rendered views. Higher is better.}
+\label{tab:dyn19-mapping}
+\footnotesize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Pose & Configuration & Full PSNR & Static PSNR & Full SSIM & Static SSIM \\
+\midrule
+Online & Semantic & 15.757 & 18.866 & 0.636 & 0.695 \\
+& MapMatched & 15.761 & 18.990 & 0.639 & 0.700 \\
+& Full & \textbf{16.339} & \textbf{19.763} & \textbf{0.665} & \textbf{0.728} \\
+\midrule
+GT-aligned & Semantic & 11.477 & 12.082 & 0.460 & 0.492 \\
+& MapMatched & 11.737 & 12.442 & 0.468 & 0.503 \\
+& Full & \textbf{12.724} & \textbf{13.491} & \textbf{0.497} & \textbf{0.533} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Full improves online static-region PSNR by 0.896 dB and SSIM by 0.033 over Semantic, with 9/12 scene-seed wins for each metric.
+Under GT-aligned rendering it improves static PSNR by 1.409 dB and static SSIM by 0.042.
+The online result mixes tracking and reconstruction quality; the GT-aligned view reduces final rendering-pose error but does not undo the online poses used to construct the map.
+Together they are consistent with improved reconstruction under the declared common-view protocol, not proof of universal mapping superiority.
+
+An occluded-background proxy is also evaluated on the same manifests.
+In GT-aligned aggregate comparison, Full increases proxy completeness by 0.038, reduces mean proxy color error by 2.565, and reduces the high-threshold ghost-risk proxy by 0.038 relative to Semantic.
+These favorable changes remain proxy-only because the source sequences provide no independent revealed-background or 3D ghost ground truth.
+
+\subsection{External Positioning and Statistical Boundary}
+
+Published DGS-SLAM, DG-SLAM, and DyPho-SLAM values remain related-work context and are not mixed with local tables as protocol-matched reruns.
+The DyPho-SLAM paper reports lower ATE on the four corresponding TUM sequences than the local DYN-18 Guarded results.
+Differences in implementation, masks, preprocessing, hardware, and evaluation prevent a valid direct ranking.
+An official frozen runner and matching evaluation contract are required before claiming external superiority.
+
+DYN-19 reports the complete predeclared denominator and paired win counts rather than selecting only successful scenes.
+However, the ten sequences are not statistically independent samples from all dynamic environments, and the mechanism rows reuse the same consumed sequence set.
+The correct next test for T+M is therefore a fresh, separately registered split with no DYN-19 sequence reuse, not threshold adjustment on the current matrix.

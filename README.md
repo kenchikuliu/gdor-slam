@@ -7,13 +7,15 @@ recovers dynamic-region observations that pass conservative temporal, geometric,
 and camera-motion checks, while keeping dynamic evidence out of persistent
 Gaussian map admission by default.
 
-![GDOR-SLAM overview](paper/figures/fig1_overview.png)
+![GDOR-SLAM DYN-19 overview](paper/dyn19_v6/figures/fig1_dyn19_overview.png)
 
 ## Paper And Evidence
 
-The public paper artifact is available in [`paper/`](paper/README.md):
+The public paper artifacts are available in [`paper/`](paper/README.md):
 
 - [9-page TMM pre-submission manuscript](paper/GDOR-SLAM_TMM_v5r3_preprint.pdf);
+- [7-page DYN-19 manuscript revision](paper/GDOR-SLAM_TMM_v6_dyn19_preprint.pdf);
+- [DYN-19 evidence package and validators](paper/dyn19_v6/README.md);
 - [four paper figures](paper/figures/);
 - [claim-bearing aggregate CSV files](paper/data/);
 - [figure-generation and evidence-validation scripts](paper/scripts/);
@@ -39,6 +41,9 @@ DYN-19 additionally records 30/30 non-vacuous zero-overlap certificate passes
 for Full and 30/30 expected overlap failures for the Full-NoM counterfactual.
 See [`docs/DYN19_RESULTS.md`](docs/DYN19_RESULTS.md) for sequence-dependent
 tracking results, the ordered mechanism matrix, and mapping evidence boundaries.
+The successor T+M candidate is separately registered under
+[`docs/DYN20_TPLUSM_HELDOUT_PROTOCOL.md`](docs/DYN20_TPLUSM_HELDOUT_PROTOCOL.md)
+and is not promoted by the consumed DYN-19 result.
 
 ## Method Boundary
 
@@ -155,8 +160,9 @@ rerun under a matched protocol.
 
 The current research package is therefore suitable for reproducing the GDOR
 mechanism, its local comparison, and the completed DYN-19 route-separation
-audit, but paper claims must retain this distinction. The PDF in `paper/` was
-frozen before DYN-19 and does not yet include those results.
+audit, but paper claims must retain this distinction. The frozen v5r3 PDF
+predates DYN-19; the separate v6 PDF integrates DYN-19 without rewriting that
+historical artifact.
 
 ## License
 

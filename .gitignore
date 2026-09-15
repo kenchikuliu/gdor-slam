@@ -194,6 +194,9 @@ SUBMISSION_*ASSESSMENT.md
 !paper/*.tex
 !paper/*.yaml
 !paper/SHA256SUMS
+!paper/dyn19_v6/data/
+!paper/dyn19_v6/data/*.csv
+!paper/dyn19_v6/data/*.json
 
 # Git
 .git/

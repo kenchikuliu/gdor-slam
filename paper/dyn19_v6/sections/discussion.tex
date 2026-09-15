@@ -1,0 +1,48 @@
+\section{Discussion}
+
+\subsection{What the Certificate Establishes}
+
+Dynamic capture exposes a persistence asymmetry.
+A tracking error affects the current pose and may propagate, whereas an unsafe Gaussian write can remain visible from many future viewpoints.
+Hard exclusion minimizes the second risk but may increase the first when a dynamic mask removes most image support.
+GDOR asks whether an excluded observation is sufficiently consistent to support transient localization; it does not declare every recovered pixel truly static.
+
+The non-vacuous route certificate sharpens this claim.
+For Full, recovery occurs in every tested sequence-seed cell, a mapping weight exists on every recovered frame, and the exact recovered-support/map-admission intersection is empty.
+The Full-NoM counterfactual then exposes overlap in every cell when the conservative route is removed.
+This directly verifies the implemented privilege boundary.
+It does not certify the semantic correctness of every admitted static pixel, map completeness, or zero 3D ghost contamination.
+
+\subsection{Why the Ordered Ladder Is Non-Monotonic}
+
+Full improves aggregate tracking over Semantic, but it is not the lowest-ATE row in the mechanism matrix.
+The simpler T+M configuration recovers more support without the later flow veto, risk gate, or adaptive trigger and performs best on the consumed ten-sequence aggregate.
+Adding guards can suppress useful support as well as unsafe support; their net effect depends on occlusion geometry, prediction quality, and tracker state.
+The ladder therefore diagnoses complete operating points, not independent factor effects.
+
+This finding does not invalidate Full's routing claim.
+Both Full and T+M retain the conservative mapping route and pass every non-vacuous overlap certificate.
+It instead narrows the next design question: whether T+M's simpler tracking policy generalizes beyond the sequences that revealed it.
+Promoting T+M without a fresh split would convert development evidence into a held-out claim.
+
+\subsection{Sequence and Mapping Boundaries}
+
+The main result is driven by genuine rescues on difficult sequences, including TUM sitting\_halfsphere and Bonn crowd2, while Full loses on three of ten sequence means against Semantic.
+MapMatched also beats Full on six sequence means despite a worse overall mean and failure rate.
+These outcomes indicate that dynamic-region recovery should be described as regime-dependent support restoration rather than a universal replacement for conservative masking.
+
+The mapping study is stronger than the earlier single-seed diagnostic because it uses four scenes, three seeds, common held-out views, and both online and GT-aligned rendering.
+Its static-region PSNR and SSIM gains show that the tracking intervention does not require degrading the tested reconstructions.
+Still, the scene count is limited, LPIPS is absent, and the occluded-background fields are partial proxies.
+The appropriate claim is positive multi-seed common-view reconstruction evidence, not general photorealistic or ghost-free superiority.
+
+\subsection{Reproducibility and External Validity}
+
+The public evidence package contains path-sanitized sequence means, all 210 route-certificate cells, all 72 mapping cells, source/release hashes, and deterministic validators.
+Raw datasets, trajectories, rendered frames, and Gaussian maps remain in the retained experiment release rather than the source repository.
+The frozen August manuscript is preserved separately; this DYN-19 revision has its own evidence manifest and PDF identity.
+
+External validity remains the principal ranking limitation.
+Concurrent systems overlap with the high-level tracking--mapping separation premise, and no official DyPho-SLAM runner has been evaluated under the exact DYN-19 contract.
+GDOR's defensible contribution is the concrete RGB-D/ORB routing mechanism, exact non-vacuous route audit, and same-source evidence.
+Broader SOTA language requires a protocol-matched external baseline rather than comparison to published numbers alone.

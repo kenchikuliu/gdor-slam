@@ -1,0 +1,56 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figures/}{../figures/}}
+\hypersetup{
+  pdftitle={GDOR-SLAM: Guarded Dynamic Observation Recovery for RGB-D Gaussian SLAM},
+  pdfauthor={Author List To Be Finalized}
+}
+
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\ie}{\emph{i.e.}}
+\newcommand{\etal}{\emph{et al.}}
+
+\begin{document}
+
+\title{GDOR-SLAM: Guarded Dynamic Observation Recovery for RGB-D Gaussian SLAM}
+
+% IEEE TMM uses single-blind review. Replace this placeholder before submission.
+\author{Author List To Be Finalized}
+
+\maketitle
+
+\begin{abstract}
+Dynamic masks protect a persistent Gaussian map, but hard exclusion can remove background and camera-consistent observations that remain useful for localization.
+This paper studies the resulting task mismatch: an observation that is useful for transient camera tracking is not necessarily eligible to modify a static world model.
+We present \textbf{GDOR-SLAM}, which separately routes qualified dynamic-region evidence to current-frame tracking and conservative evidence to persistent ORB and Gaussian mapping.
+The completed DYN-19 evaluation contains 210 tracking runs over ten TUM/Bonn sequences and 72 common-view mapping cells over four scenes and three seeds.
+The Full route lowers the ten-sequence mean ATE from 10.119 to 4.930 cm relative to Semantic exclusion, with 19/30 paired-cell and 7/10 sequence-mean wins, while reducing failure from 1.497\% to 0.147\%.
+Every Full cell contains observed recovered support and passes an exact zero-overlap route certificate; a mapping-disabled counterfactual produces the expected overlap in all 30 cells.
+Full also improves online static-region PSNR from 18.866 to 19.763 dB and GT-aligned static PSNR from 12.082 to 13.491 dB in the common-view diagnostic.
+An ordered mechanism matrix identifies the simpler temporal-plus-mapping route at 3.859 cm mean ATE, but this consumed-data result is treated only as a candidate for a separately registered held-out test.
+The evidence supports the implemented privilege separation and aggregate benefit with sequence-dependent failures; factorial causality, universal superiority, official DyPho-SLAM superiority, and independent ghost ground truth are not claimed.
+\end{abstract}
+
+\begin{IEEEkeywords}
+3D Gaussian splatting, dynamic RGB-D SLAM, visual tracking, dynamic observation recovery, Gaussian mapping.
+\end{IEEEkeywords}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/method}
+\input{sections/experiments}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

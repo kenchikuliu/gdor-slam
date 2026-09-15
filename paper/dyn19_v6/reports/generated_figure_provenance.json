@@ -1,0 +1,12 @@
+{
+  "generator": "scripts/generate_dyn19_overview.py",
+  "inputs": {
+    "dyn19_tracking_sequence_means.csv": "8fa318a9facbe900472fa34c1103192f31d447e1274e51a691ea500cc5dc7ba8",
+    "dyn19_mapping_cells.csv": "9b9ea516997e2d1eb892c77c344ae42c8dfd0720c14b44add52c16b9047425b5"
+  },
+  "outputs": {
+    "figures/fig1_dyn19_overview.png": "76765d40a487094af0dca5b41b5fc3550effd88ff532114410d30ef616e15020",
+    "figures/fig1_dyn19_overview.pdf": "b36b0a36a9d3356f55d06dc8790f40686f9ea64bfa6dc563baa014ec77d4604d"
+  },
+  "claim_boundary": "DYN-19 is an ordered ablation. T+M is not yet a held-out final method, and mapping values are common-view diagnostics rather than universal superiority."
+}

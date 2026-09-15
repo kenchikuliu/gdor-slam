@@ -1,0 +1,43 @@
+\section{Introduction}
+
+3D Gaussian Splatting (3DGS) provides an explicit differentiable representation for dense scene rendering and has become a practical substrate for online visual world modeling~\cite{kerbl20233dgaussian}.
+Gaussian SLAM systems such as Photo-SLAM, SplaTAM, GS-SLAM, and Gaussian-SLAM combine camera tracking with dense Gaussian reconstruction~\cite{huai2024photoSLAM,keetha2024splatam,yan2023gs,yugay2023gaussianslam}.
+Their tracking frontends and persistent maps, however, still depend on a predominantly static world.
+When people or objects occupy a large image region, dynamic observations can corrupt camera estimation and produce persistent Gaussian artifacts.
+
+Semantic and geometric exclusion is therefore a natural defense.
+Classical dynamic SLAM removes features associated with movable classes~\cite{bescos2018dynaslam,yu2018ds,xiao2019dynamic}, while recent dynamic Gaussian SLAM systems combine semantics, temporal consistency, depth warping, photometric evidence, or uncertainty to suppress unsafe observations~\cite{xu2024dgslam,kong2024dgsslam,liu2025dyphoslam,zhang2026dagsslam}.
+This policy is appropriate for static map construction, but can be too restrictive for tracking.
+A semantic mask can cover visible background, object boundaries, temporarily stationary surfaces, or pixels whose image motion is dominated by camera motion.
+Removing all such observations can leave the pose estimator poorly constrained exactly when dynamic occlusion is strongest.
+
+The key issue is not only whether an observation is static, but what authority it should receive.
+Tracking and mapping have different failure costs and persistence.
+A locally consistent observation may be useful for estimating the current camera pose while still being too uncertain to initialize or optimize persistent static structure.
+Treating both decisions with one binary mask conflates \emph{tracking utility} with \emph{map eligibility}.
+
+We propose \textbf{GDOR-SLAM}, a dynamic RGB-D Gaussian SLAM system based on Guarded Dynamic Observation Recovery (GDOR).
+GDOR evaluates temporal depth consistency, residual optical-flow consistency, and the current tracking-risk state to recover a conservative subset of observations inside excluded dynamic regions.
+Recovered observations may replenish features and support the current camera estimate.
+They do not modify the conservative mask used for persistent ORB landmarks or Gaussian initialization, update, and densification.
+The method therefore separates transient tracking privilege from persistent map privilege.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig1_dyn19_overview.png}
+  \caption{DYN-19 evidence overview. Full improves aggregate tracking over Semantic but not every sequence. The ordered configuration matrix identifies T+M as the strongest consumed-data tracking row. Multi-seed common-view reconstruction improves under Full, while the exact route audit distinguishes 30/30 non-vacuous zero-overlap Full passes from 30/30 expected Full-NoM overlap failures.}
+  \label{fig:overview}
+\end{figure*}
+
+Our contributions are:
+\begin{itemize}
+    \item We instantiate an auditable two-channel observation contract for RGB-D/ORB Gaussian SLAM: tracking utility does not automatically grant persistent Gaussian map authority.
+    \item We introduce GDOR, which combines temporal depth, residual-flow, and tracking-risk evidence to selectively recover dynamic-region observations for transient tracking.
+    \item We bind every run to an exact recovered-support/map-admission overlap certificate and include a deliberate leakage counterfactual, making route separation empirically testable rather than only architectural.
+    \item We report a complete 210-run ordered tracking matrix and a 72-cell multi-seed common-view mapping diagnostic, with sequence-level outcomes and proxy boundaries retained.
+\end{itemize}
+
+The supported claim is deliberately bounded.
+The Full route improves aggregate tracking and reconstruction diagnostics over its same-source Semantic parent, and its route certificate passes in every tested cell with observed recovery.
+It does not win every sequence, the mechanism matrix is ordered rather than factorial, and the leading T+M row was selected on consumed DYN-19 data.
+The paper therefore argues for a concrete RGB-D/ORB recovery and routing mechanism rather than conceptual priority, universal improvement, external SOTA superiority, or direct measurement of 3D ghost contamination.

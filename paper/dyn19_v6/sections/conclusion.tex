@@ -1,0 +1,12 @@
+\section{Conclusion}
+
+GDOR-SLAM implements an auditable two-route contract for dynamic-region evidence in an RGB-D/ORB Gaussian SLAM pipeline.
+Temporal depth, residual flow, and tracking-risk evidence qualify excluded observations for transient localization, while persistent ORB and Gaussian mapping remain governed by a conservative map mask.
+
+DYN-19 completes 210 tracking runs and 72 common-view mapping cells.
+Full improves aggregate ATE, failure rate, and multi-seed reconstruction diagnostics over Semantic, while exact certificates show observed tracking recovery with zero recovered-support map admission in all 30 Full cells.
+The deliberate Full-NoM counterfactual exposes overlap in all 30 cells, confirming that the separation is enforced by the mapping route.
+
+The result is positive but conditional: Full wins 7/10 sequence means rather than all sequences, and the ordered ladder places T+M ahead of Full on the consumed aggregate.
+T+M therefore becomes the next held-out candidate, not a retrospectively promoted final method.
+The current evidence supports the implemented privilege separation and local aggregate benefit; official external superiority, factorial component causality, universal mapping superiority, and independent 3D ghost elimination remain open.

@@ -140,6 +140,24 @@ DYN19_PHASE_CONFIGS = {
     "main": DYN19_MAIN_CONFIGS,
     "mechanisms": DYN19_MECHANISM_CONFIGS,
 }
+DYN20_EXPERIMENT_ID = "DYN-20_TPLUSM_FRESH_HELDOUT_20260915"
+DYN20_HELDOUT_SEQUENCES = (
+    "tum_sitting_static",
+    "tum_walking_rpy",
+    "tum_sitting_xyz",
+    "tum_sitting_rpy",
+)
+DYN20_REQUIRED_SEEDS = (0, 1, 2)
+DYN20_CONFIGS = (
+    "dyn19_semantic",
+    "dyn19_mapmatched",
+    "dyn19_temporal_map",
+    "dyn19_full",
+)
+DYN20_CANDIDATE = "dyn19_temporal_map"
+DYN20_PRIMARY_CONTROL = "dyn19_full"
+DYN20_MIN_PAIRED_ATE_WINS = 7
+DYN20_MAX_FAILURE_RATE_INCREASE = 0.005
 DYN19_FACTOR_KEYS = (
     "mask.use_flow",
     "mask.enable_flow_hard",
@@ -357,6 +375,9 @@ SEQUENCES = {
     "tum_sitting_rpy": (
         DATASETS / "rgbd_dataset_freiburg3_sitting_rpy", TUM_ORB, TUM_GAUSSIAN,
         "associations.txt"),
+    "tum_sitting_static": (
+        DATASETS / "rgbd_dataset_freiburg3_sitting_static", TUM_ORB,
+        TUM_GAUSSIAN, "associations.txt"),
     "tum_sitting_halfsphere": (
         DATASETS / "rgbd_dataset_freiburg3_sitting_halfsphere", TUM_ORB,
         TUM_GAUSSIAN, "associations.txt"),
@@ -575,6 +596,73 @@ def dyn19_phase_plan_contract(root: Path) -> dict[str, Any]:
         result["semantic_mask_exports_match"] and
         result["config_contract"]["valid"] and
         result["recorded_config_contract"] == result["config_contract"])
+    return result
+
+
+def dyn20_heldout_plan_contract(root: Path) -> dict[str, Any]:
+    plan_path = root / "benchmark_plan.json"
+    digest_path = root / "benchmark_plan.sha256"
+    result: dict[str, Any] = {
+        "contract": "dyn20-tplusm-heldout-plan-audit-v1",
+        "valid": False,
+        "plan_path": str(plan_path),
+        "expected_tasks": (
+            len(DYN20_CONFIGS) * len(DYN20_HELDOUT_SEQUENCES) *
+            len(DYN20_REQUIRED_SEEDS)),
+        "actual_tasks": 0,
+    }
+    if not plan_path.is_file() or not digest_path.is_file():
+        result["error"] = "missing frozen benchmark plan or digest"
+        return result
+    digest_fields = digest_path.read_text().strip().split()
+    actual_digest = sha256(plan_path)
+    if not digest_fields or digest_fields[0] != actual_digest:
+        result["error"] = "benchmark plan digest mismatch"
+        return result
+    plan = json.loads(plan_path.read_text())
+    dyn20 = plan.get("dyn20")
+    if not isinstance(dyn20, dict):
+        result["error"] = "plan is not a DYN-20 T+M held-out plan"
+        return result
+
+    expected = {
+        (config, sequence, seed)
+        for config in DYN20_CONFIGS
+        for sequence in DYN20_HELDOUT_SEQUENCES
+        for seed in DYN20_REQUIRED_SEEDS
+    }
+    tasks = plan.get("tasks", [])
+    actual = {
+        (task.get("config"), task.get("sequence"), task.get("seed"))
+        for task in tasks
+        if isinstance(task, dict)
+    }
+    dyn19_overlap = sorted(
+        set(DYN20_HELDOUT_SEQUENCES) & set(DYN19_CLAIM_SEQUENCES))
+    config_contract = dyn19_config_contract()
+    result.update({
+        "actual_tasks": len(tasks),
+        "task_identity_match": len(tasks) == len(expected) and actual == expected,
+        "heldout_stride_zero": all(
+            isinstance(task, dict) and task.get("heldout_stride") == 0
+            for task in tasks),
+        "no_static_mask_exports": all(
+            isinstance(task, dict) and not task.get("export_static_masks")
+            for task in tasks),
+        "dyn19_sequence_overlap": dyn19_overlap,
+        "config_contract": config_contract,
+        "recorded_config_contract": dyn20.get("config_contract"),
+    })
+    result["valid"] = bool(
+        dyn20.get("experiment_id") == DYN20_EXPERIMENT_ID and
+        dyn20.get("candidate") == DYN20_CANDIDATE and
+        dyn20.get("selection_source_experiment_id") == DYN19_EXPERIMENT_ID and
+        result["task_identity_match"] and
+        result["heldout_stride_zero"] and
+        result["no_static_mask_exports"] and
+        not dyn19_overlap and
+        config_contract["valid"] and
+        result["recorded_config_contract"] == config_contract)
     return result
 
 
@@ -2640,6 +2728,192 @@ def write_dyn19_phase_reports(
     atomic_json(root / "dyn19_phase_report.json", report)
 
 
+def write_dyn20_heldout_report(
+    root: Path,
+    results: list[dict[str, Any]],
+) -> None:
+    plan_audit = dyn20_heldout_plan_contract(root)
+    if plan_audit.get("error") in {
+        "missing frozen benchmark plan or digest",
+        "plan is not a DYN-20 T+M held-out plan",
+    }:
+        return
+
+    expected = {
+        (config, sequence, seed)
+        for config in DYN20_CONFIGS
+        for sequence in DYN20_HELDOUT_SEQUENCES
+        for seed in DYN20_REQUIRED_SEEDS
+    }
+    result_by_identity: dict[tuple[str, str, int], dict[str, Any]] = {}
+    duplicates = []
+    for result in results:
+        identity = (
+            result.get("config"), result.get("sequence"), result.get("seed"))
+        if identity in result_by_identity:
+            duplicates.append(identity)
+        result_by_identity[identity] = result
+    complete = {
+        identity: result
+        for identity, result in result_by_identity.items()
+        if identity in expected and result.get("status") == "complete"
+    }
+    missing = sorted(expected - set(complete))
+    unexpected = sorted(set(result_by_identity) - expected)
+
+    aggregates: dict[str, Any] = {}
+    per_sequence: dict[str, Any] = {}
+    for config in DYN20_CONFIGS:
+        runs = [
+            complete[(config, sequence, seed)]
+            for sequence in DYN20_HELDOUT_SEQUENCES
+            for seed in DYN20_REQUIRED_SEEDS
+            if (config, sequence, seed) in complete
+        ]
+        aggregates[config] = {
+            "completed_runs": len(runs),
+            "ate_mean_m": (
+                statistics.mean(run["metrics"]["ate_rmse_m"] for run in runs)
+                if runs else None),
+            "rpe_translation_mean_m": (
+                statistics.mean(
+                    run["metrics"]["rpe_translation_rmse_m"] for run in runs)
+                if runs else None),
+            "failure_rate_mean": (
+                statistics.mean(run["metrics"]["failure_rate"] for run in runs)
+                if runs else None),
+            "end_to_end_mean_seconds": (
+                statistics.mean(
+                    run["metrics"]["end_to_end_seconds"] for run in runs)
+                if runs else None),
+        }
+
+    paired_wins_over_full = 0
+    paired_wins_over_semantic = 0
+    for sequence in DYN20_HELDOUT_SEQUENCES:
+        variants = {}
+        for config in DYN20_CONFIGS:
+            runs = [
+                complete[(config, sequence, seed)]
+                for seed in DYN20_REQUIRED_SEEDS
+                if (config, sequence, seed) in complete
+            ]
+            variants[config] = {
+                "completed_runs": len(runs),
+                "ate_mean_m": (
+                    statistics.mean(
+                        run["metrics"]["ate_rmse_m"] for run in runs)
+                    if runs else None),
+                "failure_rate_mean": (
+                    statistics.mean(
+                        run["metrics"]["failure_rate"] for run in runs)
+                    if runs else None),
+            }
+        per_sequence[sequence] = variants
+        for seed in DYN20_REQUIRED_SEEDS:
+            candidate = complete.get((DYN20_CANDIDATE, sequence, seed))
+            full = complete.get((DYN20_PRIMARY_CONTROL, sequence, seed))
+            semantic = complete.get(("dyn19_semantic", sequence, seed))
+            if candidate is not None and full is not None:
+                paired_wins_over_full += (
+                    candidate["metrics"]["ate_rmse_m"] <
+                    full["metrics"]["ate_rmse_m"])
+            if candidate is not None and semantic is not None:
+                paired_wins_over_semantic += (
+                    candidate["metrics"]["ate_rmse_m"] <
+                    semantic["metrics"]["ate_rmse_m"])
+
+    candidate_certificates = []
+    for sequence in DYN20_HELDOUT_SEQUENCES:
+        for seed in DYN20_REQUIRED_SEEDS:
+            result = complete.get((DYN20_CANDIDATE, sequence, seed))
+            certificate = (
+                result.get("metrics", {}).get(
+                    "recovered_support_overlap_certificate")
+                if result is not None else None)
+            candidate_certificates.append(
+                certificate if isinstance(certificate, dict) else {
+                    "status": "missing", "evidence": {}})
+    route_passes = sum(
+        certificate.get("status") == "pass" and
+        certificate.get("evidence", {}).get(
+            "tracking_recovery_audit_pixels", 0) > 0 and
+        certificate.get("evidence", {}).get(
+            "tracking_recovery_mapping_leak_pixels") == 0
+        for certificate in candidate_certificates)
+
+    complete_evidence = bool(
+        plan_audit.get("valid") and len(complete) == len(expected) and
+        not duplicates and not unexpected)
+    candidate = aggregates[DYN20_CANDIDATE]
+    full = aggregates[DYN20_PRIMARY_CONTROL]
+    semantic = aggregates["dyn19_semantic"]
+    aggregate_conditions_available = all(
+        item.get("ate_mean_m") is not None and
+        item.get("failure_rate_mean") is not None
+        for item in (candidate, full, semantic))
+    conditions = {
+        "complete_evidence": complete_evidence,
+        "candidate_route_passes": route_passes,
+        "candidate_route_passes_required": (
+            len(DYN20_HELDOUT_SEQUENCES) * len(DYN20_REQUIRED_SEEDS)),
+        "candidate_mean_ate_not_worse_than_full": bool(
+            aggregate_conditions_available and
+            candidate["ate_mean_m"] <= full["ate_mean_m"]),
+        "candidate_mean_ate_better_than_semantic": bool(
+            aggregate_conditions_available and
+            candidate["ate_mean_m"] < semantic["ate_mean_m"]),
+        "paired_ate_wins_over_full": paired_wins_over_full,
+        "minimum_paired_ate_wins_over_full": DYN20_MIN_PAIRED_ATE_WINS,
+        "candidate_failure_within_full_tolerance": bool(
+            aggregate_conditions_available and
+            candidate["failure_rate_mean"] <=
+            full["failure_rate_mean"] + DYN20_MAX_FAILURE_RATE_INCREASE),
+        "maximum_failure_rate_increase_over_full":
+            DYN20_MAX_FAILURE_RATE_INCREASE,
+    }
+    promoted = bool(
+        complete_evidence and
+        route_passes == conditions["candidate_route_passes_required"] and
+        conditions["candidate_mean_ate_not_worse_than_full"] and
+        conditions["candidate_mean_ate_better_than_semantic"] and
+        paired_wins_over_full >= DYN20_MIN_PAIRED_ATE_WINS and
+        conditions["candidate_failure_within_full_tolerance"])
+
+    report = {
+        "experiment_id": DYN20_EXPERIMENT_ID,
+        "contract": "dyn20-tplusm-heldout-report-v1",
+        "status": (
+            "pass" if promoted else
+            "fail" if complete_evidence else
+            "insufficient_data"),
+        "tplusm_promoted": promoted,
+        "plan_audit": plan_audit,
+        "expected_runs": len(expected),
+        "completed_runs": len(complete),
+        "missing_runs": [
+            f"{config}/{sequence}/seed_{seed:04d}"
+            for config, sequence, seed in missing],
+        "unexpected_results": [
+            f"{config}/{sequence}/seed_{seed:04d}"
+            for config, sequence, seed in unexpected],
+        "duplicate_results": [
+            f"{config}/{sequence}/seed_{seed:04d}"
+            for config, sequence, seed in duplicates],
+        "aggregates": aggregates,
+        "per_sequence": per_sequence,
+        "paired_ate_wins_over_semantic": paired_wins_over_semantic,
+        "conditions": conditions,
+        "predeclared_rule": (
+            "All 48 runs must complete under the frozen plan. T+M must pass "
+            "all 12 non-vacuous zero-overlap route certificates, have mean ATE "
+            "no worse than Full and lower than Semantic, win paired ATE against "
+            "Full in at least 7 of 12 cells, and keep mean failure rate within "
+            "0.5 percentage points of Full. Runtime is reported but not gated."),
+    }
+    atomic_json(root / "dyn20_tplusm_heldout_report.json", report)
+
+
 def aggregate(root: Path, results: list[dict[str, Any]]) -> None:
     identities = [
         (result["config"], result["sequence"], result["seed"])
@@ -3434,6 +3708,7 @@ def aggregate(root: Path, results: list[dict[str, Any]]) -> None:
     write_motion_ablation_summary(root, results)
     write_flow_adaptive_incumbent_gate(root, results)
     write_dyn19_phase_reports(root, results)
+    write_dyn20_heldout_report(root, results)
 
 
 def validate_inputs(configs: list[str], sequences: list[str]) -> None:
@@ -3484,7 +3759,10 @@ def build_task_blocks(
     disable_gaussian_mapper: bool = False,
     export_static_masks: bool = False,
     dyn19_phase: str | None = None,
+    dyn20_heldout: bool = False,
 ) -> tuple[list[dict[str, Any]], list[list[dict[str, Any]]]]:
+    if dyn19_phase is not None and dyn20_heldout:
+        raise ValueError("DYN-19 and DYN-20 task identities are mutually exclusive")
     tasks = []
     blocks = []
     for sequence_index, sequence in enumerate(sequences):
@@ -3524,6 +3802,17 @@ def build_task_blocks(
                         "phase": dyn19_phase,
                         "factors": DYN19_FACTOR_MATRIX[config],
                     }
+                if dyn20_heldout:
+                    task["dyn20"] = {
+                        "experiment_id": DYN20_EXPERIMENT_ID,
+                        "candidate": DYN20_CANDIDATE,
+                        "role": (
+                            "candidate" if config == DYN20_CANDIDATE
+                            else "primary_control" if config == DYN20_PRIMARY_CONTROL
+                            else "context_control"),
+                        "selection_source_experiment_id": DYN19_EXPERIMENT_ID,
+                        "factors": DYN19_FACTOR_MATRIX[config],
+                    }
                 tasks.append(task)
                 block.append(task)
             blocks.append(block)
@@ -3547,6 +3836,13 @@ def main() -> int:
         help=(
             "freeze the DYN-19 main or incremental mechanism phase; this "
             "sets the exact 10-sequence, three-seed denominator"),
+    )
+    parser.add_argument(
+        "--dyn20-tplusm-heldout",
+        action="store_true",
+        help=(
+            "freeze the DYN-20 T+M held-out protocol; this sets the exact "
+            "four-sequence, four-config, three-seed denominator"),
     )
     parser.add_argument(
         "--export-static-masks",
@@ -3579,6 +3875,8 @@ def main() -> int:
         "bonn_crowd",
     ]
     default_seeds = [0, 1, 2, 3, 4]
+    if args.dyn19_phase is not None and args.dyn20_tplusm_heldout:
+        parser.error("--dyn19-phase and --dyn20-tplusm-heldout are mutually exclusive")
     if args.dyn19_phase is not None:
         phase_configs = list(DYN19_PHASE_CONFIGS[args.dyn19_phase])
         if args.configs is not None and args.configs != phase_configs:
@@ -3602,6 +3900,25 @@ def main() -> int:
         args.heldout_stride = 0
         if args.dyn19_phase == "main":
             args.export_static_masks = True
+    elif args.dyn20_tplusm_heldout:
+        if args.configs is not None and args.configs != list(DYN20_CONFIGS):
+            parser.error(
+                f"--dyn20-tplusm-heldout requires configs {list(DYN20_CONFIGS)}")
+        if (args.sequences is not None and
+                args.sequences != list(DYN20_HELDOUT_SEQUENCES)):
+            parser.error(
+                "--dyn20-tplusm-heldout requires the frozen DYN-20 sequence split")
+        if args.seeds is not None and args.seeds != list(DYN20_REQUIRED_SEEDS):
+            parser.error(
+                f"--dyn20-tplusm-heldout requires seeds {list(DYN20_REQUIRED_SEEDS)}")
+        if args.heldout_stride not in (None, 0):
+            parser.error("--dyn20-tplusm-heldout uses heldout_stride=0")
+        if args.export_static_masks:
+            parser.error("--dyn20-tplusm-heldout does not export mapping masks")
+        args.configs = list(DYN20_CONFIGS)
+        args.sequences = list(DYN20_HELDOUT_SEQUENCES)
+        args.seeds = list(DYN20_REQUIRED_SEEDS)
+        args.heldout_stride = 0
     else:
         args.configs = args.configs or default_configs
         args.sequences = args.sequences or default_sequences
@@ -3644,7 +3961,8 @@ def main() -> int:
         synchronize_loop_closing=args.sync_loop_closing,
         disable_gaussian_mapper=args.disable_gaussian_mapper,
         export_static_masks=args.export_static_masks,
-        dyn19_phase=args.dyn19_phase)
+        dyn19_phase=args.dyn19_phase,
+        dyn20_heldout=args.dyn20_tplusm_heldout)
     asset_contracts = {
         (config, sequence): benchmark_task_asset_contract(config, sequence)
         for config in args.configs
@@ -3810,6 +4128,42 @@ def main() -> int:
                 "full_config": "dyn19_full",
                 "zero_leak_required": True,
                 "vacuous_rows_are_not_positive_recovery_evidence": True,
+            },
+        }
+    if args.dyn20_tplusm_heldout:
+        plan_payload["dyn20"] = {
+            "experiment_id": DYN20_EXPERIMENT_ID,
+            "protocol": "dyn20-tplusm-fresh-heldout-v1",
+            "candidate": DYN20_CANDIDATE,
+            "primary_control": DYN20_PRIMARY_CONTROL,
+            "context_controls": [
+                config for config in DYN20_CONFIGS
+                if config not in {DYN20_CANDIDATE, DYN20_PRIMARY_CONTROL}
+            ],
+            "selection_source_experiment_id": DYN19_EXPERIMENT_ID,
+            "required_sequences": DYN20_HELDOUT_SEQUENCES,
+            "required_seeds": DYN20_REQUIRED_SEEDS,
+            "required_configs": DYN20_CONFIGS,
+            "no_dyn19_sequence_reuse": not bool(
+                set(DYN20_HELDOUT_SEQUENCES) & set(DYN19_CLAIM_SEQUENCES)),
+            "historical_exposure_disclosure": (
+                "The split is fresh for T+M selection and contains no DYN-19 "
+                "sequence. Three legacy TUM sequences have appeared in earlier "
+                "non-T+M project diagnostics; tum_sitting_static is newly added."),
+            "config_contract": dyn19_config_contract(),
+            "promotion_gate": {
+                "complete_runs_required": (
+                    len(DYN20_CONFIGS) * len(DYN20_HELDOUT_SEQUENCES) *
+                    len(DYN20_REQUIRED_SEEDS)),
+                "candidate_route_passes_required": (
+                    len(DYN20_HELDOUT_SEQUENCES) * len(DYN20_REQUIRED_SEEDS)),
+                "candidate_mean_ate_not_worse_than_full": True,
+                "candidate_mean_ate_better_than_semantic": True,
+                "minimum_paired_ate_wins_over_full":
+                    DYN20_MIN_PAIRED_ATE_WINS,
+                "maximum_failure_rate_increase_over_full":
+                    DYN20_MAX_FAILURE_RATE_INCREASE,
+                "runtime_is_reported_not_gated": True,
             },
         }
     freeze_benchmark_plan(root, plan_payload, tasks)

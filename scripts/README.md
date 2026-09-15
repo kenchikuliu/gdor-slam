@@ -464,3 +464,22 @@ It freezes 4 core scenes x 3 seeds x Semantic/MapMatched/Full maps, renders
 both online and GT-aligned common held-out views, and evaluates normal
 rendering metrics plus the explicit `occluded-background proxy`. The proxy
 metrics are not true ghost counts.
+
+### DYN-20 T+M Held-Out Registration
+
+`--dyn20-tplusm-heldout` freezes the successor test selected by DYN-19. It uses
+four TUM sequences that do not occur in the DYN-19 denominator, four fixed
+configurations, and seeds 0/1/2 for 48 tracking runs:
+
+```bash
+DYNAGS_DATASETS_ROOT=/mnt/nvme_data/datasets \
+python3 scripts/run_reproducible_benchmark.py \
+  --dyn20-tplusm-heldout \
+  --gpus 0 1 --jobs 2 --dry-run \
+  --output-root /path/to/new/dyn20_registration_root
+```
+
+The generated plan records the DYN-19 selection source, split disclosure,
+config contract, and promotion gate. A completed run writes
+`dyn20_tplusm_heldout_report.json`. See
+`docs/DYN20_TPLUSM_HELDOUT_PROTOCOL.md` for the exact decision rule.

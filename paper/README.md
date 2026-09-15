@@ -4,10 +4,11 @@ This directory contains the public, evidence-linked artifact for:
 
 > GDOR-SLAM: Guarded Dynamic Observation Recovery for RGB-D Gaussian SLAM
 
-The PDF is a nine-page TMM pre-submission manuscript frozen on August 8, 2026.
-It uses an unfinished author placeholder and is not a publication record.
-It predates the completed September 14, 2026 DYN-19 experiment and must not be
-described as containing DYN-19 results.
+Two versioned pre-submission artifacts are retained. Both use an unfinished
+author placeholder and are not publication records:
+
+- the nine-page v5r3 PDF frozen on August 8, 2026, which predates DYN-19;
+- the seven-page DYN-19 v6 revision built on September 15, 2026.
 
 ## Contents
 
@@ -20,6 +21,9 @@ described as containing DYN-19 results.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
 - `EVIDENCE_MANIFEST.md`: public protocol and claim-boundary ledger.
 - `SHA256SUMS`: hashes for the published artifact files.
+- `GDOR-SLAM_TMM_v6_dyn19_preprint.pdf`: versioned DYN-19 revision PDF.
+- `dyn19_v6/`: independent DYN-19 source, path-sanitized evidence, validators,
+  manifests, figure generator, and matching PDF.
 
 Raw datasets, generated Gaussian maps, trajectories, per-frame masks, model
 weights, and full experiment roots are not redistributed. The CSV files expose
@@ -74,9 +78,7 @@ The source release implements the newer tracking-to-mapping overlap audit, but
 the archived experiments predate that counter. This distinction is retained in
 the manuscript and public evidence manifest.
 
-The later DYN-19 result is recorded separately in
-[`docs/DYN19_RESULTS.md`](../docs/DYN19_RESULTS.md). It completes a 210-run
-tracking matrix, 30/30 Full zero-overlap certificates, and a 72-cell multi-seed
-mapping diagnostic. Integrating that evidence requires a new manuscript
-revision and regenerated evidence manifest rather than editing the frozen PDF
-in place.
+The later DYN-19 result is recorded in
+[`docs/DYN19_RESULTS.md`](../docs/DYN19_RESULTS.md) and integrated into the
+separate [`dyn19_v6/`](dyn19_v6/README.md) manuscript/evidence package. The
+v5r3 PDF and its matching source remain the frozen predecessor.

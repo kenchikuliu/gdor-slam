@@ -1,0 +1,37 @@
+{
+  "contract": "gdor-dyn19-public-evidence-v1",
+  "generated_on": "2026-09-15",
+  "experiment_id": "DYN-19_FULL_CAUSAL_MAP_INTEGRITY_20260913",
+  "release_id": "DYN19_RESULTS_20260914_R1",
+  "source_commit": "14c6b2ca696a7eacda8f193e5c8a0a44e55d527e",
+  "release_manifest_sha256": "b859bac34fa42e87905a6ba77b773490b640e95e5fbea0fa3b65343dd776721d",
+  "source_files": {
+    "DYN19_RELEASE_MANIFEST.json": "b859bac34fa42e87905a6ba77b773490b640e95e5fbea0fa3b65343dd776721d",
+    "SHA256SUMS": "96315b5eb1785b4b8109edd711bfc4bfa30e5195a0ae03fc9846005a5f96da70",
+    "metadata/main/aggregate.csv": "b37624dc0c0007000753bebd56565cd4db1cf2fc53e33ff0b2f340f9365dfac6",
+    "metadata/main/all_results.json": "abcf7b2874fe58b10302e72d415dcf566458291df8aa1f9b326f92c55b205ac9",
+    "metadata/main/benchmark_plan.json": "4a4df6245eb6249c43d88d0cd14f2e8aa8b409bc602fb4c10e7c72c2360e494e",
+    "metadata/mechanisms/aggregate.csv": "8c1c94783681dd580bbb95445bc88b0454866b6323a2a70902e903464c9970a4",
+    "metadata/mechanisms/all_results.json": "eaf2f8a624809e6ce6fb0ac3acd15d617df3e7b9b9d2ffa17fc7a1aadbbc353a",
+    "metadata/mechanisms/benchmark_plan.json": "7bb32f71e65142c15e791633fab5db8d6d28c134a1c946eb817b9932d07f9d5c",
+    "metadata/mapping/dyn19_map_integrity_summary.csv": "3403e6bdcae6a2a5a8dd7b209fbc39d7e20ee27900c08352115cd1ee42cefaf3",
+    "metadata/mapping/dyn19_map_integrity_plan.json": "6df920724dcb239a861a4f3adbc82a1c715a41cc0f5e6b7ce942f45aaef35002"
+  },
+  "derived_files": {
+    "dyn19_tracking_sequence_means.csv": "8fa318a9facbe900472fa34c1103192f31d447e1274e51a691ea500cc5dc7ba8",
+    "dyn19_route_certificates.csv": "772b53f5d690007d55ea8c2df432a4830bb7ee74deeed818e61de88b45b685e1",
+    "dyn19_mapping_cells.csv": "9b9ea516997e2d1eb892c77c344ae42c8dfd0720c14b44add52c16b9047425b5"
+  },
+  "counts": {
+    "tracking_sequence_means": 70,
+    "route_certificate_cells": 210,
+    "mapping_metric_cells": 72
+  },
+  "claim_boundaries": [
+    "DYN-19 is an ordered ablation, not a factorial design.",
+    "The mechanism rows do not identify independent component effects or interactions.",
+    "Occluded-background values are proxy diagnostics, not independent ghost/completeness ground truth.",
+    "External DG-SLAM and DynaSLAM rows are audit-only until protocol-matched eligibility gates pass.",
+    "dyn19_full_no_mapping is an intentional negative counterfactual; its certificate failures are expected boundary evidence."
+  ]
+}

@@ -179,6 +179,31 @@ def freeze_dyn19_main_plan(root: Path) -> list[dict]:
     return tasks
 
 
+def freeze_dyn20_heldout_plan(root: Path) -> list[dict]:
+    tasks, _ = BENCHMARK.build_task_blocks(
+        list(BENCHMARK.DYN20_CONFIGS),
+        list(BENCHMARK.DYN20_HELDOUT_SEQUENCES),
+        list(BENCHMARK.DYN20_REQUIRED_SEEDS),
+        ["0"],
+        0,
+        {"commit": "synthetic-clean-commit", "dirty": False},
+        root,
+        dyn20_heldout=True,
+    )
+    payload = {
+        "contract": "reproducible-benchmark-plan-v3",
+        "tasks": tasks,
+        "dyn20": {
+            "experiment_id": BENCHMARK.DYN20_EXPERIMENT_ID,
+            "candidate": BENCHMARK.DYN20_CANDIDATE,
+            "selection_source_experiment_id": BENCHMARK.DYN19_EXPERIMENT_ID,
+            "config_contract": BENCHMARK.dyn19_config_contract(),
+        },
+    }
+    BENCHMARK.freeze_benchmark_plan(root, payload, tasks)
+    return tasks
+
+
 class AggregateGateTest(unittest.TestCase):
     def run_aggregate(self, results: list[dict]) -> Path:
         directory = tempfile.TemporaryDirectory()
@@ -1678,6 +1703,69 @@ class AggregateGateTest(unittest.TestCase):
         self.assertEqual(report["certificate_status_counts"]["vacuous"], 30)
         self.assertEqual(
             report["positive_recovery_evidence"], "not_observed_all_vacuous")
+
+    def test_dyn20_split_is_disjoint_from_dyn19_and_frozen_to_48_runs(self) -> None:
+        self.assertFalse(
+            set(BENCHMARK.DYN20_HELDOUT_SEQUENCES) &
+            set(BENCHMARK.DYN19_CLAIM_SEQUENCES))
+        self.assertIn(
+            "tum_sitting_static", BENCHMARK.DYN20_HELDOUT_SEQUENCES)
+        self.assertEqual(
+            len(BENCHMARK.DYN20_CONFIGS) *
+            len(BENCHMARK.DYN20_HELDOUT_SEQUENCES) *
+            len(BENCHMARK.DYN20_REQUIRED_SEEDS),
+            48,
+        )
+
+    def test_dyn20_tasks_carry_separate_experiment_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            tasks = freeze_dyn20_heldout_plan(Path(directory))
+            audit = BENCHMARK.dyn20_heldout_plan_contract(Path(directory))
+
+        self.assertTrue(audit["valid"])
+        self.assertEqual(audit["dyn19_sequence_overlap"], [])
+        self.assertTrue(all("dyn20" in task for task in tasks))
+        self.assertTrue(all("dyn19" not in task for task in tasks))
+        self.assertEqual(
+            sum(task["dyn20"]["role"] == "candidate" for task in tasks), 12)
+
+    def test_dyn20_report_applies_predeclared_tplusm_promotion_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            freeze_dyn20_heldout_plan(root)
+            results = []
+            ate_by_config = {
+                "dyn19_semantic": 0.15,
+                "dyn19_mapmatched": 0.12,
+                "dyn19_temporal_map": 0.08,
+                "dyn19_full": 0.10,
+            }
+            for config in BENCHMARK.DYN20_CONFIGS:
+                for sequence in BENCHMARK.DYN20_HELDOUT_SEQUENCES:
+                    for seed in BENCHMARK.DYN20_REQUIRED_SEEDS:
+                        result = complete(
+                            config, sequence, seed, ate_by_config[config])
+                        if config == BENCHMARK.DYN20_CANDIDATE:
+                            result["metrics"][
+                                "recovered_support_overlap_certificate"
+                            ] = {
+                                "status": "pass",
+                                "evidence": {
+                                    "tracking_recovery_audit_pixels": 10,
+                                    "tracking_recovery_mapping_leak_pixels": 0,
+                                },
+                            }
+                        results.append(result)
+            BENCHMARK.write_dyn20_heldout_report(root, results)
+            report = json.loads(
+                (root / "dyn20_tplusm_heldout_report.json").read_text())
+
+        self.assertEqual(report["status"], "pass")
+        self.assertTrue(report["tplusm_promoted"])
+        self.assertEqual(
+            report["conditions"]["candidate_route_passes"], 12)
+        self.assertEqual(
+            report["conditions"]["paired_ate_wins_over_full"], 12)
 
 
 if __name__ == "__main__":
