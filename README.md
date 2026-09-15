@@ -23,6 +23,9 @@ The main same-source results are:
 
 | Protocol | Comparison | Result |
 | --- | --- | ---: |
+| DYN-19, 90 runs | Semantic hard exclusion -> Full, ten-sequence mean ATE | 10.119 -> **4.930 cm** |
+| DYN-19, 210-run ordered matrix | MapMatched -> T+M, ten-sequence mean ATE | 7.392 -> **3.859 cm** |
+| DYN-19, 72 cells | Semantic -> Full, multi-seed static-region PSNR | 18.866 -> **19.763 dB** |
 | DYN-15, 63 runs | Semantic hard exclusion -> GDOR, All7 mean ATE | 11.331 -> **3.798 cm** |
 | DYN-18, 36 cells | Semantic hard exclusion -> GDOR, TUM4 mean ATE | 9.746 -> **3.415 cm** |
 | DYN-17, 9 runs | Map-matched control -> GDOR, subset mean ATE | 7.816 -> **4.053 cm** |
@@ -31,6 +34,11 @@ The main same-source results are:
 These are local same-source comparisons. They do not establish superiority over
 an official, protocol-matched DyPho-SLAM rerun; see the evidence manifest for the
 complete claim boundary.
+
+DYN-19 additionally records 30/30 non-vacuous zero-overlap certificate passes
+for Full and 30/30 expected overlap failures for the Full-NoM counterfactual.
+See [`docs/DYN19_RESULTS.md`](docs/DYN19_RESULTS.md) for sequence-dependent
+tracking results, the ordered mechanism matrix, and mapping evidence boundaries.
 
 ## Method Boundary
 
@@ -146,7 +154,9 @@ external-report context unless the official implementation is independently
 rerun under a matched protocol.
 
 The current research package is therefore suitable for reproducing the GDOR
-mechanism and its local comparison, but paper claims must retain this distinction.
+mechanism, its local comparison, and the completed DYN-19 route-separation
+audit, but paper claims must retain this distinction. The PDF in `paper/` was
+frozen before DYN-19 and does not yet include those results.
 
 ## License
 

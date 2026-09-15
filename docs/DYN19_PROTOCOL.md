@@ -2,7 +2,10 @@
 
 Registered: September 13, 2026
 Experiment ID: `DYN-19_FULL_CAUSAL_MAP_INTEGRITY_20260913`
-Status: frozen plan; no GPU run is authorized from an uncommitted or dirty source tree.
+Status: completed September 14, 2026 from clean source commit `14c6b2c`.
+
+Result record: [`DYN19_RESULTS.md`](DYN19_RESULTS.md). The frozen plan remains
+the governing protocol; this file is not retroactively changed to fit results.
 
 ## Purpose
 
@@ -234,3 +237,9 @@ route keeps observed recovered tracking support out of map admission under the
 declared protocol. It cannot, by itself, establish external SOTA, official
 DyPho-SLAM superiority, universal tracking improvement, or true 3D ghost
 ground truth.
+
+The completed release satisfies the planned 90-run main denominator, 120-run
+mechanism denominator, 72-cell mapping matrix, and 30/30 Full zero-overlap
+certificate requirement. Result interpretation remains in
+[`DYN19_RESULTS.md`](DYN19_RESULTS.md) so the predeclared protocol and the
+post-run decision stay visibly separate.

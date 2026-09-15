@@ -6,6 +6,8 @@ This directory contains the public, evidence-linked artifact for:
 
 The PDF is a nine-page TMM pre-submission manuscript frozen on August 8, 2026.
 It uses an unfinished author placeholder and is not a publication record.
+It predates the completed September 14, 2026 DYN-19 experiment and must not be
+described as containing DYN-19 results.
 
 ## Contents
 
@@ -71,3 +73,10 @@ not claim:
 The source release implements the newer tracking-to-mapping overlap audit, but
 the archived experiments predate that counter. This distinction is retained in
 the manuscript and public evidence manifest.
+
+The later DYN-19 result is recorded separately in
+[`docs/DYN19_RESULTS.md`](../docs/DYN19_RESULTS.md). It completes a 210-run
+tracking matrix, 30/30 Full zero-overlap certificates, and a 72-cell multi-seed
+mapping diagnostic. Integrating that evidence requires a new manuscript
+revision and regenerated evidence manifest rather than editing the frozen PDF
+in place.

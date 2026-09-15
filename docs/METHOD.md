@@ -88,7 +88,14 @@ DyPho-compatible local reproduction. It does not support a claim against the
 official DyPho-SLAM executable or source implementation.
 
 The source release contains the exact overlap counter
-`tracking_recovery_mapping_leak_pixels`, but the archived DYN-15 through DYN-18
-campaign summaries predate that field. Those historical results therefore
-support active mapping-gate behavior and source-level route separation, not an
+`tracking_recovery_mapping_leak_pixels`. The archived DYN-15 through DYN-18
+campaign summaries predate that field, so those historical results support
+active mapping-gate behavior and source-level route separation rather than an
 empirical zero-overlap count.
+
+DYN-19 directly closes that newer audit path. All 30 Full sequence-seed cells
+contain observed recovered tracking support and zero overlap with persistent
+map admission, while all 30 Full-NoM counterfactual cells expose the expected
+overlap. The same release adds a four-scene, three-seed common-view mapping
+diagnostic. See [`DYN19_RESULTS.md`](DYN19_RESULTS.md) for numeric results and
+the remaining external-baseline and independent-truth boundaries.
