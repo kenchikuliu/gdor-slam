@@ -1,0 +1,120 @@
+{
+  "contract": "dyn20-result-record-v1",
+  "experiment_id": "DYN-20_TPLUSM_FRESH_HELDOUT_20260915",
+  "completed_at_utc": "2026-09-15T15:37:15.147308+00:00",
+  "result_root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn20_tplusm_fresh_heldout_run01_20260915",
+  "source": {
+    "commit": "a927a7959b2e4febedac13df01780107fe463e6b",
+    "dirty": false,
+    "runtime_source_snapshot_sha256": "0f3ea476226b398bbbaba3c132835e14385b71bf358a1f1ecee2ef893edd478c",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "plans": {
+    "registration": {
+      "root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn20_tplusm_fresh_heldout_registered_20260915",
+      "sha256": "9b20aafd4760c1a8f92cc1583258e08280954fc02ceafa41d65a7170453b3145"
+    },
+    "execution": {
+      "root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn20_tplusm_fresh_heldout_run01_20260915",
+      "sha256": "3c551b08924db1f60448b61c0b8b393435efa5d2bed21392d599275f87b67cbe"
+    },
+    "normalized_canonical_sha256": "04444ae87ea9189ad550e1fa0355d11978ae5bab38b68a9606bd4e8c7b042f28",
+    "normalized_equivalent_after_created_at_and_output_root": true
+  },
+  "completion": {
+    "expected_runs": 48,
+    "completed_runs": 48,
+    "missing_runs": 0,
+    "duplicate_runs": 0,
+    "unexpected_runs": 0,
+    "evidence_audit_valid": true,
+    "plan_audit_valid": true
+  },
+  "decision": {
+    "status": "no_go",
+    "report_status": "fail",
+    "tplusm_promoted": false,
+    "complete_evidence": true,
+    "candidate_route_passes": 12,
+    "candidate_route_passes_required": 12,
+    "candidate_mean_ate_not_worse_than_full": false,
+    "candidate_mean_ate_better_than_semantic": false,
+    "paired_ate_wins_over_full": 7,
+    "minimum_paired_ate_wins_over_full": 7,
+    "candidate_failure_within_full_tolerance": true,
+    "maximum_failure_rate_increase_over_full": 0.005
+  },
+  "aggregates": {
+    "dyn19_full": {
+      "ate_mean_m": 0.02464225,
+      "rpe_translation_mean_m": 0.013483166666666668,
+      "failure_rate_mean": 0.030715019583333333,
+      "end_to_end_mean_seconds": 66.30229709425
+    },
+    "dyn19_semantic": {
+      "ate_mean_m": 0.03958816666666667,
+      "rpe_translation_mean_m": 0.013296333333333334,
+      "failure_rate_mean": 0.056285850666666665,
+      "end_to_end_mean_seconds": 39.76940641825
+    },
+    "dyn19_temporal_map": {
+      "ate_mean_m": 0.04013825,
+      "rpe_translation_mean_m": 0.01227775,
+      "failure_rate_mean": 0.027232486583333333,
+      "end_to_end_mean_seconds": 55.605494281249996
+    },
+    "dyn19_mapmatched": {
+      "ate_mean_m": 0.05089791666666667,
+      "rpe_translation_mean_m": 0.013922083333333333,
+      "failure_rate_mean": 0.10270030066666666,
+      "end_to_end_mean_seconds": 45.08205255516667
+    }
+  },
+  "candidate_per_sequence_ate_mean_m": {
+    "tum_sitting_static": 0.0067209999999999995,
+    "tum_walking_rpy": 0.103065,
+    "tum_sitting_xyz": 0.014853666666666668,
+    "tum_sitting_rpy": 0.03591333333333334
+  },
+  "route_certificates": {
+    "dyn19_temporal_map": {
+      "pass": 12,
+      "vacuous": 0,
+      "tracking_recovery_audit_pixels": 518737122,
+      "tracking_recovery_mapping_leak_pixels": 0
+    },
+    "dyn19_full": {
+      "pass": 12,
+      "vacuous": 0,
+      "tracking_recovery_audit_pixels": 125512083,
+      "tracking_recovery_mapping_leak_pixels": 0
+    },
+    "dyn19_semantic": {
+      "pass": 0,
+      "vacuous": 12
+    },
+    "dyn19_mapmatched": {
+      "pass": 0,
+      "vacuous": 12
+    }
+  },
+  "evidence_audit": {
+    "manifest_plan_source_asset_bindings_valid": true,
+    "result_json_matches_all_results": true,
+    "certificate_provenance_and_accounting_valid": true,
+    "recomputed_aggregates_match_report": true,
+    "certificate_manifest_binding": {
+      "prefinal_running_reconstructable": 48,
+      "final_complete": 0,
+      "note": "The source runner certified the pre-final running manifest. Each recorded digest is exactly reconstructable from the retained final manifest by restoring status=running and removing return_code and finished_at. Final manifests are independently hashed by DYN20_RESULT_MANIFEST.json and SHA256SUMS."
+    }
+  },
+  "artifacts": {
+    "all_results.json": "58265fb34716d43bec8008bbce6116e4997635d5cf145f1ee23490a622f8fc19",
+    "aggregate.csv": "4ef54c10604f8e9279ad4ed68cb8ac98c7d7d7a6563991151bdc9393836a38a8",
+    "dyn20_tplusm_heldout_report.json": "45f0aabb6d6b632d1086a5663626795d742b034e0d2fc9aec5851bff1be411cd",
+    "DYN20_RESULT_MANIFEST.json": "1e73a702570dc65dbf1092981d4ce749382b6ff48569a1a0b8f674f3430cc440",
+    "SHA256SUMS": "17c561689a838ebe05b2463e28ece347f297c6d5796624cf0022163710b9ab76"
+  },
+  "claim_boundary": "DYN-20 is a complete valid negative held-out result. T+M is not promoted, and this split is not available for tuning or selective reruns."
+}

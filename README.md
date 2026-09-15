@@ -41,9 +41,11 @@ DYN-19 additionally records 30/30 non-vacuous zero-overlap certificate passes
 for Full and 30/30 expected overlap failures for the Full-NoM counterfactual.
 See [`docs/DYN19_RESULTS.md`](docs/DYN19_RESULTS.md) for sequence-dependent
 tracking results, the ordered mechanism matrix, and mapping evidence boundaries.
-The successor T+M candidate is separately registered under
+The successor T+M candidate was separately registered under
 [`docs/DYN20_TPLUSM_HELDOUT_PROTOCOL.md`](docs/DYN20_TPLUSM_HELDOUT_PROTOCOL.md)
-and is not promoted by the consumed DYN-19 result.
+and completed all 48 fresh held-out runs. It passed route separation, paired-win,
+and failure-rate clauses, but failed both aggregate ATE clauses and is therefore
+not promoted. See [`docs/DYN20_RESULTS.md`](docs/DYN20_RESULTS.md).
 
 ## Method Boundary
 

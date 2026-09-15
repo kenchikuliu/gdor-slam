@@ -1299,6 +1299,11 @@ def run_one(
             1.0 - run_summary["tracked_frames"] / run_summary["processed_frames"]),
     })
 
+    # The certificate hashes manifest.json, so persist the successful final
+    # manifest before certification and do not rewrite it afterward.
+    manifest["status"] = "complete"
+    atomic_json(run_dir / "manifest.json", manifest)
+
     certificate_path = (
         run_dir / "recovered_support_overlap_certificate.json")
     certifier = subprocess.run(
@@ -1374,8 +1379,6 @@ def run_one(
         "source": task["source"],
     }
     atomic_json(run_dir / "result.json", result)
-    manifest["status"] = "complete"
-    atomic_json(run_dir / "manifest.json", manifest)
     return result
 
 
