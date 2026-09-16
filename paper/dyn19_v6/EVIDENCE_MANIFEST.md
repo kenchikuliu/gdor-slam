@@ -66,7 +66,17 @@ benchmark plans, and all path-sanitized derived files by SHA-256.
 
 - DYN-18 remains an independently frozen predecessor validation and is not
   merged into DYN-19 denominators.
-- Published external baselines remain literature context unless an official
-  implementation passes a protocol-matched audit.
+- `data/dypho_style_tracking_comparison.csv` combines local DYN-19 sequence
+  means, local DYN-18 Guarded/Strict means, and four published DyPho-SLAM ATE
+  values. The external values are positioning context and are not merged into
+  local aggregates, win counts, or promotion gates.
+- `data/dypho_style_mapping_comparison.csv` summarizes the local 72-cell
+  mapping diagnostic. The checked DyPho-SLAM source reports no numeric PSNR,
+  SSIM, or LPIPS mapping table, so no external mapping value is supplied.
+- `data/external_quantitative_reference.csv` records the source table, metric,
+  scope, and claim boundary for every external reference row.
+- A protocol-matched official rerun is not required to report published values
+  as external context, but direct external superiority still requires matched
+  implementation and evaluation evidence.
 - No official DyPho-SLAM reproduction or external SOTA claim is made.
 - The frozen August 8, 2026 v5r3 PDF predates DYN-19 and remains unchanged.

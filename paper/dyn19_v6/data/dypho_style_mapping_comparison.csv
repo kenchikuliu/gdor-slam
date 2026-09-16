@@ -1,0 +1,7 @@
+pose_mode,configuration,scene_seed_cells,rendered_views,psnr_full_db,psnr_static_db,ssim_full,ssim_static,external_dypho_mapping_numeric,claim_boundary,source
+online,Semantic,12,240,15.757,18.866,0.636,0.695,not reported,Local DYN-19 common-view diagnostic; dynamic foreground remains in full-frame metrics,data/dyn19_mapping_cells.csv
+online,MapMatched,12,240,15.761,18.990,0.639,0.700,not reported,Local DYN-19 common-view diagnostic; dynamic foreground remains in full-frame metrics,data/dyn19_mapping_cells.csv
+online,Full,12,240,16.339,19.763,0.665,0.728,not reported,Local DYN-19 common-view diagnostic; dynamic foreground remains in full-frame metrics,data/dyn19_mapping_cells.csv
+gt_aligned,Semantic,12,240,11.477,12.082,0.460,0.492,not reported,Local DYN-19 common-view diagnostic; poses are GT-aligned only at rendering time,data/dyn19_mapping_cells.csv
+gt_aligned,MapMatched,12,240,11.737,12.442,0.468,0.503,not reported,Local DYN-19 common-view diagnostic; poses are GT-aligned only at rendering time,data/dyn19_mapping_cells.csv
+gt_aligned,Full,12,240,12.724,13.491,0.497,0.533,not reported,Local DYN-19 common-view diagnostic; poses are GT-aligned only at rendering time,data/dyn19_mapping_cells.csv

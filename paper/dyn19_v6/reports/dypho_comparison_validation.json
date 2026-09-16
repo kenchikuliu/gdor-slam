@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "tracking_rows": 4,
+  "mapping_rows": 6,
+  "external_reference_rows": 6,
+  "failures": [],
+  "claim_boundary": {
+    "dypho_tracking": "published external reference; not protocol-matched",
+    "dypho_mapping": "numeric mapping values not reported",
+    "local_mapping": "common-view PSNR/SSIM diagnostic"
+  }
+}

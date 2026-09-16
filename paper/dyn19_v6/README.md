@@ -14,15 +14,25 @@ manuscript. The frozen PDF remains at
   bound plan, manifest, summary, frame-log, source, and release hashes.
 - `data/dyn19_mapping_cells.csv`: all 72 common-view mapping metric cells with
   path fields removed and evidence hashes retained.
+- `data/dypho_style_tracking_comparison.csv`: four-sequence tracking comparison
+  combining local DYN-19/DYN-18 rows with DyPho-SLAM published ATE references.
+- `data/dypho_style_mapping_comparison.csv`: compact summary of the 72-cell
+  local mapping diagnostic and its external-reference boundary.
+- `data/external_quantitative_reference.csv`: audited external tracking and
+  mapping reference ledger; external rows are not protocol-matched reruns.
 - `data/dyn19_provenance.json`: source-release and derived-file hashes.
 - `scripts/export_dyn19_public_evidence.py`: deterministic importer from the
   retained DYN-19 release.
 - `scripts/validate_dyn19_evidence.py`: manuscript-number, denominator,
   certificate, hash, figure, and table validator.
+- `scripts/validate_dypho_comparison.py`: local source-to-summary validator for
+  the standalone tracking/mapping comparison package.
 - `scripts/generate_dyn19_overview.py`: deterministic Figure 1 generator.
 - `reports/`: generated validation and figure-provenance reports.
 - `EVIDENCE_MANIFEST.md`: claim/evidence boundary ledger.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
+- `../../docs/DYPHO_STYLE_QUANTITATIVE_COMPARISON.md`: tracking/mapping
+  comparison package and safe claim wording.
 - `SHA256SUMS`: hashes for every published file in this revision package.
 
 The package references `../IEEEtran.cls`, `../IEEEtran.bst`,
@@ -67,5 +77,10 @@ non-vacuous Full route-separation certificate, and positive multi-seed
 common-view reconstruction diagnostics. It does not establish factorial
 component causality, universal sequence or mapping superiority, official
 DyPho-SLAM superiority, external SOTA, or independent 3D ghost truth. T+M is
-the strongest consumed-data candidate and requires a new held-out experiment
-before promotion.
+the strongest DYN-19 consumed-data candidate, but the completed DYN-20 held-out
+gate did not promote it.
+
+The DyPho-style comparison package reports published DyPho-SLAM tracking
+values as external positioning context and does not require a protocol-matched
+official rerun. DyPho-SLAM numeric mapping values were not reported in the
+checked source, so the mapping comparison remains local-only.

@@ -1,0 +1,7 @@
+task,method,citation,source_table,dataset,scope,metric,reported_values,local_rerun,protocol_match,claim_boundary
+tracking,DynaSLAM,bescos2018dynaslam,Table II,TUM RGB-D,"walking_xyz;walking_halfsphere;walking_static;sitting_halfsphere",ATE RMSE cm,"1.5;2.5;0.6;1.7 (ten-run medians)",false,false,external context only
+tracking,DG-SLAM,xu2024dgslam,Table 2,TUM RGB-D,"walking_xyz;walking_static",ATE cm,"1.6;0.6 (paper-reported subset)",false,false,external context only
+tracking,DyPho-SLAM,liu2025dyphoslam,Table I,TUM RGB-D,"walking_xyz;walking_halfsphere;walking_static;sitting_halfsphere",ATE cm,"1.6;2.6;0.6;1.6 (paper reports Std separately)",false,false,external context only
+mapping,DG-SLAM,xu2024dgslam,Table 1,BONN RGB-D,"balloon;balloon2;person_tracking;person_tracking2;move_no_box2","mesh accuracy cm; mesh completion cm; completion ratio within 5 cm","8.06;15.46;43.67% (reported averages)",false,false,different metric and protocol from DYN-19 rendering diagnostic
+mapping,DynaSLAM,bescos2018dynaslam,Figures 1 and 5,TUM RGB-D,static map and background inpainting,qualitative only,no numeric mapping-quality metric reported,false,false,no quantitative mapping ranking
+mapping,DyPho-SLAM,liu2025dyphoslam,Figure 4,TUM RGB-D and BONN RGB-D,novel-view rendering,qualitative only,no PSNR SSIM or LPIPS mapping table reported,false,false,no quantitative mapping ranking

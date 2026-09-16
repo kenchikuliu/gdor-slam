@@ -125,10 +125,15 @@ These favorable changes remain proxy-only because the source sequences provide n
 
 \subsection{External Positioning and Statistical Boundary}
 
-Published DGS-SLAM, DG-SLAM, and DyPho-SLAM values remain related-work context and are not mixed with local tables as protocol-matched reruns.
-The DyPho-SLAM paper reports lower ATE on the four corresponding TUM sequences than the local DYN-18 Guarded results.
-Differences in implementation, masks, preprocessing, hardware, and evaluation prevent a valid direct ranking.
-An official frozen runner and matching evaluation contract are required before claiming external superiority.
+We include a DyPho-style external positioning comparison without requiring an official protocol-matched rerun.
+On the four TUM sequences used by the DyPho-SLAM table, its published ATE values are $1.6$, $2.6$, $0.6$, and $1.6$~cm for walking\_xyz, walking\_halfsphere, walking\_static, and sitting\_halfsphere, respectively~\cite{liu2025dyphoslam}.
+The independently frozen DYN-18 Guarded/GDOR evaluation obtains $2.1187$, $3.3441$, $0.8429$, and $7.3535$~cm, while its Strict control obtains $2.1009$, $3.3500$, $0.7449$, and $7.1821$~cm.
+The corresponding DYN-19 Semantic, MapMatched, and Full rows are $2.3413/2.1032/2.1476$, $3.3792/3.4234/3.6092$, $0.7370/0.7901/0.7297$, and $24.1754/36.7750/4.8639$~cm.
+These values are reported as local results plus an external reference, not as an apples-to-apples ranking: implementations, masks, preprocessing, hardware, and evaluation contracts differ.
+The complete comparison ledger is retained with the public data package and the accompanying DyPho-style comparison note.
+
+For mapping, the checked DyPho-SLAM source provides qualitative novel-view comparisons but no numeric PSNR, SSIM, or LPIPS table.
+We therefore retain the DYN-19 common-view PSNR/SSIM table as a local quantitative diagnostic and do not fabricate an external DyPho mapping column.
 
 DYN-19 reports the complete predeclared denominator and paired win counts rather than selecting only successful scenes.
 However, the ten sequences are not statistically independent samples from all dynamic environments, and the mechanism rows reuse the same consumed sequence set.

@@ -1,5 +1,5 @@
 version: gdor_tmm_v6_dyn19
-generated: 2026-09-15
+generated: 2026-09-17
 experiment_id: DYN-19_FULL_CAUSAL_MAP_INTEGRITY_20260913
 release_id: DYN19_RESULTS_20260914_R1
 source_commit: 14c6b2ca696a7eacda8f193e5c8a0a44e55d527e
@@ -31,7 +31,23 @@ tables:
     label: tab:dyn19-mapping
     role: multi_seed_common_view_mapping
     evidence: data/dyn19_mapping_cells.csv
+supplemental_tables:
+  dypho_tracking_positioning:
+    role: local_tracking_results_with_published_dypho_reference
+    evidence:
+      - data/dypho_style_tracking_comparison.csv
+      - data/external_quantitative_reference.csv
+      - ../data/dyn18_tum4_cells.csv
+    boundary: published_external_reference_not_protocol_matched
+  dypho_mapping_positioning:
+    role: local_common_view_mapping_with_external_availability_audit
+    evidence:
+      - data/dypho_style_mapping_comparison.csv
+      - data/dyn19_mapping_cells.csv
+      - data/external_quantitative_reference.csv
+    boundary: dypho_numeric_mapping_metrics_not_reported
 claim_boundary: >-
   DYN-19 is an ordered ablation. Full is aggregate-positive but not universal.
   T+M is consumed-data candidate evidence. Mapping is a multi-seed common-view
-  diagnostic, and occluded-background fields remain proxy-only.
+  diagnostic, and occluded-background fields remain proxy-only. Published
+  DyPho tracking values are external positioning context, not a matched rerun.

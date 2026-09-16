@@ -119,6 +119,7 @@ paper/sections/*.aux
 *_JUSTIFICATION.md
 *_STATUS*.md
 *_COMPARISON*.md
+!docs/DYPHO_STYLE_QUANTITATIVE_COMPARISON.md
 *_UPDATE*.md
 *_FIX*.md
 *_CRITIQUE*.md
