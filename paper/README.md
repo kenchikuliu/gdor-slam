@@ -10,7 +10,10 @@ It uses an unfinished author placeholder and is not a publication record.
 
 ## Contents
 
-- `GDOR-SLAM_TMM_v5r5_preprint.pdf`: DYN-19-integrated manuscript PDF.
+- `GDOR-SLAM_TMM_v5r6_preprint.pdf`: manuscript PDF with DYN-19 and clearly
+  labeled published external-report positioning.
+- `GDOR-SLAM_TMM_v5r5_preprint.pdf`: earlier DYN-19-integrated manuscript PDF
+  retained for provenance.
 - `GDOR-SLAM_TMM_v5r4_preprint.pdf`: earlier evidence-boundary revision retained
   for provenance.
 - `GDOR-SLAM_TMM_v5r3_preprint.pdf`: earlier frozen manuscript PDF retained
@@ -18,7 +21,8 @@ It uses an unfinished author placeholder and is not a publication record.
 - `main.tex`, `sections/`, `references.bib`: matching LaTeX source.
 - `figures/`: the five figures used by the manuscript source.
 - `data/`: claim-bearing CSV files for DYN-15 through DYN-19, including the
-  90 main cells, 120 mechanism cells, 72 mapping cells, and release provenance.
+  90 main cells, 120 mechanism cells, 72 mapping cells, release provenance,
+  and a separately labeled published external-report registry.
 - `scripts/`: deterministic figure generation and evidence validation.
 - `reports/evidence_validation.json`: computed values checked against the text.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
@@ -88,3 +92,10 @@ The completed DYN-19 release reports 30/30 passing Full overlap certificates
 and a 72-cell multi-seed mapping diagnostic. The certificate establishes the
 declared route invariant; the occluded-background fields remain proxies rather
 than independent ghost-contamination or complete-background ground truth.
+
+The manuscript also includes paper-reported DynaSLAM, DG-SLAM, and DyPho-SLAM
+values where the original papers provide them. Those rows preserve the source
+dataset, metric, and statistic, are marked as external reports, and are not a
+protocol-matched ranking. In particular, DG-SLAM reports BONN geometry metrics,
+whereas DyPho-SLAM and DynaSLAM provide qualitative mapping results without a
+PSNR/SSIM/LPIPS mapping table.

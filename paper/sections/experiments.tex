@@ -30,7 +30,7 @@ The public release contains trajectories, masks, maps, renders, per-frame logs, 
 
 \begin{table*}[t]
 \centering
-\caption{Earlier same-source tracking evidence. Values are three-seed ATE RMSE in centimeters; lower is better. Every reported mean improvement is accompanied by its failure case, median, and win/tie/loss count.}
+\caption{Tracking evidence and external-report positioning. Panel A contains local same-source results; every reported mean improvement is accompanied by its failure case, median, and win/tie/loss count. Panel B copies paper-reported ATE values for context. Rows marked $\dagger$ use different run counts, estimators, implementations, or protocols and are not pooled with local results or used for a protocol-matched ranking.}
 \label{tab:main-tracking}
 \footnotesize
 \resizebox{\linewidth}{!}{%
@@ -45,12 +45,28 @@ DYN-18 & TUM4 mean & 36 & 9.746 & 3.415 & \textbf{3.345} & 65.0\% & sitting 32.3
 \bottomrule
 \end{tabular}
 }
+
+\vspace{0.6ex}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrrrl}
+\toprule
+Panel B method & Source & walking\_xyz & walking\_half & walking\_static & sitting\_half & Avg. & Reported statistic \\
+\midrule
+DynaSLAM$^\dagger$ & \cite{bescos2018dynaslam}, Table II & 1.500 & 2.500 & 0.600 & 1.700 & 1.575 & ten-run median ATE \\
+DG-SLAM$^\dagger$ & \cite{xu2024dgslam}, Table 2 & 1.600 & -- & 0.600 & -- & -- & reported subset \\
+DyPho-SLAM$^\dagger$ & \cite{liu2025dyphoslam}, Table I & 1.600 & 2.600 & 0.600 & 1.600 & 1.600 & ATE with reported Std. \\
+GDOR DYN-18 (local) & This work & 2.119 & 3.344 & 0.843 & 7.354 & 3.415 & three-seed means \\
+\bottomrule
+\end{tabular}
+}
 \end{table*}
 
 In DYN-15, GDOR reduces the All7 mean ATE from 11.331 cm to 3.798 cm, shifts the sequence-median ATE from 4.278 cm to 3.261 cm, and wins every declared sequence mean relative to Semantic (7/0/0 wins/ties/losses).
 The largest rescue is Bonn crowd2 at 52.184 cm to 3.226 cm.
 DYN-18 yields a 9/0/3 paired-cell record and a 0.209 cm median paired gain, but its mean change from 9.746 cm to 3.415 cm is driven mainly by sitting\_halfsphere at 32.374 cm to 7.354 cm.
 The two-sided exact sign test is not significant ($p=0.146$), so DYN-18 is interpreted as conditional failure-regime rescue plus near-identity behavior elsewhere.
+Panel B makes the published tracking gap visible without treating unlike protocols as paired observations.
+The local GDOR row is not below the reported DyPho-SLAM row on any of the four sequence means; DG-SLAM reports only two of these four sequences in its own TUM table.
 
 \begin{figure*}[t]
   \centering
@@ -117,7 +133,7 @@ Full-NoM obtains lower tracking ATE than Full, yet all 30 of its route certifica
 
 \begin{table*}[t]
 \centering
-\caption{Safety, efficiency, and DYN-19 mapping diagnostics. Panel A reports the DYN-15 All7 mean. Panel B represents all 72 mapping cells: 12 sequence/seed cells per method in each pose mode. Completeness and ghost-risk columns are occluded-background proxies, not independent ground truth.}
+\caption{Safety, efficiency, and mapping evidence. Panel A reports the DYN-15 All7 mean. Panel B represents all 72 DYN-19 mapping cells: 12 sequence/seed cells per method in each pose mode. Completeness and ghost-risk columns are occluded-background proxies, not independent ground truth. Panel C records published external mapping evidence under each source's native metric; heterogeneous metrics are not ranked against one another.}
 \label{tab:safety-efficiency}
 \footnotesize
 \begin{tabular}{llrrrrr}
@@ -140,6 +156,20 @@ GT-aligned & Semantic & 12.082 & 0.492 & 0.402 & 0.351 & 12 \\
 & Full & \textbf{13.491} & \textbf{0.533} & \textbf{0.440} & \textbf{0.312} & 12 \\
 \bottomrule
 \end{tabular}
+
+\vspace{0.6ex}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+Panel C method & Source/data & Evaluation object & Reported mapping result & Comparability to DYN-19 \\
+\midrule
+DG-SLAM$^\dagger$ & \cite{xu2024dgslam}, BONN5 & Mesh vs. GT point cloud & Acc. 8.06 cm; Comp. 15.46 cm; Comp.$@5$ cm 43.67\% & Different output metric and protocol \\
+DyPho-SLAM$^\dagger$ & \cite{liu2025dyphoslam}, TUM/BONN & Novel-view render & Qualitative Fig.~4; no PSNR/SSIM/LPIPS table & No numeric mapping row \\
+DynaSLAM$^\dagger$ & \cite{bescos2018dynaslam}, TUM & Static map and RGB-D inpainting & Qualitative maps/inpainting; no map-quality metric & No numeric mapping row \\
+GDOR DYN-19 (local) & TUM/BONN4, 12 online cells & Held-out static-region render & PSNR 19.763 dB; SSIM 0.728 & Local diagnostic, not geometry GT \\
+\bottomrule
+\end{tabular}
+}
 \end{table*}
 
 GDOR lowers the DYN-15 All7 failure rate but increases wall time from 32.46 s/run to 49.84 s/run.
@@ -150,6 +180,10 @@ Across the 12 online mapping cells per method, Full raises static PSNR from 18.8
 Against MapMatched, the corresponding mean is 18.990 dB to 19.763 dB, with a 0.515 dB paired median gain and an 11/0/1 record; its lowest cell is the same sitting sequence/seed at 14.009 dB versus 16.551 dB.
 The GT-aligned rows are still end-to-end diagnostics because online poses constructed each map.
 The proxy columns are non-monotonic in online mode and do not support a true ghost-contamination or complete-background claim.
+
+Panel C separates external-paper availability from metric comparability.
+DG-SLAM reports quantitative BONN geometry against a ground-truth point cloud, whereas DYN-19 reports held-out static-region image fidelity; neither value can be converted into the other.
+The DyPho-SLAM and DynaSLAM papers provide qualitative mapping or inpainting examples but no PSNR/SSIM/LPIPS or geometric map-quality table that can be copied into a homogeneous DYN-19 ranking.
 
 All 30 Full cells pass the recovered-support certificate, covering 3,751 recovered-support frames and 79,498,476 audited pixels with zero observed overlap against map-admissible support.
 The T+M, T+F+M, and T+F+R+M rows also have 30 passing certificates each.
@@ -167,9 +201,9 @@ It uses two scenes, one seed, fixed static masks, and no independent ghost/compl
 
 \subsection{External Positioning and Limitations}
 
-Published DGS-SLAM, DG-SLAM, DyPho-SLAM, and DynaSLAM values remain related-work context rather than protocol-matched DYN-19 rows.
+Published DG-SLAM, DyPho-SLAM, and DynaSLAM values are included in Tables~\ref{tab:main-tracking} and~\ref{tab:safety-efficiency} as explicitly marked external reports rather than protocol-matched DYN-19 rows.
 The audited DG-SLAM runner uses ground-truth poses inside its shipped Gaussian mapping path, while the audited DynaSLAM source lacks an accepted ten-sequence TUM/Bonn execution path.
-Both therefore remain outside the main table until online-pose, association, mask-provenance, artifact, and no-failure eligibility gates pass.
+Both therefore remain ineligible as local protocol-matched rows until online-pose, association, mask-provenance, artifact, and no-failure eligibility gates pass.
 The DyPho-SLAM paper reports 1.6, 2.6, 0.6, and 1.6 cm on the four corresponding TUM sequences; GDOR is not below those external values in DYN-18, and protocol differences prevent a direct ranking.
 
 DYN-19 closes the earlier multi-seed and common-manifest mapping gap, but not the independent-truth gap.

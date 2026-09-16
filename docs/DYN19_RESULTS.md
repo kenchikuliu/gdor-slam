@@ -96,3 +96,11 @@ available.
 DG-SLAM and DynaSLAM remain audit-only external baselines until their
 protocol-matched eligibility gates pass. Their numbers are not promoted into
 the DYN-19 main table.
+
+The manuscript may nevertheless show values copied from the cited papers as
+explicitly marked external reports. These rows are registered in
+`paper/data/external_report_quantitative.csv`, retain each source's native
+dataset, metric, and statistic, and are never pooled with DYN-19 local cells.
+DG-SLAM supplies quantitative BONN geometry metrics; the DyPho-SLAM and
+DynaSLAM papers supply qualitative mapping evidence but no homogeneous
+PSNR/SSIM/LPIPS or geometric map-quality row for direct comparison.

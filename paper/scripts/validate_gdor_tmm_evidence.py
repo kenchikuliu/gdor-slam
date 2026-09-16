@@ -131,6 +131,33 @@ def main() -> None:
             "lpips": mean(float(row["lpips_static"]) for row in rows),
         }
 
+    external_reports = load_csv("external_report_quantitative.csv")
+    require_equal(len(external_reports), 6, "external-report row count", failures)
+    require_equal(
+        sorted({row["method"] for row in external_reports}),
+        ["DG-SLAM", "DyPho-SLAM", "DynaSLAM"],
+        "external-report methods",
+        failures,
+    )
+    if any(row["local_rerun"] != "false" for row in external_reports):
+        failures.append("external-report row incorrectly marked as a local rerun")
+    if any(row["protocol_match"] != "false" for row in external_reports):
+        failures.append("external-report row incorrectly marked protocol-matched")
+    expected_external_values = {
+        ("tracking", "DynaSLAM"): "1.5;2.5;0.6;1.7 (ten-run medians)",
+        ("tracking", "DG-SLAM"): "1.6;0.6 (paper-reported subset)",
+        ("tracking", "DyPho-SLAM"): "1.6;2.6;0.6;1.6 (paper reports Std separately)",
+        ("mapping", "DG-SLAM"): "8.06;15.46;43.67% (reported averages)",
+        ("mapping", "DynaSLAM"): "no numeric mapping-quality metric reported",
+        ("mapping", "DyPho-SLAM"): "no PSNR SSIM or LPIPS mapping table reported",
+    }
+    require_equal(
+        {(row["task"], row["method"]): row["reported_values"] for row in external_reports},
+        expected_external_values,
+        "external-report registered values",
+        failures,
+    )
+
     dyn19_main = load_csv("dyn19_main_90_cells.csv")
     require_equal(len(dyn19_main), 90, "DYN-19 main row count", failures)
     require_equal(
@@ -288,6 +315,12 @@ def main() -> None:
         "frame that contains recovered tracking support does not receive a persistent-map admission privilege",
         "do not identify independent component effects or interactions",
         "remain pending",
+        "DynaSLAM$^\\dagger$",
+        "DG-SLAM$^\\dagger$",
+        "DyPho-SLAM$^\\dagger$",
+        "Acc. 8.06 cm; Comp. 15.46 cm; Comp.$@5$ cm 43.67\\%",
+        "no PSNR/SSIM/LPIPS table",
+        "not pooled with local results",
     ]
     for value in expected_strings:
         require_text(manuscript, value, failures)
@@ -338,6 +371,7 @@ def main() -> None:
             "dyn17_matched_cm": dyn17_matched,
             "dyn17_gdor_cm": dyn17_gdor,
             "dyn16_online_static_region": dyn16_mapping,
+            "external_reports": external_reports,
             "dyn19_main": {
                 "semantic": dyn19_semantic,
                 "mapmatched": dyn19_matched,
@@ -364,6 +398,8 @@ def main() -> None:
         },
         "claim_boundary": {
             "official_external_superiority": False,
+            "external_report_rows_present": True,
+            "external_report_protocol_matched": False,
             "factorial_or_interaction_effects": False,
             "multi_seed_mapping_diagnostic": True,
             "independent_ghost_or_completeness_truth": False,

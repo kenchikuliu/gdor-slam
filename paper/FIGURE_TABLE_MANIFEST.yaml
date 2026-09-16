@@ -1,5 +1,5 @@
-version: gdor_tmm_v5r5
-generated: 2026-09-15
+version: gdor_tmm_v5r6
+generated: 2026-09-16
 figures:
   fig1:
     file: figures/fig1_overview.png
@@ -30,18 +30,20 @@ figures:
 tables:
   table1:
     label: tab:main-tracking
-    role: main_tracking_and_frozen_generalization
-    evidence: [DYN-15, DYN-18]
+    role: main_tracking_frozen_generalization_and_external_report_positioning
+    evidence: [DYN-15, DYN-18, external-report-tracking]
   table2:
     label: tab:dyn19
     role: main_extension_and_ordered_ablation
     evidence: [DYN-19-main, DYN-19-mechanisms]
   table3:
     label: tab:safety-efficiency
-    role: safety_runtime_and_mapping_diagnostic
-    evidence: [DYN-15, DYN-16, DYN-19-mapping, DYN-19-certificates]
+    role: safety_runtime_mapping_diagnostic_and_external_report_contracts
+    evidence: [DYN-15, DYN-16, DYN-19-mapping, DYN-19-certificates, external-report-mapping]
 claim_boundary: >-
   Local same-source results cannot be presented as a protocol-matched external
-  SOTA ranking. DYN-19 is an ordered ablation and cannot identify independent
-  component effects or interactions. Its mapping proxy is not independent
-  ghost/completeness truth. DYN-16 remains a limited preservation diagnostic.
+  SOTA ranking. Published external rows retain their native datasets, metrics,
+  and statistics and are not pooled with local results. DYN-19 is an ordered
+  ablation and cannot identify independent component effects or interactions.
+  Its mapping proxy is not independent ghost/completeness truth. DYN-16 remains
+  a limited preservation diagnostic.

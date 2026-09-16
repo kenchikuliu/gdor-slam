@@ -92,6 +92,29 @@
   scenes, not a zero-ghost proof, zero-contamination proof, or multi-seed
   mapping-superiority result.
 
+## Published External-Report Positioning
+
+- Public registry: `data/external_report_quantitative.csv`.
+- Tracking rows copy source-paper values without normalization:
+  - DynaSLAM Table II reports ten-run median RGB-D ATE values of 1.5, 2.5,
+    0.6, and 1.7 cm on TUM walking_xyz, walking_halfsphere, walking_static,
+    and sitting_halfsphere, respectively.
+  - DG-SLAM Table 2 reports 1.6 and 0.6 cm on the two overlapping TUM
+    walking_xyz and walking_static sequences; the other DYN-18 sequences are
+    absent from that source table.
+  - DyPho-SLAM Table I reports 1.6, 2.6, 0.6, and 1.6 cm on the four DYN-18
+    TUM sequence names.
+- Mapping rows preserve each paper's native evaluation contract:
+  - DG-SLAM Table 1 reports BONN5 reconstructed-mesh averages of 8.06 cm
+    accuracy, 15.46 cm completion, and 43.67% completion within 5 cm.
+  - DyPho-SLAM presents qualitative novel-view renders but no quantitative
+    PSNR/SSIM/LPIPS mapping table.
+  - DynaSLAM presents qualitative static maps and RGB-D background inpainting
+    but no quantitative map-quality table.
+- Boundary: every row is `local_rerun=false` and `protocol_match=false`.
+  External values are context only, are not pooled with DYN-19 cells, and do
+  not establish a protocol-matched ranking.
+
 ## Provenance And Reproduction
 
 - `reports/generated_figure_provenance.json` records SHA-256 hashes for figure
@@ -114,4 +137,7 @@
 - No archived empirical zero-overlap certificate for DYN-15 through DYN-18.
 - No independent zero-ghost or zero-contamination proof.
 - No factorial or interaction-effect claim for the DYN-19 ordered ablation.
-- No protocol-matched DG-SLAM, DynaSLAM, or official DyPho-SLAM main-table row.
+- No protocol-matched local-run row for DG-SLAM, DynaSLAM, or official
+  DyPho-SLAM.
+- Published external-report rows are not local reruns and are not pooled with
+  local means, medians, W/T/L counts, or significance tests.

@@ -13,7 +13,7 @@ Gaussian map admission by default.
 
 The public paper artifact is available in [`paper/`](paper/README.md):
 
-- [DYN-19-integrated TMM pre-submission manuscript](paper/GDOR-SLAM_TMM_v5r5_preprint.pdf);
+- [DYN-19-integrated TMM pre-submission manuscript with external-report positioning](paper/GDOR-SLAM_TMM_v5r6_preprint.pdf);
 - [five paper figures](paper/figures/);
 - [claim-bearing aggregate CSV files](paper/data/);
 - [figure-generation and evidence-validation scripts](paper/scripts/);

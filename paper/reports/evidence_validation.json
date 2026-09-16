@@ -27,6 +27,86 @@
         "lpips": 0.287060921266675
       }
     },
+    "external_reports": [
+      {
+        "task": "tracking",
+        "method": "DynaSLAM",
+        "citation": "bescos2018dynaslam",
+        "source_table": "Table II",
+        "dataset": "TUM RGB-D",
+        "scope": "walking_xyz;walking_halfsphere;walking_static;sitting_halfsphere",
+        "metric": "ATE RMSE cm",
+        "reported_values": "1.5;2.5;0.6;1.7 (ten-run medians)",
+        "local_rerun": "false",
+        "protocol_match": "false",
+        "claim_boundary": "external context only"
+      },
+      {
+        "task": "tracking",
+        "method": "DG-SLAM",
+        "citation": "xu2024dgslam",
+        "source_table": "Table 2",
+        "dataset": "TUM RGB-D",
+        "scope": "walking_xyz;walking_static",
+        "metric": "ATE cm",
+        "reported_values": "1.6;0.6 (paper-reported subset)",
+        "local_rerun": "false",
+        "protocol_match": "false",
+        "claim_boundary": "external context only"
+      },
+      {
+        "task": "tracking",
+        "method": "DyPho-SLAM",
+        "citation": "liu2025dyphoslam",
+        "source_table": "Table I",
+        "dataset": "TUM RGB-D",
+        "scope": "walking_xyz;walking_halfsphere;walking_static;sitting_halfsphere",
+        "metric": "ATE cm",
+        "reported_values": "1.6;2.6;0.6;1.6 (paper reports Std separately)",
+        "local_rerun": "false",
+        "protocol_match": "false",
+        "claim_boundary": "external context only"
+      },
+      {
+        "task": "mapping",
+        "method": "DG-SLAM",
+        "citation": "xu2024dgslam",
+        "source_table": "Table 1",
+        "dataset": "BONN RGB-D",
+        "scope": "balloon;balloon2;person_tracking;person_tracking2;move_no_box2",
+        "metric": "mesh accuracy cm; mesh completion cm; completion ratio within 5 cm",
+        "reported_values": "8.06;15.46;43.67% (reported averages)",
+        "local_rerun": "false",
+        "protocol_match": "false",
+        "claim_boundary": "different metric and protocol from DYN-19 rendering diagnostic"
+      },
+      {
+        "task": "mapping",
+        "method": "DynaSLAM",
+        "citation": "bescos2018dynaslam",
+        "source_table": "Figures 1 and 5",
+        "dataset": "TUM RGB-D",
+        "scope": "static map and background inpainting",
+        "metric": "qualitative only",
+        "reported_values": "no numeric mapping-quality metric reported",
+        "local_rerun": "false",
+        "protocol_match": "false",
+        "claim_boundary": "no quantitative mapping ranking"
+      },
+      {
+        "task": "mapping",
+        "method": "DyPho-SLAM",
+        "citation": "liu2025dyphoslam",
+        "source_table": "Figure 4",
+        "dataset": "TUM RGB-D and BONN RGB-D",
+        "scope": "novel-view rendering",
+        "metric": "qualitative only",
+        "reported_values": "no PSNR SSIM or LPIPS mapping table reported",
+        "local_rerun": "false",
+        "protocol_match": "false",
+        "claim_boundary": "no quantitative mapping ranking"
+      }
+    ],
     "dyn19_main": {
       "semantic": {
         "mean_cm": 10.119090000000002,
@@ -402,6 +482,8 @@
   },
   "claim_boundary": {
     "official_external_superiority": false,
+    "external_report_rows_present": true,
+    "external_report_protocol_matched": false,
     "factorial_or_interaction_effects": false,
     "multi_seed_mapping_diagnostic": true,
     "independent_ghost_or_completeness_truth": false,
