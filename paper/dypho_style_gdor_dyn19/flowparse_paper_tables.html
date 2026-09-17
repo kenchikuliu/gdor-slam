@@ -51,6 +51,9 @@
     .tag.reported { color:var(--amber); border-color:#e8d18f; background:var(--amber-soft); }
     select { border:1px solid var(--line); padding:7px 9px; background:#fff; color:var(--ink); }
     .section-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:10px; }
+    .mapping-figure { margin:0; }
+    .mapping-figure img { display:block; width:100%; height:auto; border:1px solid var(--line); background:#fff; }
+    .mapping-figure figcaption { font-family:Georgia,"Times New Roman",serif; color:#33414e; font-size:13px; margin-top:10px; }
     footer { color:var(--muted); font-size:11px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
     .error { border:1px solid #e1b4b4; background:#fff0f0; color:#8d3030; padding:12px; }
     @media (max-width:900px) { header { flex-direction:column; } .meta { justify-content:flex-start; } .two-col { grid-template-columns:1fr; } }
@@ -104,6 +107,16 @@
         <div class="status-card warn"><div class="label">Protocol-matched runtime rank</div><div class="value">Blocked</div></div>
       </div>
       <p class="footnote"><strong>Runtime boundary:</strong> external rows are source-reported on different hardware. DYN-19 currently exports full-sequence end-to-end wall time, not the exact per-stage breakdown.</p>
+    </section>
+
+    <section class="paper-section">
+      <h2>Figure. Qualitative static mapping comparison</h2>
+      <p class="caption"><strong>Same figure structure as <code>fig:mapping-qualitative</code> in the supplied TeX.</strong> Four dynamic RGB-D scenes are arranged as rows; columns show input, SplaTAM, Photo-SLAM, mask-only suppression, and FlowParse-style output.</p>
+      <figure class="mapping-figure">
+        <img src="assets/flowparse_mapping_comparison.png" alt="Qualitative static mapping comparison across four dynamic RGB-D scenes">
+        <figcaption>Qualitative static mapping on TUM <code>fr3/w/xyz</code> and <code>fr3/w/half</code>, and Bonn <code>ps_track</code> and <code>r3</code>. Columns show input, SplaTAM, Photo-SLAM, mask-only suppression, and FlowParse-SLAM at common protocol-300 rendering checkpoints.</figcaption>
+      </figure>
+      <p class="footnote"><strong>Evidence note:</strong> this is the retained Protocol-300 comparison contact sheet. It is a qualitative mapping figure, not an independent quantitative proof of zero ghost contamination.</p>
     </section>
 
     <section class="paper-section">

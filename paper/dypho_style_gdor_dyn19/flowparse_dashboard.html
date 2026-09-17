@@ -82,6 +82,7 @@
     td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
     td.boundary { min-width: 250px; color: var(--muted); }
     .callout { padding: 12px 13px; border: 1px solid #c7dce9; background: #f2f8fc; color: #35566e; font-size: 12px; }
+    .mapping-image { display:block; width:100%; height:auto; border:1px solid var(--line); background:#fff; }
     .callout.warn { border-color: #efd58d; background: var(--amber-soft); color: #624d18; }
     .factor-row { display: flex; gap: 6px; flex-wrap: wrap; }
     .factor { min-width: 35px; padding: 5px 8px; text-align: center; border: 1px solid var(--line); background: #f7f9fa; font-size: 11px; color: var(--muted); }
@@ -154,6 +155,11 @@
     </section>
 
     <section class="view" id="mapping">
+      <div class="panel">
+        <div class="panel-head"><div><h2>Qualitative static mapping comparison</h2><p class="panel-note">The mapping figure from the supplied FlowParse-SLAM.tex example.</p></div></div>
+        <img class="mapping-image" src="assets/flowparse_mapping_comparison.png" alt="Qualitative static mapping comparison across four dynamic RGB-D scenes">
+        <p class="panel-note" style="margin-top:10px">Rows: TUM <code>fr3/w/xyz</code>, TUM <code>fr3/w/half</code>, Bonn <code>ps_track</code>, and Bonn <code>r3</code>. Columns: input, SplaTAM, Photo-SLAM, mask-only suppression, and FlowParse-style output.</p>
+      </div>
       <div class="grid-2">
         <div class="panel">
           <div class="panel-head"><div><h2>Static-region mapping diagnostic</h2><p class="panel-note">Local DYN-19 rows only. Select one metric.</p></div><select class="select" id="mapping-metric"><option value="Static PSNR Mean dB">PSNR (dB)</option><option value="Static SSIM Mean">SSIM</option><option value="Proxy Completeness Mean">Completeness proxy</option><option value="Proxy Ghost Risk Mean">Ghost-risk proxy</option></select></div>
