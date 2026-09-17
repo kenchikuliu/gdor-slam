@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GDOR / DYN-19 Evidence Dashboard</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #637080;
+      --line: #dbe2e8;
+      --paper: #f6f8fa;
+      --panel: #ffffff;
+      --blue: #1769aa;
+      --blue-soft: #e7f1fa;
+      --green: #2f7d58;
+      --green-soft: #e7f4ed;
+      --amber: #9a6900;
+      --amber-soft: #fff5d9;
+      --red: #a43d3d;
+      --red-soft: #fbeaea;
+      --shadow: 0 8px 24px rgba(23, 33, 43, .06);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 14px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .shell { max-width: 1480px; margin: 0 auto; padding: 28px 30px 52px; }
+    header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 22px; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 27px; letter-spacing: 0; line-height: 1.15; }
+    h2 { font-size: 17px; margin-bottom: 4px; }
+    h3 { font-size: 14px; margin-bottom: 12px; }
+    .eyebrow { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 7px; }
+    .subtitle { color: var(--muted); margin-top: 8px; max-width: 760px; }
+    .header-meta { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+    .pill, .tag { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--panel); padding: 5px 9px; font-size: 11px; white-space: nowrap; }
+    .pill.blue, .tag.local { color: var(--blue); border-color: #b9d5ec; background: var(--blue-soft); }
+    .pill.amber, .tag.external { color: var(--amber); border-color: #efd58d; background: var(--amber-soft); }
+    .tag.diagnostic { color: var(--green); border-color: #b9dcc9; background: var(--green-soft); }
+    .notice { border-left: 4px solid var(--amber); background: var(--amber-soft); padding: 12px 14px; margin-bottom: 20px; color: #624d18; }
+    .notice strong { color: #543f0f; }
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .stat { background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 16px; min-height: 108px; }
+    .stat .label { color: var(--muted); font-size: 12px; }
+    .stat .value { font-size: 25px; font-weight: 750; margin-top: 8px; letter-spacing: 0; }
+    .stat .detail { color: var(--muted); font-size: 11px; margin-top: 5px; }
+    .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; }
+    .tab { border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--muted); cursor: pointer; padding: 11px 15px; font: inherit; font-weight: 700; white-space: nowrap; }
+    .tab:hover { color: var(--ink); background: #eef3f7; }
+    .tab.active { border-bottom-color: var(--blue); color: var(--blue); }
+    .view { display: none; }
+    .view.active { display: block; }
+    .grid-2 { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(340px, .65fr); gap: 16px; align-items: start; }
+    .panel { background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 18px; margin-bottom: 16px; min-width: 0; }
+    .panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+    .panel-note { color: var(--muted); font-size: 12px; }
+    .select { border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 7px 10px; font: inherit; border-radius: 4px; }
+    .bars { display: grid; gap: 13px; }
+    .bar-row { display: grid; grid-template-columns: 170px minmax(120px, 1fr) 65px; align-items: center; gap: 10px; }
+    .bar-label { color: var(--ink); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { height: 16px; background: #edf1f4; position: relative; overflow: hidden; }
+    .bar { height: 100%; min-width: 2px; background: var(--blue); }
+    .bar.local { background: var(--green); }
+    .bar.external { background: #9bbbd4; }
+    .bar-value { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 15px; color: var(--muted); font-size: 11px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .swatch { width: 10px; height: 10px; display: inline-block; background: var(--blue); }
+    .swatch.local { background: var(--green); }
+    .swatch.external { background: #9bbbd4; }
+    .swatch.warn { background: var(--amber); }
+    .table-wrap { overflow: auto; border: 1px solid var(--line); }
+    table { border-collapse: collapse; width: 100%; min-width: 760px; background: #fff; }
+    th, td { border-bottom: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; font-size: 12px; }
+    th { position: sticky; top: 0; background: #f2f5f7; color: #4c5b68; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; z-index: 1; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #f8fbfd; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    td.boundary { min-width: 250px; color: var(--muted); }
+    .callout { padding: 12px 13px; border: 1px solid #c7dce9; background: #f2f8fc; color: #35566e; font-size: 12px; }
+    .callout.warn { border-color: #efd58d; background: var(--amber-soft); color: #624d18; }
+    .factor-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .factor { min-width: 35px; padding: 5px 8px; text-align: center; border: 1px solid var(--line); background: #f7f9fa; font-size: 11px; color: var(--muted); }
+    .factor.on { color: var(--blue); border-color: #b9d5ec; background: var(--blue-soft); font-weight: 800; }
+    .status-list { display: grid; gap: 9px; }
+    .status-line { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 9px; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .status-line:last-child { border-bottom: 0; padding-bottom: 0; }
+    .status-line span:first-child { color: var(--muted); }
+    .ok { color: var(--green); font-weight: 700; }
+    .blocked { color: var(--red); font-weight: 700; }
+    .muted { color: var(--muted); }
+    footer { color: var(--muted); font-size: 11px; margin-top: 24px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .error { color: var(--red); background: var(--red-soft); border: 1px solid #eabcbc; padding: 12px; }
+    @media (max-width: 980px) {
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .shell { padding: 20px 14px 40px; }
+      header { flex-direction: column; }
+      .header-meta { justify-content: flex-start; }
+      .summary { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 115px minmax(80px, 1fr) 55px; }
+      .panel { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <div class="eyebrow">DyPho-style evidence view</div>
+        <h1>GDOR / DYN-19 comparison dashboard</h1>
+        <p class="subtitle">Tracking, mapping, runtime, and ordered-ablation evidence assembled from the public CSV ledgers.</p>
+      </div>
+      <div class="header-meta">
+        <span class="pill blue">DYN-19 Full anchor</span>
+        <span class="pill amber">Draft / audit view</span>
+      </div>
+    </header>
+
+    <div class="notice"><strong>Evidence boundary.</strong> Published baseline values are source-reported context, not protocol-matched reruns. DYN-19 mapping completeness and ghost-risk values are proxies. The ordered ablation does not identify independent causal effects or interactions.</div>
+
+    <section class="summary" id="summary"></section>
+
+    <nav class="tabs" aria-label="Evidence sections">
+      <button class="tab active" data-view="tracking">Tracking</button>
+      <button class="tab" data-view="mapping">Mapping</button>
+      <button class="tab" data-view="runtime">Runtime</button>
+      <button class="tab" data-view="ablation">Ordered Ablation</button>
+    </nav>
+
+    <section class="view active" id="tracking">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Four-sequence ATE comparison</h2><p class="panel-note">Lower is better. External rows are reported in FlowParse-SLAM.tex; GDOR is a local DYN-19 mean.</p></div></div>
+          <div class="bars" id="tracking-bars"></div>
+          <div class="legend"><span><i class="swatch external"></i>source-reported comparison</span><span><i class="swatch local"></i>GDOR local-rerun</span></div>
+        </div>
+        <div class="panel">
+          <h2>Local DYN-19 summary</h2>
+          <p class="panel-note" style="margin-bottom:14px">Three local configurations over the 90-cell main experiment.</p>
+          <div class="table-wrap"><table id="local-tracking-table"></table></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Tracking baseline ledger</h2><p class="panel-note">The source ledger keeps missing statistics blank instead of imputing them.</p></div></div>
+        <div class="table-wrap"><table id="tracking-table"></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="mapping">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Static-region mapping diagnostic</h2><p class="panel-note">Local DYN-19 rows only. Select one metric.</p></div><select class="select" id="mapping-metric"><option value="Static PSNR Mean dB">PSNR (dB)</option><option value="Static SSIM Mean">SSIM</option><option value="Proxy Completeness Mean">Completeness proxy</option><option value="Proxy Ghost Risk Mean">Ghost-risk proxy</option></select></div>
+          <div class="bars" id="mapping-bars"></div>
+          <div class="legend"><span><i class="swatch local"></i>local diagnostic</span><span><i class="swatch warn"></i>proxy metric; not independent truth</span></div>
+        </div>
+        <div class="panel">
+          <h2>Mapping status</h2>
+          <div class="status-list">
+            <div class="status-line"><span>Local mapping cells</span><strong>72</strong></div>
+            <div class="status-line"><span>Pose modes</span><strong>online + GT-aligned</strong></div>
+            <div class="status-line"><span>Independent ghost truth</span><strong class="blocked">missing</strong></div>
+            <div class="status-line"><span>Current GDOR render panels</span><strong class="blocked">4 missing</strong></div>
+            <div class="status-line"><span>Fig.4 release</span><strong class="blocked">blocked</strong></div>
+          </div>
+          <div class="callout warn" style="margin-top:16px">The mapping plot is a diagnostic view. It must not be read as proof of zero ghost contamination or complete background recovery.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Native external mapping evidence</h2><p class="panel-note">Metrics remain in each method's native protocol and are not pooled with DYN-19 PSNR/SSIM.</p></div></div>
+        <div class="table-wrap"><table id="mapping-external-table"></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="runtime">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Reported runtime context</h2><p class="panel-note">Higher FPS is better. Hardware and timing scope differ across source reports.</p></div></div>
+          <div class="bars" id="runtime-bars"></div>
+          <div class="legend"><span><i class="swatch external"></i>source-reported FPS</span><span><i class="swatch local"></i>GDOR local end-to-end time shown in the table</span></div>
+        </div>
+        <div class="panel">
+          <h2>Runtime release gap</h2>
+          <p class="panel-note" style="margin-bottom:14px">The current DYN-19 package exports full-sequence wall time, not the exact FlowParse stage breakdown.</p>
+          <div class="callout warn">Missing for exact parity: local tracking ms, mapping ms, FPS, sequence time, and a documented mask/segmentation inclusion policy.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Runtime ledger</h2><p class="panel-note">Blank cells are missing evidence, not zero.</p></div></div>
+        <div class="table-wrap"><table id="runtime-table"></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="ablation">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Ordered DYN-19 ablation</h2><p class="panel-note">Adjacent bundle changes only. Lower ATE is better.</p></div></div>
+          <div class="bars" id="ablation-bars"></div>
+          <div class="legend"><span><i class="swatch local"></i>local DYN-19 configuration</span></div>
+        </div>
+        <div class="panel">
+          <h2>Factor route</h2>
+          <p class="panel-note" style="margin-bottom:14px">T temporal depth, F flow, R risk, A adaptive FAST, M mapping weight.</p>
+          <div id="factor-list" class="status-list"></div>
+          <div class="callout warn" style="margin-top:16px">Design boundary: ordered ablation only. Independent component effects and interactions require a factorial design.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>FlowParse mechanism context</h2><p class="panel-note">Imported from the supplied TeX and kept separate from the DYN-19 ablation.</p></div></div>
+        <div class="table-wrap"><table id="context-ablation-table"></table></div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Generated from `paper/dypho_style_gdor_dyn19/source_tables/`</span>
+      <span>Source: FlowParse-SLAM.tex + DYN-19 public ledgers</span>
+    </footer>
+    <div id="load-error" class="error" hidden style="margin-top:16px"></div>
+  </main>
+
+  <script>
+    const paths = {
+      tracking: 'source_tables/table1_flowparse_context.csv',
+      localTracking: 'source_tables/table1_tracking.csv',
+      mapping: 'source_tables/table2_mapping.csv',
+      runtime: 'source_tables/table3_flowparse_context.csv',
+      ablation: 'source_tables/ordered_ablation.csv',
+      contextAblation: 'source_tables/flowparse_ablation_context.csv'
+    };
+
+    function parseCsv(text) {
+      const rows = [];
+      let row = [], cell = '', quoted = false;
+      for (let i = 0; i < text.length; i += 1) {
+        const ch = text[i], next = text[i + 1];
+        if (ch === '"' && quoted && next === '"') { cell += '"'; i += 1; continue; }
+        if (ch === '"') { quoted = !quoted; continue; }
+        if (ch === ',' && !quoted) { row.push(cell); cell = ''; continue; }
+        if ((ch === '\n' || ch === '\r') && !quoted) {
+          if (ch === '\r' && next === '\n') i += 1;
+          row.push(cell); cell = '';
+          if (row.some(value => value !== '')) rows.push(row);
+          row = [];
+          continue;
+        }
+        cell += ch;
+      }
+      if (cell || row.length) { row.push(cell); rows.push(row); }
+      const headers = rows.shift() || [];
+      return rows.map(values => Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ''])));
+    }
+
+    const num = value => value === '' || value === undefined ? null : Number(value);
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const nice = value => value === '' || value === null || value === undefined ? '—' : esc(value);
+    const sourceTag = row => row['Source Type'] === 'local-rerun' || row['Source Type'] === 'local-rerun-diagnostic' ? '<span class="tag local">local</span>' : '<span class="tag external">external</span>';
+    const setHtml = (id, html) => { document.getElementById(id).innerHTML = html; };
+
+    function table(id, columns, rows) {
+      const head = '<thead><tr>' + columns.map(column => `<th>${esc(column.label)}</th>`).join('') + '</tr></thead>';
+      const body = '<tbody>' + rows.map(row => '<tr>' + columns.map(column => {
+        const raw = row[column.key] ?? '';
+        const value = column.render ? column.render(raw, row) : nice(raw);
+        return `<td class="${column.numeric ? 'num' : ''} ${column.boundary ? 'boundary' : ''}">${value}</td>`;
+      }).join('') + '</tr>').join('') + '</tbody>';
+      setHtml(id, head + body);
+    }
+
+    function bars(id, rows, valueKey, options = {}) {
+      const values = rows.map(row => num(row[valueKey])).filter(value => value !== null);
+      const max = options.max || Math.max(...values, 1);
+      const html = rows.map(row => {
+        const value = num(row[valueKey]);
+        if (value === null) return '';
+        const type = options.kind ? options.kind(row) : '';
+        const width = Math.max(1.5, value / max * 100);
+        return `<div class="bar-row"><div class="bar-label" title="${esc(options.label ? options.label(row) : row.Method)}">${esc(options.label ? options.label(row) : row.Method)}</div><div class="bar-track"><div class="bar ${type}" style="width:${width}%"></div></div><div class="bar-value">${value.toFixed(options.digits ?? 2)}</div></div>`;
+      }).join('');
+      setHtml(id, html || '<p class="muted">No numeric values available.</p>');
+    }
+
+    function renderSummary(datasets) {
+      const full = datasets.localTracking.find(row => row.Method === 'Full: T+F+R+A+M') || {};
+      const map = datasets.mapping.find(row => row.Method === 'Full: T+F+R+A+M' && row['Pose Mode'] === 'online') || {};
+      const runtime = datasets.ablation.find(row => row.Configuration === 'Full: T+F+R+A+M') || {};
+      setHtml('summary', [
+        ['DYN-19 Full mean ATE', `${nice(full['Overall Mean ATE cm'])} cm`, '10 sequences, 3 seeds'],
+        ['Online static PSNR', `${nice(map['Static PSNR Mean dB'])} dB`, 'held-out static-region diagnostic'],
+        ['Full route mean ATE', `${nice(runtime['Mean ATE cm'])} cm`, 'ordered-ablation ledger'],
+        ['Fig.4 release state', 'BLOCKED', 'four current GDOR renders missing']
+      ].map((item, index) => `<div class="stat"><div class="label">${item[0]}</div><div class="value" style="${index === 3 ? 'color:var(--red)' : ''}">${item[1]}</div><div class="detail">${item[2]}</div></div>`).join(''));
+    }
+
+    function renderTracking(datasets) {
+      const baselineRows = datasets.tracking.filter(row => row.Role === 'comparison-baseline' && ['ORB-SLAM3','DynaSLAM','Photo-SLAM','DyPho-SLAM'].includes(row.Method));
+      const gdor = datasets.tracking.find(row => row.Method === 'GDOR-SLAM / DYN-19 Full');
+      const sequenceKeys = [
+        ['fr3/w/xyz', 'fr3/w/xyz ATE cm'], ['fr3/w/half', 'fr3/w/half ATE cm'],
+        ['fr3/w/static', 'fr3/w/static ATE cm'], ['fr3/s/half', 'fr3/s/half ATE cm']
+      ];
+      const chartRows = [];
+      sequenceKeys.forEach(([label, key]) => baselineRows.forEach(row => chartRows.push({...row, Method: `${row.Method} · ${label}`, [key]: row[key]})));
+      sequenceKeys.forEach(([label, key]) => chartRows.push({...gdor, Method: `GDOR Full · ${label}`, [key]: gdor[key]}));
+      const max = Math.max(...chartRows.map(row => num(row[sequenceKeys[0][1]]) || 0), 1);
+      setHtml('tracking-bars', sequenceKeys.map(([label, key]) => {
+        const relevant = chartRows.filter(row => row.Method.endsWith(`· ${label}`));
+        const local = relevant.filter(row => row.Role === 'anchor-method');
+        return `<div style="display:grid;gap:8px"><div style="font-weight:800;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em">${label}</div>${relevant.map(row => {
+          const value = num(row[key]); if (value === null) return '';
+          const kind = row.Role === 'anchor-method' ? 'local' : 'external';
+          return `<div class="bar-row"><div class="bar-label">${esc(row.Method.split(' · ')[0])}</div><div class="bar-track"><div class="bar ${kind}" style="width:${Math.max(1.5, value / max * 100)}%"></div></div><div class="bar-value">${value.toFixed(2)}</div></div>`;
+        }).join('')}</div>`;
+      }).join(''));
+      table('local-tracking-table', [
+        {key:'Method', label:'Config'}, {key:'Overall Mean ATE cm', label:'Mean ATE', numeric:true}, {key:'Overall Median ATE cm', label:'Median', numeric:true}, {key:'Mean Failure Percent', label:'Failure %', numeric:true}
+      ], datasets.localTracking);
+      table('tracking-table', [
+        {key:'Method', label:'Method'}, {key:'Role', label:'Role'}, {key:'Source Type', label:'Source'},
+        {key:'Average ATE cm', label:'Avg ATE', numeric:true}, {key:'Average Temporal Std cm', label:'Avg Std', numeric:true},
+        {key:'Protocol Match', label:'Protocol'}, {key:'Claim Boundary', label:'Boundary', boundary:true}
+      ], datasets.tracking.map(row => ({...row, Role: sourceTag(row) + ' ' + esc(row.Role)})));
+    }
+
+    function renderMapping(datasets) {
+      const local = datasets.mapping.filter(row => row['Source Type'] === 'local-rerun-diagnostic');
+      const render = () => {
+        const metric = document.getElementById('mapping-metric').value;
+        const rows = local.filter(row => row['Pose Mode'] === 'online');
+        const max = Math.max(...rows.map(row => num(row[metric]) || 0), 1);
+        setHtml('mapping-bars', rows.map(row => {
+          const value = num(row[metric]); if (value === null) return '';
+          const isProxy = metric.includes('Proxy');
+          const kind = isProxy ? 'external' : 'local';
+          return `<div class="bar-row"><div class="bar-label">${esc(row.Method)}</div><div class="bar-track"><div class="bar ${kind}" style="width:${Math.max(1.5, value / max * 100)}%"></div></div><div class="bar-value">${value.toFixed(3)}</div></div>`;
+        }).join(''));
+      };
+      document.getElementById('mapping-metric').onchange = render;
+      render();
+      const external = datasets.mapping.filter(row => row['Source Type'] === 'external-report');
+      table('mapping-external-table', [
+        {key:'Method', label:'Method'}, {key:'Native Mapping Evidence', label:'Native evidence'}, {key:'Protocol Match', label:'Protocol'}, {key:'Claim Boundary', label:'Boundary', boundary:true}
+      ], external);
+    }
+
+    function renderRuntime(datasets) {
+      const rows = datasets.runtime.filter(row => num(row.FPS) !== null);
+      bars('runtime-bars', rows, 'FPS', {digits:2, label: row => row.Method, kind: () => 'external'});
+      const gdor = datasets.runtime.find(row => row.Method === 'GDOR-SLAM / DYN-19 Full');
+      if (gdor) rows.push(gdor);
+      table('runtime-table', [
+        {key:'Method', label:'Method'}, {key:'Role', label:'Role'}, {key:'Tracking ms', label:'Track ms', numeric:true}, {key:'Mapping ms', label:'Map ms', numeric:true}, {key:'FPS', label:'FPS', numeric:true}, {key:'Sequence Time', label:'Seq. time'}, {key:'Local End-to-End Mean Seconds', label:'GDOR e2e s', numeric:true}, {key:'Claim Boundary', label:'Boundary', boundary:true}
+      ], datasets.runtime);
+    }
+
+    function renderAblation(datasets) {
+      const rows = datasets.ablation;
+      bars('ablation-bars', rows, 'Mean ATE cm', {digits:3, kind: () => 'local', label: row => `${row.Order}. ${row.Configuration}`});
+      setHtml('factor-list', rows.map(row => `<div class="status-line"><span>${esc(row.Configuration)}</span><div class="factor-row">${['T','F','R','A','M'].map(key => `<span class="factor ${row[key] === '1' ? 'on' : ''}">${key} ${row[key] === '1' ? 'on' : 'off'}</span>`).join('')}</div></div>`).join(''));
+      table('context-ablation-table', [
+        {key:'variant', label:'Variant'}, {key:'role', label:'Role'}, {key:'motion_model', label:'Motion'}, {key:'fusion', label:'Fusion'}, {key:'fr3_w_xyz_ate_cm', label:'xyz ATE', numeric:true}, {key:'fr3_w_half_ate_cm', label:'half ATE', numeric:true}, {key:'claim_boundary', label:'Boundary', boundary:true}
+      ], datasets.contextAblation);
+    }
+
+    function bindTabs() {
+      document.querySelectorAll('.tab').forEach(button => button.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(item => item.classList.toggle('active', item === button));
+        document.querySelectorAll('.view').forEach(view => view.classList.toggle('active', view.id === button.dataset.view));
+      }));
+    }
+
+    async function load() {
+      try {
+        const entries = await Promise.all(Object.entries(paths).map(async ([key, path]) => [key, parseCsv(await (await fetch(path)).text())]));
+        const datasets = Object.fromEntries(entries);
+        renderSummary(datasets);
+        renderTracking(datasets);
+        renderMapping(datasets);
+        renderRuntime(datasets);
+        renderAblation(datasets);
+        bindTabs();
+      } catch (error) {
+        const box = document.getElementById('load-error');
+        box.hidden = false;
+        box.textContent = `Could not load CSV data. Open this page through the local server URL, not file://. Details: ${error.message}`;
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

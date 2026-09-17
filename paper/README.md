@@ -30,6 +30,8 @@ It uses an unfinished author placeholder and is not a publication record.
 - `dypho_style_gdor_dyn19/`: DYN-19-anchored DyPho-style Table I/II/III drafts,
   freeze record, provenance, audits, external-report imports, baseline queues,
   FlowParse minimum experiment matrix, and Fig.4 release blockers.
+- `dypho_style_gdor_dyn19/flowparse_dashboard.html`: local interactive HTML
+  dashboard for the tracking, mapping, runtime, and ordered-ablation charts.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
 - `EVIDENCE_MANIFEST.md`: public protocol and claim-boundary ledger.
 - `SHA256SUMS`: hashes for the published artifact files.
@@ -73,6 +75,16 @@ dypho-pixel-skill build \
   --manifest paper/dypho_style_gdor_dyn19/build_tables.yaml \
   --output /home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts
 ```
+
+Open the dashboard through a local static server so its relative CSV requests
+work, for example:
+
+```bash
+cd paper/dypho_style_gdor_dyn19
+python3 -m http.server 8787
+```
+
+Then visit `http://127.0.0.1:8787/flowparse_dashboard.html`.
 
 The generated table drafts are not released assets. Their audit reports pass,
 but the review YAML files remain pending. Fig.4 is blocked until current DYN-19
