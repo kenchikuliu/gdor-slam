@@ -48,6 +48,10 @@ dypho_style_support:
     draft: dypho_style_gdor_dyn19/table_drafts/draft/table1.png
     evidence: DYN-19-main-90-cells
     audit: passed_needs_human_review
+  table1_flowparse_context:
+    source: dypho_style_gdor_dyn19/source_tables/table1_flowparse_context.csv
+    evidence: [FlowParse-source-report-context, DYN-19-main-30-TUM4-cells]
+    status: draft_context_missing_local_temporal_std
   table2:
     source: dypho_style_gdor_dyn19/source_tables/table2_mapping.csv
     draft: dypho_style_gdor_dyn19/table_drafts/draft/table2.png
@@ -58,6 +62,14 @@ dypho_style_support:
     draft: dypho_style_gdor_dyn19/table_drafts/draft/table3.png
     evidence: DYN-19-tracking-and-ordered-ablation-runtime
     audit: passed_needs_human_review
+  table3_flowparse_context:
+    source: dypho_style_gdor_dyn19/source_tables/table3_flowparse_context.csv
+    evidence: [FlowParse-source-report-runtime, DYN-19-end-to-end-runtime]
+    status: draft_context_missing_local_stage_runtime
+  flowparse_ablation_context:
+    source: dypho_style_gdor_dyn19/source_tables/flowparse_ablation_context.csv
+    evidence: FlowParse-source-report-ablation
+    status: context_only_not_DYN-19_ablation
   ordered_ablation:
     source: dypho_style_gdor_dyn19/source_tables/ordered_ablation.csv
     design: ordered_ablation_not_factorial

@@ -1,0 +1,6 @@
+Variant,Role,Mask Refinement,Static Compensation,Motion Model,Fusion,fr3/w/xyz ATE cm,fr3/w/half ATE cm,Source Type,Protocol Match,Source,Claim Boundary
+Prior mask,external-context,yes,no,,,3.12,3.83,user-provided-draft-report,false,FlowParse-SLAM.tex tab:dynamic-ablation,Source-reported DyPho-style context; not part of the DYN-19 ordered ablation.
+Adaptive feature,external-context,yes,yes,,,2.76,3.54,user-provided-draft-report,false,FlowParse-SLAM.tex tab:dynamic-ablation,Source-reported DyPho-style context; not part of the DYN-19 ordered ablation.
+Independent,reference-method,yes,no,independent,all,2.33,3.45,user-provided-draft-report,false,FlowParse-SLAM.tex tab:dynamic-ablation,FlowParse source-draft ablation; not a GDOR local result.
+Shared factors,reference-method,yes,no,shared,all,2.45,3.33,user-provided-draft-report,false,FlowParse-SLAM.tex tab:dynamic-ablation,FlowParse source-draft ablation; not a GDOR local result.
+FlowParse,reference-method,yes,no,shared,weak,2.34,3.22,user-provided-draft-report,false,FlowParse-SLAM.tex tab:dynamic-ablation,FlowParse source-draft ablation; not a GDOR local result.

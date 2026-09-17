@@ -234,6 +234,96 @@ def build_tracking_table(main_rows: list[dict[str, str]]) -> None:
     write_rows(OUTPUT / "table1_tracking.csv", fields, output_rows)
 
 
+def build_flowparse_tracking_context(
+    main_rows: list[dict[str, str]], context_rows: list[dict[str, str]]
+) -> None:
+    fields = [
+        "Method",
+        "Role",
+        "Source Type",
+        "Statistic",
+        "fr3/w/xyz ATE cm",
+        "fr3/w/xyz Temporal Std cm",
+        "fr3/w/half ATE cm",
+        "fr3/w/half Temporal Std cm",
+        "fr3/w/static ATE cm",
+        "fr3/w/static Temporal Std cm",
+        "fr3/s/half ATE cm",
+        "fr3/s/half Temporal Std cm",
+        "Average ATE cm",
+        "Average Temporal Std cm",
+        "Cells",
+        "Seeds",
+        "Protocol Match",
+        "Source",
+        "Claim Boundary",
+    ]
+    output_rows: list[dict[str, object]] = []
+    sequence_columns = {
+        "tum_walking_xyz": ("fr3/w/xyz ATE cm", "fr3_w_xyz_ate_cm", "fr3_w_xyz_temporal_std_cm"),
+        "tum_walking_halfsphere": (
+            "fr3/w/half ATE cm",
+            "fr3_w_half_ate_cm",
+            "fr3_w_half_temporal_std_cm",
+        ),
+        "tum_walking_static": (
+            "fr3/w/static ATE cm",
+            "fr3_w_static_ate_cm",
+            "fr3_w_static_temporal_std_cm",
+        ),
+        "tum_sitting_halfsphere": (
+            "fr3/s/half ATE cm",
+            "fr3_s_half_ate_cm",
+            "fr3_s_half_temporal_std_cm",
+        ),
+    }
+    for row in context_rows:
+        output: dict[str, object] = {
+            "Method": row["method"],
+            "Role": row["role"],
+            "Source Type": row["source_type"],
+            "Statistic": row["statistic"],
+            "Average ATE cm": row["average_ate_cm"],
+            "Average Temporal Std cm": row["average_temporal_std_cm"],
+            "Cells": "",
+            "Seeds": "",
+            "Protocol Match": row["protocol_match"],
+            "Source": f"{row['source_document']} {row['source_table']}",
+            "Claim Boundary": row["claim_boundary"],
+        }
+        for _, (ate_column, ate_key, temporal_key) in sequence_columns.items():
+            output[ate_column] = row[ate_key]
+            output[ate_column.replace("ATE", "Temporal Std")] = row[temporal_key]
+        output_rows.append(output)
+
+    full_rows = [row for row in main_rows if row["config"] == "dyn19_full"]
+    local_output: dict[str, object] = {
+        "Method": "GDOR-SLAM / DYN-19 Full",
+        "Role": "anchor-method",
+        "Source Type": "local-rerun",
+        "Statistic": "three-seed mean ATE; temporal dispersion not exported",
+        "Cells": len(full_rows),
+        "Seeds": "0;1;2",
+        "Protocol Match": "local DYN-19 only",
+        "Source": "paper/data/dyn19_main_90_cells.csv",
+        "Claim Boundary": (
+            "ATE is a three-seed local mean. Empty temporal-Std cells are a release blocker "
+            "for exact FlowParse-table parity, not evidence of zero dispersion."
+        ),
+    }
+    local_sequence_means: list[float] = []
+    for sequence, (ate_column, _, _) in sequence_columns.items():
+        values = [number(row, "ate_cm") for row in full_rows if row["sequence"] == sequence]
+        sequence_mean = mean(values)
+        local_sequence_means.append(sequence_mean)
+        local_output[ate_column] = fmt(sequence_mean)
+        local_output[ate_column.replace("ATE", "Temporal Std")] = ""
+    local_output["Average ATE cm"] = fmt(mean(local_sequence_means))
+    local_output["Average Temporal Std cm"] = ""
+    output_rows.append(local_output)
+    write_rows(OUTPUT / "table1_flowparse_context.csv", fields, output_rows)
+
+
 def build_mapping_table(
     mapping_rows: list[dict[str, str]], external_rows: list[dict[str, str]]
 ) -> None:
@@ -398,6 +488,101 @@ def build_runtime_table(config_rows: dict[str, list[dict[str, str]]]) -> None:
     write_rows(OUTPUT / "table3_runtime.csv", fields, output_rows)
 
 
+def build_flowparse_runtime_context(
+    config_rows: dict[str, list[dict[str, str]]], context_rows: list[dict[str, str]]
+) -> None:
+    fields = [
+        "Method",
+        "Role",
+        "Source Type",
+        "Tracking ms",
+        "Mapping ms",
+        "FPS",
+        "Sequence Time",
+        "Local End-to-End Mean Seconds",
+        "Hardware or Scope",
+        "Protocol Match",
+        "Source",
+        "Claim Boundary",
+    ]
+    output_rows: list[dict[str, object]] = []
+    for row in context_rows:
+        output_rows.append(
+            {
+                "Method": row["method"],
+                "Role": row["role"],
+                "Source Type": row["source_type"],
+                "Tracking ms": row["tracking_ms"],
+                "Mapping ms": row["mapping_ms"],
+                "FPS": row["fps"],
+                "Sequence Time": row["sequence_time"],
+                "Local End-to-End Mean Seconds": "",
+                "Hardware or Scope": row["scope_note"],
+                "Protocol Match": row["protocol_match"],
+                "Source": f"{row['source_document']} {row['source_table']}",
+                "Claim Boundary": row["claim_boundary"],
+            }
+        )
+    full_rows = config_rows["dyn19_full"]
+    output_rows.append(
+        {
+            "Method": "GDOR-SLAM / DYN-19 Full",
+            "Role": "anchor-method",
+            "Source Type": "local-rerun",
+            "Tracking ms": "",
+            "Mapping ms": "",
+            "FPS": "",
+            "Sequence Time": "",
+            "Local End-to-End Mean Seconds": fmt(
+                mean([number(row, "end_to_end_seconds") for row in full_rows])
+            ),
+            "Hardware or Scope": "RTX 4090; full-sequence end-to-end wall time over 30 runs",
+            "Protocol Match": "local DYN-19 only",
+            "Source": "paper/data/dyn19_main_90_cells.csv",
+            "Claim Boundary": (
+                "Per-stage tracking/mapping latency and FPS are not exported. Empty cells are "
+                "a release blocker for exact FlowParse-runtime parity."
+            ),
+        }
+    )
+    write_rows(OUTPUT / "table3_flowparse_context.csv", fields, output_rows)
+
+
+def build_flowparse_ablation_context(context_rows: list[dict[str, str]]) -> None:
+    fields = [
+        "Variant",
+        "Role",
+        "Mask Refinement",
+        "Static Compensation",
+        "Motion Model",
+        "Fusion",
+        "fr3/w/xyz ATE cm",
+        "fr3/w/half ATE cm",
+        "Source Type",
+        "Protocol Match",
+        "Source",
+        "Claim Boundary",
+    ]
+    output_rows = [
+        {
+            "Variant": row["variant"],
+            "Role": row["role"],
+            "Mask Refinement": row["mask_refinement"],
+            "Static Compensation": row["static_compensation"],
+            "Motion Model": row["motion_model"],
+            "Fusion": row["fusion"],
+            "fr3/w/xyz ATE cm": row["fr3_w_xyz_ate_cm"],
+            "fr3/w/half ATE cm": row["fr3_w_half_ate_cm"],
+            "Source Type": row["source_type"],
+            "Protocol Match": row["protocol_match"],
+            "Source": f"{row['source_document']} {row['source_table']}",
+            "Claim Boundary": row["claim_boundary"],
+        }
+        for row in context_rows
+    ]
+    write_rows(OUTPUT / "flowparse_ablation_context.csv", fields, output_rows)
+
+
 def build_ordered_ablation(config_rows: dict[str, list[dict[str, str]]]) -> None:
     fields = [
         "Order",
@@ -457,12 +642,18 @@ def main() -> None:
     mechanism_rows = read_rows(DATA / "dyn19_mechanism_120_cells.csv")
     mapping_rows = read_rows(DATA / "dyn19_mapping_72_cells.csv")
     external_rows = read_rows(DATA / "external_report_quantitative.csv")
+    flowparse_tracking_rows = read_rows(DATA / "flowparse_tracking_context.csv")
+    flowparse_runtime_rows = read_rows(DATA / "flowparse_runtime_context.csv")
+    flowparse_ablation_rows = read_rows(DATA / "flowparse_ablation_context.csv")
     if len(main_rows) != 90 or len(mechanism_rows) != 120 or len(mapping_rows) != 72:
         raise RuntimeError("DYN-19 source-cell counts do not match the frozen 90/120/72 contract")
     config_rows = combined_config_rows(main_rows, mechanism_rows)
     build_tracking_table(main_rows)
+    build_flowparse_tracking_context(main_rows, flowparse_tracking_rows)
     build_mapping_table(mapping_rows, external_rows)
     build_runtime_table(config_rows)
+    build_flowparse_runtime_context(config_rows, flowparse_runtime_rows)
+    build_flowparse_ablation_context(flowparse_ablation_rows)
     build_ordered_ablation(config_rows)
 
 

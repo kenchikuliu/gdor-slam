@@ -123,6 +123,11 @@
   source-table generator, Table I tracking, Table II mapping, Table III runtime,
   ordered-ablation ledger, external-report imports, baseline queues, Fig.4
   blocking policy, per-table provenance, and automated audits.
+- `dypho_style_gdor_dyn19/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.md` records the
+  minimum tracking, mechanism, mapping, runtime, and reproducibility floor from
+  the user-provided `FlowParse-SLAM.tex`. Its source-reported values remain
+  separate from local reruns. Exact table parity is blocked by missing local
+  temporal trajectory dispersion and per-stage runtime exports.
 - The DyPho-style MVP self-check passes with four explicitly missing artifacts:
   the current GDOR render panel for each locked Fig.4 row. Protocol-300
   Photo-SLAM/SplaTAM panels are retained as diagnostics, while external-report

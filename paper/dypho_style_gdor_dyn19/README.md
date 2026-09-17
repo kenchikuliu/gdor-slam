@@ -24,6 +24,13 @@ Evidence boundaries:
   cells remain blank and are not ranked.
 - Completeness and ghost-risk fields are proxies, not independent truth.
 - External-report rows are not local reruns or protocol-matched comparisons.
+- The FlowParse-style tracking context contains the full eleven-baseline suite,
+  but local GDOR temporal trajectory dispersion is still missing.
+- The FlowParse-style runtime context is descriptive until local per-stage
+  tracking/mapping latency and FPS are exported.
 - Protocol-300 Photo-SLAM/SplaTAM assets are retained as local diagnostic assets;
   they are not DYN-19 protocol matches.
+- `mvp_package/tables/table1_external_report.csv` is a retained bootstrap artifact,
+  not the manuscript source: its ORB-SLAM3 `fr3/w/half` value conflicts with the
+  user-provided TeX and it omits required comparison rows.
 - The generated MVP remains draft-only until human provenance review.

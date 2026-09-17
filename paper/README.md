@@ -22,12 +22,14 @@ It uses an unfinished author placeholder and is not a publication record.
 - `figures/`: the five figures used by the manuscript source.
 - `data/`: claim-bearing CSV files for DYN-15 through DYN-19, including the
   90 main cells, 120 mechanism cells, 72 mapping cells, release provenance,
-  and a separately labeled published external-report registry.
+  a separately labeled published external-report registry, and the
+  `flowparse_*_context.csv` source ledgers transcribed from the supplied
+  FlowParse-SLAM comparison tables.
 - `scripts/`: deterministic figure generation and evidence validation.
 - `reports/evidence_validation.json`: computed values checked against the text.
 - `dypho_style_gdor_dyn19/`: DYN-19-anchored DyPho-style Table I/II/III drafts,
   freeze record, provenance, audits, external-report imports, baseline queues,
-  and Fig.4 release blockers.
+  FlowParse minimum experiment matrix, and Fig.4 release blockers.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
 - `EVIDENCE_MANIFEST.md`: public protocol and claim-boundary ledger.
 - `SHA256SUMS`: hashes for the published artifact files.

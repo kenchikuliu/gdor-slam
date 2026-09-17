@@ -482,8 +482,11 @@
     "dypho_style_support": {
       "source_table_rows": {
         "table1_tracking.csv": 3,
+        "table1_flowparse_context.csv": 13,
         "table2_mapping.csv": 9,
         "table3_runtime.csv": 7,
+        "table3_flowparse_context.csv": 13,
+        "flowparse_ablation_context.csv": 5,
         "ordered_ablation.csv": 7
       },
       "mvp_self_check": {

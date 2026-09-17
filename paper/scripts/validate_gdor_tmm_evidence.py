@@ -353,8 +353,11 @@ def main() -> None:
 
     dypho_source_counts = {
         "table1_tracking.csv": 3,
+        "table1_flowparse_context.csv": 13,
         "table2_mapping.csv": 9,
         "table3_runtime.csv": 7,
+        "table3_flowparse_context.csv": 13,
+        "flowparse_ablation_context.csv": 5,
         "ordered_ablation.csv": 7,
     }
     for name, expected_count in dypho_source_counts.items():
@@ -365,6 +368,36 @@ def main() -> None:
         with path.open(newline="", encoding="utf-8") as stream:
             row_count = sum(1 for _ in csv.DictReader(stream))
         require_equal(row_count, expected_count, f"DyPho-style {name} row count", failures)
+
+    flowparse_tracking_path = DYPHO / "source_tables" / "table1_flowparse_context.csv"
+    if flowparse_tracking_path.is_file():
+        with flowparse_tracking_path.open(newline="", encoding="utf-8") as stream:
+            flowparse_tracking = {row["Method"]: row for row in csv.DictReader(stream)}
+        require_equal(
+            flowparse_tracking.get("ORB-SLAM3", {}).get("fr3/w/half ATE cm"),
+            "30.1",
+            "FlowParse-context ORB-SLAM3 fr3/w/half transcription",
+            failures,
+        )
+        require_equal(
+            flowparse_tracking.get("GDOR-SLAM / DYN-19 Full", {}).get(
+                "Average Temporal Std cm"
+            ),
+            "",
+            "FlowParse-context local temporal-Std missing-evidence marker",
+            failures,
+        )
+
+    flowparse_runtime_path = DYPHO / "source_tables" / "table3_flowparse_context.csv"
+    if flowparse_runtime_path.is_file():
+        with flowparse_runtime_path.open(newline="", encoding="utf-8") as stream:
+            flowparse_runtime = {row["Method"]: row for row in csv.DictReader(stream)}
+        require_equal(
+            flowparse_runtime.get("GDOR-SLAM / DYN-19 Full", {}).get("Tracking ms"),
+            "",
+            "FlowParse-context local per-stage-runtime missing-evidence marker",
+            failures,
+        )
 
     dypho_self_check_path = DYPHO / "mvp_package" / "reports" / "self_check.json"
     if not dypho_self_check_path.is_file():
