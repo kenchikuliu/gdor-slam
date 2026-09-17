@@ -1,0 +1,31 @@
+experiment: experiment.yaml
+output_dir: build
+tables:
+  table1:
+    csv: data/table1_tracking.csv
+    canvas: [1600, 180]
+    font_size: 13
+    directions:
+      w/xyz ATE: min
+      w/half ATE: min
+      w/static ATE: min
+      s/half ATE: min
+      Avg. ATE: min
+  table2:
+    csv: data/table2_mapping.csv
+    canvas: [900, 160]
+    font_size: 14
+    directions:
+      Online PSNR: max
+      Online SSIM: max
+      GT-align PSNR: max
+      GT-align SSIM: max
+  table3:
+    csv: data/table3_runtime.csv
+    canvas: [1000, 160]
+    font_size: 13
+    directions:
+      E2E [s/run]: min
+      E2E [ms/frame]: min
+      Mean failure [%]: min
+      Relative runtime: min

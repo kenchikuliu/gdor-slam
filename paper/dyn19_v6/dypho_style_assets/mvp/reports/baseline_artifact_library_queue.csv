@@ -1,0 +1,16 @@
+priority,method,library_status,local_run_status,table1_external_report_available,table3_external_report_available,external_report_allowed,fig4_readiness,external_render_status,next_action
+1,Photo-SLAM,external-report-only,needs-local-rerun,true,true,false,missing-render,missing-declaration,run baseline and save manifest/checkpoint/render/metrics
+2,SplaTAM,external-report-only,needs-local-rerun,true,true,false,missing-render,missing-declaration,run baseline and save manifest/checkpoint/render/metrics
+3,MonoGS,missing,not-registered-for-local-rerun,false,false,false,missing-render,missing-declaration,"find/install implementation, then create first run manifest"
+4,ORB-SLAM3,external-report-only,not-registered-for-local-rerun,true,true,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+5,Dyna-SLAM,external-report-only,not-registered-for-local-rerun,true,true,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+6,NICE-SLAM,external-report-only,not-registered-for-local-rerun,true,true,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+7,ESLAM,external-report-only,not-registered-for-local-rerun,true,true,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+8,RoDyn-SLAM,external-report-only,not-registered-for-local-rerun,true,true,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+9,GS-SLAM,external-report-only,not-registered-for-local-rerun,true,true,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+10,GassiDy,external-report-only,not-registered-for-local-rerun,true,false,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+11,DGS-SLAM,external-report-only,not-registered-for-local-rerun,true,true,false,missing-render,missing-declaration,keep table row as external-report; add local run when Fig.4 panel is needed
+12,VarSplat,missing,not-registered-for-local-rerun,false,false,false,missing-render,missing-declaration,"find/install implementation, then create first run manifest"
+13,Gaussian-SLAM,missing,not-registered-for-local-rerun,false,false,false,missing-render,missing-declaration,"find/install implementation, then create first run manifest"
+14,CG-SLAM,missing,not-registered-for-local-rerun,false,false,false,missing-render,missing-declaration,"find/install implementation, then create first run manifest"
+15,DyPho-SLAM,missing,not-registered-for-local-rerun,false,false,true,missing-render,missing-declaration,"find/install implementation, then create first run manifest"

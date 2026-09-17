@@ -1,0 +1,20 @@
+dataset: DYN-19 main tracking plus map-integrity diagnostic
+sequences:
+  - tum_walking_xyz
+  - tum_walking_halfsphere
+  - tum_walking_static
+  - tum_sitting_halfsphere
+methods:
+  - name: DYN-19 Semantic
+  - name: DYN-19 MapMatched
+  - name: DYN-19 Full
+  - name: DyPho-SLAM [ext]
+fairness:
+  comparison_mode: presentation-flexible
+  same_frame: false
+  same_crop: false
+  same_resolution: false
+  same_trajectory_alignment: false
+  same_map_viewpoint: false
+  same_render_pose: false
+  same_postprocess: false

@@ -1,0 +1,3 @@
+priority,method,tier,source_type,status,required_next_action,run_path,missing_table1,missing_table3,missing_fig4,missing_audit,note
+1,Photo-SLAM,P0-local-rerun,missing,needs-local-rerun,rerun/render under frozen protocol first,,trajectory;metrics_csv,timing_log;hardware_record,,run_path;run_manifest;protocol_record;integrity_report,Photo-SLAM/SplaTAM are the default first local baseline pool.
+2,SplaTAM,P0-local-rerun,missing,needs-local-rerun,rerun/render under frozen protocol first,,trajectory;metrics_csv,timing_log;hardware_record,,run_path;run_manifest;protocol_record;integrity_report,Photo-SLAM/SplaTAM are the default first local baseline pool.

@@ -1,0 +1,7 @@
+{
+  "kind": "freeze",
+  "input": "paper/dyn19_v6/dypho_style_assets/freeze_record.yaml",
+  "passed": true,
+  "violations": [],
+  "release_allowed": false
+}

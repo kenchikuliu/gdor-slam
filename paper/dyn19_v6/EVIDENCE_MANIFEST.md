@@ -80,3 +80,18 @@ benchmark plans, and all path-sanitized derived files by SHA-256.
   implementation and evaluation evidence.
 - No official DyPho-SLAM reproduction or external SOTA claim is made.
 - The frozen August 8, 2026 v5r3 PDF predates DYN-19 and remains unchanged.
+
+## DyPho-Style Draft Package
+
+- `dypho_style_assets/build/draft/table1.png` renders the local three-seed
+  tracking rows and the source-labeled DyPho-SLAM external-report row.
+- `dypho_style_assets/build/draft/table2.png` renders the local 72-cell static
+  mapping diagnostic and contains no fabricated external mapping metric.
+- `dypho_style_assets/build/draft/table3.png` renders local end-to-end runtime,
+  mean per-run failure rate, relative runtime, and route-certificate status.
+- The package was built by the installed `dypho-slam-figure-automation` CLI.
+  Its audits pass, but every review YAML remains unapproved and release is
+  blocked pending an identified human reviewer.
+- `dypho_style_assets/mvp/reports/self_check.json` is the skill-generated
+  structural self-check. P0 Photo-SLAM/SplaTAM runs remain explicitly missing
+  and cannot enter local tables or the locked Fig. 4 without real artifacts.

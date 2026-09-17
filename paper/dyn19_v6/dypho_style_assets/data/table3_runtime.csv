@@ -1,0 +1,4 @@
+Configuration,E2E [s/run],E2E [ms/frame],Mean failure [%],Relative runtime,Route certificate
+Semantic,37.903,48.021,1.497,1.00x,30/30 vacuous
+MapMatched,34.356,43.528,2.046,0.91x,30/30 vacuous
+Full,47.750,60.497,0.147,1.26x,30/30 pass

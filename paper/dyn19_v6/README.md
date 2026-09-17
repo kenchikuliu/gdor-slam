@@ -20,6 +20,8 @@ manuscript. The frozen PDF remains at
   local mapping diagnostic and its external-reference boundary.
 - `data/external_quantitative_reference.csv`: audited external tracking and
   mapping reference ledger; external rows are not protocol-matched reruns.
+- `dypho_style_assets/`: skill-built Table I-III PNG drafts, CSV inputs,
+  source/provenance manifests, automated audits, and pending review forms.
 - `data/dyn19_provenance.json`: source-release and derived-file hashes.
 - `scripts/export_dyn19_public_evidence.py`: deterministic importer from the
   retained DYN-19 release.
@@ -58,6 +60,28 @@ To regenerate Figure 1:
 ```bash
 python3 paper/dyn19_v6/scripts/generate_dyn19_overview.py
 ```
+
+To regenerate the DyPho-style raster tables:
+
+```bash
+python3 paper/dyn19_v6/scripts/prepare_dypho_style_assets.py
+
+DYPHO=/home/slam/.codex/skills/dypho-slam-figure-automation
+$DYPHO/.venv/bin/dypho-pixel-skill mvp-package \
+  --root "$DYPHO" \
+  --freeze-record paper/dyn19_v6/dypho_style_assets/freeze_record.yaml \
+  --output paper/dyn19_v6/dypho_style_assets/mvp
+
+$DYPHO/.venv/bin/dypho-pixel-skill build \
+  --root "$DYPHO" \
+  --manifest paper/dyn19_v6/dypho_style_assets/build.yaml
+```
+
+The generated tables are drafts. Their review YAML files remain unapproved
+until an identified human reviewer completes the six required checks. The
+skill-generated MVP subtree records the P0 Photo-SLAM/SplaTAM rerun queue,
+full baseline-library queue, Fig. 4 external-render policy, missing artifacts,
+and package self-check.
 
 ## Build
 

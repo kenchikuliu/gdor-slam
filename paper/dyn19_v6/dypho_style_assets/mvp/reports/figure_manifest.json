@@ -1,0 +1,42 @@
+{
+  "contract": "xslam-dypho-mvp-figure-manifest-v1",
+  "freeze_record": {
+    "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/protocol/freeze_record.yaml",
+    "bytes": 3366,
+    "sha256": "b655ab1e0938ee320f927df5c74014abedbe1ef655a5029889844cf1d4c58495"
+  },
+  "anchor_method": "DYN-19 Full",
+  "expected_outputs": [
+    "table1",
+    "table2",
+    "table3"
+  ],
+  "fig1_fig2_intermediate_states": {
+    "required_when_outputs_requested": true,
+    "missing_or_unverified_count": 0,
+    "requirements": []
+  },
+  "fig4_visual_policy": {
+    "rule": "Only local-rerun/local-render-from-checkpoint panels, or explicitly documented real external-report render panels, may appear in Fig.4. Same-frame/same-crop is optional in presentation-flexible mode.",
+    "locked_layout_columns": [
+      "input",
+      "splatam",
+      "photo_slam",
+      "photo_slam_mask",
+      "ours"
+    ],
+    "external_report_policy": [
+      {
+        "method": "DyPho-SLAM",
+        "source_type": "external-report",
+        "record_key": "DyPho-SLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      }
+    ],
+    "blocked_external_report_count": 1
+  }
+}

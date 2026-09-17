@@ -1,0 +1,28 @@
+output_id,requirement,path,status,note
+freeze,anchor_run_path,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full,present,
+freeze,inspected_sources[0],/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/metadata/main/all_results.json,present,
+freeze,inspected_sources[1],/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/data/dyn19_mapping_cells.csv,present,
+freeze,inspected_sources[2],/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv,present,
+freeze,selected_frames[0].source_rgb,/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/rgb/1341846320.631955.png,present,
+freeze,selected_frames[0].source_depth,/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/depth/1341846320.631970.png,present,
+table1,artifact_sources.table1_csv,/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table1_tracking.csv,present,
+table1,artifact_sources.xslam_trajectory,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/CameraTrajectory_AllFrames_TUM.txt,present,
+table2,artifact_sources.table2_csv,/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table2_mapping.csv,present,
+table3,artifact_sources.table3_csv,/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table3_runtime.csv,present,
+table3,artifact_sources.timing_log,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/metadata/main/all_results.json,present,
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.run_path,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.run_manifest,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.protocol_record,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.integrity_report,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+table1:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.trajectory,,missing-declaration,Required for local-rerun tracking table row.
+table1:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.metrics_csv,,missing-declaration,Required for local-rerun tracking table row.
+table3:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.timing_log,,missing-declaration,Required for local-rerun runtime table row.
+table3:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.hardware_record,,missing-declaration,Required for local-rerun runtime table row.
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.run_path,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.run_manifest,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.protocol_record,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.integrity_report,,missing-declaration,"Required to audit local baseline manifest, integrity, and protocol consistency."
+table1:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.trajectory,,missing-declaration,Required for local-rerun tracking table row.
+table1:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.metrics_csv,,missing-declaration,Required for local-rerun tracking table row.
+table3:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.timing_log,,missing-declaration,Required for local-rerun runtime table row.
+table3:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.hardware_record,,missing-declaration,Required for local-rerun runtime table row.

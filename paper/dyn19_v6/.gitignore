@@ -4,3 +4,9 @@ main.blg
 main.log
 main.out
 main.pdf
+
+# Public, source-labeled DyPho-style table package. The repository root ignores
+# generic build/, data/, and CSV outputs, but these audited paper assets are
+# intentionally versioned together with their provenance and review gates.
+!dypho_style_assets/
+!dypho_style_assets/**

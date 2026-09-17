@@ -1,0 +1,76 @@
+anchor_method: DYN-19 Full
+anchor_run_path: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full
+inspected_sources:
+  - /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/metadata/main/all_results.json
+  - /home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/data/dyn19_mapping_cells.csv
+  - /home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv
+not_inspected_before_freeze: []
+selection_rule: Quantitative tables use every required local cell; the recorded frame is only an availability anchor for later qualitative work.
+selected_frames:
+  - sequence: tum_walking_xyz
+    frame_id: 202
+    timestamp: 1341846320.631955
+    source_rgb: /mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/rgb/1341846320.631955.png
+    source_depth: /mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/depth/1341846320.631970.png
+rendering:
+  pose_source: common-view online and dataset-ground-truth-aligned poses
+  alignment: tracking uses frozen SE(3) alignment without scale; mapping uses frozen online/gt_aligned modes
+  crop_xywh: [0, 0, 640, 480]
+  resolution: [640, 480]
+  fit: contain
+  color_space: sRGB
+  post_processing: none
+tracking_policy:
+  frame_start: 0
+  frame_end_exclusive: 827
+  association_max_delta_seconds: 0.02
+  seed: 0,1,2
+runtime_policy:
+  runtime_source: DYN-19 all_results metrics.end_to_end_seconds across all 90 main runs
+  hardware_consistency: clean-single-gpu
+  hardware_note: All runs used host slam and GPU identifier 1 under a serial GPU lock; the frozen manifests do not record the GPU model.
+  clean_runtime_required: false
+baseline_policy:
+  allowed:
+    - Photo-SLAM
+    - SplaTAM
+  external_report_allowed:
+    - DyPho-SLAM
+  local_rerun_priority:
+    - Photo-SLAM
+    - SplaTAM
+  artifact_library_targets:
+    - Photo-SLAM
+    - SplaTAM
+    - MonoGS
+    - ORB-SLAM3
+    - Dyna-SLAM
+    - NICE-SLAM
+    - ESLAM
+    - RoDyn-SLAM
+    - GS-SLAM
+    - GassiDy
+    - DGS-SLAM
+    - VarSplat
+    - Gaussian-SLAM
+    - CG-SLAM
+  excluded:
+    - DyPho-SLAM from local aggregate statistics
+    - external-report methods from Fig. 4 without real render evidence
+source_label_policy:
+  local_rerun_label: local-rerun
+  external_report_label: external-report
+  diagnostic_label: diagnostic
+  failed_boundary_label: failed-boundary
+artifact_sources:
+  xslam_trajectory: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/CameraTrajectory_AllFrames_TUM.txt
+  xslam_map: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/3581_shutdown/ply/input.ply
+  timing_log: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/metadata/main/all_results.json
+  table1_csv: /home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table1_tracking.csv
+  table2_csv: /home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table2_mapping.csv
+  table3_csv: /home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table3_runtime.csv
+claim_boundary: Local tracking, mapping-diagnostic, runtime, and route-safety evidence with DyPho-SLAM tracking shown only as external-report positioning context.
+expected_outputs:
+  - table1
+  - table2
+  - table3

@@ -13,6 +13,14 @@ requested surfaces:
 - **Mapping:** local DYN-19 common-view PSNR/SSIM results for online and
   GT-aligned rendering, with the full-frame and fixed-static-region metrics.
 
+The installed `dypho-slam-figure-automation` skill now also renders the
+paper-facing draft tables at
+`paper/dyn19_v6/dypho_style_assets/build/draft/table1.png`,
+`table2.png`, and `table3.png`. Each raster has a source hash, automated audit,
+and pending human-review form; none is released automatically. Its MVP
+self-check also keeps Photo-SLAM and SplaTAM as explicit P0 missing-artifact
+queues rather than silently promoting them into the comparison.
+
 The external DyPho-SLAM column is an **external reference**, not a
 protocol-matched rerun. Its values are not included in local means, win counts,
 or promotion gates. This is intentional and follows the project decision that
@@ -106,3 +114,13 @@ It does not support the following stronger claims:
 - a numeric DyPho-SLAM mapping comparison;
 - universal tracking or mapping superiority;
 - independent 3D ghost-contamination ground truth.
+
+## Runtime and Safety Draft
+
+The DyPho-style Table III draft reports local DYN-19 application end-to-end
+time, mean per-run failure rate, relative runtime, and route-certificate
+status across the 90 main runs. Full records 47.750 s/run, 0.147% mean failure,
+1.26x Semantic runtime, and 30/30 non-vacuous pass certificates. The frozen
+manifests identify host `slam` and GPU identifier 1 under a serial GPU lock,
+but do not record the GPU model. No tracking/mapping component split is
+claimed.

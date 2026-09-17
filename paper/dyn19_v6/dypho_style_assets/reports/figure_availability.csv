@@ -1,0 +1,5 @@
+asset,status,available,missing,next_action
+Fig. 1,blocked,"input RGB-D, local trajectories/maps, DYN-19 novel-view renders",constructed-feature panels and a label-compatible real baseline row,instrument/replay feature exports and freeze real baseline panels
+Fig. 2,blocked,"dynamic masks, RGB-D input, Gaussian map/checkpoint","keypoints, feature maps/bins, matches, and temporal-prior state exports",add deterministic intermediate-state export hooks
+Fig. 3,inputs-ready,four TUM DYN-19 trajectories and public ground truth,explicit associated and SE(3)-aligned plot trajectories,"export aligned trajectories upstream, then run the locked Fig. 3 build"
+Fig. 4,blocked-for-locked-layout,"common-view input plus Semantic, MapMatched, and Full renders",real SplaTAM/Photo-SLAM panels required by the locked five-column layout,complete P0 baseline renders or approve a separate DYN-specific layout

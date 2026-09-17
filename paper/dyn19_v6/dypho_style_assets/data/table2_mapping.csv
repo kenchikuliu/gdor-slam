@@ -1,0 +1,4 @@
+Configuration,Online PSNR,Online SSIM,GT-align PSNR,GT-align SSIM
+Semantic,18.866,0.695,12.082,0.492
+MapMatched,18.990,0.700,12.442,0.503
+Full,19.763,0.728,13.491,0.533

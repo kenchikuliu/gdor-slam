@@ -1,0 +1,2 @@
+method,source_type,record_key,exact_frame_pose_crop_match,render_path,render_status,fig4_status,reason
+DyPho-SLAM,external-report,DyPho-SLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.

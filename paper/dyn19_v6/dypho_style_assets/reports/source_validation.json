@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "passed": true,
+      "message": "main all_results contains 90 runs"
+    },
+    {
+      "passed": true,
+      "message": "all 90 runs complete"
+    },
+    {
+      "passed": true,
+      "message": "mapping evidence contains 72 cells"
+    },
+    {
+      "passed": true,
+      "message": "main result configs match the three table rows"
+    },
+    {
+      "passed": true,
+      "message": "DyPho row is labeled external-report"
+    },
+    {
+      "passed": true,
+      "message": "mapping table contains no fabricated DyPho numeric row"
+    }
+  ],
+  "release_allowed": false,
+  "required_next_step": "run skill build and complete human review"
+}

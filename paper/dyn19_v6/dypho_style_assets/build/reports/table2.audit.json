@@ -1,0 +1,8 @@
+{
+  "table_id": "table2",
+  "generated_sha256": "7048ea4af92e9501d5beb5e9058c498f288248a5c2e1c7467c9b63d2f24efdc5",
+  "passed": true,
+  "violations": [],
+  "release_allowed": false,
+  "required_next_step": "human_review"
+}

@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "output_root": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp",
+  "freeze_validation": {
+    "kind": "freeze",
+    "input": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/freeze_record.yaml",
+    "passed": true,
+    "violations": [],
+    "release_allowed": false
+  },
+  "freeze_record": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/protocol/freeze_record.yaml",
+  "table_manifest": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/table_manifest.json",
+  "figure_manifest": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/figure_manifest.json",
+  "missing_artifacts": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/missing_artifacts.csv",
+  "local_baseline_rerun_queue": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/local_baseline_rerun_queue.csv",
+  "baseline_artifact_library_queue": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/baseline_artifact_library_queue.csv",
+  "fig4_external_report_policy": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/fig4_external_report_policy.csv",
+  "self_check": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/self_check.json",
+  "self_check_markdown": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/reports/self_check.md",
+  "self_check_passed": true,
+  "generated_tables": {
+    "table1": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/tables/table1_external_report.csv",
+      "row_count": 0,
+      "source": {
+        "path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+        "bytes": 981,
+        "sha256": "058268a5ee751cd4f717e8213636e8183056d70a8fd068b864fda98a1a6b5eb4"
+      },
+      "output": {
+        "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/tables/table1_external_report.csv",
+        "bytes": 205,
+        "sha256": "ef2244259cab37ec1b643c7b2824333523e15cad50b8260bcdf7b67e8059b736"
+      }
+    },
+    "table3": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/tables/table3_external_report.csv",
+      "row_count": 0,
+      "source": {
+        "path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+        "bytes": 433,
+        "sha256": "1e0554f81bfac382e7252d483cb381cffa527c4b61f5ae2b608043b68e0b89f2"
+      },
+      "output": {
+        "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/mvp/tables/table3_external_report.csv",
+        "bytes": 119,
+        "sha256": "7c82d3568415ff37a56ff16aa38fa692fa32344bb7e9742b9ef6bd5a7212ac2b"
+      }
+    }
+  },
+  "local_baseline_count": 2,
+  "baseline_library_target_count": 15,
+  "local_baseline_protocol_complete_count": 0,
+  "external_report_row_count": 0,
+  "missing_external_report_row_count": 2,
+  "fig4_blocked_external_report_count": 1,
+  "release_allowed": false,
+  "required_next_step": "complete P0 Photo-SLAM/SplaTAM local rerun artifacts, fill X-SLAM intermediate states if Fig.1/Fig.2 are requested, then run build for pixel-locked figures/tables"
+}
