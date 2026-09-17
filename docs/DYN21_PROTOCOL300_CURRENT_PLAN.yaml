@@ -1,0 +1,92 @@
+contract: dyn21-protocol300-current-plan-v1
+experiment_id: DYN-21_PROTOCOL300_CURRENT_20260917
+status: frozen
+frozen_on: '2026-09-17'
+comparison_mode: strict-same-protocol
+
+method:
+  id: dyn19_full
+  display_name: DYN-19 Full
+  runtime_source_commit: 14c6b2ca696a7eacda8f193e5c8a0a44e55d527e
+  seed: 0
+  frame_start: 0
+  frame_end_exclusive: 300
+
+output:
+  result_root: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01
+  reuse_existing_root: false
+  historical_protocol300_roots_are_read_only: true
+
+frozen_protocol:
+  path: /home/slam/experiments/dypho_skill_full_rerun_20260729/protocol.yaml
+  sha256: 4ecc0b1dd48d5462324888b1c9d94d8ef18c4d83ce4f057b2ed65a264fbf9bbe
+  resolution: [640, 480]
+  crop_xywh: [0, 0, 640, 480]
+  post_processing: none
+  trajectory_alignment: fixed-scale SE(3)
+  scale: 1.0
+  association_max_delta_seconds: 0.02
+
+runtime:
+  binary: /home/slam/DynaGS-SLAM-dyn19-20260913/bin/tum_rgbd_dynamic
+  binary_sha256: 42146603f1a43298b6c2925ae97457dd0193ec2aa15086f4c2b72cf5f6501bbe
+  vocabulary_sha256: f8dd027f7a6cb88129821341194d7f2c75b77b3394257ddd0d2229863d1a3570
+  mask_config_sha256: 860bc5080043397d06f517b65528170adbbd474c416b844f1ab4a2a7d8abecc1
+  yolo_engine_sha256: edfbc192bba7c95d178baf144d7ac1cec3776339f8f274b85c7e5182a10306a3
+  heldout_stride: 20
+  no_realtime: true
+  viewer: false
+  runtime_library_sha256:
+    ORB-SLAM3/lib/libORB_SLAM3.so: fbde26919f47feebf2f674043b0279bc7f73666274e4bf576a5e853ef71422a1
+    lib/libdynamic_mask_refiner.so: 3906e8719b976dc54b5af0838f7bcbdd8e60e18823d7630593cda2a31b847429
+    lib/libgaussian_mapper.so: 8eef1ae5629b3992ac25ac69295ae65a4f3190eb7e5a546715423b3f75a9d7b7
+    lib/libmotion3d.so: 6bf19ed279a21be241edaa37e27ec630f323ca2a3f26fb9767998679b56165a3
+
+sequences:
+  tum_walking_xyz:
+    gpu: 0
+    association_300_sha256: 74fef79936373d13bb1ec58210521acb97f6a374ecf7572d380e4392a6740cd9
+    ground_truth_sha256: 4117699f2b027a6e305f84d3b17f1928aa5361db300d5df10639824540d92b6d
+    render_frame: 218
+    render_timestamp: 1341846321.167887
+  tum_walking_halfsphere:
+    gpu: 1
+    association_300_sha256: 3e184c1deb5c9b915470c54c3890e762f8456a61f2df78fdacf69ac6c0334aaa
+    ground_truth_sha256: 209eea77bccf94bc1b0e98508d6f14a93e7fe71b2821ce1d8ee865e08e0fe100
+    render_frame: 255
+    render_timestamp: 1341846443.770837
+  bonn_person_tracking:
+    gpu: 0
+    association_300_sha256: ebf660f1047e63dcd723b703c3985cf6c437a49ca09c060503abd1843fdf3f74
+    ground_truth_sha256: e5b885134302cd0f1f73aacc0a26c4a6144cdd75492ccbd2c8b7862ed43b55a1
+    render_frame: 232
+    render_timestamp: 1548265890.273280
+  bonn_crowd3:
+    gpu: 1
+    association_300_sha256: 096c47b134ce90f0804aa65544fd6a1be5c204bf19dc7fe2c7874461d5c23a82
+    ground_truth_sha256: 07ff3e819deffc88c35497c4b14862ca08925718f2688c9c1370a491cfacc3e4
+    render_frame: 234
+    render_timestamp: 1548339967.105450
+
+required_run_artifacts:
+  - CameraTrajectory_AllFrames_TUM.txt
+  - CameraTrajectory_TUM.txt
+  - frame_metrics.csv
+  - run_summary.json
+  - heldout_novel_view/manifest.csv
+  - final Gaussian point_cloud.ply
+  - final Gaussian cameras.json
+  - status and /usr/bin/time logs
+
+deliverables:
+  - current DYN-19 Full Protocol-300 tracking row
+  - current DYN-19 Full Protocol-300 mapping diagnostic row
+  - current DYN-19 Full Protocol-300 runtime row
+  - four real 640x480 GT-aligned DYN-19 Full render panels
+  - five-column comparison against Input, SplaTAM, Photo-SLAM, and DynaGS semantic
+
+claim_boundary:
+  tracking: seed-0 300-frame local comparison only
+  mapping: full-frame diagnostic including dynamic foreground
+  runtime: end-to-end wall time; no tracking/mapping component split
+  historical_ours: remains a failed-boundary ablation and is never relabeled

@@ -4,6 +4,16 @@ Claim-bearing experiments use `run_reproducible_benchmark.py`. The older
 `run_statistical_validation.sh` and `compute_statistics.py` are retained only
 for historical diagnostics and must not populate the active paper.
 
+The frozen four-cell current-method Protocol-300 comparison is registered in
+`../docs/DYN21_PROTOCOL300_CURRENT_PROTOCOL.md` and runs with:
+
+```bash
+scripts/run_dyn21_protocol300_current.sh
+```
+
+It writes only to a new NAS result root and treats the historical Protocol-300
+baseline package as read-only evidence.
+
 ## Deterministic Replay Gates
 
 Before any claim-bearing benchmark, capture shadow-only packets with
