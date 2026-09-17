@@ -1,0 +1,63 @@
+{
+  "contract": "dyn21-protocol300-current-results-v1",
+  "status": "complete",
+  "completed_on": "2026-09-17",
+  "experiment_id": "DYN-21_PROTOCOL300_CURRENT_20260917",
+  "source_commit": "f1c00ec69c8132f05d6ec1fc9e1303f84ce3e8d5",
+  "result_root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01",
+  "denominator": {
+    "method": "dyn19_full",
+    "seed": 0,
+    "frame_start": 0,
+    "frame_end_exclusive": 300,
+    "sequences": [
+      "tum_walking_xyz",
+      "tum_walking_halfsphere",
+      "bonn_person_tracking",
+      "bonn_crowd3"
+    ],
+    "planned_runs": 4,
+    "completed_runs": 4
+  },
+  "current_method": {
+    "tracking_ate_cm": {
+      "tum_walking_xyz": 1.666516,
+      "tum_walking_halfsphere": 3.827394,
+      "bonn_person_tracking": 3.889280,
+      "bonn_crowd3": 5.945411,
+      "average": 3.832150
+    },
+    "mapping_full_frame_diagnostic": {
+      "tum_walking_xyz": {"psnr_db": 14.976406, "ssim": 0.47565625},
+      "tum_walking_halfsphere": {"psnr_db": 12.009153, "ssim": 0.54067693},
+      "bonn_person_tracking": {"psnr_db": 11.589496, "ssim": 0.63099687},
+      "bonn_crowd3": {"psnr_db": 13.775660, "ssim": 0.65110570},
+      "average": {"psnr_db": 13.087679, "ssim": 0.57460894}
+    },
+    "runtime_wall_seconds": {
+      "tum_walking_xyz": 38.769481190,
+      "tum_walking_halfsphere": 38.787788179,
+      "bonn_person_tracking": 27.134596985,
+      "bonn_crowd3": 24.369450724,
+      "total": 129.061317078,
+      "aggregate_throughput_fps": 9.297906
+    }
+  },
+  "evidence": {
+    "metrics_sha256": "78b4fd45ff3390f15ae212ff60979fc60e0af8458fb276bd50d9be1e75573d69",
+    "manifest_sha256": "7c869cbdacf60b8a58158da1900532d58b3f7c765e06fcd082534a365c247186",
+    "tracking_table_sha256": "67b0ea90b385f403adc4b0d3896b7add40ed1e2a56433384930e84513353f384",
+    "mapping_table_sha256": "0ba3d58d34296342b23d8207f46f7552b858d6f5b0b6d60ef80a2af741f1135e",
+    "runtime_table_sha256": "9d63a5bc08ef22ad21c73cd0fcc71ac7a67edc14a7d4338381bd69af19edf323",
+    "contact_sheet_sha256": "747e41854139ecbf4fba002a093d1675b4b811087da690c1cad0caa51873e7c8",
+    "dypho_internal_draft_sha256": "a70a63ddbaf0855472161c775ed081ad5c9377c27de22150ae5525a8f66b5c26",
+    "dypho_audit_passed": true,
+    "dypho_release_allowed": false
+  },
+  "claim_boundary": {
+    "tracking": "seed-0 300-frame local comparison only",
+    "mapping": "full-frame diagnostic including dynamic foreground",
+    "runtime": "end-to-end wall time; no tracking/mapping component split",
+    "historical_ours": "failed-boundary evidence kept separate and not relabeled"
+  }
+}

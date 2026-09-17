@@ -15,10 +15,10 @@ when they are visibly marked `[ext]` and kept outside local aggregate claims.
 | M2 | Module ablation on `w/xyz` and `w/half` | Complete, local three-seed ordered ablation | `paper/dyn19_v6/dypho_supplemental_assets/data/table2_ablation.csv` |
 | M3 | Current-method quantitative mapping | Complete local diagnostic | `paper/dyn19_v6/dypho_style_assets/data/table2_mapping.csv` |
 | M4-M5 | Local SplaTAM/Photo-SLAM tracking and mapping metrics | Complete historical Protocol-300 package | `/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/` |
-| M6 | Four-row qualitative mapping comparison | Historical package complete; current DYN-19 Full cell missing | `/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/` |
+| M6 | Four-row qualitative mapping comparison | Complete with current DYN-19 Full | `/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/` |
 | M7 | Broad tracking/mapping runtime context | Complete, source-labeled and descriptive | `paper/dyn19_v6/dypho_supplemental_assets/data/table3_runtime_broad.csv` |
 | M8 | Local baseline end-to-end runtime | Complete historical Protocol-300 package | `/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table3.csv` |
-| M9 | Current DYN-19 Full co-registered with local SplaTAM/Photo-SLAM | Missing current-method cell | New run or render required under the frozen baseline package |
+| M9 | Current DYN-19 Full co-registered with local SplaTAM/Photo-SLAM | Complete: tracking, mapping, runtime, and 20 real panels | `docs/DYN21_RESULTS.md` |
 
 The machine-readable version with exact methods, scopes, evidence types, and
 claim boundaries is `docs/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.csv`.
@@ -42,17 +42,17 @@ Bonn `ps_track`, and Bonn `r3`. It contains:
 - tracking ATE, full-frame PSNR/SSIM diagnostics, and end-to-end wall time;
 - 20 real 640x480 qualitative panels with zero pending entries.
 
-This evidence is usable as a separately labeled historical local package. Its
-`Ours` row must remain failed-boundary evidence and cannot be presented as the
-current DYN-19 Full method.
+This evidence remains a separately labeled historical local package. Its
+`Ours` row stays failed-boundary evidence and is not presented as the current
+DYN-19 Full method.
 
-## Remaining Gap
+## Closed Current-Method Cell
 
-The only material FlowParse-style comparison gap is the current-method local
-package: DYN-19 Full has not yet been co-registered with SplaTAM and Photo-SLAM
-under the Protocol-300 tracking, mapping, runtime, and Fig. 4 evidence bundle.
-Closing it requires a new DYN-19 Full run or render under that frozen package;
-renaming the historical `Ours` panels is prohibited.
+DYN-21 completed four new DYN-19 Full seed-0 runs under the frozen 300-frame
+package. The result bundle provides a current tracking row, full-frame mapping
+diagnostic, end-to-end runtime row, and four GT-aligned current-method panels
+against Input, SplaTAM, Photo-SLAM, and DynaGS semantic. The historical `Ours`
+panels remain separate and unchanged.
 
 ## Claim Boundary
 

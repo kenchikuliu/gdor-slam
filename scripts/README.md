@@ -14,6 +14,13 @@ scripts/run_dyn21_protocol300_current.sh
 It writes only to a new NAS result root and treats the historical Protocol-300
 baseline package as read-only evidence.
 
+After the four runs complete, build the current tracking, mapping, runtime,
+and Fig. 4 evidence package with:
+
+```bash
+python3 scripts/build_dyn21_protocol300_comparison.py --gpu 1
+```
+
 ## Deterministic Replay Gates
 
 Before any claim-bearing benchmark, capture shadow-only packets with

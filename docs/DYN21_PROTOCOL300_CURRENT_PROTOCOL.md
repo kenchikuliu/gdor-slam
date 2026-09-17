@@ -71,3 +71,10 @@ scripts/run_dyn21_protocol300_current.sh
 After the four run cells pass their artifact checks, the comparison builder
 produces the tracking, mapping, runtime, provenance, and Fig. 4 package in the
 same new result root.
+
+```bash
+python3 scripts/build_dyn21_protocol300_comparison.py --gpu 1
+```
+
+Completed results and artifact hashes are recorded in `DYN21_RESULTS.md` and
+`DYN21_RESULTS.json`.
