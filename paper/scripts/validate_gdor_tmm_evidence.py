@@ -14,6 +14,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
+DYPHO = ROOT / "dypho_style_gdor_dyn19"
 
 
 def load_csv(name: str) -> list[dict[str, str]]:
@@ -350,6 +351,83 @@ def main() -> None:
         if not path.is_file() or path.stat().st_size == 0:
             failures.append(f"missing or empty figure: {path.relative_to(ROOT)}")
 
+    dypho_source_counts = {
+        "table1_tracking.csv": 3,
+        "table2_mapping.csv": 9,
+        "table3_runtime.csv": 7,
+        "ordered_ablation.csv": 7,
+    }
+    for name, expected_count in dypho_source_counts.items():
+        path = DYPHO / "source_tables" / name
+        if not path.is_file():
+            failures.append(f"missing DyPho-style source table: {path.relative_to(ROOT)}")
+            continue
+        with path.open(newline="", encoding="utf-8") as stream:
+            row_count = sum(1 for _ in csv.DictReader(stream))
+        require_equal(row_count, expected_count, f"DyPho-style {name} row count", failures)
+
+    dypho_self_check_path = DYPHO / "mvp_package" / "reports" / "self_check.json"
+    if not dypho_self_check_path.is_file():
+        failures.append("missing DyPho-style MVP self-check")
+        dypho_self_check = {}
+    else:
+        dypho_self_check = json.loads(dypho_self_check_path.read_text(encoding="utf-8"))
+        require_equal(dypho_self_check.get("passed"), True, "DyPho-style MVP self-check", failures)
+        require_equal(
+            dypho_self_check.get("release_allowed"),
+            False,
+            "DyPho-style MVP release gate",
+            failures,
+        )
+        require_equal(
+            dypho_self_check.get("summary", {}).get("missing_or_unverified_artifact_count"),
+            4,
+            "DyPho-style explicit missing artifact count",
+            failures,
+        )
+
+    dypho_audits = {}
+    for table_id in ("table1", "table2", "table3"):
+        draft = DYPHO / "table_drafts" / "draft" / f"{table_id}.png"
+        audit_path = DYPHO / "table_drafts" / "reports" / f"{table_id}.audit.json"
+        if not draft.is_file() or draft.stat().st_size == 0:
+            failures.append(f"missing or empty DyPho-style draft: {draft.relative_to(ROOT)}")
+        if not audit_path.is_file():
+            failures.append(f"missing DyPho-style audit: {audit_path.relative_to(ROOT)}")
+            continue
+        audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        dypho_audits[table_id] = audit
+        require_equal(audit.get("passed"), True, f"DyPho-style {table_id} audit", failures)
+        require_equal(
+            audit.get("release_allowed"),
+            False,
+            f"DyPho-style {table_id} release gate",
+            failures,
+        )
+
+    missing_artifacts_path = DYPHO / "mvp_package" / "reports" / "missing_artifacts.csv"
+    if not missing_artifacts_path.is_file():
+        failures.append("missing DyPho-style missing-artifacts report")
+        missing_dypho_artifacts = []
+    else:
+        with missing_artifacts_path.open(newline="", encoding="utf-8") as stream:
+            missing_dypho_artifacts = [
+                row for row in csv.DictReader(stream) if row["status"] != "present"
+            ]
+        require_equal(
+            sorted(row["requirement"] for row in missing_dypho_artifacts),
+            sorted(
+                [
+                    "artifact_sources.figure_panels.fig4.fr3_w_xyz__ours",
+                    "artifact_sources.figure_panels.fig4.fr3_w_half__ours",
+                    "artifact_sources.figure_panels.fig4.bonn_ps_track__ours",
+                    "artifact_sources.figure_panels.fig4.bonn_r3__ours",
+                ]
+            ),
+            "DyPho-style Fig.4 blockers",
+            failures,
+        )
+
     provenance = json.loads((DATA / "dyn19_release_provenance.json").read_text(encoding="utf-8"))
     require_equal(
         provenance["metadata_archive"]["sha256"],
@@ -394,6 +472,12 @@ def main() -> None:
             "dyn19_mapping": {
                 "aggregates": mapping_aggregates,
                 "online_static_psnr_comparisons": map_comparisons,
+            },
+            "dypho_style_support": {
+                "source_table_rows": dypho_source_counts,
+                "mvp_self_check": dypho_self_check,
+                "table_audits": dypho_audits,
+                "fig4_missing_artifacts": missing_dypho_artifacts,
             },
         },
         "claim_boundary": {

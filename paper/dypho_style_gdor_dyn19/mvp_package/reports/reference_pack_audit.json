@@ -1,0 +1,7 @@
+{
+  "reference_scope": "single-paper-only",
+  "passed": true,
+  "violations": [],
+  "release_allowed": false,
+  "note": "Reference audit never grants release; mandatory human review is separate."
+}

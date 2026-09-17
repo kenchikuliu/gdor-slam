@@ -1,5 +1,5 @@
-version: gdor_tmm_v5r6
-generated: 2026-09-16
+version: gdor_tmm_v5r6_dypho_support_20260917
+generated: 2026-09-17
 figures:
   fig1:
     file: figures/fig1_overview.png
@@ -40,10 +40,35 @@ tables:
     label: tab:safety-efficiency
     role: safety_runtime_mapping_diagnostic_and_external_report_contracts
     evidence: [DYN-15, DYN-16, DYN-19-mapping, DYN-19-certificates, external-report-mapping]
+dypho_style_support:
+  root: dypho_style_gdor_dyn19
+  anchor: GDOR-SLAM / DYN-19 Full
+  table1:
+    source: dypho_style_gdor_dyn19/source_tables/table1_tracking.csv
+    draft: dypho_style_gdor_dyn19/table_drafts/draft/table1.png
+    evidence: DYN-19-main-90-cells
+    audit: passed_needs_human_review
+  table2:
+    source: dypho_style_gdor_dyn19/source_tables/table2_mapping.csv
+    draft: dypho_style_gdor_dyn19/table_drafts/draft/table2.png
+    evidence: [DYN-19-mapping-72-cells, external-report-mapping-native-metrics]
+    audit: passed_needs_human_review
+  table3:
+    source: dypho_style_gdor_dyn19/source_tables/table3_runtime.csv
+    draft: dypho_style_gdor_dyn19/table_drafts/draft/table3.png
+    evidence: DYN-19-tracking-and-ordered-ablation-runtime
+    audit: passed_needs_human_review
+  ordered_ablation:
+    source: dypho_style_gdor_dyn19/source_tables/ordered_ablation.csv
+    design: ordered_ablation_not_factorial
+  mvp_self_check: dypho_style_gdor_dyn19/mvp_package/reports/self_check.md
+  fig4_status: blocked_until_four_current_gdor_render_panels_exist
+  release_allowed: false
 claim_boundary: >-
   Local same-source results cannot be presented as a protocol-matched external
   SOTA ranking. Published external rows retain their native datasets, metrics,
   and statistics and are not pooled with local results. DYN-19 is an ordered
   ablation and cannot identify independent component effects or interactions.
   Its mapping proxy is not independent ghost/completeness truth. DYN-16 remains
-  a limited preservation diagnostic.
+  a limited preservation diagnostic. The DyPho-style support assets are drafts
+  with automated audits only and require human review before release.

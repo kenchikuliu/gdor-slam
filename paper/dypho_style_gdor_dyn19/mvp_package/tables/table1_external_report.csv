@@ -1,0 +1,9 @@
+Method,Dense,fr3/w/xyz ATE,fr3/w/xyz Std.,fr3/w/half ATE,fr3/w/half Std.,fr3/w/static ATE,fr3/w/static Std.,fr3/s/half ATE,fr3/s/half Std.,Avg. ATE,Avg. Std.,Source Type,Source,Local Rerun,Claim Boundary
+ORB-SLAM3,,28.1,12.2,0.31,9.0,2.0,1.1,2.6,1.6,15.8,6,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun
+Dyna-SLAM,,1.7,×,2.6,×,0.7,×,2.8,×,2,×,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun
+NICE-SLAM,√,113.8,48.9,×,×,137.3,21.7,93.3,35.3,114.8,33.3,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun
+ESLAM,√,45.7,28.5,60.8,27.9,93.6,20.7,3.6,1.6,34.5,13.5,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun
+RoDyn-SLAM,√,8.3,5.5,5.6,2.8,1.7,0.9,4.4,2.2,4.1,2.3,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun
+GS-SLAM,√,37.2,9.9,60.0,20.7,8.4,4.1,7.4,5.4,28.5,10.0,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun
+GassiDy,√,3.5,1.6,3.7,1.9,0.6,0.3,2.4,1.4,2.6,1.3,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun
+DGS-SLAM,√,4.1,2.2,5.5,2.8,0.6,0.2,4.1,1.6,3.0,1.5,external-report,DyPho-SLAM reference TABLE1,false,context/comparison row only; not a local rerun

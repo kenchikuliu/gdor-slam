@@ -1,0 +1,102 @@
+{
+  "build_manifest": {
+    "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/build_tables.yaml",
+    "sha256": "d0c2c22aedb514bb1d1c1cc9ab97357410a84ab278c13a673c26b480481513f3"
+  },
+  "experiment_manifest": {
+    "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/experiment.yaml",
+    "sha256": "fe08142b8391924eb643f99f448042f3bc3932525216f75848887d6590457f77"
+  },
+  "figures": {},
+  "tables": {
+    "table1": {
+      "type": "table",
+      "table_id": "table1",
+      "source": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table1_tracking.csv",
+      "source_sha256": "fefe227f7b4f7fe75ed2edb25b6f4065be9baab94ba6923b664fbab671f3d03a",
+      "rows": 3,
+      "columns": 31,
+      "canvas": [
+        6200,
+        620
+      ],
+      "directions": {
+        "tum_walking_xyz ATE Mean cm": "min",
+        "tum_walking_halfsphere ATE Mean cm": "min",
+        "tum_walking_static ATE Mean cm": "min",
+        "tum_sitting_halfsphere ATE Mean cm": "min",
+        "bonn_balloon ATE Mean cm": "min",
+        "bonn_crowd ATE Mean cm": "min",
+        "bonn_crowd2 ATE Mean cm": "min",
+        "bonn_crowd3 ATE Mean cm": "min",
+        "bonn_person_tracking ATE Mean cm": "min",
+        "bonn_person_tracking2 ATE Mean cm": "min",
+        "Overall Mean ATE cm": "min",
+        "Overall Median ATE cm": "min",
+        "Mean Failure Percent": "min"
+      },
+      "output": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/draft/table1.png",
+      "output_sha256": "399537bc31d4cece313dfe9a5547b06772cb5a862207d497a93777bc2472c35d",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/reports/table1.audit.json",
+      "pending_review": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/review/table1.review.yaml"
+    },
+    "table2": {
+      "type": "table",
+      "table_id": "table2",
+      "source": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table2_mapping.csv",
+      "source_sha256": "85b021e5c80c1c51c84bab07e869bfeca550d116585e8acaa654b347e1650f3e",
+      "rows": 9,
+      "columns": 13,
+      "canvas": [
+        4300,
+        1160
+      ],
+      "directions": {
+        "Static PSNR Mean dB": "max",
+        "Static SSIM Mean": "max",
+        "Proxy Completeness Mean": "max",
+        "Proxy Ghost Risk Mean": "min"
+      },
+      "output": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/draft/table2.png",
+      "output_sha256": "ab00534531b6daf87ee871af9e9d6e5648047eac1ac45f7e74ebc0846e800639",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/reports/table2.audit.json",
+      "pending_review": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/review/table2.review.yaml"
+    },
+    "table3": {
+      "type": "table",
+      "table_id": "table3",
+      "source": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table3_runtime.csv",
+      "source_sha256": "e67053836b0effedc29b65e1f0a31dddde9de0b4631896bae564ce60c4cae81f",
+      "rows": 7,
+      "columns": 13,
+      "canvas": [
+        3600,
+        820
+      ],
+      "directions": {
+        "Mean End-to-End Seconds": "min",
+        "Median End-to-End Seconds": "min",
+        "Mean Failure Percent": "min"
+      },
+      "output": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/draft/table3.png",
+      "output_sha256": "9e38cc345c1c6e03674e7731c647a520f1af0d7241ef13f956dc094b92eb00c2",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/reports/table3.audit.json",
+      "pending_review": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/review/table3.review.yaml"
+    }
+  },
+  "human_review_required_for": [
+    "table1",
+    "table2",
+    "table3"
+  ],
+  "automated_fairness_checks": {},
+  "experiment_source_checks": [],
+  "manifest_consistency_checks": [],
+  "manual_checks_remaining": [
+    "scientific correctness",
+    "source provenance truth",
+    "comparison fairness beyond encoded frame/crop/resolution fields",
+    "text accuracy",
+    "visual readability"
+  ]
+}

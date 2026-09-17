@@ -478,6 +478,197 @@
           ]
         }
       }
+    },
+    "dypho_style_support": {
+      "source_table_rows": {
+        "table1_tracking.csv": 3,
+        "table2_mapping.csv": 9,
+        "table3_runtime.csv": 7,
+        "ordered_ablation.csv": 7
+      },
+      "mvp_self_check": {
+        "contract": "xslam-dypho-mvp-self-check-v1",
+        "checked_at": "2026-09-17T00:14:11.950628+00:00",
+        "output_root": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package",
+        "passed": true,
+        "release_allowed": false,
+        "human_review_required": true,
+        "summary": {
+          "check_count": 9,
+          "error_count": 0,
+          "warning_count": 0,
+          "passed_warning_count": 2,
+          "external_report_row_count": 16,
+          "missing_external_report_row_count": 2,
+          "missing_or_unverified_artifact_count": 4,
+          "local_baseline_queue_count": 2,
+          "baseline_library_target_count": 15,
+          "fig4_blocked_external_report_count": 9
+        },
+        "runtime_policy": {
+          "runtime_source": "DYN-19 run_summary end_to_end_seconds over all 210 tracking/ablation runs",
+          "hardware_consistency": "clean-single-gpu",
+          "hardware_note": "Every frozen DYN-19 task declares CUDA device 1, NVIDIA GeForce RTX 4090. External-report runtime rows retain their native hardware labels and are not pooled.",
+          "clean_runtime_required": true
+        },
+        "checks": [
+          {
+            "id": "core_report_files_present",
+            "passed": true,
+            "severity": "error",
+            "message": "Core MVP reports are present and non-empty.",
+            "evidence": {
+              "present_count": 7,
+              "missing_files": []
+            }
+          },
+          {
+            "id": "dypho_external_report_tables_generated",
+            "passed": true,
+            "severity": "error",
+            "message": "Requested DyPho external-report tables were generated.",
+            "evidence": {
+              "required_tables": [
+                "table1",
+                "table3"
+              ],
+              "generated_tables": [
+                "table1",
+                "table3"
+              ],
+              "missing_generated_tables": []
+            }
+          },
+          {
+            "id": "external_report_rows_labeled",
+            "passed": true,
+            "severity": "error",
+            "message": "External-report provenance rows are labeled as external and not local reruns.",
+            "evidence": {
+              "malformed_count": 0
+            }
+          },
+          {
+            "id": "external_report_fig4_table_only",
+            "passed": true,
+            "severity": "error",
+            "message": "External-report methods without real renders are blocked from Fig.4.",
+            "evidence": {
+              "unblocked_count": 0
+            }
+          },
+          {
+            "id": "baseline_library_target_pool_complete",
+            "passed": true,
+            "severity": "error",
+            "message": "Baseline artifact library queue contains the full target method pool.",
+            "evidence": {
+              "target_count": 14,
+              "queued_count": 15,
+              "missing_targets": []
+            }
+          },
+          {
+            "id": "p0_local_baseline_queue_present",
+            "passed": true,
+            "severity": "error",
+            "message": "P0 local baseline queue contains Photo-SLAM and SplaTAM.",
+            "evidence": {
+              "expected_p0": [
+                "Photo-SLAM",
+                "SplaTAM"
+              ],
+              "missing_p0": []
+            }
+          },
+          {
+            "id": "missing_artifacts_accounted",
+            "passed": true,
+            "severity": "warning",
+            "message": "Missing or undeclared artifacts are explicitly listed.",
+            "evidence": {
+              "missing_or_unverified_count": 4,
+              "report": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/reports/missing_artifacts.csv"
+            }
+          },
+          {
+            "id": "table3_runtime_hardware_policy_declared",
+            "passed": true,
+            "severity": "warning",
+            "message": "Table III runtime hardware policy is declared.",
+            "evidence": {
+              "hardware_consistency": "clean-single-gpu",
+              "hardware_note": "Every frozen DYN-19 task declares CUDA device 1, NVIDIA GeForce RTX 4090. External-report runtime rows retain their native hardware labels and are not pooled.",
+              "runtime_source": "DYN-19 run_summary end_to_end_seconds over all 210 tracking/ablation runs"
+            }
+          },
+          {
+            "id": "release_gate_closed",
+            "passed": true,
+            "severity": "error",
+            "message": "Automated MVP package remains draft-only; human review is still required.",
+            "evidence": {
+              "release_allowed": false
+            }
+          }
+        ]
+      },
+      "table_audits": {
+        "table1": {
+          "table_id": "table1",
+          "generated_sha256": "399537bc31d4cece313dfe9a5547b06772cb5a862207d497a93777bc2472c35d",
+          "passed": true,
+          "violations": [],
+          "release_allowed": false,
+          "required_next_step": "human_review"
+        },
+        "table2": {
+          "table_id": "table2",
+          "generated_sha256": "ab00534531b6daf87ee871af9e9d6e5648047eac1ac45f7e74ebc0846e800639",
+          "passed": true,
+          "violations": [],
+          "release_allowed": false,
+          "required_next_step": "human_review"
+        },
+        "table3": {
+          "table_id": "table3",
+          "generated_sha256": "9e38cc345c1c6e03674e7731c647a520f1af0d7241ef13f956dc094b92eb00c2",
+          "passed": true,
+          "violations": [],
+          "release_allowed": false,
+          "required_next_step": "human_review"
+        }
+      },
+      "fig4_missing_artifacts": [
+        {
+          "output_id": "fig4",
+          "requirement": "artifact_sources.figure_panels.fig4.fr3_w_xyz__ours",
+          "path": "",
+          "status": "missing-declaration",
+          "note": "Declare this artifact in the freeze record."
+        },
+        {
+          "output_id": "fig4",
+          "requirement": "artifact_sources.figure_panels.fig4.fr3_w_half__ours",
+          "path": "",
+          "status": "missing-declaration",
+          "note": "Declare this artifact in the freeze record."
+        },
+        {
+          "output_id": "fig4",
+          "requirement": "artifact_sources.figure_panels.fig4.bonn_ps_track__ours",
+          "path": "",
+          "status": "missing-declaration",
+          "note": "Declare this artifact in the freeze record."
+        },
+        {
+          "output_id": "fig4",
+          "requirement": "artifact_sources.figure_panels.fig4.bonn_r3__ours",
+          "path": "",
+          "status": "missing-declaration",
+          "note": "Declare this artifact in the freeze record."
+        }
+      ]
     }
   },
   "claim_boundary": {

@@ -1,0 +1,169 @@
+anchor_method: GDOR-SLAM / DYN-19 Full
+anchor_run_path: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full
+inspected_sources:
+  - /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/DYN19_RELEASE_MANIFEST.json
+  - /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_phase_report.json
+  - /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_map_integrity_20260914_14c6b2c/dyn19_map_integrity_summary.csv
+  - ../../data/dyn19_main_90_cells.csv
+  - ../../data/dyn19_mechanism_120_cells.csv
+  - ../../data/dyn19_mapping_72_cells.csv
+  - ../../data/external_report_quantitative.csv
+  - ../source_tables/table1_tracking.csv
+  - ../source_tables/table2_mapping.csv
+  - ../source_tables/table3_runtime.csv
+  - ../source_tables/ordered_ablation.csv
+not_inspected_before_freeze:
+  - No protocol-matched DYN-19 rerun exists yet for Photo-SLAM or SplaTAM.
+  - No real render panels are registered for external-report-only methods.
+  - No independent human or external ghost/completeness truth is available.
+selection_rule: Quantitative tables use every predeclared DYN-19 cell. Qualitative candidates use the previously frozen four Protocol-300 input frames only as presentation references; no quantitative subset is selected from those frames.
+selected_frames:
+  - sequence: fr3/w/xyz
+    frame_id: 218
+    timestamp: 1341846321.167887
+    source_rgb: /mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/rgb/1341846321.167887.png
+    source_depth: /mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/depth/1341846321.167898.png
+  - sequence: fr3/w/half
+    frame_id: 255
+    timestamp: 1341846443.770837
+    source_rgb: /mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_halfsphere/rgb/1341846443.770837.png
+    source_depth: /mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_halfsphere/depth/1341846443.771852.png
+  - sequence: bonn/ps_track
+    frame_id: 232
+    timestamp: 1548265890.27328
+    source_rgb: /mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_person_tracking/rgb/1548265890.27328.png
+    source_depth: /mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_person_tracking/depth/1548265890.28006.png
+  - sequence: bonn/r3
+    frame_id: 234
+    timestamp: 1548339967.10545
+    source_rgb: /mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_crowd3/rgb/1548339967.10545.png
+    source_depth: /mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_crowd3/depth/1548339967.10811.png
+rendering:
+  pose_source: DYN-19 online and GT-aligned pose modes are labeled separately; selected input references use dataset timestamps.
+  alignment: Tracking uses fixed-scale SE(3) without scale correction; mapping pose mode is explicit per row.
+  crop_xywh: [0, 0, 640, 480]
+  resolution: [640, 480]
+  fit: contain
+  color_space: sRGB
+  post_processing: none
+tracking_policy:
+  frame_start: 0
+  frame_end_exclusive: 1074
+  association_max_delta_seconds: 0.02
+  seed: "0,1,2; full per-sequence horizon, maximum 1074 input frames"
+runtime_policy:
+  runtime_source: DYN-19 run_summary end_to_end_seconds over all 210 tracking/ablation runs
+  hardware_consistency: clean-single-gpu
+  hardware_note: Every frozen DYN-19 task declares CUDA device 1, NVIDIA GeForce RTX 4090. External-report runtime rows retain their native hardware labels and are not pooled.
+  clean_runtime_required: true
+baseline_policy:
+  allowed:
+    - Photo-SLAM
+    - SplaTAM
+  local_rerun_priority:
+    - Photo-SLAM
+    - SplaTAM
+  artifact_library_targets:
+    - Photo-SLAM
+    - SplaTAM
+    - MonoGS
+    - ORB-SLAM3
+    - Dyna-SLAM
+    - NICE-SLAM
+    - ESLAM
+    - RoDyn-SLAM
+    - GS-SLAM
+    - GassiDy
+    - DGS-SLAM
+    - VarSplat
+    - Gaussian-SLAM
+    - CG-SLAM
+  external_report_allowed:
+    - ORB-SLAM3
+    - Dyna-SLAM
+    - NICE-SLAM
+    - ESLAM
+    - RoDyn-SLAM
+    - GS-SLAM
+    - GassiDy
+    - DGS-SLAM
+    - DG-SLAM
+  excluded:
+    - Protocol-matched superiority claims from external-report rows.
+    - Fig.4 panels for methods without real documented renders.
+    - Zero-ghost or zero-contamination claims from proxy metrics or route certificates.
+    - Independent causal-effect or interaction claims from the ordered ablation.
+source_label_policy:
+  local_rerun_label: local-rerun
+  external_report_label: external-report
+  diagnostic_label: diagnostic
+  failed_boundary_label: failed-boundary
+claim_boundary: DYN-19 provides complete local 90-run tracking, 120-run ordered-ablation, and 72-cell mapping diagnostics. It supports failure-regime tracking rescue and a recovered-support route invariant. External mapping rows retain native metrics and blank incompatible DYN-19 metric cells. The package does not provide protocol-matched external superiority, factorial component effects, or independent ghost/completeness truth.
+expected_outputs:
+  - table1
+  - table2
+  - table3
+  - fig3
+  - fig4
+artifact_sources:
+  xslam_trajectory: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/CameraTrajectory_AllFrames_TUM.txt
+  xslam_map: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/3581_shutdown/ply/point_cloud/iteration_3581/point_cloud.ply
+  render_command: /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_map_integrity_20260914_14c6b2c/dyn19_map_integrity_plan.json
+  timing_log: ../source_tables/table3_runtime.csv
+  table1_csv: ../source_tables/table1_tracking.csv
+  table2_csv: ../source_tables/table2_mapping.csv
+  table3_csv: ../source_tables/table3_runtime.csv
+  figure_panels:
+    fig4:
+      fr3_w_xyz__input: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/input.png
+      fr3_w_xyz__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/splatam/000218.png
+      fr3_w_xyz__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam/000218.png
+      fr3_w_xyz__photo_slam_mask: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam_mask/000218.png
+      fr3_w_half__input: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/input.png
+      fr3_w_half__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/splatam/000255.png
+      fr3_w_half__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam/000255.png
+      fr3_w_half__photo_slam_mask: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam_mask/000255.png
+      bonn_ps_track__input: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/input.png
+      bonn_ps_track__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/splatam/000232.png
+      bonn_ps_track__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam/000232.png
+      bonn_ps_track__photo_slam_mask: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam_mask/000232.png
+      bonn_r3__input: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/input.png
+      bonn_r3__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/splatam/000234.png
+      bonn_r3__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam/000234.png
+      bonn_r3__photo_slam_mask: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam_mask/000234.png
+  local_baseline_runs:
+    Photo-SLAM:
+      source_type: diagnostic
+      run_path: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/photo_slam
+      run_manifest: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/verification.json
+      protocol_record: /home/slam/experiments/dypho_skill_full_rerun_20260729/protocol.yaml
+      integrity_report: /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/table_manifest.json
+      trajectory: /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/aligned_trajectories/tum_walking_xyz/photo_slam.txt
+      metrics_csv: /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table1.csv
+      timing_log: /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table3.csv
+      hardware_record: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/gpu0_lane.log
+      checkpoint_or_map: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/photo_slam
+      render_command: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/render_execution_photo_slam.json
+      figure_panels:
+        fr3_w_xyz__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam/000218.png
+        fr3_w_half__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam/000255.png
+        bonn_ps_track__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam/000232.png
+        bonn_r3__photo_slam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam/000234.png
+    SplaTAM:
+      source_type: diagnostic
+      run_path: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/splatam
+      run_manifest: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/verification.json
+      protocol_record: /home/slam/experiments/dypho_skill_full_rerun_20260729/protocol.yaml
+      integrity_report: /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/table_manifest.json
+      trajectory: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/verification.json
+      metrics_csv: /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table1.csv
+      timing_log: /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table3.csv
+      hardware_record: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/gpu1_lane.log
+      checkpoint_or_map: /home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/splatam
+      render_command: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/render_execution_splatam.json
+      figure_panels:
+        fr3_w_xyz__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/splatam/000218.png
+        fr3_w_half__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/splatam/000255.png
+        bonn_ps_track__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/splatam/000232.png
+        bonn_r3__splatam: /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/splatam/000234.png
+  same_frame_external_renders: {}

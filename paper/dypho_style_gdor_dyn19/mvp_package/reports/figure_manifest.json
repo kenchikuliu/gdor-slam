@@ -1,0 +1,124 @@
+{
+  "contract": "xslam-dypho-mvp-figure-manifest-v1",
+  "freeze_record": {
+    "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/protocol/freeze_record.yaml",
+    "bytes": 11844,
+    "sha256": "08c747847b6873da823d6155ab555ed5f58206a9339c4cb56717369702767020"
+  },
+  "anchor_method": "GDOR-SLAM / DYN-19 Full",
+  "expected_outputs": [
+    "table1",
+    "table2",
+    "table3",
+    "fig3",
+    "fig4"
+  ],
+  "fig1_fig2_intermediate_states": {
+    "required_when_outputs_requested": true,
+    "missing_or_unverified_count": 0,
+    "requirements": []
+  },
+  "fig4_visual_policy": {
+    "rule": "Only local-rerun/local-render-from-checkpoint panels, or explicitly documented real external-report render panels, may appear in Fig.4. Same-frame/same-crop is optional in presentation-flexible mode.",
+    "locked_layout_columns": [
+      "input",
+      "splatam",
+      "photo_slam",
+      "photo_slam_mask",
+      "ours"
+    ],
+    "external_report_policy": [
+      {
+        "method": "ORB-SLAM3",
+        "source_type": "external-report",
+        "record_key": "ORB-SLAM3",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "Dyna-SLAM",
+        "source_type": "external-report",
+        "record_key": "Dyna-SLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "NICE-SLAM",
+        "source_type": "external-report",
+        "record_key": "NICE-SLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "ESLAM",
+        "source_type": "external-report",
+        "record_key": "ESLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "RoDyn-SLAM",
+        "source_type": "external-report",
+        "record_key": "RoDyn-SLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "GS-SLAM",
+        "source_type": "external-report",
+        "record_key": "GS-SLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "GassiDy",
+        "source_type": "external-report",
+        "record_key": "GassiDy",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "DGS-SLAM",
+        "source_type": "external-report",
+        "record_key": "DGS-SLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      },
+      {
+        "method": "DG-SLAM",
+        "source_type": "external-report",
+        "record_key": "DG-SLAM",
+        "exact_frame_pose_crop_match": "false",
+        "render_path": "",
+        "render_status": "missing-declaration",
+        "fig4_status": "blocked-table-only",
+        "reason": "External-report rows cannot be rendered into Fig.4 without real render evidence."
+      }
+    ],
+    "blocked_external_report_count": 9
+  }
+}

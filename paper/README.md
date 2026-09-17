@@ -5,7 +5,7 @@ This directory contains the public, evidence-linked artifact for:
 > GDOR-SLAM: Guarded Dynamic Observation Recovery for RGB-D Gaussian SLAM
 
 The updated PDF is a ten-page TMM pre-submission manuscript rebuilt on
-September 15, 2026.
+September 17, 2026.
 It uses an unfinished author placeholder and is not a publication record.
 
 ## Contents
@@ -25,6 +25,9 @@ It uses an unfinished author placeholder and is not a publication record.
   and a separately labeled published external-report registry.
 - `scripts/`: deterministic figure generation and evidence validation.
 - `reports/evidence_validation.json`: computed values checked against the text.
+- `dypho_style_gdor_dyn19/`: DYN-19-anchored DyPho-style Table I/II/III drafts,
+  freeze record, provenance, audits, external-report imports, baseline queues,
+  and Fig.4 release blockers.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
 - `EVIDENCE_MANIFEST.md`: public protocol and claim-boundary ledger.
 - `SHA256SUMS`: hashes for the published artifact files.
@@ -54,6 +57,24 @@ requires Matplotlib and Pillow:
 ```bash
 python3 paper/scripts/generate_gdor_tmm_figures.py
 ```
+
+Regenerate and audit the DyPho-style quantitative support package with:
+
+```bash
+python3 paper/scripts/build_dypho_gdor_dyn19_tables.py
+dypho-pixel-skill mvp-package \
+  --root /home/slam/.codex/skills/dypho-slam-figure-automation \
+  --freeze-record paper/dypho_style_gdor_dyn19/protocol/freeze_record.yaml \
+  --output paper/dypho_style_gdor_dyn19/mvp_package
+dypho-pixel-skill build \
+  --root /home/slam/.codex/skills/dypho-slam-figure-automation \
+  --manifest paper/dypho_style_gdor_dyn19/build_tables.yaml \
+  --output /home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts
+```
+
+The generated table drafts are not released assets. Their audit reports pass,
+but the review YAML files remain pending. Fig.4 is blocked until current DYN-19
+GDOR renders exist for all four locked comparison rows.
 
 `figures/fig3_trajectory_examples.png` and
 `figures/fig4_commonview_mapping_audit.png` are archived experiment

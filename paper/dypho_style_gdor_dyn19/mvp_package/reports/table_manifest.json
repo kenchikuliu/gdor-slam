@@ -1,0 +1,240 @@
+{
+  "contract": "xslam-dypho-mvp-table-manifest-v1",
+  "freeze_record": {
+    "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/protocol/freeze_record.yaml",
+    "bytes": 11844,
+    "sha256": "08c747847b6873da823d6155ab555ed5f58206a9339c4cb56717369702767020"
+  },
+  "anchor_method": "GDOR-SLAM / DYN-19 Full",
+  "claim_boundary": "DYN-19 provides complete local 90-run tracking, 120-run ordered-ablation, and 72-cell mapping diagnostics. It supports failure-regime tracking rescue and a recovered-support route invariant. External mapping rows retain native metrics and blank incompatible DYN-19 metric cells. The package does not provide protocol-matched external superiority, factorial component effects, or independent ghost/completeness truth.",
+  "expected_outputs": [
+    "table1",
+    "table2",
+    "table3",
+    "fig3",
+    "fig4"
+  ],
+  "generated_tables": {
+    "table1": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/tables/table1_external_report.csv",
+      "row_count": 8,
+      "source": {
+        "path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+        "bytes": 981,
+        "sha256": "058268a5ee751cd4f717e8213636e8183056d70a8fd068b864fda98a1a6b5eb4"
+      },
+      "output": {
+        "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/tables/table1_external_report.csv",
+        "bytes": 1424,
+        "sha256": "2089b6cc0ad1844aa0d341abf12b0e7b63d417c12e38006759f500d49e755b1d"
+      }
+    },
+    "table3": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/tables/table3_external_report.csv",
+      "row_count": 8,
+      "source": {
+        "path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+        "bytes": 433,
+        "sha256": "1e0554f81bfac382e7252d483cb381cffa527c4b61f5ae2b608043b68e0b89f2"
+      },
+      "output": {
+        "path": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/tables/table3_external_report.csv",
+        "bytes": 1150,
+        "sha256": "2b832d946208ab4321f9ae72fe8aa62c19800709ca2d425a4e8760e64ff07cb7"
+      }
+    }
+  },
+  "external_report_rows": [
+    {
+      "method": "ORB-SLAM3",
+      "requested_as": "ORB-SLAM3",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "Dyna-SLAM",
+      "requested_as": "Dyna-SLAM",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "NICE-SLAM",
+      "requested_as": "NICE-SLAM",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "ESLAM",
+      "requested_as": "ESLAM",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "RoDyn-SLAM",
+      "requested_as": "RoDyn-SLAM",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "GS-SLAM",
+      "requested_as": "GS-SLAM",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "GassiDy",
+      "requested_as": "GassiDy",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "DGS-SLAM",
+      "requested_as": "DGS-SLAM",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "DG-SLAM",
+      "table": "table1",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE1",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "missing from requested external-report source",
+      "missing": true
+    },
+    {
+      "method": "ORB-SLAM3",
+      "requested_as": "ORB-SLAM3",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "Dyna-SLAM3",
+      "requested_as": "Dyna-SLAM",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "NICE-SLAM",
+      "requested_as": "NICE-SLAM",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "ESLAM",
+      "requested_as": "ESLAM",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "RoDyn-SLAM",
+      "requested_as": "RoDyn-SLAM",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "GS-SLAM",
+      "requested_as": "GS-SLAM",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "DGS-SLAM",
+      "requested_as": "DGS-SLAM",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "DG-SLAM",
+      "requested_as": "DG-SLAM",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "context/comparison row only"
+    },
+    {
+      "method": "GassiDy",
+      "table": "table3",
+      "source_type": "external-report",
+      "source_name": "DyPho-SLAM reference TABLE3",
+      "source_path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "local_rerun": false,
+      "allowed_claim": "missing from requested external-report source",
+      "missing": true
+    }
+  ],
+  "source_label_policy": {
+    "local_rerun_label": "local-rerun",
+    "external_report_label": "external-report",
+    "diagnostic_label": "diagnostic",
+    "failed_boundary_label": "failed-boundary"
+  },
+  "local_rerun_required_for_main_claim": true,
+  "local_baseline_rerun_queue": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/reports/local_baseline_rerun_queue.csv",
+  "baseline_artifact_library_queue": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/mvp_package/reports/baseline_artifact_library_queue.csv",
+  "release_allowed": false,
+  "human_review_required": true
+}

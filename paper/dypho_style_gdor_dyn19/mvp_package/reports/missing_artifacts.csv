@@ -1,0 +1,77 @@
+output_id,requirement,path,status,note
+freeze,anchor_run_path,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full,present,
+freeze,inspected_sources[0],/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/DYN19_RELEASE_MANIFEST.json,present,
+freeze,inspected_sources[1],/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_phase_report.json,present,
+freeze,inspected_sources[2],/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_map_integrity_20260914_14c6b2c/dyn19_map_integrity_summary.csv,present,
+freeze,inspected_sources[3],/home/slam/DynaGS-SLAM-dyn19-publish/paper/data/dyn19_main_90_cells.csv,present,
+freeze,inspected_sources[4],/home/slam/DynaGS-SLAM-dyn19-publish/paper/data/dyn19_mechanism_120_cells.csv,present,
+freeze,inspected_sources[5],/home/slam/DynaGS-SLAM-dyn19-publish/paper/data/dyn19_mapping_72_cells.csv,present,
+freeze,inspected_sources[6],/home/slam/DynaGS-SLAM-dyn19-publish/paper/data/external_report_quantitative.csv,present,
+freeze,inspected_sources[7],/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table1_tracking.csv,present,
+freeze,inspected_sources[8],/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table2_mapping.csv,present,
+freeze,inspected_sources[9],/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table3_runtime.csv,present,
+freeze,inspected_sources[10],/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/ordered_ablation.csv,present,
+freeze,selected_frames[0].source_rgb,/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/rgb/1341846321.167887.png,present,
+freeze,selected_frames[0].source_depth,/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/depth/1341846321.167898.png,present,
+freeze,selected_frames[1].source_rgb,/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_halfsphere/rgb/1341846443.770837.png,present,
+freeze,selected_frames[1].source_depth,/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_halfsphere/depth/1341846443.771852.png,present,
+freeze,selected_frames[2].source_rgb,/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_person_tracking/rgb/1548265890.27328.png,present,
+freeze,selected_frames[2].source_depth,/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_person_tracking/depth/1548265890.28006.png,present,
+freeze,selected_frames[3].source_rgb,/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_crowd3/rgb/1548339967.10545.png,present,
+freeze,selected_frames[3].source_depth,/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_crowd3/depth/1548339967.10811.png,present,
+table1,artifact_sources.table1_csv,/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table1_tracking.csv,present,
+table1,artifact_sources.xslam_trajectory,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/CameraTrajectory_AllFrames_TUM.txt,present,
+table2,artifact_sources.table2_csv,/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table2_mapping.csv,present,
+table3,artifact_sources.table3_csv,/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table3_runtime.csv,present,
+table3,artifact_sources.timing_log,/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/source_tables/table3_runtime.csv,present,
+fig3,artifact_sources.xslam_trajectory,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/CameraTrajectory_AllFrames_TUM.txt,present,
+fig4,artifact_sources.xslam_map,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_walking_xyz/seed_0000/3581_shutdown/ply/point_cloud/iteration_3581/point_cloud.ply,present,
+fig4,artifact_sources.render_command,/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_map_integrity_20260914_14c6b2c/dyn19_map_integrity_plan.json,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_xyz__input,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/input.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_xyz__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/splatam/000218.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_xyz__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam/000218.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_xyz__photo_slam_mask,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam_mask/000218.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_xyz__ours,,missing-declaration,Declare this artifact in the freeze record.
+fig4,artifact_sources.figure_panels.fig4.fr3_w_half__input,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/input.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_half__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/splatam/000255.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_half__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam/000255.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_half__photo_slam_mask,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam_mask/000255.png,present,
+fig4,artifact_sources.figure_panels.fig4.fr3_w_half__ours,,missing-declaration,Declare this artifact in the freeze record.
+fig4,artifact_sources.figure_panels.fig4.bonn_ps_track__input,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/input.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_ps_track__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/splatam/000232.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_ps_track__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam/000232.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_ps_track__photo_slam_mask,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam_mask/000232.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_ps_track__ours,,missing-declaration,Declare this artifact in the freeze record.
+fig4,artifact_sources.figure_panels.fig4.bonn_r3__input,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/input.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_r3__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/splatam/000234.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_r3__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam/000234.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_r3__photo_slam_mask,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam_mask/000234.png,present,
+fig4,artifact_sources.figure_panels.fig4.bonn_r3__ours,,missing-declaration,Declare this artifact in the freeze record.
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.run_path,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/photo_slam,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.run_manifest,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/verification.json,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.protocol_record,/home/slam/experiments/dypho_skill_full_rerun_20260729/protocol.yaml,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.integrity_report,/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/table_manifest.json,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+table1:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.trajectory,/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/aligned_trajectories/tum_walking_xyz/photo_slam.txt,present,Required for local-rerun tracking table row.
+table1:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.metrics_csv,/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table1.csv,present,Required for local-rerun tracking table row.
+table3:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.timing_log,/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table3.csv,present,Required for local-rerun runtime table row.
+table3:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.hardware_record,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/gpu0_lane.log,present,Required for local-rerun runtime table row.
+fig4:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.checkpoint_or_map,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/photo_slam,present,Required to render declared Fig.4 local comparison panels.
+fig4:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.render_command,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/render_execution_photo_slam.json,present,Required to render declared Fig.4 local comparison panels.
+fig4:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.figure_panels.fr3_w_xyz__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam/000218.png,present,Same sequence/frame/pose/crop render required for Fig.4.
+fig4:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.figure_panels.fr3_w_half__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam/000255.png,present,Same sequence/frame/pose/crop render required for Fig.4.
+fig4:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.figure_panels.bonn_ps_track__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam/000232.png,present,Same sequence/frame/pose/crop render required for Fig.4.
+fig4:Photo-SLAM,artifact_sources.local_baseline_runs.Photo-SLAM.figure_panels.bonn_r3__photo_slam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam/000234.png,present,Same sequence/frame/pose/crop render required for Fig.4.
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.run_path,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/splatam,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.run_manifest,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/verification.json,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.protocol_record,/home/slam/experiments/dypho_skill_full_rerun_20260729/protocol.yaml,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+baseline:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.integrity_report,/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/table_manifest.json,present,"Required to audit local baseline manifest, integrity, and protocol consistency."
+table1:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.trajectory,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/verification.json,present,Required for local-rerun tracking table row.
+table1:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.metrics_csv,/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table1.csv,present,Required for local-rerun tracking table row.
+table3:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.timing_log,/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table3.csv,present,Required for local-rerun runtime table row.
+table3:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.hardware_record,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/gpu1_lane.log,present,Required for local-rerun runtime table row.
+fig4:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.checkpoint_or_map,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/splatam,present,Required to render declared Fig.4 local comparison panels.
+fig4:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.render_command,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/render_execution_splatam.json,present,Required to render declared Fig.4 local comparison panels.
+fig4:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.figure_panels.fr3_w_xyz__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/splatam/000218.png,present,Same sequence/frame/pose/crop render required for Fig.4.
+fig4:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.figure_panels.fr3_w_half__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/splatam/000255.png,present,Same sequence/frame/pose/crop render required for Fig.4.
+fig4:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.figure_panels.bonn_ps_track__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/splatam/000232.png,present,Same sequence/frame/pose/crop render required for Fig.4.
+fig4:SplaTAM,artifact_sources.local_baseline_runs.SplaTAM.figure_panels.bonn_r3__splatam,/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/splatam/000234.png,present,Same sequence/frame/pose/crop render required for Fig.4.

@@ -1,0 +1,10 @@
+method,source_type,record_key,exact_frame_pose_crop_match,render_path,render_status,fig4_status,reason
+ORB-SLAM3,external-report,ORB-SLAM3,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+Dyna-SLAM,external-report,Dyna-SLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+NICE-SLAM,external-report,NICE-SLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+ESLAM,external-report,ESLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+RoDyn-SLAM,external-report,RoDyn-SLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+GS-SLAM,external-report,GS-SLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+GassiDy,external-report,GassiDy,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+DGS-SLAM,external-report,DGS-SLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.
+DG-SLAM,external-report,DG-SLAM,false,,missing-declaration,blocked-table-only,External-report rows cannot be rendered into Fig.4 without real render evidence.

@@ -1,0 +1,7 @@
+{
+  "kind": "build",
+  "input": "paper/dypho_style_gdor_dyn19/build_tables.yaml",
+  "passed": true,
+  "violations": [],
+  "release_allowed": false
+}

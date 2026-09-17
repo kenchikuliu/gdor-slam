@@ -1,0 +1,3 @@
+priority,method,tier,source_type,status,required_next_action,run_path,missing_table1,missing_table3,missing_fig4,missing_audit,note
+1,Photo-SLAM,P0-local-rerun,diagnostic,protocol-artifacts-present,audit and build,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/photo_slam,,,,,Photo-SLAM/SplaTAM are the default first local baseline pool.
+2,SplaTAM,P0-local-rerun,diagnostic,protocol-artifacts-present,audit and build,/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/splatam,,,,,Photo-SLAM/SplaTAM are the default first local baseline pool.

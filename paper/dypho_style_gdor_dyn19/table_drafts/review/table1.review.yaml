@@ -1,0 +1,11 @@
+reviewer: ''
+draft_sha256: 399537bc31d4cece313dfe9a5547b06772cb5a862207d497a93777bc2472c35d
+approved: false
+checks:
+  scientific_correctness: false
+  data_provenance: false
+  comparison_fairness: false
+  pixel_geometry: false
+  text_accuracy: false
+  visual_readability: false
+notes: ''

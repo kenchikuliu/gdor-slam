@@ -1,0 +1,43 @@
+experiment: experiment.yaml
+tables:
+  table1:
+    csv: source_tables/table1_tracking.csv
+    canvas: [6200, 620]
+    font_size: 10
+    directions:
+      tum_walking_xyz ATE Mean cm: min
+      tum_walking_halfsphere ATE Mean cm: min
+      tum_walking_static ATE Mean cm: min
+      tum_sitting_halfsphere ATE Mean cm: min
+      bonn_balloon ATE Mean cm: min
+      bonn_crowd ATE Mean cm: min
+      bonn_crowd2 ATE Mean cm: min
+      bonn_crowd3 ATE Mean cm: min
+      bonn_person_tracking ATE Mean cm: min
+      bonn_person_tracking2 ATE Mean cm: min
+      Overall Mean ATE cm: min
+      Overall Median ATE cm: min
+      Mean Failure Percent: min
+    bold_rows:
+      - "Full: T+F+R+A+M"
+  table2:
+    csv: source_tables/table2_mapping.csv
+    canvas: [4300, 1160]
+    font_size: 12
+    directions:
+      Static PSNR Mean dB: max
+      Static SSIM Mean: max
+      Proxy Completeness Mean: max
+      Proxy Ghost Risk Mean: min
+    bold_rows:
+      - "Full: T+F+R+A+M"
+  table3:
+    csv: source_tables/table3_runtime.csv
+    canvas: [3600, 820]
+    font_size: 13
+    directions:
+      Mean End-to-End Seconds: min
+      Median End-to-End Seconds: min
+      Mean Failure Percent: min
+    bold_rows:
+      - "Full: T+F+R+A+M"

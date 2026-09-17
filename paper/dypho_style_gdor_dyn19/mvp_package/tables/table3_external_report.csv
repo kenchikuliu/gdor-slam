@@ -1,0 +1,9 @@
+Method,Tracking [ms] ↓,Mapping [ms] ↓,FPS [hz] ↑,Operate Time ↓,Source Type,Source,Local Rerun,Claim Boundary
+ORB-SLAM3,52.5,×,19.2,<1 min,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun
+Dyna-SLAM3,141,×,11.7,<2 mins,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun
+NICE-SLAM,3535,3055,0.15,>30 mins,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun
+ESLAM,1002,703,0.58,>10 mins,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun
+RoDyn-SLAM,159,678,1.19,>10 mins,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun
+GS-SLAM,775,164,1.07,>10 mins,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun
+DGS-SLAM,×,×,1.60,<5 mins,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun
+DG-SLAM,89.2,549.3,1.55,<5 mins,external-report,DyPho-SLAM reference TABLE3,false,context/comparison row only; not a local rerun

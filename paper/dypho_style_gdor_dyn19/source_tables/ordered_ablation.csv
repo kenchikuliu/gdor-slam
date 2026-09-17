@@ -1,0 +1,8 @@
+Order,Configuration,T,F,R,A,M,Cells,Mean ATE cm,Median ATE cm,Adjacent Paired Median Gain cm,Adjacent W/T/L,Route Certificates,Design Boundary
+1,Semantic,0,0,0,0,0,30,10.119,4.348,,,vacuous=30,Ordered ablation only; adjacent bundle contrasts do not identify independent effects or interactions.
+2,MapMatched,0,0,0,0,1,30,7.392,3.824,0.211,18/0/12,vacuous=30,Ordered ablation only; adjacent bundle contrasts do not identify independent effects or interactions.
+3,T+M,1,0,0,0,1,30,3.859,3.489,0.023,17/0/13,pass=30,Ordered ablation only; adjacent bundle contrasts do not identify independent effects or interactions.
+4,T+F+M,1,1,0,0,1,30,6.377,3.748,-0.020,15/0/15,pass=30,Ordered ablation only; adjacent bundle contrasts do not identify independent effects or interactions.
+5,T+F+R+M,1,1,1,0,1,30,4.907,3.721,-0.024,14/0/16,pass=30,Ordered ablation only; adjacent bundle contrasts do not identify independent effects or interactions.
+6,Full: T+F+R+A+M,1,1,1,1,1,30,4.930,3.640,-0.006,15/0/15,pass=30,Ordered ablation only; adjacent bundle contrasts do not identify independent effects or interactions.
+7,Full-NoM: T+F+R+A,1,1,1,1,0,30,4.060,3.627,0.025,18/0/12,fail=30,Ordered ablation only; adjacent bundle contrasts do not identify independent effects or interactions.

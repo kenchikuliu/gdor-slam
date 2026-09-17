@@ -119,6 +119,16 @@
 
 - `reports/generated_figure_provenance.json` records SHA-256 hashes for figure
   inputs and generated outputs.
+- `dypho_style_gdor_dyn19/` contains the GDOR/DYN-19 freeze record, reproducible
+  source-table generator, Table I tracking, Table II mapping, Table III runtime,
+  ordered-ablation ledger, external-report imports, baseline queues, Fig.4
+  blocking policy, per-table provenance, and automated audits.
+- The DyPho-style MVP self-check passes with four explicitly missing artifacts:
+  the current GDOR render panel for each locked Fig.4 row. Protocol-300
+  Photo-SLAM/SplaTAM panels are retained as diagnostics, while external-report
+  methods without real renders remain table-only.
+- All three DyPho-style table drafts pass automated pixel/table audits, but
+  `release_allowed=false` and the pending review YAML files remain unapproved.
 - `scripts/import_dyn19_release_metadata.py` imports compact DYN-19 cells from
   the hash-verified public metadata release.
 - `scripts/validate_gdor_tmm_evidence.py` recomputes the claim-bearing aggregate
@@ -141,3 +151,5 @@
   DyPho-SLAM.
 - Published external-report rows are not local reruns and are not pooled with
   local means, medians, W/T/L counts, or significance tests.
+- No released DyPho-style Fig.4 comparison until four current GDOR panels are
+  rendered and reviewed under the frozen provenance record.

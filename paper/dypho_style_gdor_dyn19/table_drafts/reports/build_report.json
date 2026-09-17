@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "output_root": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts",
+  "artifacts": [
+    {
+      "id": "table1",
+      "kind": "table",
+      "draft": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/draft/table1.png",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/reports/table1.audit.json",
+      "review": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/review/table1.review.yaml",
+      "passed": true,
+      "release_allowed": false
+    },
+    {
+      "id": "table2",
+      "kind": "table",
+      "draft": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/draft/table2.png",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/reports/table2.audit.json",
+      "review": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/review/table2.review.yaml",
+      "passed": true,
+      "release_allowed": false
+    },
+    {
+      "id": "table3",
+      "kind": "table",
+      "draft": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/draft/table3.png",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/reports/table3.audit.json",
+      "review": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/review/table3.review.yaml",
+      "passed": true,
+      "release_allowed": false
+    }
+  ],
+  "provenance": "/home/slam/DynaGS-SLAM-dyn19-publish/paper/dypho_style_gdor_dyn19/table_drafts/reports/provenance.json",
+  "release_allowed": false,
+  "required_next_step": "complete human review for each artifact, then run release"
+}

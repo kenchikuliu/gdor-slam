@@ -1,0 +1,29 @@
+dataset: DYN-19 TUM RGB-D and Bonn RGB-D
+sequences:
+  - tum_walking_xyz
+  - tum_walking_halfsphere
+  - tum_walking_static
+  - tum_sitting_halfsphere
+  - bonn_balloon
+  - bonn_crowd
+  - bonn_crowd2
+  - bonn_crowd3
+  - bonn_person_tracking
+  - bonn_person_tracking2
+methods:
+  - name: Semantic
+  - name: MapMatched
+  - name: T+M
+  - name: T+F+M
+  - name: T+F+R+M
+  - name: "Full: T+F+R+A+M"
+  - name: "Full-NoM: T+F+R+A"
+fairness:
+  comparison_mode: presentation-flexible
+  same_frame: false
+  same_crop: false
+  same_resolution: true
+  same_trajectory_alignment: true
+  same_map_viewpoint: false
+  same_render_pose: false
+  same_postprocess: true
