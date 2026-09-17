@@ -1,0 +1,13 @@
+Method,Tracking [ms],Mapping [ms],FPS [hz],Operate time,Source scope
+ORB-SLAM3 [ext],52.5,×,19.2,<1 min,external-report
+Dyna-SLAM3 [ext],141,×,11.7,<2 mins,external-report
+NICE-SLAM [ext],3535,3055,0.15,>30 mins,external-report
+ESLAM [ext],1002,703,0.58,>10 mins,external-report
+RoDyn-SLAM [ext],159,678,1.19,>10 mins,external-report
+SplaTAM [ext],3417,759,0.23,>30 mins,external-report
+GS-SLAM [ext],775,164,1.07,>10 mins,external-report
+Photo-SLAM [ext],51.5,2.5,17.53,<1 min 30s,external-report
+DGS-SLAM [ext],×,×,1.60,<5 mins,external-report
+DG-SLAM [ext],89.2,549.3,1.55,<5 mins,external-report
+DyPho-SLAM [ext],61.7,3.2,16.08,<1 min 30s,external-report
+DYN-19 Full [local E2E],×,×,16.53,47.75 s/run,local E2E; 30 runs

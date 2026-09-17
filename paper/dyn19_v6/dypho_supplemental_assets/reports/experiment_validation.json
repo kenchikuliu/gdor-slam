@@ -1,0 +1,7 @@
+{
+  "kind": "experiment",
+  "input": "paper/dyn19_v6/dypho_supplemental_assets/experiment.yaml",
+  "passed": true,
+  "violations": [],
+  "release_allowed": false
+}

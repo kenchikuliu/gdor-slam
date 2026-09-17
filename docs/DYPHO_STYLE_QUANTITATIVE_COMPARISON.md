@@ -4,35 +4,47 @@ Updated: September 17, 2026
 
 ## Status
 
-The project now has a complete quantitative comparison package for the two
-requested surfaces:
+The project now has a FlowParse-minimum, source-labeled comparison package for
+tracking, mapping, ablation, and runtime:
 
-- **Tracking:** local DYN-19 Semantic, MapMatched, and Full results; local
-  DYN-18 Guarded/GDOR and Strict controls; and the four published DyPho-SLAM
-  ATE reference values.
+- **Broad tracking:** all 11 registered DyPho Table I methods marked `[ext]`,
+  plus local DYN-19 Semantic, MapMatched, and Full.
 - **Mapping:** local DYN-19 common-view PSNR/SSIM results for online and
   GT-aligned rendering, with the full-frame and fixed-static-region metrics.
+- **Ablation:** seven ordered local configurations on `w/xyz` and `w/half`.
+- **Runtime:** 11 source-reported rows plus a visibly scoped local DYN-19 Full
+  end-to-end row.
+- **Local baselines:** the retained Protocol-300 package contains complete
+  SplaTAM/Photo-SLAM tracking, mapping diagnostics, wall time, and 20 real
+  qualitative panels.
 
 The installed `dypho-slam-figure-automation` skill now also renders the
 paper-facing draft tables at
 `paper/dyn19_v6/dypho_style_assets/build/draft/table1.png`,
-`table2.png`, and `table3.png`. Each raster has a source hash, automated audit,
-and pending human-review form; none is released automatically. Its MVP
-self-check also keeps Photo-SLAM and SplaTAM as explicit P0 missing-artifact
-queues rather than silently promoting them into the comparison.
+`table2.png`, and `table3.png`. The companion
+`paper/dyn19_v6/dypho_supplemental_assets/` package renders the two-sequence
+ablation and broad runtime tables. Each raster has a source hash, automated
+audit, and pending human-review form; none is released automatically.
 
-The external DyPho-SLAM column is an **external reference**, not a
-protocol-matched rerun. Its values are not included in local means, win counts,
-or promotion gates. This is intentional and follows the project decision that
-the official method does not need to be rerun under the local protocol for
-positioning.
+Every `[ext]` row is an **external reference**, not a protocol-matched rerun.
+Those values are not included in local means, win counts, or promotion gates.
+This follows the project decision that source-reported methods do not need to
+be rerun under the local protocol for descriptive positioning.
+
+The exact requirement-level status is recorded in
+`docs/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.md` and its CSV companion. The one
+material remaining gap is a co-registered current DYN-19 Full cell against the
+Protocol-300 SplaTAM/Photo-SLAM package. The historical Protocol-300 `Ours` row
+is a failed-boundary ablation and cannot be relabeled as DYN-19 Full.
 
 ## Tracking
 
 All local rows below are three-seed full-sequence means. DYN-19 is the current
 ten-sequence matrix; DYN-18 is the separately frozen four-sequence external-
 positioning campaign. DyPho-SLAM values are the numbers reported in its Table I.
-Lower ATE is better.
+The paper-facing raster additionally includes every other method row from that
+registered source. Lower ATE is better within each reported protocol; the
+mixed-protocol table does not apply cross-row rank highlighting.
 
 | Sequence | DYN-19 Semantic | DYN-19 MapMatched | DYN-19 Full | DYN-18 Guarded/GDOR | DYN-18 Strict control | DyPho-SLAM published |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -102,9 +114,10 @@ local rendering results.
 This package supports the following wording:
 
 > We compare our local tracking variants quantitatively on the four TUM
-> sequences used by the DyPho-SLAM table and report DyPho-SLAM's published ATE
-> values as an external reference. We additionally report a multi-seed,
-> common-view PSNR/SSIM mapping diagnostic for our local variants.
+> sequences used by the DyPho-SLAM table and report the registered published
+> baseline rows as visibly labeled external references. We additionally report
+> a multi-seed common-view PSNR/SSIM mapping diagnostic and a two-sequence
+> ordered module ablation for our local variants.
 
 It does not support the following stronger claims:
 
@@ -124,3 +137,19 @@ status across the 90 main runs. Full records 47.750 s/run, 0.147% mean failure,
 manifests identify host `slam` and GPU identifier 1 under a serial GPU lock,
 but do not record the GPU model. No tracking/mapping component split is
 claimed.
+
+The supplemental broad runtime draft adds ORB-SLAM3, Dyna-SLAM3, NICE-SLAM,
+ESLAM, RoDyn-SLAM, SplaTAM, GS-SLAM, Photo-SLAM, DGS-SLAM, DG-SLAM, and
+DyPho-SLAM as `[ext]` rows. These values are copied from the registered source
+table and are descriptive because hardware and timing scope differ. DYN-19
+Full is reported as 16.53 application end-to-end frames/s and 47.75 s/run over
+30 runs; its tracking and mapping component cells remain unavailable.
+
+## Protocol-300 Mapping Comparison
+
+The retained Protocol-300 package provides real local SplaTAM and Photo-SLAM
+comparison evidence over four sequences, including ATE, full-frame PSNR/SSIM,
+end-to-end wall time, and a complete 20-panel qualitative page. It is a
+seed-0, 300-frame historical package. Its `Ours` row is explicitly
+failed-boundary evidence, so it supports baseline availability but not a claim
+for the current DYN-19 Full method.

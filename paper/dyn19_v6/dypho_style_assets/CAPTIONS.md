@@ -2,9 +2,10 @@
 
 **Table I.** Camera-tracking ATE RMSE on the four dynamic TUM RGB-D scenes
 used by the DyPho-SLAM Table I layout. DYN-19 values are local means and
-population standard deviations across seeds 0/1/2. The DyPho-SLAM row marked
-`[ext]` is copied from the published reference table and is not a
-protocol-matched local rerun. Lower is better.
+population standard deviations across seeds 0/1/2. All 11 rows marked `[ext]`
+are copied from the registered source table and are not protocol-matched local
+reruns. They are descriptive positioning context, so no cross-protocol rank is
+claimed. Lower ATE is better within each reported protocol.
 
 **Table II.** DYN-19 common-view static-region mapping diagnostic over four
 scenes, three seeds, and 20 retained non-keyframe views per scene-seed cell.

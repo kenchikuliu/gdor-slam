@@ -1,0 +1,18 @@
+experiment: experiment.yaml
+output_dir: build
+tables:
+  table2:
+    csv: data/table2_ablation.csv
+    canvas: [1100, 270]
+    font_size: 14
+    directions:
+      w/xyz ATE: min
+      w/half ATE: min
+      Avg. ATE: min
+    bold_rows:
+      - T+F+R+A+M (Full)
+  table3:
+    csv: data/table3_runtime_broad.csv
+    canvas: [1200, 410]
+    font_size: 13
+    directions: {}

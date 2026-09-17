@@ -1,0 +1,65 @@
+{
+  "build_manifest": {
+    "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build.yaml",
+    "sha256": "170b8f77fda87793dfc5466f4368a5660f5fe87d77cba278daec064fc193edcf"
+  },
+  "experiment_manifest": {
+    "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/experiment.yaml",
+    "sha256": "894f5ef023fbede60a52fa2e802f91be29a6892f7d53a9adabc28e4025c4ff10"
+  },
+  "figures": {},
+  "tables": {
+    "table2": {
+      "type": "table",
+      "table_id": "table2",
+      "source": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/data/table2_ablation.csv",
+      "source_sha256": "8cc894e2195037412f5af492bdee32a7bf1fbda3250e3525f4a2242315384f02",
+      "rows": 7,
+      "columns": 6,
+      "canvas": [
+        1100,
+        270
+      ],
+      "directions": {
+        "w/xyz ATE": "min",
+        "w/half ATE": "min",
+        "Avg. ATE": "min"
+      },
+      "output": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/draft/table2.png",
+      "output_sha256": "3db70d80fefbb5d61527f029d3066e0f880c05dbc7c84da3b99e111fcc9cf9c4",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/reports/table2.audit.json",
+      "pending_review": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/review/table2.review.yaml"
+    },
+    "table3": {
+      "type": "table",
+      "table_id": "table3",
+      "source": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/data/table3_runtime_broad.csv",
+      "source_sha256": "1ac31b4225c7380d34669a9a1a818b63fa1676d30b91e643e40818365f86a695",
+      "rows": 12,
+      "columns": 6,
+      "canvas": [
+        1200,
+        410
+      ],
+      "directions": {},
+      "output": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/draft/table3.png",
+      "output_sha256": "6e4197b0bcd8a66a3505547bef3d7ffa924243543ea3f32b1fcdf6c752b581a0",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/reports/table3.audit.json",
+      "pending_review": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/review/table3.review.yaml"
+    }
+  },
+  "human_review_required_for": [
+    "table2",
+    "table3"
+  ],
+  "automated_fairness_checks": {},
+  "experiment_source_checks": [],
+  "manifest_consistency_checks": [],
+  "manual_checks_remaining": [
+    "scientific correctness",
+    "source provenance truth",
+    "comparison fairness beyond encoded frame/crop/resolution fields",
+    "text accuracy",
+    "visual readability"
+  ]
+}

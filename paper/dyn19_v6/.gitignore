@@ -10,3 +10,5 @@ main.pdf
 # intentionally versioned together with their provenance and review gates.
 !dypho_style_assets/
 !dypho_style_assets/**
+!dypho_supplemental_assets/
+!dypho_supplemental_assets/**

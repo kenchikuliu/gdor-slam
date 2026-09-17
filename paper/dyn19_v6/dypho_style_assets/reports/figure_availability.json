@@ -22,9 +22,9 @@
   },
   {
     "asset": "Fig. 4",
-    "status": "blocked-for-locked-layout",
-    "available": "common-view input plus Semantic, MapMatched, and Full renders",
-    "missing": "real SplaTAM/Photo-SLAM panels required by the locked five-column layout",
-    "next_action": "complete P0 baseline renders or approve a separate DYN-specific layout"
+    "status": "historical-package-complete-current-method-blocked",
+    "available": "Protocol-300 has 20 real input/SplaTAM/Photo-SLAM/mask-only/failed-boundary panels; DYN-19 has separate local variant renders",
+    "missing": "a co-registered DYN-19 Full panel/package against the Protocol-300 baselines; historical Ours cannot be relabeled",
+    "next_action": "run or render DYN-19 Full under the frozen baseline package, then build a current-method Fig. 4"
   }
 ]

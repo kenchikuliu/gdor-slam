@@ -6,8 +6,9 @@ automated audit reports, and pending human-review forms.
 
 ## Evidence Boundary
 
-- Table I: local DYN-19 three-seed tracking rows plus the published DyPho-SLAM
-  row labeled `external-report`.
+- Table I: local DYN-19 three-seed tracking rows plus all 11 method rows from
+  the registered DyPho Table I, each visibly labeled `[ext]` and recorded as
+  `external-report`.
 - Table II: local 72-cell static-region mapping diagnostic. DyPho-SLAM has no
   numeric PSNR/SSIM mapping row in the checked source.
 - Table III: local application end-to-end runtime, the manuscript-matched mean
@@ -39,12 +40,18 @@ $DYPHO/.venv/bin/dypho-pixel-skill build \
   --manifest paper/dyn19_v6/dypho_style_assets/build.yaml
 ```
 
-The `mvp/` subtree is the skill-generated gap and self-check package. Its
-external-row importer performs literal method matching, so it records the
-requested `DyPho-SLAM` row as missing because the reference CSV names the
-paper's own row `Ours`. The final Table I generator binds that exact source row
-by hash, relabels it `DyPho-SLAM [ext]`, and keeps it outside local aggregates.
+The `mvp/` subtree is the skill-generated gap and self-check package for the
+current DYN-19 freeze. Its literal importer and current-protocol rerun queue are
+not the global baseline inventory. The final Table I generator imports every
+real method row from the registered source by hash, relabels source `Ours` as
+`DyPho-SLAM [ext]`, and keeps all external rows outside local aggregates.
 The bootstrap external CSVs are therefore not the final paper tables.
 
-The figure availability report records which locked Fig. 1-4 assets can be
-built from retained evidence and which require new exports or real baselines.
+The separately retained Protocol-300 package already contains complete local
+SplaTAM/Photo-SLAM tracking, mapping, runtime, and 20-panel Fig. 4 evidence.
+Its historical `Ours` row is failed-boundary evidence and cannot represent
+DYN-19 Full. The figure availability report distinguishes that completed
+historical package from the still-missing current-method co-registered cell.
+
+The companion `../dypho_supplemental_assets/` build contains the FlowParse-
+minimum two-sequence ordered ablation and the broad descriptive runtime table.

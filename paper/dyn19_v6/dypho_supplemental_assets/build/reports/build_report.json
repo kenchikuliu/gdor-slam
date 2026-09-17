@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "output_root": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build",
+  "artifacts": [
+    {
+      "id": "table2",
+      "kind": "table",
+      "draft": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/draft/table2.png",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/reports/table2.audit.json",
+      "review": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/review/table2.review.yaml",
+      "passed": true,
+      "release_allowed": false
+    },
+    {
+      "id": "table3",
+      "kind": "table",
+      "draft": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/draft/table3.png",
+      "audit": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/reports/table3.audit.json",
+      "review": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/review/table3.review.yaml",
+      "passed": true,
+      "release_allowed": false
+    }
+  ],
+  "provenance": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/build/reports/provenance.json",
+  "release_allowed": false,
+  "required_next_step": "complete human review for each artifact, then run release"
+}

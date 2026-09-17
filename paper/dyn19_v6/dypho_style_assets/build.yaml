@@ -3,14 +3,9 @@ output_dir: build
 tables:
   table1:
     csv: data/table1_tracking.csv
-    canvas: [1600, 180]
-    font_size: 13
-    directions:
-      w/xyz ATE: min
-      w/half ATE: min
-      w/static ATE: min
-      s/half ATE: min
-      Avg. ATE: min
+    canvas: [1600, 480]
+    font_size: 12
+    directions: {}
   table2:
     csv: data/table2_mapping.csv
     canvas: [900, 160]

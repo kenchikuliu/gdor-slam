@@ -84,7 +84,8 @@ benchmark plans, and all path-sanitized derived files by SHA-256.
 ## DyPho-Style Draft Package
 
 - `dypho_style_assets/build/draft/table1.png` renders the local three-seed
-  tracking rows and the source-labeled DyPho-SLAM external-report row.
+  tracking rows and all 11 registered source-reported tracking rows, each
+  marked `[ext]`.
 - `dypho_style_assets/build/draft/table2.png` renders the local 72-cell static
   mapping diagnostic and contains no fabricated external mapping metric.
 - `dypho_style_assets/build/draft/table3.png` renders local end-to-end runtime,
@@ -92,6 +93,16 @@ benchmark plans, and all path-sanitized derived files by SHA-256.
 - The package was built by the installed `dypho-slam-figure-automation` CLI.
   Its audits pass, but every review YAML remains unapproved and release is
   blocked pending an identified human reviewer.
-- `dypho_style_assets/mvp/reports/self_check.json` is the skill-generated
-  structural self-check. P0 Photo-SLAM/SplaTAM runs remain explicitly missing
-  and cannot enter local tables or the locked Fig. 4 without real artifacts.
+- `dypho_supplemental_assets/build/draft/table2.png` renders the seven-row
+  ordered ablation on `w/xyz` and `w/half`.
+- `dypho_supplemental_assets/build/draft/table3.png` renders 11 source-reported
+  runtime rows plus the local DYN-19 Full end-to-end row. Mixed-hardware rows
+  are descriptive only.
+- `dypho_style_assets/mvp/reports/self_check.json` remains the structural
+  self-check for the current DYN-19 freeze, not the global baseline inventory.
+- The retained Protocol-300 package already contains complete local SplaTAM
+  and Photo-SLAM tracking, diagnostic mapping, wall-time, and 20-panel Fig. 4
+  evidence. Its historical `Ours` row is a failed-boundary ablation and cannot
+  be relabeled as DYN-19 Full.
+- The remaining qualitative gap is a co-registered current DYN-19 Full cell
+  against those Protocol-300 baselines.

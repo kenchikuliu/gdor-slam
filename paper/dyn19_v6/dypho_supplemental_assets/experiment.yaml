@@ -1,0 +1,22 @@
+dataset: DYN-19 ordered ablation plus source-reported runtime context
+sequences:
+  - tum_walking_xyz
+  - tum_walking_halfsphere
+methods:
+  - name: Semantic
+  - name: MapMatched
+  - name: T+M
+  - name: T+F+M
+  - name: T+F+R+M
+  - name: T+F+R+A+M (Full)
+  - name: T+F+R+A+NoM
+  - name: Published runtime rows [ext]
+fairness:
+  comparison_mode: presentation-flexible
+  same_frame: false
+  same_crop: false
+  same_resolution: false
+  same_trajectory_alignment: false
+  same_map_viewpoint: false
+  same_render_pose: false
+  same_postprocess: false

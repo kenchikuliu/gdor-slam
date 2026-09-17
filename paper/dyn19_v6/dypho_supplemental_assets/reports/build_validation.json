@@ -1,0 +1,7 @@
+{
+  "kind": "build",
+  "input": "paper/dyn19_v6/dypho_supplemental_assets/build.yaml",
+  "passed": true,
+  "violations": [],
+  "release_allowed": false
+}

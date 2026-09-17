@@ -22,6 +22,8 @@ manuscript. The frozen PDF remains at
   mapping reference ledger; external rows are not protocol-matched reruns.
 - `dypho_style_assets/`: skill-built Table I-III PNG drafts, CSV inputs,
   source/provenance manifests, automated audits, and pending review forms.
+- `dypho_supplemental_assets/`: a second skill build for the two-sequence
+  ordered ablation and broad source-reported runtime context.
 - `data/dyn19_provenance.json`: source-release and derived-file hashes.
 - `scripts/export_dyn19_public_evidence.py`: deterministic importer from the
   retained DYN-19 release.
@@ -35,6 +37,8 @@ manuscript. The frozen PDF remains at
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
 - `../../docs/DYPHO_STYLE_QUANTITATIVE_COMPARISON.md`: tracking/mapping
   comparison package and safe claim wording.
+- `../../docs/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.md`: requirement-by-
+  requirement coverage, including the retained Protocol-300 local baselines.
 - `SHA256SUMS`: hashes for every published file in this revision package.
 
 The package references `../IEEEtran.cls`, `../IEEEtran.bst`,
@@ -75,13 +79,18 @@ $DYPHO/.venv/bin/dypho-pixel-skill mvp-package \
 $DYPHO/.venv/bin/dypho-pixel-skill build \
   --root "$DYPHO" \
   --manifest paper/dyn19_v6/dypho_style_assets/build.yaml
+
+$DYPHO/.venv/bin/dypho-pixel-skill build \
+  --root "$DYPHO" \
+  --manifest paper/dyn19_v6/dypho_supplemental_assets/build.yaml
 ```
 
 The generated tables are drafts. Their review YAML files remain unapproved
 until an identified human reviewer completes the six required checks. The
-skill-generated MVP subtree records the P0 Photo-SLAM/SplaTAM rerun queue,
-full baseline-library queue, Fig. 4 external-render policy, missing artifacts,
-and package self-check.
+skill-generated MVP subtree records the current-freeze rerun queue, full
+baseline-library queue, Fig. 4 external-render policy, missing artifacts, and
+package self-check. The global evidence ledger separately records the complete
+historical Protocol-300 SplaTAM/Photo-SLAM package.
 
 ## Build
 

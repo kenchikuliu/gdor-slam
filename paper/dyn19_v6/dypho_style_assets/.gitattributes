@@ -1,2 +1,2 @@
-*.csv text eol=crlf
-**/*.csv text eol=crlf
+*.csv text eol=lf
+**/*.csv text eol=lf

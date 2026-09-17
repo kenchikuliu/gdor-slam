@@ -1,0 +1,391 @@
+{
+  "generated_date": "2026-09-17",
+  "status": "draft-only; human review required",
+  "comparison_mode": "presentation-flexible",
+  "sources": {
+    "dyn19_all_results": {
+      "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/metadata/main/all_results.json",
+      "sha256": "abcf7b2874fe58b10302e72d415dcf566458291df8aa1f9b326f92c55b205ac9"
+    },
+    "dyn19_release_manifest": {
+      "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/DYN19_RELEASE_MANIFEST.json",
+      "sha256": "b859bac34fa42e87905a6ba77b773490b640e95e5fbea0fa3b65343dd776721d"
+    },
+    "dyn19_mapping_cells": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/data/dyn19_mapping_cells.csv",
+      "sha256": "9b9ea516997e2d1eb892c77c344ae42c8dfd0720c14b44add52c16b9047425b5"
+    },
+    "dypho_table1": {
+      "path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table1/data.csv",
+      "sha256": "058268a5ee751cd4f717e8213636e8183056d70a8fd068b864fda98a1a6b5eb4"
+    },
+    "dyn19_mechanism_results": {
+      "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_release_20260914_r1/metadata/mechanisms/all_results.json",
+      "sha256": "eaf2f8a624809e6ce6fb0ac3acd15d617df3e7b9b9d2ffa17fc7a1aadbbc353a"
+    },
+    "dypho_table3": {
+      "path": "/home/slam/.codex/skills/dypho-slam-figure-automation/reference/tables/table3/data.csv",
+      "sha256": "1e0554f81bfac382e7252d483cb381cffa527c4b61f5ae2b608043b68e0b89f2"
+    },
+    "protocol300": {
+      "protocol": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/protocol.yaml",
+        "sha256": "4ecc0b1dd48d5462324888b1c9d94d8ef18c4d83ce4f057b2ed65a264fbf9bbe"
+      },
+      "verification": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/verification.json",
+        "sha256": "f098473b91f007a36cf796df43c1f6a69760bb6566c421a73b00b12d0579a15f"
+      },
+      "table1": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table1.csv",
+        "sha256": "7faa916f1d3ee06b06f7dd4f196d5dee4185275fa9edae6048eeb29c3453b20e"
+      },
+      "table2": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table2.csv",
+        "sha256": "24434155a1d516b26871c1900018efb7850a722fc641e66706e3e3a60f66bc1e"
+      },
+      "table3": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table3.csv",
+        "sha256": "98618b1063c543be5ddd8765db2b59861b7699ce379d95eb623431895bad9254"
+      },
+      "table_manifest": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/table_manifest.json",
+        "sha256": "e25798cae65345e365e8995bda77e9d1cb968d1d1eb23091722658595a1220cc"
+      },
+      "fig4_page_manifest": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/page_manifest.json",
+        "sha256": "7dcfbb0938b4881cad3c91a85de049016baaec3548dd1c53079b7dd407257c06"
+      },
+      "fig4_comparison_manifest": {
+        "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/comparison_manifest.json",
+        "sha256": "b8e8f2e1c0359cfafaf61e4f16f1393718814a5ac99fba0b4ba6b1f97bfc3455"
+      }
+    }
+  },
+  "tables": {
+    "table2": {
+      "purpose": "ordered DYN-19 module ablation on TUM w/xyz and w/half",
+      "source_type": "local-rerun",
+      "statistics": {
+        "dyn19_semantic": {
+          "phase": "main",
+          "sequences": {
+            "tum_walking_xyz": {
+              "seed_values_ate_cm": [
+                2.327,
+                2.3393,
+                2.3577
+              ],
+              "mean_ate_cm": 2.3413333333333335,
+              "population_std_ate_cm": 0.012615422659938433,
+              "n": 3
+            },
+            "tum_walking_halfsphere": {
+              "seed_values_ate_cm": [
+                3.1891000000000003,
+                3.2953,
+                3.6532
+              ],
+              "mean_ate_cm": 3.3792000000000004,
+              "population_std_ate_cm": 0.198539013798296,
+              "n": 3
+            }
+          },
+          "average_of_sequence_means_ate_cm": 2.860266666666667
+        },
+        "dyn19_mapmatched": {
+          "phase": "main",
+          "sequences": {
+            "tum_walking_xyz": {
+              "seed_values_ate_cm": [
+                2.0649,
+                2.1042,
+                2.1404
+              ],
+              "mean_ate_cm": 2.1031666666666666,
+              "population_std_ate_cm": 0.030831405345127443,
+              "n": 3
+            },
+            "tum_walking_halfsphere": {
+              "seed_values_ate_cm": [
+                3.3168999999999995,
+                3.4507000000000003,
+                3.5026
+              ],
+              "mean_ate_cm": 3.4233999999999996,
+              "population_std_ate_cm": 0.07823081234398661,
+              "n": 3
+            }
+          },
+          "average_of_sequence_means_ate_cm": 2.763283333333333
+        },
+        "dyn19_temporal_map": {
+          "phase": "mechanisms",
+          "sequences": {
+            "tum_walking_xyz": {
+              "seed_values_ate_cm": [
+                2.0239,
+                2.0786,
+                2.1273
+              ],
+              "mean_ate_cm": 2.0765999999999996,
+              "population_std_ate_cm": 0.042236556046470836,
+              "n": 3
+            },
+            "tum_walking_halfsphere": {
+              "seed_values_ate_cm": [
+                2.8967,
+                2.9097999999999997,
+                3.009
+              ],
+              "mean_ate_cm": 2.9385,
+              "population_std_ate_cm": 0.05013707876080003,
+              "n": 3
+            }
+          },
+          "average_of_sequence_means_ate_cm": 2.5075499999999997
+        },
+        "dyn19_temporal_flow_map": {
+          "phase": "mechanisms",
+          "sequences": {
+            "tum_walking_xyz": {
+              "seed_values_ate_cm": [
+                2.0206,
+                2.1239,
+                2.1437999999999997
+              ],
+              "mean_ate_cm": 2.0961,
+              "population_std_ate_cm": 0.05400117282676977,
+              "n": 3
+            },
+            "tum_walking_halfsphere": {
+              "seed_values_ate_cm": [
+                2.8813999999999997,
+                2.9853,
+                3.1420999999999997
+              ],
+              "mean_ate_cm": 3.002933333333333,
+              "population_std_ate_cm": 0.10715821117498282,
+              "n": 3
+            }
+          },
+          "average_of_sequence_means_ate_cm": 2.5495166666666664
+        },
+        "dyn19_temporal_flow_risk_map": {
+          "phase": "mechanisms",
+          "sequences": {
+            "tum_walking_xyz": {
+              "seed_values_ate_cm": [
+                2.1042,
+                2.1393,
+                2.2096999999999998
+              ],
+              "mean_ate_cm": 2.1510666666666665,
+              "population_std_ate_cm": 0.04386648936134368,
+              "n": 3
+            },
+            "tum_walking_halfsphere": {
+              "seed_values_ate_cm": [
+                3.2371999999999996,
+                3.3627,
+                3.4903999999999997
+              ],
+              "mean_ate_cm": 3.363433333333333,
+              "population_std_ate_cm": 0.1033697677703152,
+              "n": 3
+            }
+          },
+          "average_of_sequence_means_ate_cm": 2.75725
+        },
+        "dyn19_full": {
+          "phase": "main",
+          "sequences": {
+            "tum_walking_xyz": {
+              "seed_values_ate_cm": [
+                2.1051,
+                2.1538999999999997,
+                2.1838
+              ],
+              "mean_ate_cm": 2.1476,
+              "population_std_ate_cm": 0.03243650207199698,
+              "n": 3
+            },
+            "tum_walking_halfsphere": {
+              "seed_values_ate_cm": [
+                3.5475,
+                3.5930999999999997,
+                3.687
+              ],
+              "mean_ate_cm": 3.6092,
+              "population_std_ate_cm": 0.05807736219905307,
+              "n": 3
+            }
+          },
+          "average_of_sequence_means_ate_cm": 2.8784
+        },
+        "dyn19_full_no_mapping": {
+          "phase": "mechanisms",
+          "sequences": {
+            "tum_walking_xyz": {
+              "seed_values_ate_cm": [
+                2.1487,
+                2.1574,
+                2.1592000000000002
+              ],
+              "mean_ate_cm": 2.1551,
+              "population_std_ate_cm": 0.004584757354539204,
+              "n": 3
+            },
+            "tum_walking_halfsphere": {
+              "seed_values_ate_cm": [
+                3.5248,
+                3.6211,
+                3.6327
+              ],
+              "mean_ate_cm": 3.592866666666667,
+              "population_std_ate_cm": 0.04836281859261538,
+              "n": 3
+            }
+          },
+          "average_of_sequence_means_ate_cm": 2.8739833333333333
+        }
+      },
+      "claim_boundary": "Rows are ordered complete configurations, not a factorial estimate of independent module effects or interactions."
+    },
+    "table3": {
+      "purpose": "broad descriptive runtime comparison",
+      "source_types": {
+        "ORB-SLAM3 [ext]": "external-report",
+        "Dyna-SLAM3 [ext]": "external-report",
+        "NICE-SLAM [ext]": "external-report",
+        "ESLAM [ext]": "external-report",
+        "RoDyn-SLAM [ext]": "external-report",
+        "SplaTAM [ext]": "external-report",
+        "GS-SLAM [ext]": "external-report",
+        "Photo-SLAM [ext]": "external-report",
+        "DGS-SLAM [ext]": "external-report",
+        "DG-SLAM [ext]": "external-report",
+        "DyPho-SLAM [ext]": "external-report",
+        "DYN-19 Full [local E2E]": "local-rerun"
+      },
+      "statistics": {
+        "external_reports": {
+          "ORB-SLAM3 [ext]": {
+            "tracking_ms": "52.5",
+            "mapping_ms": "\u00d7",
+            "fps_hz": "19.2",
+            "operate_time": "<1 min",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "Dyna-SLAM3 [ext]": {
+            "tracking_ms": "141",
+            "mapping_ms": "\u00d7",
+            "fps_hz": "11.7",
+            "operate_time": "<2 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "NICE-SLAM [ext]": {
+            "tracking_ms": "3535",
+            "mapping_ms": "3055",
+            "fps_hz": "0.15",
+            "operate_time": ">30 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "ESLAM [ext]": {
+            "tracking_ms": "1002",
+            "mapping_ms": "703",
+            "fps_hz": "0.58",
+            "operate_time": ">10 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "RoDyn-SLAM [ext]": {
+            "tracking_ms": "159",
+            "mapping_ms": "678",
+            "fps_hz": "1.19",
+            "operate_time": ">10 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "SplaTAM [ext]": {
+            "tracking_ms": "3417",
+            "mapping_ms": "759",
+            "fps_hz": "0.23",
+            "operate_time": ">30 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "GS-SLAM [ext]": {
+            "tracking_ms": "775",
+            "mapping_ms": "164",
+            "fps_hz": "1.07",
+            "operate_time": ">10 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "Photo-SLAM [ext]": {
+            "tracking_ms": "51.5",
+            "mapping_ms": "2.5",
+            "fps_hz": "17.53",
+            "operate_time": "<1 min 30s",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "DGS-SLAM [ext]": {
+            "tracking_ms": "\u00d7",
+            "mapping_ms": "\u00d7",
+            "fps_hz": "1.60",
+            "operate_time": "<5 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "DG-SLAM [ext]": {
+            "tracking_ms": "89.2",
+            "mapping_ms": "549.3",
+            "fps_hz": "1.55",
+            "operate_time": "<5 mins",
+            "source_type": "external-report",
+            "protocol_match": false
+          },
+          "DyPho-SLAM [ext]": {
+            "tracking_ms": "61.7",
+            "mapping_ms": "3.2",
+            "fps_hz": "16.08",
+            "operate_time": "<1 min 30s",
+            "source_type": "external-report",
+            "protocol_match": false
+          }
+        },
+        "local_dyn19_full": {
+          "source_type": "local-rerun",
+          "timing_scope": "application end-to-end",
+          "runs": 30,
+          "total_frames": 23679,
+          "total_seconds": 1432.49865127,
+          "aggregate_fps": 16.529858495159544,
+          "mean_seconds_per_run": 47.74995504233333,
+          "tracking_mapping_split_available": false
+        },
+        "claim_boundary": "External rows are source-reported on mixed hardware and scopes. The local DYN-19 row is application end-to-end throughput; no component split is inferred."
+      },
+      "claim_boundary": "External rows are source-reported on mixed hardware and scopes. The local DYN-19 row is application end-to-end throughput; no component split is inferred."
+    }
+  },
+  "generated_csvs": {
+    "table2": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/data/table2_ablation.csv",
+      "sha256": "8cc894e2195037412f5af492bdee32a7bf1fbda3250e3525f4a2242315384f02"
+    },
+    "table3": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_supplemental_assets/data/table3_runtime_broad.csv",
+      "sha256": "1ac31b4225c7380d34669a9a1a818b63fa1676d30b91e643e40818365f86a695"
+    },
+    "comparison_matrix": {
+      "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/docs/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.csv",
+      "sha256": "cca5c1affd8448bdd79215fae95fefd930051d7df62bc17b751e6a5d3dabfd5d"
+    }
+  }
+}

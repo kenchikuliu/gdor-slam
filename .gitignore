@@ -67,6 +67,7 @@ model/*.engine
 KeyFrameTrajectory*.txt
 CameraTrajectory*.txt
 *.csv
+!docs/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.csv
 *.log
 
 # Vocabulary (compressed, will be extracted locally)

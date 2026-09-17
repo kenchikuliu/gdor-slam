@@ -39,7 +39,7 @@ supplemental_tables:
       - dypho_style_assets/data/table1_tracking.csv
       - dypho_style_assets/data/table_manifest.json
       - dypho_style_assets/build/reports/provenance.json
-    boundary: draft_only_dypho_row_external_report_not_protocol_matched
+    boundary: draft_only_all_ext_rows_external_report_not_protocol_matched
   dypho_skill_table2_mapping:
     file: dypho_style_assets/build/draft/table2.png
     role: dypho_style_local_mapping_diagnostic_draft
@@ -56,6 +56,34 @@ supplemental_tables:
       - dypho_style_assets/data/table_manifest.json
       - dypho_style_assets/build/reports/provenance.json
     boundary: draft_only_end_to_end_runtime_no_tracking_mapping_split
+  dypho_supplemental_table2_ablation:
+    file: dypho_supplemental_assets/build/draft/table2.png
+    role: flowparse_minimum_two_sequence_ordered_ablation_draft
+    evidence:
+      - dypho_supplemental_assets/data/table2_ablation.csv
+      - dypho_supplemental_assets/data/table_manifest.json
+      - dypho_supplemental_assets/build/reports/provenance.json
+    boundary: draft_only_ordered_configurations_not_factorial_effects
+  dypho_supplemental_table3_runtime:
+    file: dypho_supplemental_assets/build/draft/table3.png
+    role: broad_source_reported_runtime_context_draft
+    evidence:
+      - dypho_supplemental_assets/data/table3_runtime_broad.csv
+      - dypho_supplemental_assets/data/table_manifest.json
+      - dypho_supplemental_assets/build/reports/provenance.json
+    boundary: draft_only_mixed_hardware_descriptive_local_row_end_to_end
+  flowparse_minimum_matrix:
+    role: requirement_level_tracking_mapping_ablation_runtime_coverage
+    evidence:
+      - ../../docs/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.csv
+      - ../../docs/FLOWPARSE_MINIMUM_EXPERIMENT_MATRIX.md
+    boundary: protocol300_historical_ours_is_failed_boundary_not_dyn19_full
+  protocol300_local_baselines:
+    role: retained_local_splatam_photo_tracking_mapping_runtime_and_fig4
+    evidence:
+      - /home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/table_manifest.json
+      - /home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/page_manifest.json
+    boundary: seed0_300_frames_mapping_diagnostic_historical_ours_failed_boundary
   dypho_tracking_positioning:
     role: local_tracking_results_with_published_dypho_reference
     evidence:
@@ -76,4 +104,5 @@ claim_boundary: >-
   diagnostic, and occluded-background fields remain proxy-only. Published
   DyPho tracking values are external positioning context, not a matched rerun.
   Skill-rendered DyPho-style raster tables remain draft-only pending explicit
-  human review and release.
+  human review and release. Protocol-300 local baseline evidence is complete as
+  a historical package, but its failed-boundary Ours row is not DYN-19 Full.

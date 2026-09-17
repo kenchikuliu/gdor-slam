@@ -1,11 +1,11 @@
 {
   "build_manifest": {
     "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/build.yaml",
-    "sha256": "7c17064d97664d5609e2581d153bc188370e15ec2ec728377da28f93b3378270"
+    "sha256": "0dd663bca780d770565955ff3f502069e5352b395a27deb08d9dcd2393744f64"
   },
   "experiment_manifest": {
     "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/experiment.yaml",
-    "sha256": "dc3b18bcfe38951bfd8d6b3944afce3d5480dd3ced0fbe243af3bfa347326db0"
+    "sha256": "31169dd5e23c886c2b1157249f06e6a5b41578ed6a9a89330cb78f5861182412"
   },
   "figures": {},
   "tables": {
@@ -13,22 +13,16 @@
       "type": "table",
       "table_id": "table1",
       "source": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table1_tracking.csv",
-      "source_sha256": "388514ebd4b6d05172501a18157e8fd81d38db45043aaa2564c1c3aedc9ae57e",
-      "rows": 4,
+      "source_sha256": "a130687e91b5267f40f4e631c77a8b931a36bd48c0b7db1c00f195cc875fb3a1",
+      "rows": 14,
       "columns": 11,
       "canvas": [
         1600,
-        180
+        480
       ],
-      "directions": {
-        "w/xyz ATE": "min",
-        "w/half ATE": "min",
-        "w/static ATE": "min",
-        "s/half ATE": "min",
-        "Avg. ATE": "min"
-      },
+      "directions": {},
       "output": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/build/draft/table1.png",
-      "output_sha256": "aa8422af13783543ab3c1b592a5b32215a4008c89365e8392a262d815beaca48",
+      "output_sha256": "4fdce1287296e63ca59cdbccfca4662bab13740b2b808b6c2ebb6cb7b7bf656c",
       "audit": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/build/reports/table1.audit.json",
       "pending_review": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/build/review/table1.review.yaml"
     },
@@ -36,7 +30,7 @@
       "type": "table",
       "table_id": "table2",
       "source": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table2_mapping.csv",
-      "source_sha256": "c73bd52ce343c7ad803571a1090dded966cb65a63e8c739512a693a5b7331f5a",
+      "source_sha256": "dde1a1e355c85f00613621eadbc40ec2e2dd2eb08dd91ca4e91d7e2fc908a4e3",
       "rows": 3,
       "columns": 5,
       "canvas": [
@@ -58,7 +52,7 @@
       "type": "table",
       "table_id": "table3",
       "source": "/home/slam/DynaGS-SLAM-dyn19-20260913/paper/dyn19_v6/dypho_style_assets/data/table3_runtime.csv",
-      "source_sha256": "d794d126d3d234eb4d2a5ec0759d8fcf8aafc9f9ba39e8051528c177fb950946",
+      "source_sha256": "dbe395b558583eb9566138fc2cd769d9623b87b0fbc253fc300bb3e6b05455cc",
       "rows": 3,
       "columns": 6,
       "canvas": [

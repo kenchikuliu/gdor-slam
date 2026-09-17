@@ -5,10 +5,20 @@ sequences:
   - tum_walking_static
   - tum_sitting_halfsphere
 methods:
+  - name: ORB-SLAM3 [ext]
+  - name: Dyna-SLAM [ext]
+  - name: NICE-SLAM [ext]
+  - name: ESLAM [ext]
+  - name: RoDyn-SLAM [ext]
+  - name: SplaTAM [ext]
+  - name: GS-SLAM [ext]
+  - name: GassiDy [ext]
+  - name: DGS-SLAM [ext]
+  - name: Photo-SLAM [ext]
+  - name: DyPho-SLAM [ext]
   - name: DYN-19 Semantic
   - name: DYN-19 MapMatched
   - name: DYN-19 Full
-  - name: DyPho-SLAM [ext]
 fairness:
   comparison_mode: presentation-flexible
   same_frame: false
