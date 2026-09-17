@@ -32,6 +32,8 @@ It uses an unfinished author placeholder and is not a publication record.
   FlowParse minimum experiment matrix, and Fig.4 release blockers.
 - `dypho_style_gdor_dyn19/flowparse_dashboard.html`: local interactive HTML
   dashboard for the tracking, mapping, runtime, and ordered-ablation charts.
+- `dypho_style_gdor_dyn19/flowparse_paper_tables.html`: paper-style HTML preview
+  following the Table I/II/III layouts in the supplied `FlowParse-SLAM.tex`.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
 - `EVIDENCE_MANIFEST.md`: public protocol and claim-boundary ledger.
 - `SHA256SUMS`: hashes for the published artifact files.
@@ -85,6 +87,8 @@ python3 -m http.server 8787
 ```
 
 Then visit `http://127.0.0.1:8787/flowparse_dashboard.html`.
+For the TeX-matched table view, visit
+`http://127.0.0.1:8787/flowparse_paper_tables.html`.
 
 The generated table drafts are not released assets. Their audit reports pass,
 but the review YAML files remain pending. Fig.4 is blocked until current DYN-19

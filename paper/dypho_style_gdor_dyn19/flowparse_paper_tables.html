@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowParse-SLAM-style Paper Tables</title>
+  <style>
+    :root { --ink:#19232d; --muted:#687685; --line:#cfd7df; --blue:#145c91; --blue-soft:#edf5fb; --green:#2d744f; --amber:#8a6100; --amber-soft:#fff6dc; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#eef1f3; color:var(--ink); font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    .page { max-width:1500px; margin:0 auto; padding:30px 28px 54px; }
+    header { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; margin-bottom:22px; }
+    h1,h2,h3,p { margin:0; }
+    h1 { font-size:26px; line-height:1.15; }
+    h2 { font-family:Georgia,"Times New Roman",serif; font-size:19px; margin-bottom:3px; }
+    h3 { font-size:14px; margin-bottom:8px; }
+    .eyebrow { color:var(--blue); font-weight:800; letter-spacing:.12em; text-transform:uppercase; font-size:11px; margin-bottom:7px; }
+    .subtitle { color:var(--muted); margin-top:8px; max-width:850px; }
+    .meta { display:flex; gap:7px; flex-wrap:wrap; justify-content:flex-end; }
+    .pill { border:1px solid var(--line); border-radius:999px; background:#fff; color:var(--muted); padding:5px 9px; font-size:11px; white-space:nowrap; }
+    .pill.blue { color:var(--blue); border-color:#b7d0e3; background:var(--blue-soft); }
+    .pill.amber { color:var(--amber); border-color:#e8d18f; background:var(--amber-soft); }
+    .notice { border-left:4px solid var(--amber); background:var(--amber-soft); color:#5f4a18; padding:12px 14px; margin-bottom:20px; }
+    .paper-section { background:#fff; border:1px solid var(--line); margin:0 0 22px; padding:20px 20px 17px; box-shadow:0 7px 18px rgba(25,35,45,.05); }
+    .caption { font-family:Georgia,"Times New Roman",serif; color:#33414e; margin-bottom:12px; }
+    .caption strong { color:var(--ink); }
+    .table-wrap { overflow:auto; border-top:2px solid #1c2833; border-bottom:2px solid #1c2833; }
+    table { width:100%; border-collapse:collapse; min-width:1000px; font-family:Georgia,"Times New Roman",serif; font-size:13px; }
+    th,td { padding:7px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
+    th { font-weight:700; text-align:center; border-bottom:1px solid #1c2833; }
+    th:first-child, td:first-child { text-align:left; }
+    td { text-align:right; font-variant-numeric:tabular-nums; }
+    td.method { text-align:left; font-weight:600; }
+    td.center { text-align:center; }
+    tbody tr:last-child td { border-bottom:0; }
+    tbody tr.local-row td { background:var(--blue-soft); color:#144d73; }
+    tbody tr.sep-row td { border-top:2px solid #1c2833; }
+    .best { font-weight:800; }
+    .source-note, .footnote { color:var(--muted); font-size:12px; margin-top:10px; }
+    .footnote strong { color:#4c5965; }
+    .two-col { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px; align-items:start; }
+    .compact table { min-width:720px; font-size:13px; }
+    .compact th, .compact td { padding:7px 9px; }
+    .status { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:14px; }
+    .status-card { border:1px solid var(--line); padding:12px; background:#fafbfc; }
+    .status-card .label { color:var(--muted); font-size:11px; }
+    .status-card .value { font-size:20px; font-weight:800; margin-top:3px; }
+    .status-card.warn .value { color:#9a3e3e; }
+    .tag { display:inline-block; border:1px solid var(--line); padding:2px 5px; font:11px Inter,system-ui,sans-serif; color:var(--muted); background:#fafbfc; }
+    .tag.local { color:var(--green); border-color:#bdd9c8; background:#edf8f1; }
+    .tag.reported { color:var(--amber); border-color:#e8d18f; background:var(--amber-soft); }
+    select { border:1px solid var(--line); padding:7px 9px; background:#fff; color:var(--ink); }
+    .section-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:10px; }
+    footer { color:var(--muted); font-size:11px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .error { border:1px solid #e1b4b4; background:#fff0f0; color:#8d3030; padding:12px; }
+    @media (max-width:900px) { header { flex-direction:column; } .meta { justify-content:flex-start; } .two-col { grid-template-columns:1fr; } }
+    @media (max-width:600px) { .page { padding:20px 12px 38px; } .paper-section { padding:15px 12px; } .status { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div>
+        <div class="eyebrow">Paper-style comparison preview</div>
+        <h1>FlowParse-SLAM-style quantitative tables</h1>
+        <p class="subtitle">A table-first HTML rendering following the structure of <code>FlowParse-SLAM.tex</code>. Source-reported baselines and local GDOR evidence are deliberately separated.</p>
+      </div>
+      <div class="meta"><span class="pill blue">Table I / II / III</span><span class="pill amber">Draft evidence</span></div>
+    </header>
+
+    <div class="notice"><strong>Reading rule.</strong> Rows imported from FlowParse-SLAM.tex are source-reported context. The GDOR/DYN-19 rows are local evidence with different exported statistics. Blank cells mean unreported or not exported; they are not zeros.</div>
+
+    <section class="paper-section">
+      <h2>Table I. Camera tracking</h2>
+      <p class="caption"><strong>ATE RMSE and temporal Std. (cm) on dynamic TUM RGB-D; lower is better.</strong> The layout mirrors the four-sequence comparison table in the supplied TeX.</p>
+      <div class="table-wrap"><table id="tracking-table"></table></div>
+      <p class="footnote"><strong>Source boundary:</strong> the upper rows are source-reported comparison context; the GDOR row is a three-seed local DYN-19 sequence mean and has no local temporal-Std export yet.</p>
+    </section>
+
+    <section class="paper-section">
+      <div class="two-col">
+        <div class="compact">
+          <h2>Table II. Module ablation</h2>
+          <p class="caption"><strong>FlowParse mechanism context.</strong> This reproduces the compact MR/SC/Motion/Fusion layout from the supplied TeX.</p>
+          <div class="table-wrap"><table id="flowparse-ablation-table"></table></div>
+          <p class="footnote">These rows are context from the supplied FlowParse draft, not DYN-19 measurements.</p>
+        </div>
+        <div class="compact">
+          <h2>DYN-19 ordered ablation</h2>
+          <p class="caption"><strong>Local mechanism ledger.</strong> The configuration order and factor route are shown without claiming factorial effects.</p>
+          <div class="table-wrap"><table id="dyn19-ablation-table"></table></div>
+          <p class="footnote">Design boundary: adjacent bundle contrasts do not identify independent effects or interactions.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-section">
+      <h2>Table III. Runtime</h2>
+      <p class="caption"><strong>Runtime on TUM <code>fr3/w/xyz</code>.</strong> The structure follows the supplied Track / Map / FPS / Seq. time table.</p>
+      <div class="table-wrap"><table id="runtime-table"></table></div>
+      <div class="status">
+        <div class="status-card"><div class="label">DYN-19 Full local mean</div><div class="value" id="gdor-runtime">--</div></div>
+        <div class="status-card"><div class="label">Stage timing parity</div><div class="value">Missing</div></div>
+        <div class="status-card warn"><div class="label">Protocol-matched runtime rank</div><div class="value">Blocked</div></div>
+      </div>
+      <p class="footnote"><strong>Runtime boundary:</strong> external rows are source-reported on different hardware. DYN-19 currently exports full-sequence end-to-end wall time, not the exact per-stage breakdown.</p>
+    </section>
+
+    <section class="paper-section">
+      <div class="section-head"><div><h2>Mapping diagnostic appendix</h2><p class="caption">DYN-19 local mapping rows are shown in the same evidence package, but are not a FlowParse source-reported table.</p></div><select id="mapping-pose"><option value="online">online pose</option><option value="gt_aligned">GT-aligned pose</option></select></div>
+      <div class="table-wrap"><table id="mapping-table"></table></div>
+      <p class="footnote">Completeness and ghost-risk columns are proxies, not independent ground truth. Native external mapping metrics remain separate in the repository ledger.</p>
+    </section>
+
+    <footer><span>Generated from <code>paper/dypho_style_gdor_dyn19/source_tables/</code></span><span>HTML preview only; not a released paper asset.</span></footer>
+    <div id="error" class="error" hidden style="margin-top:16px"></div>
+  </main>
+  <script>
+    const files = {
+      tracking: 'source_tables/table1_flowparse_context.csv',
+      flowparseAblation: 'source_tables/flowparse_ablation_context.csv',
+      dyn19Ablation: 'source_tables/ordered_ablation.csv',
+      runtime: 'source_tables/table3_flowparse_context.csv',
+      mapping: 'source_tables/table2_mapping.csv'
+    };
+    function parseCsv(text) {
+      const rows=[]; let row=[], cell='', quoted=false;
+      for (let i=0;i<text.length;i++) { const ch=text[i], next=text[i+1];
+        if (ch==='"' && quoted && next==='"') { cell+='"'; i++; continue; }
+        if (ch==='"') { quoted=!quoted; continue; }
+        if (ch===',' && !quoted) { row.push(cell); cell=''; continue; }
+        if ((ch==='\n'||ch==='\r') && !quoted) { if(ch==='\r'&&next==='\n') i++; row.push(cell); cell=''; if(row.some(v=>v!=='')) rows.push(row); row=[]; continue; }
+        cell+=ch;
+      }
+      if (cell||row.length) { row.push(cell); rows.push(row); }
+      const headers=rows.shift()||[]; return rows.map(values=>Object.fromEntries(headers.map((h,i)=>[h,values[i]??''])));
+    }
+    const esc = value => String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const val = value => value === '' || value === undefined ? '--' : esc(value);
+    const num = value => value === '' || value === undefined ? null : Number(value);
+    const cell = (value, cls='') => `<td class="${cls}">${val(value)}</td>`;
+    const header = (groups, labels) => `<thead><tr>${groups.map(g=>`<th colspan="${g.span||1}">${esc(g.label)}</th>`).join('')}</tr><tr>${labels.map(label=>`<th>${esc(label)}</th>`).join('')}</tr></thead>`;
+    function trackingTable(rows) {
+      const sequence=[['fr3/w/xyz','fr3/w/xyz ATE cm','fr3/w/xyz Temporal Std cm'],['fr3/w/half','fr3/w/half ATE cm','fr3/w/half Temporal Std cm'],['fr3/w/static','fr3/w/static ATE cm','fr3/w/static Temporal Std cm'],['fr3/s/half','fr3/s/half ATE cm','fr3/s/half Temporal Std cm']];
+      const source=rows.filter(r=>r.Role==='comparison-baseline'||r.Method==='FlowParse-SLAM');
+      const local=rows.filter(r=>r.Method==='GDOR-SLAM / DYN-19 Full');
+      const all=source.concat(local);
+      const best={}; sequence.forEach(([,a,s])=>[a,s].forEach(k=>{const values=source.map(r=>num(r[k])).filter(v=>v!==null); best[k]=Math.min(...values);}));
+      let html=header([{label:'Method'},{label:'w/xyz',span:2},{label:'w/half',span:2},{label:'w/static',span:2},{label:'s/half',span:2},{label:'Average',span:2}],['Method','ATE','Std.','ATE','Std.','ATE','Std.','ATE','Std.','ATE','Std.']);
+      html+='<tbody>'+all.map((r,i)=>{const isLocal=r.Method.startsWith('GDOR'); let cells=`<td class="method">${esc(r.Method)}${isLocal?' <span class="tag local">local</span>':' '}</td>`; sequence.forEach(([,a,s])=>{cells+=`<td class="${num(r[a])===best[a]&&!isLocal?'best':''}">${val(r[a])}</td><td class="${num(r[s])===best[s]&&!isLocal?'best':''}">${val(r[s])}</td>`;}); cells+=`<td class="${num(r['Average ATE cm'])===Math.min(...source.map(x=>num(x['Average ATE cm'])).filter(v=>v!==null))&&!isLocal?'best':''}">${val(r['Average ATE cm'])}</td><td>${val(r['Average Temporal Std cm'])}</td>`; return `<tr class="${isLocal?'local-row sep-row':''}">${cells}</tr>`;}).join('')+'</tbody>';
+      document.getElementById('tracking-table').innerHTML=html;
+    }
+    function simpleTable(id, cols, rows, rowClass) {
+      let html='<thead><tr>'+cols.map(c=>`<th>${esc(c.label)}</th>`).join('')+'</tr></thead><tbody>';
+      html+=rows.map(row=>`<tr class="${rowClass?rowClass(row):''}">${cols.map(c=>`<td class="${c.cls||''}">${c.render?c.render(row[c.key],row):val(row[c.key])}</td>`).join('')}</tr>`).join('');
+      document.getElementById(id).innerHTML=html+'</tbody>';
+    }
+    function renderFlowparseAblation(rows) {
+      simpleTable('flowparse-ablation-table', [{key:'variant',label:'Variant',cls:'method'},{key:'mask_refinement',label:'MR',cls:'center'},{key:'static_compensation',label:'SC',cls:'center'},{key:'motion_model',label:'Motion'},{key:'fusion',label:'Fusion'},{key:'fr3_w_xyz_ate_cm',label:'xyz',cls:'num'},{key:'fr3_w_half_ate_cm',label:'half',cls:'num'}], rows);
+    }
+    function renderDyn19Ablation(rows) {
+      simpleTable('dyn19-ablation-table', [{key:'Order',label:'#',cls:'num'},{key:'Configuration',label:'Configuration',cls:'method'},{key:'T',label:'T',cls:'center'},{key:'F',label:'F',cls:'center'},{key:'R',label:'R',cls:'center'},{key:'A',label:'A',cls:'center'},{key:'M',label:'M',cls:'center'},{key:'Mean ATE cm',label:'Mean',cls:'num'},{key:'Median ATE cm',label:'Median',cls:'num'},{key:'Adjacent Paired Median Gain cm',label:'Adj. gain',cls:'num'},{key:'Adjacent W/T/L',label:'W/T/L',cls:'center'}], rows, row=>row.Configuration==='Full: T+F+R+A+M'?'local-row':'');
+    }
+    function renderRuntime(rows) {
+      const external=rows.filter(r=>r.Method!=='GDOR-SLAM / DYN-19 Full');
+      const local=rows.filter(r=>r.Method==='GDOR-SLAM / DYN-19 Full');
+      simpleTable('runtime-table', [{key:'Method',label:'Method',cls:'method'},{key:'Tracking ms',label:'Track (ms)',cls:'num'},{key:'Mapping ms',label:'Map (ms)',cls:'num'},{key:'FPS',label:'FPS',cls:'num'},{key:'Sequence Time',label:'Seq. time',cls:'num'}], external.concat(local), row=>row.Method.startsWith('GDOR')?'local-row sep-row':'');
+      const runtime=local[0]; document.getElementById('gdor-runtime').textContent=runtime?.['Local End-to-End Mean Seconds'] ? `${runtime['Local End-to-End Mean Seconds']} s` : '--';
+    }
+    function renderMapping(rows, pose='online') {
+      const local=rows.filter(r=>r['Pose Mode']===pose && r['Source Type']==='local-rerun-diagnostic');
+      simpleTable('mapping-table', [{key:'Method',label:'Method',cls:'method'},{key:'Cells',label:'Cells',cls:'num'},{key:'Static PSNR Mean dB',label:'PSNR (dB)',cls:'num'},{key:'Static SSIM Mean',label:'SSIM',cls:'num'},{key:'Proxy Completeness Mean',label:'Completeness',cls:'num'},{key:'Proxy Ghost Risk Mean',label:'Ghost risk',cls:'num'}], local, row=>row.Method.startsWith('Full')?'local-row':'');
+    }
+    async function main() {
+      try {
+        const entries=await Promise.all(Object.entries(files).map(async([key,path])=>[key,parseCsv(await (await fetch(path)).text())]));
+        const data=Object.fromEntries(entries);
+        trackingTable(data.tracking); renderFlowparseAblation(data.flowparseAblation); renderDyn19Ablation(data.dyn19Ablation); renderRuntime(data.runtime); renderMapping(data.mapping);
+        document.getElementById('mapping-pose').onchange=e=>renderMapping(data.mapping,e.target.value);
+      } catch (error) { const box=document.getElementById('error'); box.hidden=false; box.textContent=`Could not load table CSVs. Use the local server URL, not file://. ${error.message}`; }
+    }
+    main();
+  </script>
+</body>
+</html>
