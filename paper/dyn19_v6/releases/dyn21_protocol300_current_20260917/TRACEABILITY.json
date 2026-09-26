@@ -73,10 +73,11 @@
     "source_datasets": "not copied into this repository",
     "historical_pinned_protocol_roots": "read-only inputs; not copied or modified"
   },
-  "excluded_local_worktree": {
+  "related_source_worktree": {
     "repository": "https://github.com/kenchikuliu/DynaGS-SLAM.git",
     "commit": "7d50616c9e7c86f29a11966e741fb0cd35295d40",
-    "status": "not present on any origin branch checked on 2026-09-26",
-    "role": "separate historical mapping-work tree; not the DYN-21 release source"
+    "branch": "dev/dyn21-mapping-evaluation-20260926",
+    "status": "published to origin on 2026-09-26",
+    "role": "related mapping-evaluation source tree; not the DYN-21 runner source"
   }
 }

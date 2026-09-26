@@ -28,8 +28,6 @@ The raw run root must exist before validating that manifest:
 /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01
 ```
 
-The historical `DynaGS-SLAM` detached worktree commit `7d50616` is explicitly
-not a source of this release and is not claimed as pushed. The authoritative
-DYN-21 runner and comparison registration are from the `gdor-slam` commits
-listed in `TRACEABILITY.json`.
-
+The related `DynaGS-SLAM` mapping-work commit `7d50616` is published separately
+on the branch recorded in `TRACEABILITY.json`. The authoritative DYN-21 runner
+and comparison registration are from the `gdor-slam` commits listed there.
