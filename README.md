@@ -18,6 +18,8 @@ The public paper artifact is available in [`paper/`](paper/README.md):
 - [claim-bearing aggregate CSV files](paper/data/);
 - [figure-generation and evidence-validation scripts](paper/scripts/);
 - [public evidence manifest](paper/EVIDENCE_MANIFEST.md) and checksums.
+- [traceability record](TRACEABILITY.md) with exact remote branches and commits.
+- [DYN-21 Protocol-300 comparison release](https://github.com/kenchikuliu/gdor-slam/tree/traceability/dyn21-protocol300-release-20260926/paper/dyn19_v6/releases/dyn21_protocol300_current_20260917) with the current mapping contact sheet, HTML report, metrics, and manifests.
 
 The main same-source results are:
 
