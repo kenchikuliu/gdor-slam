@@ -1,0 +1,2 @@
+Peak reserved (MB): 598
+Peak allocated (MB): 536.02

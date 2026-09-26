@@ -1,0 +1,152 @@
+protocol_version: 3
+run_id: dypho_skill_full_rerun_20260729
+status: frozen
+frozen_at: "2026-07-29T16:55:47+08:00"
+revision_reason: "Freeze the 300-frame quick protocol after inspecting only the Ours held-out candidate contact sheets; all baselines must reuse the selected frame, timestamp, pose, crop, resolution, and map horizon."
+
+method_identity:
+  ours: "DynaGS full (failed-boundary ablation; no advantage claim)"
+  photo_slam_mask: "DynaGS semantic"
+  photo_slam: "Photo-SLAM B0"
+  splatam: "SplaTAM"
+
+selection_policy:
+  anchor_method: ours
+  criteria:
+    - "Run Ours first on observations 0..299 and inspect only Input/Ours held-out candidate pairs."
+    - "Use a real held-out frame after the truncated Gaussian map has matured."
+    - "Require source RGB, static mask, pose metadata, and Ours render."
+    - "Choose near the preregistered target segment, not by baseline quality."
+    - "Do not change frame, pose, crop, resolution, or exposure after freezing."
+  prohibited:
+    - "No per-method frame selection."
+    - "No closest available baseline frame substitution."
+    - "No PSNR/SSIM-driven reselection after inspecting baselines."
+    - "No synthetic blur, noise, inpainting, enhancement, or placeholder panels."
+
+rendering:
+  resolution: [640, 480]
+  crop_xywh: [0, 0, 640, 480]
+  fit: contain
+  color_space: sRGB
+  post_processing: none
+  exposure_adjustment: none
+  camera_pose:
+    physical_source: dataset_ground_truth
+    association: "unique nearest timestamp, maximum delta 0.02 s"
+    map_transform: "fixed-scale SE(3), scale exactly 1.0"
+    alignment_support: "mapping poses only; selected render views excluded"
+    bonn_pose_model: "published marker pose converted to optical RGB-D sensor pose"
+  map_source: "final map after the identical truncated input horizon: observations 0..299"
+  frame_start: 0
+  frame_end_exclusive: 300
+  selection_evidence:
+    manifest: "/home/slam/experiments/dypho_skill_full_rerun_20260729/ours_candidate_review/end_300/manifest.json"
+    rule: "Ours-only Input/Ours contact-sheet review; baseline renders excluded during selection"
+
+fig1:
+  sequence: bonn_person_tracking
+  display_name: bonn/ps_track
+  input_frames: [90, 120, 150]
+  feature_frame: 120
+  mapping_frame: 299
+  novel_view_frames: [232, 253]
+  feature_protocol:
+    extractor: "the run's ORB extractor"
+    baseline_mask: none
+    ours_mask: "the frozen Ours refined static mask"
+    same_rgb_and_extractor_settings: true
+  required_assets:
+    - rgb
+    - depth
+    - raw_semantic_mask
+    - refined_static_mask
+    - orb_keypoints
+    - orb_matches
+    - final_gaussian_map
+    - aligned_trajectory
+    - gt_aligned_novel_views
+
+fig3:
+  sequences:
+    - tum_walking_xyz
+    - tum_walking_halfsphere
+    - tum_walking_static
+    - tum_sitting_halfsphere
+  association_max_delta_seconds: 0.02
+  alignment: "fixed-scale SE(3)"
+  scale: 1.0
+  identical_gt_timestamp_support: true
+
+fig4:
+  rows:
+    tum_walking_xyz:
+      display_name: fr3/w/xyz
+      input_frames_in_full_run: 827
+      frame_start: 0
+      frame_end_exclusive: 300
+      render_frame: 218
+      timestamp: 1341846321.167887
+      source_rgb: "/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/rgb/1341846321.167887.png"
+      source_depth: "/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_xyz/depth/1341846321.167898.png"
+      ours_candidate_render: "/media/slam/My Passport/experiments/dypho_skill_full_rerun_20260729/ours_candidate_quick/tum_walking_xyz/end_300/heldout_novel_view/render/000218.png"
+    tum_walking_halfsphere:
+      display_name: fr3/w/half
+      input_frames_in_full_run: 1021
+      frame_start: 0
+      frame_end_exclusive: 300
+      render_frame: 255
+      timestamp: 1341846443.770837
+      source_rgb: "/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_halfsphere/rgb/1341846443.770837.png"
+      source_depth: "/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_halfsphere/depth/1341846443.771852.png"
+      ours_candidate_render: "/media/slam/My Passport/experiments/dypho_skill_full_rerun_20260729/ours_candidate_quick/tum_walking_halfsphere/end_300/heldout_novel_view/render/000255.png"
+    bonn_person_tracking:
+      display_name: bonn/ps_track
+      input_frames_in_full_run: 580
+      frame_start: 0
+      frame_end_exclusive: 300
+      render_frame: 232
+      timestamp: 1548265890.273280
+      source_rgb: "/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_person_tracking/rgb/1548265890.27328.png"
+      source_depth: "/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_person_tracking/depth/1548265890.28006.png"
+      ours_candidate_render: "/media/slam/My Passport/experiments/dypho_skill_full_rerun_20260729/ours_candidate_quick/bonn_person_tracking/end_300/heldout_novel_view/render/000232.png"
+    bonn_crowd3:
+      display_name: bonn/r3
+      input_frames_in_full_run: 847
+      frame_start: 0
+      frame_end_exclusive: 300
+      render_frame: 234
+      timestamp: 1548339967.105450
+      source_rgb: "/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_crowd3/rgb/1548339967.10545.png"
+      source_depth: "/mnt/nvme_data/datasets/rgbd_bonn_dynamic/rgbd_bonn_crowd3/depth/1548339967.10811.png"
+      ours_candidate_render: "/media/slam/My Passport/experiments/dypho_skill_full_rerun_20260729/ours_candidate_quick/bonn_crowd3/end_300/heldout_novel_view/render/000234.png"
+  columns:
+    - input
+    - splatam
+    - photo_slam
+    - photo_slam_mask
+    - ours
+  row_consistency:
+    same_physical_frame: true
+    same_gt_aligned_pose: true
+    same_resolution: true
+    same_crop: true
+    same_fit: true
+    same_post_processing: true
+
+tables:
+  seed: 0
+  standard_deviation: "N/A (seed 0 only)"
+  table1_sequences:
+    - tum_walking_xyz
+    - tum_walking_halfsphere
+    - tum_walking_static
+    - tum_sitting_halfsphere
+  table2_configs: [no_mask, semantic, flow, full]
+  table3_sequence: tum_walking_xyz
+
+evidence_roots:
+  ours: "/media/slam/My Passport/experiments/dypho_skill_full_rerun_20260729/ours_candidate_quick"
+  photo_slam_mask: "/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/photo_slam_mask"
+  photo_slam: "/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/photo_slam"
+  splatam: "/home/slam/experiments/dypho_skill_full_rerun_20260729/baseline_protocol_300/splatam"

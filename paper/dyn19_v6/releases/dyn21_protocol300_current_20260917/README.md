@@ -8,24 +8,27 @@ This directory is the Git-tracked release package for the completed
 - `comparison/index.html`: self-contained report entry point.
 - `comparison/`: HTML, real comparison panels, tables, metrics, provenance,
   and validation screenshots.
-- `run_contract/`: frozen plan, upstream protocol, campaign status, and a
-  SHA-256 manifest for every file in the original NAS run root except the
-  copied comparison package.
+- `run_artifacts/`: the complete non-comparison snapshot of the original run
+  root, including all four run directories, logs, status files, trajectories,
+  metrics, held-out renders, Gaussian maps, camera files, and PLY files.
+- `run_contract/`: frozen plan, upstream protocol, campaign status, and the
+  SHA-256 manifest used to verify `run_artifacts/`.
 - `SHA256SUMS`: SHA-256 manifest for the Git-tracked comparison package.
 - `TRACEABILITY.json`: machine-readable source, run, and artifact linkage.
 
-## Reproduction boundary
+## Complete snapshot
 
-The source code, runner, builder, frozen plan, protocol, result summaries, and
-published comparison package are Git-tracked. Dataset files, generated Gaussian
-maps, trajectories, logs, and other large run outputs remain in the authoritative
-NAS result root recorded in `TRACEABILITY.json`; their relative paths and hashes
-are recorded in `run_contract/raw_run_SHA256SUMS`.
+The source code, runner, builder, frozen plan, protocol, result summaries,
+comparison package, and all files from the completed DYN-21 result root are
+Git-tracked in this release. The original NAS path is retained as the provenance
+source, and the release contains a complete content snapshot under
+`run_artifacts/`.
 
-The raw run root must exist before validating that manifest:
+Validate the complete snapshot with:
 
-```text
-/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01
+```bash
+sha256sum -c comparison/checksums.sha256
+(cd run_artifacts && sha256sum -c ../run_contract/raw_run_SHA256SUMS)
 ```
 
 The related `DynaGS-SLAM` mapping-work commit `7d50616` is published separately

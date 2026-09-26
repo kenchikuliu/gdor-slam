@@ -8,8 +8,16 @@
     "report_sha256": "a7540bd886d03948f6efeb09a12b41fcdfbc5265eb3ddcdf7884ad6d55807750",
     "result_root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01",
     "result_root_bytes": 95037358,
+    "result_root_file_count": 590,
+    "complete_snapshot": {
+      "comparison_directory": "comparison/",
+      "non_comparison_directory": "run_artifacts/",
+      "non_comparison_file_count": 537,
+      "non_comparison_bytes": 77799944
+    },
     "raw_run_manifest": "run_contract/raw_run_SHA256SUMS",
-    "raw_run_manifest_entries": 537
+    "raw_run_manifest_entries": 537,
+    "raw_run_manifest_validation_root": "run_artifacts/"
   },
   "source": {
     "repository": "https://github.com/kenchikuliu/gdor-slam.git",
@@ -69,7 +77,7 @@
     "comparison_sha256_manifest": "SHA256SUMS"
   },
   "retention": {
-    "raw_outputs": "NAS-only, hash-registered, not Git-tracked",
+    "raw_outputs": "complete Git-tracked snapshot under run_artifacts/; NAS source retained",
     "source_datasets": "not copied into this repository",
     "historical_pinned_protocol_roots": "read-only inputs; not copied or modified"
   },
