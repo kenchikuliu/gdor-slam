@@ -1,0 +1,5 @@
+Method,Horizon [frames],fr3/w/xyz ATE [cm],fr3/w/xyz matches,fr3/w/half ATE [cm],fr3/w/half matches,bonn/ps_track ATE [cm],bonn/ps_track matches,bonn/r3 ATE [cm],bonn/r3 matches,Avg. ATE [cm],Seed coverage,Evidence status
+SplaTAM,300,46.378,299,218.839,299,40.287,299,133.131,297,109.659,1 (seed 0); no variance estimate,"verified protocol-300 complete; ATE support fr3/w/xyz 299/300, fr3/w/half 299/300, bonn/ps_track 299/300, bonn/r3 297/300 under fixed 0.02 s unique association"
+Photo-SLAM,300,45.614,299,25.011,297,92.505,299,24.531,298,46.915,1 (seed 0); no variance estimate,"verified protocol-300 complete; ATE support fr3/w/xyz 299/300, fr3/w/half 297/300, bonn/ps_track 299/300, bonn/r3 298/300 under fixed 0.02 s unique association"
+DynaGS semantic,300,1.707,299,3.935,297,5.827,299,11.080,298,5.637,1 (seed 0); no variance estimate,"verified protocol-300 complete; ATE support fr3/w/xyz 299/300, fr3/w/half 297/300, bonn/ps_track 299/300, bonn/r3 298/300 under fixed 0.02 s unique association"
+DYN-19 Full (current),300,1.667,299,3.827,297,3.889,299,5.945,298,3.832,1 (seed 0); no variance estimate,verified current Protocol-300 run; fixed 0.02 s unique association

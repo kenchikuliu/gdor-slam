@@ -1,0 +1,5 @@
+Method,Horizon [frames],fr3/w/xyz PSNR [dB],fr3/w/xyz SSIM,fr3/w/half PSNR [dB],fr3/w/half SSIM,bonn/ps_track PSNR [dB],bonn/ps_track SSIM,bonn/r3 PSNR [dB],bonn/r3 SSIM,Avg. PSNR [dB],Avg. SSIM,Evidence boundary
+SplaTAM,300,11.771,0.30418,12.436,0.35140,13.016,0.58047,14.509,0.49772,12.933,0.43344,diagnostic only; full frame includes dynamic foreground; not a static-scene superiority claim
+Photo-SLAM,300,14.830,0.40459,14.936,0.53600,15.316,0.66293,14.345,0.63369,14.857,0.55930,diagnostic only; full frame includes dynamic foreground; not a static-scene superiority claim
+DynaGS semantic,300,15.491,0.45580,15.447,0.56482,12.156,0.60761,14.364,0.65523,14.364,0.57086,diagnostic only; full frame includes dynamic foreground; not a static-scene superiority claim
+DYN-19 Full (current),300,14.976,0.47566,12.009,0.54068,11.589,0.63100,13.776,0.65111,13.088,0.57461,diagnostic only; full frame includes dynamic foreground; not a static-scene superiority claim

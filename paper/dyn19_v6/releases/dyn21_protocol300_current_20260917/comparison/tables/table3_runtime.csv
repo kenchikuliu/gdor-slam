@@ -1,0 +1,5 @@
+Method,Horizon [frames],fr3/w/xyz wall time [s],fr3/w/half wall time [s],bonn/ps_track wall time [s],bonn/r3 wall time [s],Total wall time [s],Aggregate throughput [frames/s],Timing source,Evidence status
+SplaTAM,300,2871.197,1568.175,1477.424,1178.818,7095.614,0.16912,status epoch delta; /usr/bin/time cross-check,verified protocol-300 complete
+Photo-SLAM,300,33.429,29.682,21.810,16.972,101.894,11.77699,status epoch delta; /usr/bin/time cross-check,verified protocol-300 complete
+DynaGS semantic,300,16.589,16.624,15.245,12.388,60.845,19.72212,status epoch delta; /usr/bin/time cross-check,verified protocol-300 complete
+DYN-19 Full (current),300,38.769,38.788,27.135,24.369,129.061,9.29791,status epoch delta; /usr/bin/time cross-check,verified current Protocol-300 run
