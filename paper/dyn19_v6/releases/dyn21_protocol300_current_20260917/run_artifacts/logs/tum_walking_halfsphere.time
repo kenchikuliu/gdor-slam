@@ -1,0 +1,23 @@
+	Command being timed: "/home/slam/DynaGS-SLAM-dyn19-20260913/bin/tum_rgbd_dynamic /home/slam/DynaGS-SLAM-dyn19-20260913/ORB-SLAM3/Vocabulary/ORBvoc.txt /home/slam/DynaGS-SLAM-dyn19-20260913/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml /home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml /mnt/nvme_data/datasets/rgbd_dataset_freiburg3_walking_halfsphere /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/inputs/tum_walking_halfsphere/associations_end_300.txt /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_halfsphere/seed_0000 /home/slam/DynaGS-SLAM-dyn19-20260913/config/mask_config_dyn19_full.yaml no_viewer --no-realtime --seed 0 --heldout-stride 20"
+	User time (seconds): 96.40
+	System time (seconds): 20.78
+	Percent of CPU this job got: 302%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:38.76
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2565420
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 3920
+	Minor (reclaiming a frame) page faults: 600997
+	Voluntary context switches: 208153
+	Involuntary context switches: 21625271
+	Swaps: 0
+	File system inputs: 114840
+	File system outputs: 58720
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

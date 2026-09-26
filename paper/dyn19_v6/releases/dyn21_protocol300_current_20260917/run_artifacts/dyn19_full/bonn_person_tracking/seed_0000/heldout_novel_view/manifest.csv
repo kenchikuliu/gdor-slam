@@ -1,0 +1,14 @@
+frame,timestamp,ground_truth,static_mask
+52,1548265884.240469933,ground_truth/000052.png,static_mask/000052.png
+72,1548265884.910640001,ground_truth/000072.png,static_mask/000072.png
+92,1548265885.581520081,ground_truth/000092.png,static_mask/000092.png
+112,1548265886.251770020,ground_truth/000112.png,static_mask/000112.png
+132,1548265886.921730042,ground_truth/000132.png,static_mask/000132.png
+152,1548265887.592200041,ground_truth/000152.png,static_mask/000152.png
+172,1548265888.262700081,ground_truth/000172.png,static_mask/000172.png
+192,1548265888.932499886,ground_truth/000192.png,static_mask/000192.png
+212,1548265889.602790117,ground_truth/000212.png,static_mask/000212.png
+232,1548265890.273279905,ground_truth/000232.png,static_mask/000232.png
+252,1548265890.943929911,ground_truth/000252.png,static_mask/000252.png
+272,1548265891.613670111,ground_truth/000272.png,static_mask/000272.png
+292,1548265892.284699917,ground_truth/000292.png,static_mask/000292.png

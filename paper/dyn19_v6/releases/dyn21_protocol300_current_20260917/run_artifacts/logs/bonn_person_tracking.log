@@ -1,0 +1,611 @@
+CUDA available! Training on GPU.
+[DyGeoFusion-SLAM+] Loaded mask config from: /home/slam/DynaGS-SLAM-dyn19-20260913/config/mask_config_dyn19_full.yaml
+
+========== DynamicMaskRefiner Configuration ==========
+[Feature Toggles]
+  use_yolo:              true
+  use_flow:              true
+  use_depth_consistency: false
+  use_soft_mapping:      false
+  use_hard_mapping_mask: true
+  enable_flow_hard:      true
+  temporal_background:  true
+  adaptive_features:    true
+  temporal_recovery:    true
+  conservative_mapping: true
+  recovery_flow_guard:  true
+  recovery_risk_gate:  true
+  recovery_min_inliers:150
+  recovery_hold_frames:5
+  flow_guard_radius:    1
+  adaptive_guard_radius: false
+  guard_high_conf_scale:2
+[Timing Parameters]
+  warmup_frames:         50
+  yolo_every_n_frames:   1
+  temporal_warmup:       5
+[Threshold Parameters]
+  tau_flow:              1.50 px
+  tau_depth:             0.050 m
+[Prior-image Background Refinement]
+  render_weight:         0.600
+  observation_weight:    0.200
+  depth_threshold:       0.200 m
+  neighbor_radius:       2
+  min_neighbors:         9
+  min_valid_fraction:    0.020
+  min_render_opacity:    0.500
+  prediction_max_trans:  0.500 m
+  prediction_max_rot:    0.785 rad
+  flow_guard_radius:     1 px
+  adaptive_guard_radius: false
+  guard_high_conf_scale: 2.000
+  feature_relaxation:    0.900
+  feature_min_inliers:   150
+  feature_hold_frames:   5
+[Prior Weights]
+  w_sem:                 1.00
+  w_flow:                1.00
+  w_geo:                 0.00
+[Output Parameters]
+  dyn_threshold:         0.60
+  morph_kernel:          3
+  soft_mapping_alpha:    0.70
+  soft_mapping_min:      0.30
+[Motion-marginalized Pose Prior]
+  enabled:               false
+  shadow_only:           false
+  max_features:          400
+  min_features/object:   20
+  min_track_age:         3
+  min_information:       5.00
+  depth_foreground:      true
+  min_translation_speed: 0.03 m/s
+  min_rotation_speed:    0.05 rad/s
+  candidate_mahalanobis: 16.81
+  gate_min_inlier_gain:  5
+  gate_min_gain_ratio:   0.05
+  gate_max_static:       2147483647
+  gate_min_translation:  0.0000 m
+  gate_max_translation:  1000000.0000 m
+  gate_max_rotation:     3.141593 rad
+  prior_information_scale: 1.000000
+  direct_validation:      false
+  direct_score_mode:      0
+  inject_local_map:      true
+  initialization_only:   false
+  require_common_support: false
+  bypass_reliability_gate: false
+  gate_policy:           legacy-conjunction
+  shuffle_lag_frames:    0
+  shadow_translation_horizon: 0
+  posterior_min_score_improvement: 0.000000
+  shadow_translation_blend: 1.000000
+  max_static_information_leverage: 0.000000
+  static_information_leverage_mode: cap-only
+[Geo Hard Mask Parameters]
+  enable_geo_hard:       false
+  geo_dyn_thresh:        0.60
+  global_geo_min:        0.60
+  vp_scale_min:          0.50
+[Adaptive Mechanism Parameters]
+  viewpoint_gating_rot_thresh:    0.1745 rad
+  viewpoint_gating_trans_thresh:  0.08 m
+  global_geo_warmup_frames:       50
+  global_geo_no_semantic_thresh:  45
+[External Mask Parameters]
+  use_external_mask:     false
+  external_mask_dir:     
+[YOLO Parameters]
+  yolo_model_path:       model/yolov8s.engine
+  yolo_conf_threshold:   0.25
+  yolo_input_size:       640x640
+[LK Flow Parameters]
+  lk_win_size:           21
+  lk_max_level:          3
+  lk_grid_step:          8
+======================================================
+
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: RGB-D
+Loading settings from /home/slam/DynaGS-SLAM-dyn19-20260913/cfg/ORB_SLAM3/RGB-D/Bonn/bonn_rgbd.yaml
+Camera1.k3 optional parameter does not exist...
+	-Loaded camera 1
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+	-Loaded RGB-D calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Pinhole): [ 525.00 525.00 319.50 239.50 ]
+	-Camera 1 distortion parameters: [  0.00 0.00 0.00 0.00 ]
+	-Original image size: [ 640 , 480 ]
+	-Current image size: [ 640 , 480 ]
+	-Sequence FPS: 30.00
+	-RGB-D depth map factor: 5000.00
+	-Features per image: 2000
+	-ORB scale factor: 1.20
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: 
+There are 1 cameras in the atlas
+Camera 0 is pinhole
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/Bonn/bonn_rgbd.yaml"
+[YoloSegmentor] Loading TensorRT engine: model/yolov8s.engine
+[YoloSegmentor] Starting warmup inference (timeout: 10s)...
+model warmup 10 times
+[YoloSegmentor] TensorRT engine loaded successfully!
+[DynamicMaskRefiner] YOLO TensorRT segmentor initialized successfully
+[DynamicMaskRefiner] Initialized with config:
+
+========== DynamicMaskRefiner Configuration ==========
+[Feature Toggles]
+  use_yolo:              true
+  use_flow:              true
+  use_depth_consistency: false
+  use_soft_mapping:      false
+  use_hard_mapping_mask: true
+  enable_flow_hard:      true
+  temporal_background:  true
+  adaptive_features:    true
+  temporal_recovery:    true
+  conservative_mapping: true
+  recovery_flow_guard:  true
+  recovery_risk_gate:  true
+  recovery_min_inliers:150
+  recovery_hold_frames:5
+  flow_guard_radius:    1
+  adaptive_guard_radius: false
+  guard_high_conf_scale:2.00
+[Timing Parameters]
+  warmup_frames:         50
+  yolo_every_n_frames:   1
+  temporal_warmup:       5
+[Threshold Parameters]
+  tau_flow:              1.50 px
+  tau_depth:             0.050 m
+[Prior-image Background Refinement]
+  render_weight:         0.600
+  observation_weight:    0.200
+  depth_threshold:       0.200 m
+  neighbor_radius:       2
+  min_neighbors:         9
+  min_valid_fraction:    0.020
+  min_render_opacity:    0.500
+  prediction_max_trans:  0.500 m
+  prediction_max_rot:    0.785 rad
+  flow_guard_radius:     1 px
+  adaptive_guard_radius: false
+  guard_high_conf_scale: 2.000
+  feature_relaxation:    0.900
+  feature_min_inliers:   150
+  feature_hold_frames:   5
+[Prior Weights]
+  w_sem:                 1.00
+  w_flow:                1.00
+  w_geo:                 0.00
+[Output Parameters]
+  dyn_threshold:         0.60
+  morph_kernel:          3
+  soft_mapping_alpha:    0.70
+  soft_mapping_min:      0.30
+[Motion-marginalized Pose Prior]
+  enabled:               false
+  shadow_only:           false
+  max_features:          400
+  min_features/object:   20
+  min_track_age:         3
+  min_information:       5.00
+  depth_foreground:      true
+  min_translation_speed: 0.03 m/s
+  min_rotation_speed:    0.05 rad/s
+  candidate_mahalanobis: 16.81
+  gate_min_inlier_gain:  5
+  gate_min_gain_ratio:   0.05
+  gate_max_static:       2147483647
+  gate_min_translation:  0.0000 m
+  gate_max_translation:  1000000.0000 m
+  gate_max_rotation:     3.141593 rad
+  prior_information_scale: 1.000000
+  direct_validation:      false
+  direct_score_mode:      0
+  inject_local_map:      true
+  initialization_only:   false
+  require_common_support: false
+  bypass_reliability_gate: false
+  gate_policy:           legacy-conjunction
+  shuffle_lag_frames:    0
+  shadow_translation_horizon: 0
+  posterior_min_score_improvement: 0.000000
+  shadow_translation_blend: 1.000000
+  max_static_information_leverage: 0.000000
+  static_information_leverage_mode: cap-only
+[Geo Hard Mask Parameters]
+  enable_geo_hard:       false
+  geo_dyn_thresh:        0.60
+  global_geo_min:        0.60
+  vp_scale_min:          0.50
+[Adaptive Mechanism Parameters]
+  viewpoint_gating_rot_thresh:    0.1745 rad
+  viewpoint_gating_trans_thresh:  0.08 m
+  global_geo_warmup_frames:       50
+  global_geo_no_semantic_thresh:  45
+[External Mask Parameters]
+  use_external_mask:     false
+  external_mask_dir:     
+[YOLO Parameters]
+  yolo_model_path:       model/yolov8s.engine
+  yolo_conf_threshold:   0.25
+  yolo_input_size:       640x640
+[LK Flow Parameters]
+  lk_win_size:           21
+  lk_max_level:          3
+  lk_grid_step:          8
+======================================================
+
+[DyGeoFusion-SLAM+] Dynamic mask depth scale: raw / 5000.00 meters
+
+-------
+DyGeoFusion-SLAM+ - Dynamic Scene Processing
+Start processing sequence ...
+Images in the sequence: 300
+
+[YoloSegmentor] Frame 0: detected 2 objects
+  class=0 (person) prob=0.87 dynamic=YES
+  class=56 (chair) prob=0.82 dynamic=no
+[DynamicMaskRefiner] Frame 0: M_sem has 55618 dynamic pixels
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=false prior_valid=0.000 render_valid=0.000 recovered_static=0 added_dynamic=0 flow_guard_valid=false flow_guard_rejected=0
+[DEBUG] First non-zero M_sem pixel at (258,4) value=1
+[DynamicMaskRefiner] Frame 0: P_dyn min=0.000 max=1.000 count>=0.600: 55618 (sem=55618, flow=0)
+[DynamicMaskRefiner] Frame 0: M_sem=55618 M_dyn_soft=55618 geo_hard=0 M_dyn_final=55618 allow_geo_hard=false (global_geo=0.500 vp_scale=1.000)
+First KF:0; Map init KF:0
+New Map created with 1391 points
+[Frame 0/300] Track: 12.914 ms, Mask: 8.239 ms, Dynamic: 18.1%, State: 2
+[YoloSegmentor] Frame 1: detected 3 objects
+  class=0 (person) prob=0.9 dynamic=YES
+  class=56 (chair) prob=0.8 dynamic=no
+  class=60 (dining table) prob=0.5 dynamic=no
+[DynamicMaskRefiner] Frame 1: M_sem has 52192 dynamic pixels
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=false prior_valid=0.693 render_valid=0.000 recovered_static=0 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=0
+[DynamicMaskRefiner] Frame 1: P_dyn min=0.000 max=1.000 count>=0.600: 112086 (sem=52192, flow=60324)
+[DynamicMaskRefiner] Frame 1: M_sem=52192 M_dyn_soft=112086 geo_hard=0 M_dyn_final=112086 allow_geo_hard=false (global_geo=0.500 vp_scale=1.000)
+[YoloSegmentor] Frame 2: detected 2 objects
+  class=0 (person) prob=0.865 dynamic=YES
+  class=68 (microwave) prob=0.633 dynamic=no
+[DynamicMaskRefiner] Frame 2: M_sem has 48936 dynamic pixels
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=false prior_valid=0.710 render_valid=0.000 recovered_static=0 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=0
+[DynamicMaskRefiner] Frame 2: P_dyn min=0.000 max=1.000 count>=0.600: 141123 (sem=48936, flow=92513)
+[DynamicMaskRefiner] Frame 2: M_sem=48936 M_dyn_soft=141123 geo_hard=0 M_dyn_final=141123 allow_geo_hard=false (global_geo=0.500 vp_scale=1.000)
+[YoloSegmentor] Frame 3: detected 2 objects
+  class=0 (person) prob=0.867 dynamic=YES
+  class=56 (chair) prob=0.648 dynamic=no
+[DynamicMaskRefiner] Frame 3: M_sem has 51995 dynamic pixels
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=false prior_valid=0.724 render_valid=0.000 recovered_static=0 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=0
+[DynamicMaskRefiner] Frame 3: P_dyn min=0.000 max=1.000 count>=0.600: 119863 (sem=51995, flow=68645)
+[DynamicMaskRefiner] Frame 3: M_sem=51995 M_dyn_soft=119863 geo_hard=0 M_dyn_final=119863 allow_geo_hard=false (global_geo=0.500 vp_scale=1.000)
+[YoloSegmentor] Frame 4: detected 2 objects
+  class=0 (person) prob=0.868 dynamic=YES
+  class=69 (oven) prob=0.514 dynamic=no
+[DynamicMaskRefiner] Frame 4: M_sem has 48488 dynamic pixels
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=false prior_valid=0.730 render_valid=0.000 recovered_static=0 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=0
+[DynamicMaskRefiner] Frame 4: P_dyn min=0.000 max=1.000 count>=0.600: 95926 (sem=48488, flow=47543)
+[DynamicMaskRefiner] Frame 4: M_sem=48488 M_dyn_soft=95926 geo_hard=0 M_dyn_final=95926 allow_geo_hard=false (global_geo=0.500 vp_scale=1.000)
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.938 render_valid=0.830 recovered_static=7533 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=20647
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.955 render_valid=0.902 recovered_static=7749 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=21930
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.959 render_valid=0.911 recovered_static=7266 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=15386
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.964 render_valid=0.922 recovered_static=6710 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=18605
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.966 render_valid=0.927 recovered_static=6899 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=16611
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.969 render_valid=0.937 recovered_static=6791 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=33821
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.969 render_valid=0.922 recovered_static=1611 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=30408
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.969 render_valid=0.914 recovered_static=4811 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=11762
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.969 render_valid=0.930 recovered_static=2886 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=21122
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.969 render_valid=0.924 recovered_static=2334 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=25036
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.970 render_valid=0.931 recovered_static=3422 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=12088
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.970 render_valid=0.932 recovered_static=3843 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=20706
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.970 render_valid=0.922 recovered_static=4787 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=10619
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.970 render_valid=0.938 recovered_static=7230 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=18486
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.970 render_valid=0.940 recovered_static=12066 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=28469
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.970 render_valid=0.926 recovered_static=19268 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=28681
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.970 render_valid=0.940 recovered_static=9340 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=29914
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.974 render_valid=0.966 recovered_static=11929 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=34971
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.974 render_valid=0.962 recovered_static=10831 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=32150
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.978 recovered_static=10331 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37469
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.951 recovered_static=11625 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=36044
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.954 recovered_static=13300 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=34051
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.961 recovered_static=11464 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=45231
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.947 recovered_static=13112 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=34229
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.957 recovered_static=12523 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38841
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.945 recovered_static=12212 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=31637
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.937 recovered_static=10687 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=36179
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.933 recovered_static=11406 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=43990
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.918 recovered_static=9775 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41063
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.926 recovered_static=8017 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=33353
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.924 recovered_static=6154 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38510
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.907 recovered_static=4673 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42872
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.902 recovered_static=6283 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=29497
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.927 recovered_static=6258 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=34335
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.922 recovered_static=7743 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24624
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.922 recovered_static=7536 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=27785
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.919 recovered_static=8131 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24093
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.922 recovered_static=8718 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=22097
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.931 recovered_static=8601 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=20628
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.930 recovered_static=6515 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=26634
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.949 recovered_static=7936 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=25926
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.926 recovered_static=7411 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38021
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.938 recovered_static=7770 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35768
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.955 recovered_static=6810 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42565
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.982 render_valid=0.959 recovered_static=7349 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37393
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.983 render_valid=0.970 recovered_static=9780 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=23589
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.988 render_valid=0.978 recovered_static=8802 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24021
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.991 render_valid=0.981 recovered_static=7298 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=17777
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.993 render_valid=0.984 recovered_static=7932 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=23484
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.995 render_valid=0.987 recovered_static=6074 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=25629
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.995 render_valid=0.986 recovered_static=7957 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=23042
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.996 render_valid=0.989 recovered_static=7722 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37268
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.996 render_valid=0.992 recovered_static=5991 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24204
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.997 render_valid=0.995 recovered_static=5954 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=15454
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.998 render_valid=0.995 recovered_static=5053 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=18418
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.998 render_valid=0.996 recovered_static=4292 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=14065
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.998 render_valid=0.997 recovered_static=3325 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=21067
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.999 render_valid=0.998 recovered_static=2555 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=10812
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.999 render_valid=0.999 recovered_static=1871 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=14008
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.999 render_valid=0.999 recovered_static=1064 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=29850
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=0.999 render_valid=0.999 recovered_static=1506 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=22040
+[DynamicMaskRefiner] Frame 100 processed in 29 ms
+[YoloSegmentor] Frame 100: detected 2 objects
+  class=0 (person) prob=0.877 dynamic=YES
+  class=62 (tv) prob=0.763 dynamic=no
+[DynamicMaskRefiner] Frame 100: M_sem has 42652 dynamic pixels
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.999 recovered_static=1592 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=19438
+[DynamicMaskRefiner] Frame 100: P_dyn min=0.000 max=1.000 count>=0.600: 90158 (sem=42652, flow=48331)
+[DynamicMaskRefiner] Frame 100: M_sem=88566 M_dyn_soft=90158 geo_hard=0 M_dyn_final=88566 allow_geo_hard=false (global_geo=0.500 vp_scale=1.000)
+[Frame 100/300] Track: 15.523 ms, Mask: 33.748 ms, Dynamic: 29.5%, State: 2
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2434 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24581
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=3767 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=19892
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=5272 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=22195
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.955 recovered_static=9351 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=22751
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.960 recovered_static=9889 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=22904
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.957 recovered_static=10546 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=34328
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.967 recovered_static=12041 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=18994
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.967 recovered_static=12251 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=17527
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.970 recovered_static=11436 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=23348
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.978 recovered_static=12824 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24898
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.983 recovered_static=12264 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=21113
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.982 recovered_static=12500 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=26443
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.987 recovered_static=12288 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=20738
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.984 recovered_static=10088 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=32410
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.981 recovered_static=11920 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=26032
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.978 recovered_static=13152 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=20128
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.975 recovered_static=11599 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37832
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.972 recovered_static=10121 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=29544
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.971 recovered_static=7692 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41971
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.958 recovered_static=9306 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41300
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.939 recovered_static=9527 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=28051
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.965 recovered_static=7312 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=48591
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.951 recovered_static=8413 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38333
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.942 recovered_static=7503 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=26060
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.962 recovered_static=5175 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=33283
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.946 recovered_static=8703 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=23230
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.971 recovered_static=6285 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=26352
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.973 recovered_static=5109 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35582
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.961 recovered_static=6223 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35372
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.958 recovered_static=4247 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=43553
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.951 recovered_static=7724 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=33537
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.939 recovered_static=5759 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=34072
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.937 recovered_static=5740 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39583
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.922 recovered_static=5328 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39799
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.911 recovered_static=9277 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39570
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.926 recovered_static=9768 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39855
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.927 recovered_static=10463 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42181
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.923 recovered_static=10099 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=33851
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.923 recovered_static=10460 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=36727
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.914 recovered_static=9767 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=28208
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.920 recovered_static=7280 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38674
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.937 recovered_static=9045 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=43010
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.951 recovered_static=15857 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=19482
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.965 recovered_static=12731 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39062
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.961 recovered_static=13136 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35972
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.961 recovered_static=15448 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=21499
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.972 recovered_static=13339 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=32253
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.969 recovered_static=13593 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37657
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.965 recovered_static=13839 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=25680
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.968 recovered_static=13657 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=27809
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.963 recovered_static=9895 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38940
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.960 recovered_static=7758 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=23583
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.964 recovered_static=5365 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=29519
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.958 recovered_static=5570 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=30260
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.952 recovered_static=6536 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=22002
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.958 recovered_static=6907 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=20999
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.960 recovered_static=6550 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=29680
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.951 recovered_static=6630 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=30379
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.947 recovered_static=12693 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=19022
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.951 recovered_static=13109 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35517
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.943 recovered_static=15402 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=29267
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.958 recovered_static=16734 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=30854
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.957 recovered_static=17809 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=30332
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.951 recovered_static=16158 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=32446
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.947 recovered_static=17190 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=27101
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.947 recovered_static=16078 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24036
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.950 recovered_static=18324 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=23425
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.965 recovered_static=14423 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35075
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.955 recovered_static=15843 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37231
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.947 recovered_static=18526 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41844
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.949 recovered_static=18654 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=48418
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.970 recovered_static=20278 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35580
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.964 recovered_static=25978 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=32885
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.970 recovered_static=17027 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37362
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.969 recovered_static=14440 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=43757
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.960 recovered_static=13571 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=47358
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.961 recovered_static=16135 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37791
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.959 recovered_static=13113 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=49558
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.945 recovered_static=12220 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41741
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.944 recovered_static=13611 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=26035
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.971 recovered_static=6367 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=44647
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.973 recovered_static=12425 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42110
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.973 recovered_static=6989 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=40944
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.973 recovered_static=9002 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=45147
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.972 recovered_static=12476 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=44701
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.978 recovered_static=8406 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=48053
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.969 recovered_static=9258 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=48024
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.962 recovered_static=8971 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=60116
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.949 recovered_static=10336 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=45792
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.957 recovered_static=12192 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41835
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.964 recovered_static=8943 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=51118
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.969 recovered_static=9564 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=59958
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.961 recovered_static=17491 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=45050
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.984 recovered_static=5228 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=68279
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.991 recovered_static=9572 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=60933
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.996 recovered_static=12896 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=70549
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.996 recovered_static=12472 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=69249
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.993 recovered_static=6139 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=57515
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.994 recovered_static=18068 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39422
+[DynamicMaskRefiner] Frame 200 processed in 27 ms
+[YoloSegmentor] Frame 200: detected 1 objects
+  class=0 (person) prob=0.886 dynamic=YES
+[DynamicMaskRefiner] Frame 200: M_sem has 100954 dynamic pixels
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.994 recovered_static=10370 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=52544
+[DynamicMaskRefiner] Frame 200: P_dyn min=0.000 max=1.000 count>=0.600: 154009 (sem=100954, flow=54165)
+[DynamicMaskRefiner] Frame 200: M_sem=143639 M_dyn_soft=154009 geo_hard=0 M_dyn_final=143639 allow_geo_hard=false (global_geo=0.500 vp_scale=1.000)
+[Frame 200/300] Track: 19.337 ms, Mask: 30.356 ms, Dynamic: 47.0%, State: 2
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.993 recovered_static=15657 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42331
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.993 recovered_static=15726 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37946
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.993 recovered_static=10591 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39809
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.994 recovered_static=12581 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37849
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.999 recovered_static=10898 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=40052
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.998 recovered_static=7193 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39356
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=11518 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=28312
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=10024 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24810
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=11425 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=28586
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=12512 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=16955
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=11427 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=39209
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=14755 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=37210
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=11693 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38742
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=16289 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=35947
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=19947 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=31120
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=14669 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41167
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=24803 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=27135
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=17565 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=40582
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=24918 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=30082
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=29608 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=25446
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=25017 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=33563
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=18956 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=43550
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=22762 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=41401
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=17560 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42046
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=17212 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42439
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=11818 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=42980
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=14197 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=38640
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=13857 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=32616
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=10293 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=27765
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=4789 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=24140
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=4258 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=20624
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=4519 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=13910
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1546 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6610
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2047 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6457
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=854 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=3758
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=530 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=4951
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2646 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=5234
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=906 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=7160
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1052 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=7983
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1382 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=18238
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1503 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=28255
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.929 recovered_static=917 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=31368
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=601 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=36766
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.987 recovered_static=882 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=30319
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.933 recovered_static=7375 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6995
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.869 recovered_static=674 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=7018
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.734 recovered_static=85 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=1050
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.784 recovered_static=78 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=134
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.609 recovered_static=1559 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=3063
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.608 recovered_static=382 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=3541
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.674 recovered_static=380 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=5340
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.680 recovered_static=999 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=7558
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.684 recovered_static=3000 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=4834
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.690 recovered_static=4229 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=8587
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.688 recovered_static=4509 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6681
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.686 recovered_static=4265 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=4819
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.691 recovered_static=3777 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=5370
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.688 recovered_static=2241 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=14027
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.688 recovered_static=6205 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6744
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.672 recovered_static=5352 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6315
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.708 recovered_static=7472 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=10054
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.734 recovered_static=5071 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=11678
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.764 recovered_static=32623 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=10524
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.787 recovered_static=1923 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=22933
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.822 recovered_static=11294 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=9534
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.876 recovered_static=9844 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6838
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.917 recovered_static=7877 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=8540
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.986 recovered_static=6335 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=5280
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.988 recovered_static=2971 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=8681
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.987 recovered_static=473 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=16205
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.977 recovered_static=57 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=11662
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.979 recovered_static=1950 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=11818
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.992 recovered_static=20622 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=7085
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=0.992 recovered_static=29 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=10968
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1692 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=8569
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1866 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=5290
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=868 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=10452
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2412 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=5869
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2409 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=4887
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=31523 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=9379
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=29171 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=11015
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2420 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=4297
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=25218 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=15307
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=22764 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=16896
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=3872 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=6247
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=4171 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=8986
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=4465 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=7647
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=4868 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=8291
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1921 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=14714
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=3144 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=14923
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1189 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=13125
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1779 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=13721
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1153 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=10732
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2110 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=16236
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=2935 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=8154
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1513 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=12048
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=1508 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=12667
+[DynamicMaskRefiner] TEMPORAL BACKGROUND: applied=true prior_valid=1.000 render_valid=1.000 recovered_static=41845 added_dynamic=0 flow_guard_valid=true flow_guard_rejected=14696
+[DynamicMaskRefiner] Frame 300 processed in 21 ms
+Shutdown
+Average time: 15.7961 ms
+Average time: 33.0644 ms
+
+Saving camera trajectory to /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/CameraTrajectory_TUM.txt ...
+
+Saving keyframe trajectory to /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/KeyFrameTrajectory_TUM.txt ...
+
+Saving trajectory to /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/CameraTrajectory_EuRoC.txt ...
+There are 1 maps in the atlas
+  Map 0 has 55 KFs
+
+End of saving trajectory to /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/CameraTrajectory_EuRoC.txt ...
+
+Saving keyframe trajectory to /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/KeyFrameTrajectory_EuRoC.txt ...
+
+Saving camera trajectory to /mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/CameraTrajectory_KITTI.txt ...
+
+DyGeoFusion-SLAM+ finished successfully!
