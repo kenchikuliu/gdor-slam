@@ -27,7 +27,7 @@ source, and the release contains a complete content snapshot under
 Validate the complete snapshot with:
 
 ```bash
-sha256sum -c comparison/checksums.sha256
+(cd comparison && sha256sum -c ../SHA256SUMS)
 (cd run_artifacts && sha256sum -c ../run_contract/raw_run_SHA256SUMS)
 ```
 
