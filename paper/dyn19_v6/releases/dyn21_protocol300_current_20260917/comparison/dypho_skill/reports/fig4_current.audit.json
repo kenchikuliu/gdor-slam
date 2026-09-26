@@ -1,0 +1,8 @@
+{
+  "figure_id": "fig4",
+  "generated_sha256": "a70a63ddbaf0855472161c775ed081ad5c9377c27de22150ae5525a8f66b5c26",
+  "passed": true,
+  "violations": [],
+  "release_allowed": false,
+  "required_next_step": "human_review"
+}

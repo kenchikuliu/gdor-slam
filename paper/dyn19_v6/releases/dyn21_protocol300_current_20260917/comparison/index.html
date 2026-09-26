@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DynaGS-SLAM · DYN-21 Protocol-300</title>
+  <meta name="description" content="DynaGS-SLAM DYN-21 Protocol-300 tracking, mapping, runtime, and qualitative comparison report.">
+  <style>
+    :root {
+      --paper: #f4f2ed;
+      --surface: #ffffff;
+      --surface-soft: #ebe8e0;
+      --ink: #171918;
+      --muted: #646862;
+      --line: #cbc8bf;
+      --line-strong: #8e918a;
+      --blue: #1649c9;
+      --blue-soft: #e9efff;
+      --orange: #d8522d;
+      --green: #26734b;
+      --yellow: #e7b53e;
+      --sans: "IBM Plex Sans", "Noto Sans", "Liberation Sans", sans-serif;
+      --mono: "IBM Plex Mono", "Noto Sans Mono", "Liberation Mono", monospace;
+      --serif: "Source Serif 4", "Noto Serif", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.55;
+      letter-spacing: 0;
+    }
+    button, a { font: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--yellow);
+      outline-offset: 2px;
+    }
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--orange); }
+
+    .masthead {
+      background: var(--ink);
+      color: #fff;
+      border-bottom: 5px solid var(--blue);
+    }
+    .masthead-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 22px 28px 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+    }
+    .identity { min-width: 0; }
+    .kicker {
+      margin: 0 0 5px;
+      color: #9fb8ff;
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 52px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 10px 0 0;
+      max-width: 860px;
+      color: #d7d9d5;
+      font-size: 15px;
+    }
+    .status-block {
+      text-align: right;
+      border-left: 1px solid #525751;
+      padding-left: 22px;
+    }
+    .status-label {
+      display: block;
+      color: #9fa49e;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    .status-value {
+      display: block;
+      margin-top: 2px;
+      color: #7de0a7;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .status-meta {
+      display: block;
+      margin-top: 4px;
+      color: #d7d9d5;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .metrics-strip {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+    .metrics-grid {
+      max-width: 1480px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .metric {
+      min-width: 0;
+      padding: 22px 28px 20px;
+      border-right: 1px solid var(--line);
+    }
+    .metric:last-child { border-right: 0; }
+    .metric-label {
+      display: block;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .metric-value {
+      display: block;
+      margin-top: 5px;
+      font-family: var(--serif);
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 700;
+    }
+    .metric-note {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .metric.emphasis { box-shadow: inset 0 -4px 0 var(--blue); }
+
+    .protocol-band {
+      background: var(--surface-soft);
+      border-bottom: 1px solid var(--line);
+    }
+    .protocol-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 12px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      color: #434741;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+    .protocol-inner strong { color: var(--ink); }
+
+    .tabbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(244, 242, 237, 0.97);
+      border-bottom: 1px solid var(--line-strong);
+      backdrop-filter: blur(12px);
+    }
+    .tabs {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 0 28px;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .tab {
+      flex: 0 0 auto;
+      min-height: 50px;
+      padding: 0 18px;
+      border: 0;
+      border-bottom: 3px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .tab:hover { color: var(--ink); background: #e9e6de; }
+    .tab[aria-selected="true"] { color: var(--blue); border-bottom-color: var(--blue); }
+
+    main { min-height: 60vh; }
+    .panel { display: none; }
+    .panel.active { display: block; animation: reveal 260ms ease-out both; }
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .panel.active { animation: none; }
+    }
+
+    .section-band { border-bottom: 1px solid var(--line); }
+    .section-band:nth-child(even) { background: var(--surface); }
+    .section-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 34px 28px 42px;
+    }
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.38fr) minmax(0, 1fr);
+      gap: 36px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+    h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.1;
+    }
+    h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+    .section-heading p { margin: 0; color: var(--muted); max-width: 820px; }
+    .callout {
+      border-left: 4px solid var(--blue);
+      padding: 12px 16px;
+      background: var(--blue-soft);
+      color: #27314c;
+    }
+    .callout.warning { border-color: var(--orange); background: #fff0ea; color: #55281c; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+    table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+    }
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    th {
+      background: #e7e4dc;
+      color: #3f433d;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    th:first-child, td:first-child { text-align: left; position: sticky; left: 0; }
+    th:first-child { background: #dedbd2; z-index: 2; }
+    td:first-child { background: var(--surface); z-index: 1; font-weight: 700; }
+    tr.current td { background: #eef3ff; }
+    tr.current td:first-child { background: #dfe8ff; color: #0e3da7; }
+    tbody tr:hover td { background: #f5f7f1; }
+    tbody tr.current:hover td { background: #e5edff; }
+    .best { color: var(--green); font-weight: 800; }
+    .secondary { color: var(--orange); font-weight: 700; }
+    .unit-note { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+    .subsection-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 30px 0 12px;
+      padding-top: 18px;
+      border-top: 2px solid var(--ink);
+    }
+    .subsection-title:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+    .subsection-title h3 { margin: 0; font-family: var(--serif); font-size: 22px; }
+    .subsection-title span { color: var(--muted); font-family: var(--mono); font-size: 11px; }
+    .source-badge {
+      display: inline-block;
+      min-width: 44px;
+      margin-left: 7px;
+      padding: 2px 5px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 700;
+      text-align: center;
+      vertical-align: 1px;
+    }
+    .source-badge.local { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .split > * { min-width: 0; }
+    .findings {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 2px solid var(--ink);
+    }
+    .findings li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .finding-index {
+      color: var(--blue);
+      font-family: var(--mono);
+      font-weight: 800;
+    }
+    .finding-copy strong { display: block; margin-bottom: 3px; }
+    .finding-copy span { color: var(--muted); font-size: 13px; }
+
+    .runtime-bars { margin-top: 24px; border-top: 2px solid var(--ink); }
+    .runtime-row {
+      display: grid;
+      grid-template-columns: 170px minmax(180px, 1fr) 110px;
+      gap: 14px;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .runtime-name { font-weight: 700; }
+    .bar-track { height: 12px; background: #ddd9cf; position: relative; overflow: hidden; }
+    .bar-fill { height: 100%; min-width: 2px; background: var(--line-strong); }
+    .runtime-row.current .bar-fill { background: var(--blue); }
+    .runtime-row.semantic .bar-fill { background: var(--green); }
+    .runtime-value { text-align: right; font-family: var(--mono); font-size: 12px; }
+
+    .sheet-frame {
+      margin: 0;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+    }
+    .sheet-frame img { display: block; width: 100%; height: auto; }
+    .sheet-frame figcaption {
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sequence-toolbar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .sequence-button {
+      min-height: 38px;
+      padding: 0 13px;
+      border: 1px solid var(--line-strong);
+      border-radius: 3px;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .sequence-button:hover { border-color: var(--blue); color: var(--blue); }
+    .sequence-button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 1px solid var(--line-strong);
+      border-left: 1px solid var(--line-strong);
+      background: #fff;
+    }
+    .image-cell {
+      min-width: 0;
+      border-right: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .image-label {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      padding: 7px 9px;
+      background: #e7e4dc;
+      border-bottom: 1px solid var(--line-strong);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .image-cell.current .image-label { background: var(--blue); color: #fff; }
+    .image-cell img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: contain;
+      background: #111;
+    }
+    .sequence-meta {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 2px solid var(--ink);
+      border-left: 1px solid var(--line);
+    }
+    .evidence-item {
+      min-width: 0;
+      padding: 16px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .evidence-item code {
+      display: block;
+      margin-top: 7px;
+      overflow-wrap: anywhere;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+    }
+    .boundary-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 24px;
+      border-top: 2px solid var(--ink);
+      border-left: 1px solid var(--line);
+    }
+    .boundary {
+      padding: 16px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #faf9f5;
+    }
+    .boundary strong { display: block; margin-bottom: 5px; }
+    .boundary span { color: var(--muted); font-size: 13px; }
+
+    footer {
+      background: var(--ink);
+      color: #bec2bb;
+      border-top: 5px solid var(--orange);
+    }
+    .footer-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 22px 28px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    @media (max-width: 980px) {
+      h1 { font-size: 42px; }
+      .masthead-inner { grid-template-columns: 1fr; }
+      .status-block { text-align: left; border-left: 0; border-top: 1px solid #525751; padding: 14px 0 0; }
+      .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .metric:nth-child(2) { border-right: 0; }
+      .metric:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .section-heading, .split { grid-template-columns: 1fr; gap: 16px; }
+      .panel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .evidence-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 620px) {
+      .masthead-inner, .section-inner { padding-left: 18px; padding-right: 18px; }
+      .tabs, .protocol-inner { padding-left: 18px; padding-right: 18px; }
+      .metrics-grid { grid-template-columns: 1fr; }
+      .metric { border-right: 0; border-bottom: 1px solid var(--line); padding-left: 18px; padding-right: 18px; }
+      .metric:last-child { border-bottom: 0; }
+      .panel-grid, .evidence-grid, .boundary-list { grid-template-columns: 1fr; }
+      .runtime-row { grid-template-columns: 1fr 90px; }
+      .bar-track { grid-column: 1 / -1; grid-row: 2; }
+      .runtime-value { grid-column: 2; grid-row: 1; }
+      h1 { font-size: 34px; }
+    }
+
+    @media print {
+      .tabbar, .sequence-toolbar { display: none; }
+      .panel { display: block !important; }
+      .section-band { break-inside: avoid; }
+      body { background: #fff; }
+      a { color: var(--ink); text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="identity">
+        <p class="kicker">DYN-21 / Protocol-300 / Current Method</p>
+        <h1>DynaGS-SLAM 实验报告</h1>
+        <p class="subtitle">当前 DYN-19 Full 与 SplaTAM、Photo-SLAM、DynaGS semantic 的 tracking、mapping、runtime 与真实渲染对比。</p>
+      </div>
+      <div class="status-block" role="status" aria-label="实验状态">
+        <span class="status-label">Campaign status</span>
+        <span class="status-value">COMPLETE · 4 / 4</span>
+        <span class="status-meta">seed 0 · frames [0, 300) · 2026-09-17</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="metrics-strip" aria-label="核心结果">
+    <div class="metrics-grid">
+      <div class="metric emphasis">
+        <span class="metric-label">Broad Tracking · Avg. ATE</span>
+        <span class="metric-value">2.838 <small>cm</small></span>
+        <span class="metric-note">4 TUM scenes · local 3-seed mean</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Mapping · Avg. SSIM</span>
+        <span class="metric-value">0.57461</span>
+        <span class="metric-note">四方法中最高；full-frame diagnostic</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Mapping · Avg. PSNR</span>
+        <span class="metric-value">13.088 <small>dB</small></span>
+        <span class="metric-note">低于 Photo-SLAM 与 semantic</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Runtime · Aggregate</span>
+        <span class="metric-value">9.29791 <small>FPS</small></span>
+        <span class="metric-note">1,200 observations · 129.061 s</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="protocol-band" aria-label="实验协议">
+    <div class="protocol-inner">
+      <span><strong>METHOD</strong> DYN-19 Full</span>
+      <span><strong>ASSOCIATION</strong> unique ≤ 0.02 s</span>
+      <span><strong>ALIGNMENT</strong> fixed-scale SE(3)</span>
+      <span><strong>RENDER</strong> 640×480 · GT pose · no crop</span>
+      <span><strong>ARTIFACTS</strong> 20 real panels · checksums verified</span>
+    </div>
+  </section>
+
+  <nav class="tabbar" aria-label="报告章节">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="tracking" id="tab-tracking">Tracking</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="mapping" id="tab-mapping">Mapping</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="runtime" id="tab-runtime">Runtime</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="qualitative" id="tab-qualitative">Qualitative</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="provenance" id="tab-provenance">Provenance</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="panel active" id="tracking" role="tabpanel" aria-labelledby="tab-tracking">
+      <div class="section-band">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2>Tracking Accuracy</h2>
+            <p>先给出论文层面的 broad benchmark：11 个公开报告方法加 3 个本地 DYN-19 行；再给出四方法 Protocol-300 本地共注册对比。两张表的协议边界分开标注。</p>
+          </div>
+          <div class="subsection-title">
+            <h3>Broad TUM Tracking Benchmark</h3>
+            <span>11 external-report + 3 local rows</span>
+          </div>
+          <div class="table-wrap">
+            <table aria-label="Broad TUM tracking comparison">
+              <thead><tr><th>Method</th><th>w/xyz ATE ± Std</th><th>w/half ATE ± Std</th><th>w/static ATE ± Std</th><th>s/half ATE ± Std</th><th>Avg. ATE ± Std</th></tr></thead>
+              <tbody>
+                <tr><td>ORB-SLAM3 <span class="source-badge">EXT</span></td><td>28.1 ± 12.2</td><td>0.31 ± 9.0</td><td>2.0 ± 1.1</td><td>2.6 ± 1.6</td><td>15.8 ± 6.0</td></tr>
+                <tr><td>Dyna-SLAM <span class="source-badge">EXT</span></td><td>1.7 ± ×</td><td>2.6 ± ×</td><td>0.7 ± ×</td><td>2.8 ± ×</td><td>2.0 ± ×</td></tr>
+                <tr><td>NICE-SLAM <span class="source-badge">EXT</span></td><td>113.8 ± 48.9</td><td>×</td><td>137.3 ± 21.7</td><td>93.3 ± 35.3</td><td>114.8 ± 33.3</td></tr>
+                <tr><td>ESLAM <span class="source-badge">EXT</span></td><td>45.7 ± 28.5</td><td>60.8 ± 27.9</td><td>93.6 ± 20.7</td><td>3.6 ± 1.6</td><td>34.5 ± 13.5</td></tr>
+                <tr><td>RoDyn-SLAM <span class="source-badge">EXT</span></td><td>8.3 ± 5.5</td><td>5.6 ± 2.8</td><td>1.7 ± 0.9</td><td>4.4 ± 2.2</td><td>4.1 ± 2.3</td></tr>
+                <tr><td>SplaTAM <span class="source-badge">EXT</span></td><td>136.6 ± 33.7</td><td>185.4 ± 67.6</td><td>78.3 ± 23.5</td><td>14.1 ± 7.0</td><td>135.5 ± 109.6</td></tr>
+                <tr><td>GS-SLAM <span class="source-badge">EXT</span></td><td>37.2 ± 9.9</td><td>60.0 ± 20.7</td><td>8.4 ± 4.1</td><td>7.4 ± 5.4</td><td>28.5 ± 10.0</td></tr>
+                <tr><td>GassiDy <span class="source-badge">EXT</span></td><td>3.5 ± 1.6</td><td>3.7 ± 1.9</td><td>0.6 ± 0.3</td><td>2.4 ± 1.4</td><td>2.6 ± 1.3</td></tr>
+                <tr><td>DGS-SLAM <span class="source-badge">EXT</span></td><td>4.1 ± 2.2</td><td>5.5 ± 2.8</td><td>0.6 ± 0.2</td><td>4.1 ± 1.6</td><td>3.0 ± 1.5</td></tr>
+                <tr><td>Photo-SLAM <span class="source-badge">EXT</span></td><td>88.3 ± 48.9</td><td>33.5 ± 9.3</td><td>9.4 ± 6.3</td><td>3.2 ± 1.4</td><td>33.6 ± 16.3</td></tr>
+                <tr><td>DyPho-SLAM <span class="source-badge">EXT</span></td><td>1.6 ± 0.8</td><td>2.6 ± 1.3</td><td>0.6 ± 0.3</td><td>1.6 ± 0.7</td><td>1.6 ± 0.7</td></tr>
+                <tr><td>DYN-19 Semantic <span class="source-badge local">LOCAL</span></td><td>2.3413 ± 0.0126</td><td>3.3792 ± 0.1985</td><td>0.7370 ± 0.0209</td><td>24.1754 ± 12.5033</td><td>7.6582 ± 9.5825</td></tr>
+                <tr><td>DYN-19 MapMatched <span class="source-badge local">LOCAL</span></td><td>2.1032 ± 0.0308</td><td>3.4234 ± 0.0782</td><td>0.7901 ± 0.0130</td><td>36.7750 ± 5.0208</td><td>10.7729 ± 15.0411</td></tr>
+                <tr class="current"><td>DYN-19 Full <span class="source-badge local">LOCAL</span></td><td>2.1476 ± 0.0324</td><td>3.6092 ± 0.0581</td><td>0.7297 ± 0.0225</td><td>4.8639 ± 0.8029</td><td>2.8376 ± 1.5508</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="unit-note">Unit: centimeters. `[ext]` values are source-reported and not protocol-matched. Local DYN-19 rows use three seeds. No cross-protocol best/second-best claim is applied.</p>
+
+          <div class="subsection-title">
+            <h3>Local Protocol-300 Check</h3>
+            <span>seed 0 · frames [0, 300) · fixed-scale SE(3)</span>
+          </div>
+          <div class="split">
+            <div>
+              <div class="table-wrap">
+                <table aria-label="Local Protocol-300 tracking comparison">
+                  <thead><tr><th>Method</th><th>fr3/w/xyz</th><th>fr3/w/half</th><th>bonn/ps_track</th><th>bonn/r3</th><th>Average</th></tr></thead>
+                  <tbody>
+                    <tr><td>SplaTAM</td><td>46.378</td><td>218.839</td><td>40.287</td><td>133.131</td><td>109.659</td></tr>
+                    <tr><td>Photo-SLAM</td><td>45.614</td><td>25.011</td><td>92.505</td><td>24.531</td><td>46.915</td></tr>
+                    <tr><td>DynaGS semantic</td><td>1.707</td><td>3.935</td><td>5.827</td><td>11.080</td><td>5.637</td></tr>
+                    <tr class="current"><td>DYN-19 Full</td><td class="best">1.667</td><td class="best">3.827</td><td class="best">3.889</td><td class="best">5.945</td><td class="best">3.832</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="unit-note">Unit: centimeters. Lower is better. Exact matched pose counts are available in the source CSV.</p>
+            </div>
+            <ol class="findings">
+              <li><span class="finding-index">01</span><div class="finding-copy"><strong>Broad surface now covers 14 methods/rows.</strong><span>11 rows are visibly source-labeled external reports; 3 DYN-19 rows are local three-seed results.</span></div></li>
+              <li><span class="finding-index">02</span><div class="finding-copy"><strong>DYN-19 Full broad average is 2.8376 cm.</strong><span>Its four local sequence means are 2.1476, 3.6092, 0.7297, and 4.8639 cm.</span></div></li>
+              <li><span class="finding-index">03</span><div class="finding-copy"><strong>Protocol-300 remains the local co-registered check.</strong><span>Current Full averages 3.832 cm versus semantic 5.637 cm over the frozen four-scene package.</span></div></li>
+            </ol>
+          </div>
+          <div class="callout" style="margin-top:22px">Broad external rows provide descriptive positioning, while the Protocol-300 table supports the local same-package comparison. The two evidence scopes are intentionally not merged into one ranking.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="mapping" role="tabpanel" aria-labelledby="tab-mapping" hidden>
+      <div class="section-band">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2>Mapping Diagnostic</h2>
+            <p>四个冻结视角均使用最终 300-observation map 和 public-GT pose 重新渲染。PSNR / SSIM 包含动态前景，只作为 full-frame diagnostic。</p>
+          </div>
+          <div class="table-wrap">
+            <table aria-label="Mapping PSNR and SSIM comparison">
+              <thead><tr><th>Method</th><th>fr3/w/xyz</th><th>fr3/w/half</th><th>bonn/ps_track</th><th>bonn/r3</th><th>Average</th></tr></thead>
+              <tbody>
+                <tr><td>SplaTAM</td><td>11.771 / 0.30418</td><td>12.436 / 0.35140</td><td>13.016 / 0.58047</td><td>14.509 / 0.49772</td><td>12.933 / 0.43344</td></tr>
+                <tr><td>Photo-SLAM</td><td>14.830 / 0.40459</td><td>14.936 / 0.53600</td><td class="best">15.316 / 0.66293</td><td>14.345 / 0.63369</td><td class="secondary">14.857 / 0.55930</td></tr>
+                <tr><td>DynaGS semantic</td><td class="best">15.491 / 0.45580</td><td class="best">15.447 / 0.56482</td><td>12.156 / 0.60761</td><td class="best">14.364 / 0.65523</td><td>14.364 / 0.57086</td></tr>
+                <tr class="current"><td>DYN-19 Full</td><td>14.976 / <span class="best">0.47566</span></td><td>12.009 / 0.54068</td><td>11.589 / 0.63100</td><td>13.776 / 0.65111</td><td>13.088 / <span class="best">0.57461</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="unit-note">Cell format: PSNR [dB] / SSIM. Higher is better. Bold/color cues are descriptive within this package only.</p>
+          <div class="split" style="margin-top:26px">
+            <figure class="sheet-frame">
+              <a href="fig4_current_comparison_contact_sheet.png" target="_blank" rel="noopener">
+                <img src="fig4_current_comparison_contact_sheet.png" alt="Four sequence by five method qualitative mapping comparison" loading="eager">
+              </a>
+              <figcaption>完整 4×5 comparison sheet。点击查看原始 3200×2114 图像。</figcaption>
+            </figure>
+            <div>
+              <h3>Interpretation</h3>
+              <div class="callout">Full 获得该包中最高的平均 SSIM（0.57461），但平均 PSNR 低于 Photo-SLAM 与 semantic。</div>
+              <div class="callout warning" style="margin-top:12px">不可将 full-frame PSNR/SSIM 写成静态背景建图 superiority；动态人物仍存在于 reference 图像。</div>
+              <p class="unit-note">`fr3/w/half` 在线 held-out stride 命中 frame 256；本报告没有使用相邻帧替代，而是从最终地图严格重渲染冻结 frame 255。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="runtime" role="tabpanel" aria-labelledby="tab-runtime" hidden>
+      <div class="section-band">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2>End-to-End Runtime</h2>
+            <p>统一报告 wall-clock end-to-end 时间。所有 DYN-19 Full cell 均使用 `/usr/bin/time` 与 status epoch delta 交叉核对。</p>
+          </div>
+          <div class="table-wrap">
+            <table aria-label="Runtime comparison">
+              <thead><tr><th>Method</th><th>fr3/w/xyz</th><th>fr3/w/half</th><th>bonn/ps_track</th><th>bonn/r3</th><th>Total [s]</th><th>FPS</th></tr></thead>
+              <tbody>
+                <tr><td>SplaTAM</td><td>2871.197</td><td>1568.175</td><td>1477.424</td><td>1178.818</td><td>7095.614</td><td>0.16912</td></tr>
+                <tr><td>Photo-SLAM</td><td>33.429</td><td>29.682</td><td>21.810</td><td>16.972</td><td>101.894</td><td>11.77699</td></tr>
+                <tr><td>DynaGS semantic</td><td>16.589</td><td>16.624</td><td>15.245</td><td>12.388</td><td>60.845</td><td class="best">19.72212</td></tr>
+                <tr class="current"><td>DYN-19 Full</td><td>38.769</td><td>38.788</td><td>27.135</td><td>24.369</td><td>129.061</td><td>9.29791</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="runtime-bars" aria-label="Aggregate throughput chart">
+            <div class="runtime-row"><span class="runtime-name">SplaTAM</span><div class="bar-track"><div class="bar-fill" style="width:0.86%"></div></div><span class="runtime-value">0.169 FPS</span></div>
+            <div class="runtime-row"><span class="runtime-name">Photo-SLAM</span><div class="bar-track"><div class="bar-fill" style="width:59.71%"></div></div><span class="runtime-value">11.777 FPS</span></div>
+            <div class="runtime-row semantic"><span class="runtime-name">DynaGS semantic</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="runtime-value">19.722 FPS</span></div>
+            <div class="runtime-row current"><span class="runtime-name">DYN-19 Full</span><div class="bar-track"><div class="bar-fill" style="width:47.14%"></div></div><span class="runtime-value">9.298 FPS</span></div>
+          </div>
+          <div class="callout warning" style="margin-top:22px">该包没有所有方法一致的 tracking / mapping 分项计时，因此只比较 end-to-end wall time。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="qualitative" role="tabpanel" aria-labelledby="tab-qualitative" hidden>
+      <div class="section-band">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2>Qualitative Evidence</h2>
+            <p>按序列检查五列真实 640×480 面板。Input、SplaTAM、Photo-SLAM、semantic 来自只读历史 Protocol-300 包；DYN-19 Full 来自本轮最终地图。</p>
+          </div>
+          <div class="sequence-toolbar" role="group" aria-label="选择序列">
+            <button class="sequence-button" data-sequence="fr3_w_xyz" aria-pressed="true">fr3/w/xyz</button>
+            <button class="sequence-button" data-sequence="fr3_w_half" aria-pressed="false">fr3/w/half</button>
+            <button class="sequence-button" data-sequence="bonn_ps_track" aria-pressed="false">bonn/ps_track</button>
+            <button class="sequence-button" data-sequence="bonn_r3" aria-pressed="false">bonn/r3</button>
+          </div>
+          <div class="panel-grid" id="qualitative-grid" aria-live="polite"></div>
+          <div class="sequence-meta" id="sequence-meta"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="provenance" role="tabpanel" aria-labelledby="tab-provenance" hidden>
+      <div class="section-band">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2>Provenance & Boundaries</h2>
+            <p>核心文件可直接打开。结果根目录、输入哈希、运行状态、渲染对齐和每个 panel 的来源均登记在 evidence manifest 中。</p>
+          </div>
+          <div class="evidence-grid">
+            <div class="evidence-item"><h3><a href="metrics.json" target="_blank">Metrics JSON</a></h3><span>全部 current-method 数值。</span><code>78b4fd45…75573d69</code></div>
+            <div class="evidence-item"><h3><a href="evidence_manifest.json" target="_blank">Evidence Manifest</a></h3><span>20 panels 与对齐 provenance。</span><code>7c869cbd…c247186</code></div>
+            <div class="evidence-item"><h3><a href="checksums.sha256" target="_blank">Checksums</a></h3><span>comparison package 完整性。</span><code>sha256 verification passed</code></div>
+            <div class="evidence-item"><h3><a href="tables/table1_tracking_broad.csv">Broad Tracking CSV</a></h3><span>11 external-report + 3 local rows。</span><code>source validation passed</code></div>
+            <div class="evidence-item"><h3><a href="tables/table1_tracking.csv">Tracking CSV</a></h3><span>ATE 与 matched poses。</span><code>67b0ea90…53f384</code></div>
+            <div class="evidence-item"><h3><a href="tables/table2_mapping.csv">Mapping CSV</a></h3><span>PSNR / SSIM diagnostic。</span><code>0ba3d58d…f1135e</code></div>
+            <div class="evidence-item"><h3><a href="tables/table3_runtime.csv">Runtime CSV</a></h3><span>wall time 与 throughput。</span><code>9d63a5bc…edf323</code></div>
+          </div>
+          <div class="boundary-list">
+            <div class="boundary"><strong>Tracking</strong><span>Broad 表含 11 个不匹配协议的 external-report 行与 3 个本地三种子行；Protocol-300 表是独立 seed-0 local check。</span></div>
+            <div class="boundary"><strong>Mapping</strong><span>动态前景包含在 full-frame reference 中；不是静态地图 superiority claim。</span></div>
+            <div class="boundary"><strong>Runtime</strong><span>只报告 end-to-end wall time；不提供跨方法统一 component split。</span></div>
+            <div class="boundary"><strong>Historical Ours</strong><span>Failed-boundary evidence 保持独立，未重命名为当前 DYN-19 Full。</span></div>
+            <div class="boundary"><strong>DyPho Draft</strong><span>Locked-pixel audit 通过，但模板列名不正确且仍需人工 review，未 release。</span></div>
+            <div class="boundary"><strong>Retention</strong><span>历史 Protocol-300 pinned roots 全程只读；所有新输出写入独立 NAS 根目录。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>DYN-21_PROTOCOL300_CURRENT_20260917</span>
+      <span>source f1c00ec · result registration fd42a51</span>
+      <span>Generated locally · September 17, 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    const tabButtons = [...document.querySelectorAll('.tab')];
+    const panels = [...document.querySelectorAll('.panel')];
+
+    function activateTab(id) {
+      tabButtons.forEach((button) => {
+        const active = button.getAttribute('aria-controls') === id;
+        button.setAttribute('aria-selected', String(active));
+        button.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        const active = panel.id === id;
+        panel.classList.toggle('active', active);
+        panel.hidden = !active;
+      });
+      if (location.hash !== `#${id}`) history.replaceState(null, '', `#${id}`);
+      window.scrollTo({ top: document.querySelector('.tabbar').offsetTop, behavior: 'smooth' });
+    }
+
+    tabButtons.forEach((button, index) => {
+      button.addEventListener('click', () => activateTab(button.getAttribute('aria-controls')));
+      button.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const next = (index + direction + tabButtons.length) % tabButtons.length;
+        tabButtons[next].focus();
+        activateTab(tabButtons[next].getAttribute('aria-controls'));
+      });
+    });
+
+    const sequenceData = {
+      fr3_w_xyz: {
+        label: 'fr3/w/xyz', frame: 218, timestamp: '1341846321.167887',
+        metrics: 'ATE 1.667 cm · PSNR 14.976 dB · SSIM 0.47566',
+        images: {
+          input: 'fig4_rows/fr3_w_xyz/input/000218.png',
+          splatam: 'fig4_rows/fr3_w_xyz/splatam/000218.png',
+          photo_slam: 'fig4_rows/fr3_w_xyz/photo_slam/000218.png',
+          photo_slam_mask: 'fig4_rows/fr3_w_xyz/photo_slam_mask/000218.png',
+          dyn19_full: 'fig4_rows/fr3_w_xyz/dyn19_full/render/000218.png'
+        }
+      },
+      fr3_w_half: {
+        label: 'fr3/w/half', frame: 255, timestamp: '1341846443.770837',
+        metrics: 'ATE 3.827 cm · PSNR 12.009 dB · SSIM 0.54068',
+        images: {
+          input: 'fig4_rows/fr3_w_half/input/000255.png',
+          splatam: 'fig4_rows/fr3_w_half/splatam/000255.png',
+          photo_slam: 'fig4_rows/fr3_w_half/photo_slam/000255.png',
+          photo_slam_mask: 'fig4_rows/fr3_w_half/photo_slam_mask/000255.png',
+          dyn19_full: 'fig4_rows/fr3_w_half/dyn19_full/render/000255.png'
+        }
+      },
+      bonn_ps_track: {
+        label: 'bonn/ps_track', frame: 232, timestamp: '1548265890.273280',
+        metrics: 'ATE 3.889 cm · PSNR 11.589 dB · SSIM 0.63100',
+        images: {
+          input: 'fig4_rows/bonn_ps_track/input/000232.png',
+          splatam: 'fig4_rows/bonn_ps_track/splatam/000232.png',
+          photo_slam: 'fig4_rows/bonn_ps_track/photo_slam/000232.png',
+          photo_slam_mask: 'fig4_rows/bonn_ps_track/photo_slam_mask/000232.png',
+          dyn19_full: 'fig4_rows/bonn_ps_track/dyn19_full/render/000232.png'
+        }
+      },
+      bonn_r3: {
+        label: 'bonn/r3', frame: 234, timestamp: '1548339967.105450',
+        metrics: 'ATE 5.945 cm · PSNR 13.776 dB · SSIM 0.65111',
+        images: {
+          input: 'fig4_rows/bonn_r3/input/000234.png',
+          splatam: 'fig4_rows/bonn_r3/splatam/000234.png',
+          photo_slam: 'fig4_rows/bonn_r3/photo_slam/000234.png',
+          photo_slam_mask: 'fig4_rows/bonn_r3/photo_slam_mask/000234.png',
+          dyn19_full: 'fig4_rows/bonn_r3/dyn19_full/render/000234.png'
+        }
+      }
+    };
+    const imageLabels = {
+      input: 'Input', splatam: 'SplaTAM', photo_slam: 'Photo-SLAM',
+      photo_slam_mask: 'DynaGS semantic', dyn19_full: 'DYN-19 Full'
+    };
+
+    function renderSequence(id) {
+      const data = sequenceData[id];
+      const grid = document.getElementById('qualitative-grid');
+      grid.replaceChildren(...Object.entries(data.images).map(([key, src]) => {
+        const cell = document.createElement('article');
+        cell.className = `image-cell${key === 'dyn19_full' ? ' current' : ''}`;
+        const label = document.createElement('div');
+        label.className = 'image-label';
+        label.textContent = imageLabels[key];
+        const link = document.createElement('a');
+        link.href = src;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = `${data.label} ${imageLabels[key]} frame ${data.frame}`;
+        image.loading = 'eager';
+        link.append(image);
+        cell.append(label, link);
+        return cell;
+      }));
+      document.getElementById('sequence-meta').innerHTML =
+        `<span><strong>SEQUENCE</strong> ${data.label}</span>` +
+        `<span><strong>FRAME</strong> ${data.frame}</span>` +
+        `<span><strong>TIMESTAMP</strong> ${data.timestamp}</span>` +
+        `<span><strong>CURRENT</strong> ${data.metrics}</span>`;
+      document.querySelectorAll('.sequence-button').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.sequence === id));
+      });
+    }
+
+    document.querySelectorAll('.sequence-button').forEach((button) => {
+      button.addEventListener('click', () => renderSequence(button.dataset.sequence));
+    });
+    renderSequence('fr3_w_xyz');
+
+    function activateHashTab() {
+      const id = location.hash.slice(1);
+      if (panels.some((panel) => panel.id === id)) activateTab(id);
+    }
+
+    window.addEventListener('hashchange', activateHashTab);
+    activateHashTab();
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+{
+  "schema": "dyn21-traceability-v1",
+  "release": {
+    "experiment_id": "DYN21_PROTOCOL300_CURRENT_20260917",
+    "completed_at": "2026-09-17T09:04:50+08:00",
+    "release_directory": "paper/dyn19_v6/releases/dyn21_protocol300_current_20260917",
+    "report": "comparison/index.html",
+    "report_sha256": "a7540bd886d03948f6efeb09a12b41fcdfbc5265eb3ddcdf7884ad6d55807750",
+    "result_root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01",
+    "result_root_bytes": 95037358,
+    "raw_run_manifest": "run_contract/raw_run_SHA256SUMS",
+    "raw_run_manifest_entries": 537
+  },
+  "source": {
+    "repository": "https://github.com/kenchikuliu/gdor-slam.git",
+    "branch": "dev/dyn19-causal-map-integrity-20260913",
+    "registration_commit": "fd42a51626eac2d6cf3c761ad1d49f68ef63b18e",
+    "runner_commit": "f1c00ec69c8132f05d6ec1fc9e1303f84ce3e8d5",
+    "runner_commit_subject": "Freeze current-method Protocol-300 rerun",
+    "comparison_builder": "scripts/build_dyn21_protocol300_comparison.py",
+    "comparison_builder_sha256": "2998e6a93f246bd14dbe5a09ae6490779bae9979bcda79f5d24257d977fdbee1",
+    "protocol_document": "docs/DYN21_PROTOCOL300_CURRENT_PROTOCOL.md",
+    "result_document": "docs/DYN21_RESULTS.md",
+    "result_json": "docs/DYN21_RESULTS.json"
+  },
+  "frozen_inputs": {
+    "plan": {
+      "path": "run_contract/frozen_plan.yaml",
+      "sha256": "a67a7b90ecf4b98761b2cccfd7aa7bbf917c340204e2a3985fa6274192bb751d"
+    },
+    "upstream_protocol": {
+      "path": "run_contract/upstream_protocol.yaml",
+      "sha256": "4ecc0b1dd48d5462324888b1c9d94d8ef18c4d83ce4f057b2ed65a264fbf9bbe"
+    },
+    "campaign_status": {
+      "path": "run_contract/campaign.status",
+      "sha256": "1ff13b936f5adf6bf93e05407809019aa29fde619d8e6fa4157453e91ccac257"
+    }
+  },
+  "published_artifacts": {
+    "comparison_manifest": {
+      "path": "comparison/evidence_manifest.json",
+      "sha256": "7c869cbdacf60b8a58158da1900532d58b3f7c765e06fcd082534a365c247186"
+    },
+    "metrics": {
+      "path": "comparison/metrics.json",
+      "sha256": "78b4fd45ff3390f15ae212ff60979fc60e0af8458fb276bd50d9be1e75573d69"
+    },
+    "tracking_table": {
+      "path": "comparison/tables/table1_tracking.csv",
+      "sha256": "67b0ea90b385f403adc4b0d3896b7add40ed1e2a56433384930e84513353f384"
+    },
+    "broad_tracking_table": {
+      "path": "comparison/tables/table1_tracking_broad.csv",
+      "sha256": "a130687e91b5267f40f4e631c77a8b931a36bd48c0b7db1c00f195cc875fb3a1"
+    },
+    "mapping_table": {
+      "path": "comparison/tables/table2_mapping.csv",
+      "sha256": "0ba3d58d34296342b23d8207f46f7552b858d6f5b0b6d60ef80a2af741f1135e"
+    },
+    "runtime_table": {
+      "path": "comparison/tables/table3_runtime.csv",
+      "sha256": "9d63a5bc08ef22ad21c73cd0fcc71ac7a67edc14a7d4338381bd69af19edf323"
+    },
+    "contact_sheet": {
+      "path": "comparison/fig4_current_comparison_contact_sheet.png",
+      "sha256": "747e41854139ecbf4fba002a093d1675b4b811087da690c1cad0caa51873e7c8"
+    },
+    "comparison_sha256_manifest": "SHA256SUMS"
+  },
+  "retention": {
+    "raw_outputs": "NAS-only, hash-registered, not Git-tracked",
+    "source_datasets": "not copied into this repository",
+    "historical_pinned_protocol_roots": "read-only inputs; not copied or modified"
+  },
+  "excluded_local_worktree": {
+    "repository": "https://github.com/kenchikuliu/DynaGS-SLAM.git",
+    "commit": "7d50616c9e7c86f29a11966e741fb0cd35295d40",
+    "status": "not present on any origin branch checked on 2026-09-26",
+    "role": "separate historical mapping-work tree; not the DYN-21 release source"
+  }
+}

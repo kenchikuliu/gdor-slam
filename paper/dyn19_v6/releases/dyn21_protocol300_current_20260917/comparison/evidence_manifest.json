@@ -1,0 +1,577 @@
+{
+  "claim_boundary": {
+    "historical_ours": "remains a failed-boundary ablation and is never relabeled",
+    "mapping": "full-frame diagnostic including dynamic foreground",
+    "runtime": "end-to-end wall time; no tracking/mapping component split",
+    "tracking": "seed-0 300-frame local comparison only"
+  },
+  "comparison_columns": [
+    "input",
+    "splatam",
+    "photo_slam",
+    "photo_slam_mask",
+    "dyn19_full"
+  ],
+  "contact_sheet": {
+    "bytes": 6680522,
+    "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_current_comparison_contact_sheet.png",
+    "sha256": "747e41854139ecbf4fba002a093d1675b4b811087da690c1cad0caa51873e7c8"
+  },
+  "contract": "dyn21-protocol300-current-evidence-v1",
+  "figure_rows": [
+    {
+      "alignment": {
+        "alignment": "fixed-scale SE(3)",
+        "camera_config": {
+          "bytes": 207,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_tum_fr3.yaml",
+          "sha256": "3cb84f9a82899f5482cec4cf291b5293a6dd1b1e7cd85753a167d384519624f1"
+        },
+        "cameras": {
+          "bytes": 35453,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_xyz/seed_0000/1389_shutdown/ply/cameras.json",
+          "sha256": "65374796f33d44dbcd8550d305b8a047434f77c16660884e948e1364d6003605"
+        },
+        "command": [
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/bin/view_result",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_tum_fr3.yaml",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_xyz/seed_0000/1389_shutdown/ply/point_cloud/iteration_1389/point_cloud.ply",
+          "--pose-file",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/dyn19_full/dyn19_full_gt_aligned.csv",
+          "--output-dir",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/dyn19_full/render",
+          "--width",
+          "640",
+          "--height",
+          "480"
+        ],
+        "gaussian_config": {
+          "bytes": 3407,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "sha256": "6854e4204af017d2122d4f51c563524f6b30642cc3fd0d677745060017b2630b"
+        },
+        "ground_truth_pose_model": "camera",
+        "map_dir": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_xyz/seed_0000/1389_shutdown",
+        "ply": {
+          "bytes": 1725873,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_xyz/seed_0000/1389_shutdown/ply/point_cloud/iteration_1389/point_cloud.ply",
+          "sha256": "c857c9bddffe0bd87145e0af42106a8f9f81fa04fa2cdf7634bdbc18978f1355"
+        },
+        "pose_file": {
+          "bytes": 151,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/dyn19_full/dyn19_full_gt_aligned.csv",
+          "sha256": "e0ad41259e4b26dd5961c68e7e1cb12adb34aea22f04e302719dcb0c02a06eb2"
+        },
+        "rotation_map_from_gt": [
+          [
+            0.9957584867933518,
+            0.05598073750467758,
+            0.0730150190539326
+          ],
+          [
+            0.08210115299682827,
+            -0.18246141801127735,
+            -0.9797791749235665
+          ],
+          [
+            -0.04152633689124488,
+            0.9816180458639429,
+            -0.18628358859182548
+          ]
+        ],
+        "scale": 1.0,
+        "selected_pose_excluded": true,
+        "support_pose_count": 20,
+        "support_pose_limit": 20,
+        "translation_map_from_gt_m": [
+          0.7723649044467946,
+          0.8838822304965864,
+          3.3019165937237
+        ],
+        "translation_rmse_m": 0.02316311950793076
+      },
+      "frame": 218,
+      "panels": {
+        "dyn19_full": {
+          "bytes": 379274,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/dyn19_full/render/000218.png",
+          "sha256": "06fc541011980fe9d074e9bc55de5b2379237d4f1bb46c13b44693d10949aa94"
+        },
+        "input": {
+          "bytes": 523802,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/input/000218.png",
+          "sha256": "6165798b42683833bf1cf4fb5b2c7ff71bd9a609ec35fd16412927428987e1f8",
+          "source": {
+            "bytes": 523802,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/input.png",
+            "sha256": "6165798b42683833bf1cf4fb5b2c7ff71bd9a609ec35fd16412927428987e1f8"
+          }
+        },
+        "photo_slam": {
+          "bytes": 360482,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/photo_slam/000218.png",
+          "sha256": "03453c3d086b4f4f8bbe1bf59eeccfb1bd40a92ff00bff334395b12e3785fa4d",
+          "source": {
+            "bytes": 360482,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam/000218.png",
+            "sha256": "03453c3d086b4f4f8bbe1bf59eeccfb1bd40a92ff00bff334395b12e3785fa4d"
+          }
+        },
+        "photo_slam_mask": {
+          "bytes": 342451,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/photo_slam_mask/000218.png",
+          "sha256": "80b955b9c2757816a16eb78acd358c6c8d9227e0dae729840eff364714c33f2a",
+          "source": {
+            "bytes": 342451,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/photo_slam_mask/000218.png",
+            "sha256": "80b955b9c2757816a16eb78acd358c6c8d9227e0dae729840eff364714c33f2a"
+          }
+        },
+        "splatam": {
+          "bytes": 491438,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_xyz/splatam/000218.png",
+          "sha256": "4bf5f31310b9675343e70af200fd3bbe98a131e7fb29ad1d9d3755911af3062a",
+          "source": {
+            "bytes": 491438,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_xyz/splatam/000218.png",
+            "sha256": "4bf5f31310b9675343e70af200fd3bbe98a131e7fb29ad1d9d3755911af3062a"
+          }
+        }
+      },
+      "sequence": "tum_walking_xyz",
+      "timestamp": 1341846321.167887
+    },
+    {
+      "alignment": {
+        "alignment": "fixed-scale SE(3)",
+        "camera_config": {
+          "bytes": 207,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_tum_fr3.yaml",
+          "sha256": "3cb84f9a82899f5482cec4cf291b5293a6dd1b1e7cd85753a167d384519624f1"
+        },
+        "cameras": {
+          "bytes": 38667,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_halfsphere/seed_0000/1881_shutdown/ply/cameras.json",
+          "sha256": "972f110d2069fc16ddd66199fed11a0e3480505223d6a05baaa00e7d8a559037"
+        },
+        "command": [
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/bin/view_result",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_tum_fr3.yaml",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_halfsphere/seed_0000/1881_shutdown/ply/point_cloud/iteration_1881/point_cloud.ply",
+          "--pose-file",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/dyn19_full/dyn19_full_gt_aligned.csv",
+          "--output-dir",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/dyn19_full/render",
+          "--width",
+          "640",
+          "--height",
+          "480"
+        ],
+        "gaussian_config": {
+          "bytes": 3407,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "sha256": "6854e4204af017d2122d4f51c563524f6b30642cc3fd0d677745060017b2630b"
+        },
+        "ground_truth_pose_model": "camera",
+        "map_dir": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_halfsphere/seed_0000/1881_shutdown",
+        "ply": {
+          "bytes": 3642914,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/tum_walking_halfsphere/seed_0000/1881_shutdown/ply/point_cloud/iteration_1881/point_cloud.ply",
+          "sha256": "e9f6dffb61b65a19ae3c2c4d70a2b6dbf7b33f5e7d8e79ab61ddab133d8d3b89"
+        },
+        "pose_file": {
+          "bytes": 151,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/dyn19_full/dyn19_full_gt_aligned.csv",
+          "sha256": "31f68191cb07843f2a792577ad8422433d8ab9773df30e35ad4fdb4a3ddeaf06"
+        },
+        "rotation_map_from_gt": [
+          [
+            0.9939652332109077,
+            0.10836783861320501,
+            -0.017015484779680234
+          ],
+          [
+            -0.0030271701637732806,
+            -0.12795888705861472,
+            -0.9917748532119172
+          ],
+          [
+            -0.10965377972867488,
+            0.9858412320333445,
+            -0.1268586371288618
+          ]
+        ],
+        "scale": 1.0,
+        "selected_pose_excluded": true,
+        "support_pose_count": 20,
+        "support_pose_limit": 20,
+        "translation_map_from_gt_m": [
+          0.84357424227106,
+          1.1441732739693837,
+          2.9916897650039855
+        ],
+        "translation_rmse_m": 0.025399917264580678
+      },
+      "frame": 255,
+      "panels": {
+        "dyn19_full": {
+          "bytes": 326502,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/dyn19_full/render/000255.png",
+          "sha256": "f66177a0e3053b17fa1161cf23d7e164242b3a7940f956ef44ca0d95d8a80abe"
+        },
+        "input": {
+          "bytes": 509533,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/input/000255.png",
+          "sha256": "300e214c784dd290395168fa389bd1a72a7f9d956718f4d0de1ff747470dec63",
+          "source": {
+            "bytes": 509533,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/input.png",
+            "sha256": "300e214c784dd290395168fa389bd1a72a7f9d956718f4d0de1ff747470dec63"
+          }
+        },
+        "photo_slam": {
+          "bytes": 305466,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/photo_slam/000255.png",
+          "sha256": "f374968c5d6e9e12c0c7d634c0f480ea0152ca425e817c96cbed1cfc754c1f89",
+          "source": {
+            "bytes": 305466,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam/000255.png",
+            "sha256": "f374968c5d6e9e12c0c7d634c0f480ea0152ca425e817c96cbed1cfc754c1f89"
+          }
+        },
+        "photo_slam_mask": {
+          "bytes": 302394,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/photo_slam_mask/000255.png",
+          "sha256": "78f095905b108419a816d092425de5199fdb7f33cde9ec02260cab9e3f0c754f",
+          "source": {
+            "bytes": 302394,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/photo_slam_mask/000255.png",
+            "sha256": "78f095905b108419a816d092425de5199fdb7f33cde9ec02260cab9e3f0c754f"
+          }
+        },
+        "splatam": {
+          "bytes": 538578,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/fr3_w_half/splatam/000255.png",
+          "sha256": "31cd25dda21ee0970bd7bd0cdad09f816d9af471c5d2ff1477e9b82c824c17c1",
+          "source": {
+            "bytes": 538578,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/fr3_w_half/splatam/000255.png",
+            "sha256": "31cd25dda21ee0970bd7bd0cdad09f816d9af471c5d2ff1477e9b82c824c17c1"
+          }
+        }
+      },
+      "sequence": "tum_walking_halfsphere",
+      "timestamp": 1341846443.770837
+    },
+    {
+      "alignment": {
+        "alignment": "fixed-scale SE(3)",
+        "camera_config": {
+          "bytes": 208,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_bonn.yaml",
+          "sha256": "278d9b99583d713a55a74d9cc7a3a767546aa59310a2d9607892e51a18382c80"
+        },
+        "cameras": {
+          "bytes": 27166,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/1081_shutdown/ply/cameras.json",
+          "sha256": "37797b0e60687c4a5712def272c5afb8ac90c9daf1c5a2fb207bfd2adbb8d2fc"
+        },
+        "command": [
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/bin/view_result",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/Bonn/bonn_rgbd.yaml",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_bonn.yaml",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/1081_shutdown/ply/point_cloud/iteration_1081/point_cloud.ply",
+          "--pose-file",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/dyn19_full/dyn19_full_gt_aligned.csv",
+          "--output-dir",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/dyn19_full/render",
+          "--width",
+          "640",
+          "--height",
+          "480"
+        ],
+        "gaussian_config": {
+          "bytes": 3407,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/Bonn/bonn_rgbd.yaml",
+          "sha256": "6854e4204af017d2122d4f51c563524f6b30642cc3fd0d677745060017b2630b"
+        },
+        "ground_truth_pose_model": "bonn_rgbd_sensor",
+        "map_dir": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/1081_shutdown",
+        "ply": {
+          "bytes": 4173386,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_person_tracking/seed_0000/1081_shutdown/ply/point_cloud/iteration_1081/point_cloud.ply",
+          "sha256": "cce214973f5ed52678e544469b8a2ff8ca4ec86b46b7e2e0bbd8a88f216eb54a"
+        },
+        "pose_file": {
+          "bytes": 150,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/dyn19_full/dyn19_full_gt_aligned.csv",
+          "sha256": "8d796b4c877617766d8a3504c17f34079df996bbde75ab278d0ce119405ba285"
+        },
+        "rotation_map_from_gt": [
+          [
+            0.9356410670912871,
+            -0.08355184819361164,
+            -0.342921102056594
+          ],
+          [
+            0.06845968779403405,
+            -0.9101658099495572,
+            0.40854800152002924
+          ],
+          [
+            -0.3462500032049397,
+            -0.4057305596849936,
+            -0.8458685762092604
+          ]
+        ],
+        "scale": 1.0,
+        "selected_pose_excluded": true,
+        "support_pose_count": 20,
+        "support_pose_limit": 20,
+        "translation_map_from_gt_m": [
+          0.19665210793591062,
+          2.248838599574919,
+          -0.3615706557412618
+        ],
+        "translation_rmse_m": 0.06844630954251837
+      },
+      "frame": 232,
+      "panels": {
+        "dyn19_full": {
+          "bytes": 298987,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/dyn19_full/render/000232.png",
+          "sha256": "26d7e5dd959cb0a14489b3f3239b047276b93115583ebf2fd1b9cd2a24c84b1a"
+        },
+        "input": {
+          "bytes": 434041,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/input/000232.png",
+          "sha256": "a7097c69ae04cbf7ea6962688b4b9f60263e0d5be76de0b6594328bc03b36f73",
+          "source": {
+            "bytes": 434041,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/input.png",
+            "sha256": "a7097c69ae04cbf7ea6962688b4b9f60263e0d5be76de0b6594328bc03b36f73"
+          }
+        },
+        "photo_slam": {
+          "bytes": 292189,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/photo_slam/000232.png",
+          "sha256": "91301365104b7982df30e2f1c3a4496e9753b21c42730001bd97d8d4bac45597",
+          "source": {
+            "bytes": 292189,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam/000232.png",
+            "sha256": "91301365104b7982df30e2f1c3a4496e9753b21c42730001bd97d8d4bac45597"
+          }
+        },
+        "photo_slam_mask": {
+          "bytes": 272803,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/photo_slam_mask/000232.png",
+          "sha256": "11b5474b0fa033b60661b4de54f9d798f056a01c71dfea6317b1112c2c89931f",
+          "source": {
+            "bytes": 272803,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/photo_slam_mask/000232.png",
+            "sha256": "11b5474b0fa033b60661b4de54f9d798f056a01c71dfea6317b1112c2c89931f"
+          }
+        },
+        "splatam": {
+          "bytes": 394977,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_ps_track/splatam/000232.png",
+          "sha256": "dbcbebffc77463ebe13dca958549f91f4eac5377acf888e334457f94b98833e8",
+          "source": {
+            "bytes": 394977,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_ps_track/splatam/000232.png",
+            "sha256": "dbcbebffc77463ebe13dca958549f91f4eac5377acf888e334457f94b98833e8"
+          }
+        }
+      },
+      "sequence": "bonn_person_tracking",
+      "timestamp": 1548265890.27328
+    },
+    {
+      "alignment": {
+        "alignment": "fixed-scale SE(3)",
+        "camera_config": {
+          "bytes": 208,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_bonn.yaml",
+          "sha256": "278d9b99583d713a55a74d9cc7a3a767546aa59310a2d9607892e51a18382c80"
+        },
+        "cameras": {
+          "bytes": 33514,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_crowd3/seed_0000/1181_shutdown/ply/cameras.json",
+          "sha256": "d3bc7ac055efc3a70842daf2fe1a500468298ced6761d75db95cf6fafa6d3488"
+        },
+        "command": [
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/bin/view_result",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/Bonn/bonn_rgbd.yaml",
+          "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/view_only/camera_bonn.yaml",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_crowd3/seed_0000/1181_shutdown/ply/point_cloud/iteration_1181/point_cloud.ply",
+          "--pose-file",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/dyn19_full/dyn19_full_gt_aligned.csv",
+          "--output-dir",
+          "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/dyn19_full/render",
+          "--width",
+          "640",
+          "--height",
+          "480"
+        ],
+        "gaussian_config": {
+          "bytes": 3407,
+          "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/cfg/gaussian_mapper/RGB-D/Bonn/bonn_rgbd.yaml",
+          "sha256": "6854e4204af017d2122d4f51c563524f6b30642cc3fd0d677745060017b2630b"
+        },
+        "ground_truth_pose_model": "bonn_rgbd_sensor",
+        "map_dir": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_crowd3/seed_0000/1181_shutdown",
+        "ply": {
+          "bytes": 2235017,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/dyn19_full/bonn_crowd3/seed_0000/1181_shutdown/ply/point_cloud/iteration_1181/point_cloud.ply",
+          "sha256": "44ef1a9d542f031f37c6b8e55ecdbdbc4f0db26450f8338439cbdb9a9227676a"
+        },
+        "pose_file": {
+          "bytes": 150,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/dyn19_full/dyn19_full_gt_aligned.csv",
+          "sha256": "ab3d20d5d84f280e94b4a362bab4649be570e6ebecfcc11f70a291ce6872a0df"
+        },
+        "rotation_map_from_gt": [
+          [
+            0.9572880523974832,
+            -0.07256093290652146,
+            -0.2798830036868421
+          ],
+          [
+            -0.008014651163663893,
+            -0.9742853165360275,
+            0.22517523698004227
+          ],
+          [
+            -0.2890248261028082,
+            -0.2133143994155777,
+            -0.9332532437115947
+          ]
+        ],
+        "scale": 1.0,
+        "selected_pose_excluded": true,
+        "support_pose_count": 20,
+        "support_pose_limit": 20,
+        "translation_map_from_gt_m": [
+          -0.8205657462544093,
+          1.8091233218582559,
+          -0.7215142291401508
+        ],
+        "translation_rmse_m": 0.09418322147218254
+      },
+      "frame": 234,
+      "panels": {
+        "dyn19_full": {
+          "bytes": 258625,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/dyn19_full/render/000234.png",
+          "sha256": "74912831a4bf7a798a3d10ed662294d3629b5aafda38142a66e7b30f199e8635"
+        },
+        "input": {
+          "bytes": 440264,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/input/000234.png",
+          "sha256": "693dbaff749372f5720b1ec32017b9cee6edc8f754016cd8ac520283f36f4acb",
+          "source": {
+            "bytes": 440264,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/input.png",
+            "sha256": "693dbaff749372f5720b1ec32017b9cee6edc8f754016cd8ac520283f36f4acb"
+          }
+        },
+        "photo_slam": {
+          "bytes": 278402,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/photo_slam/000234.png",
+          "sha256": "0d50adb29aaa770f0bd6800fc91e7c4ea0499bddcbcb0cda033cb27d7de22d80",
+          "source": {
+            "bytes": 278402,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam/000234.png",
+            "sha256": "0d50adb29aaa770f0bd6800fc91e7c4ea0499bddcbcb0cda033cb27d7de22d80"
+          }
+        },
+        "photo_slam_mask": {
+          "bytes": 266373,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/photo_slam_mask/000234.png",
+          "sha256": "863c61ffbe08e9ac805a2f311e03dab3e4c3ae3fc4239dfa0c991f0882f94862",
+          "source": {
+            "bytes": 266373,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/photo_slam_mask/000234.png",
+            "sha256": "863c61ffbe08e9ac805a2f311e03dab3e4c3ae3fc4239dfa0c991f0882f94862"
+          }
+        },
+        "splatam": {
+          "bytes": 511039,
+          "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/fig4_rows/bonn_r3/splatam/000234.png",
+          "sha256": "6d2db6917433d686d614ae6460e71241d75110051b1dfdf3f5ace4d510f21930",
+          "source": {
+            "bytes": 511039,
+            "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/fig4_rows/bonn_r3/splatam/000234.png",
+            "sha256": "6d2db6917433d686d614ae6460e71241d75110051b1dfdf3f5ace4d510f21930"
+          }
+        }
+      },
+      "sequence": "bonn_crowd3",
+      "timestamp": 1548339967.10545
+    }
+  ],
+  "frozen_plan": {
+    "bytes": 3755,
+    "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/frozen_plan.yaml",
+    "sha256": "a67a7b90ecf4b98761b2cccfd7aa7bbf917c340204e2a3985fa6274192bb751d"
+  },
+  "historical_comparison": {
+    "bytes": 39864,
+    "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/figure_evidence_protocol300_v2/comparison_manifest.json",
+    "sha256": "b8e8f2e1c0359cfafaf61e4f16f1393718814a5ac99fba0b4ba6b1f97bfc3455"
+  },
+  "historical_failed_boundary_ours_excluded_from_current_tables": true,
+  "historical_tables": {
+    "table1.csv": {
+      "bytes": 1302,
+      "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table1.csv",
+      "sha256": "7faa916f1d3ee06b06f7dd4f196d5dee4185275fa9edae6048eeb29c3453b20e"
+    },
+    "table2.csv": {
+      "bytes": 1023,
+      "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table2.csv",
+      "sha256": "24434155a1d516b26871c1900018efb7850a722fc641e66706e3e3a60f66bc1e"
+    },
+    "table3.csv": {
+      "bytes": 802,
+      "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/metrics/protocol300/tables/table3.csv",
+      "sha256": "98618b1063c543be5ddd8765db2b59861b7699ce379d95eb623431895bad9254"
+    }
+  },
+  "implementation": {
+    "bytes": 23080,
+    "path": "/home/slam/DynaGS-SLAM-dyn19-20260913/scripts/build_dyn21_protocol300_comparison.py",
+    "sha256": "2998e6a93f246bd14dbe5a09ae6490779bae9979bcda79f5d24257d977fdbee1"
+  },
+  "metrics": {
+    "bytes": 21465,
+    "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/metrics.json",
+    "sha256": "78b4fd45ff3390f15ae212ff60979fc60e0af8458fb276bd50d9be1e75573d69"
+  },
+  "panel_count": 20,
+  "status": "complete",
+  "tables": {
+    "table1_tracking.csv": {
+      "bytes": 1183,
+      "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/tables/table1_tracking.csv",
+      "sha256": "67b0ea90b385f403adc4b0d3896b7add40ed1e2a56433384930e84513353f384"
+    },
+    "table2_mapping.csv": {
+      "bytes": 967,
+      "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/tables/table2_mapping.csv",
+      "sha256": "0ba3d58d34296342b23d8207f46f7552b858d6f5b0b6d60ef80a2af741f1135e"
+    },
+    "table3_runtime.csv": {
+      "bytes": 780,
+      "path": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01/comparison/tables/table3_runtime.csv",
+      "sha256": "9d63a5bc08ef22ad21c73cd0fcc71ac7a67edc14a7d4338381bd69af19edf323"
+    }
+  },
+  "upstream_protocol": {
+    "bytes": 6311,
+    "path": "/home/slam/experiments/dypho_skill_full_rerun_20260729/protocol.yaml",
+    "sha256": "4ecc0b1dd48d5462324888b1c9d94d8ef18c4d83ce4f057b2ed65a264fbf9bbe"
+  }
+}

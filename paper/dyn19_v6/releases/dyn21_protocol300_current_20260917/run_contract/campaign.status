@@ -1,0 +1,14 @@
+contract=dyn21-protocol300-current-campaign-v1
+experiment_id=DYN-21_PROTOCOL300_CURRENT_20260917
+source_commit=f1c00ec69c8132f05d6ec1fc9e1303f84ce3e8d5
+plan_sha256=a67a7b90ecf4b98761b2cccfd7aa7bbf917c340204e2a3985fa6274192bb751d
+protocol_sha256=4ecc0b1dd48d5462324888b1c9d94d8ef18c4d83ce4f057b2ed65a264fbf9bbe
+frame_start=0
+frame_end_exclusive=300
+seed=0
+start_utc=2026-09-17T00:56:38.225597224Z
+start_epoch_ns=1789606598227170307
+end_utc=2026-09-17T00:57:44.339271635Z
+end_epoch_ns=1789606664340552421
+gpu0_exit_code=0
+gpu1_exit_code=0
