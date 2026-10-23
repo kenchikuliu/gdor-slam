@@ -13,6 +13,15 @@
       "language": "zh-CN",
       "role": "complete project-level HTML presentation"
     },
+    "project_slides": {
+      "path": "project_slides.html",
+      "sha256": "9b221b9a82d043b50e351e97b6e21bd0644a7f02045f816d88ab80968b39c097",
+      "generated_at": "2026-10-23",
+      "language": "zh-CN",
+      "slide_count": 11,
+      "aspect_ratio": "16:9",
+      "role": "DynaGS-SLAM presentation-style HTML deck"
+    },
     "result_root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01",
     "result_root_bytes": 95037358,
     "result_root_file_count": 590,

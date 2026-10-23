@@ -8,6 +8,10 @@ This directory is the Git-tracked release package for the completed
 - `project_report.html`: Chinese project-level presentation covering engineering
   completion, tracking/mapping/runtime comparisons, real qualitative evidence,
   claim boundaries, GitHub traceability, and reproduction commands.
+- `project_slides.html`: 11-slide, 16:9 Chinese presentation focused on the
+  DynaGS-SLAM problem, method, contributions, quantitative results, qualitative
+  evidence, and traceability; supports keyboard navigation, fullscreen, and PDF
+  printing.
 - `comparison/index.html`: self-contained report entry point.
 - `comparison/`: HTML, real comparison panels, tables, metrics, provenance,
   and validation screenshots.

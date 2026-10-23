@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DynaGS-SLAM | 项目汇报</title>
+  <meta name="description" content="DynaGS-SLAM 方法、Tracking、Mapping、定性结果与可追溯工程制品的 16:9 演示汇报。">
+  <style>
+    :root {
+      --ink: #17201d;
+      --muted: #66706a;
+      --paper: #f4f1ea;
+      --surface: #fffef9;
+      --line: #cbc8bd;
+      --green: #087a50;
+      --green-soft: #e3f1e9;
+      --blue: #194fbd;
+      --blue-soft: #e6edfc;
+      --orange: #b44325;
+      --orange-soft: #f9e9e2;
+      --yellow: #d99d18;
+      --mono: "IBM Plex Mono", "Noto Sans Mono CJK SC", monospace;
+      --sans: "IBM Plex Sans", "Noto Sans CJK SC", "Noto Sans SC", sans-serif;
+      --serif: "Source Serif 4", "Noto Serif CJK SC", "Noto Serif SC", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #202422;
+      color: var(--ink);
+      font-family: var(--sans);
+      letter-spacing: 0;
+    }
+    button, a { font: inherit; }
+    a { color: var(--blue); text-underline-offset: 3px; }
+    img { display: block; max-width: 100%; }
+    code { font-family: var(--mono); }
+
+    .deck { width: 100%; height: 100%; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: hidden;
+      background: var(--paper);
+    }
+    .slide.active { display: block; animation: enter 180ms ease-out; }
+    @keyframes enter { from { opacity: .35; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+
+    .slide-inner {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      transform: translate(-50%, -50%);
+      padding: clamp(28px, 3.2vw, 62px) clamp(34px, 4.6vw, 88px);
+      background: var(--surface);
+      border-bottom: 7px solid var(--blue);
+      overflow: hidden;
+    }
+    .dark .slide-inner { background: #151a18; color: #f8f7f2; }
+    .dark .slide-inner { border-bottom-width: 9px; border-bottom-color: var(--green); }
+
+    .eyebrow {
+      margin: 0 0 9px;
+      color: var(--blue);
+      font: 700 clamp(9px, .72vw, 13px)/1.3 var(--mono);
+      text-transform: uppercase;
+    }
+    .dark .eyebrow { color: #9bb6ff; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 18px; font: 700 clamp(42px, 5.1vw, 94px)/.98 var(--serif); }
+    h2 { margin-bottom: 13px; font: 700 clamp(30px, 3.25vw, 60px)/1.03 var(--serif); }
+    h3 { margin-bottom: 8px; font: 750 clamp(14px, 1.25vw, 23px)/1.25 var(--sans); }
+    .lead { max-width: 1050px; color: var(--muted); font-size: clamp(14px, 1.25vw, 23px); line-height: 1.48; }
+    .dark .lead { color: #c9d0cc; }
+
+    .cover-grid { height: 100%; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(340px, .75fr); gap: 5vw; align-items: center; }
+    .cover-subtitle { max-width: 920px; color: #cbd1cd; font-size: clamp(16px, 1.42vw, 26px); line-height: 1.5; }
+    .cover-rule { width: 125px; height: 7px; margin: 26px 0; background: var(--blue); }
+    .cover-side { padding-left: 2.4vw; border-left: 1px solid #4b534f; }
+    .cover-metric { padding: 14px 0; border-bottom: 1px solid #3b423e; }
+    .cover-metric strong { display: block; color: #fff; font: 700 clamp(27px, 2.4vw, 44px)/1 var(--serif); }
+    .cover-metric span { display: block; margin-top: 7px; color: #aeb8b2; font-size: clamp(10px, .85vw, 15px); }
+
+    .slide-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .5fr); gap: 42px; align-items: end; padding-bottom: 17px; border-bottom: 2px solid var(--ink); }
+    .slide-head p { margin: 0; color: var(--muted); font-size: clamp(11px, .9vw, 16px); line-height: 1.5; }
+    .content { margin-top: clamp(20px, 2vw, 37px); }
+
+    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; height: 48%; }
+    .problem-card { position: relative; padding: 27px 25px 24px; border-top: 5px solid var(--line); background: var(--paper); }
+    .problem-card:nth-child(1) { border-color: var(--orange); }
+    .problem-card:nth-child(2) { border-color: var(--blue); }
+    .problem-card:nth-child(3) { border-color: var(--green); }
+    .problem-index { color: var(--muted); font: 700 12px/1 var(--mono); }
+    .problem-card h3 { margin-top: 25px; font-family: var(--serif); font-size: clamp(20px, 1.75vw, 32px); }
+    .problem-card p { color: var(--muted); font-size: clamp(12px, 1vw, 17px); line-height: 1.55; }
+    .statement { margin-top: 23px; padding: 17px 21px; border-left: 5px solid var(--blue); background: var(--blue-soft); color: #263a68; font-size: clamp(13px, 1.12vw, 20px); }
+
+    .method-layout { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(320px, .72fr); gap: 32px; height: 70%; align-items: center; }
+    .method-figure { width: 100%; border: 1px solid var(--line); background: #fff; }
+    .method-points { margin: 0; padding: 0; list-style: none; }
+    .method-points li { padding: 15px 0; border-bottom: 1px solid var(--line); }
+    .method-points strong { display: block; color: var(--blue); font: 700 11px/1.3 var(--mono); }
+    .method-points span { display: block; margin-top: 5px; font-size: clamp(12px, 1vw, 17px); line-height: 1.45; }
+
+    .contrib-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .contrib { min-height: 180px; padding: 24px 25px; border-left: 5px solid var(--blue); background: var(--paper); }
+    .contrib:nth-child(2) { border-color: var(--green); }
+    .contrib:nth-child(3) { border-color: var(--orange); }
+    .contrib:nth-child(4) { border-color: var(--yellow); }
+    .contrib .num { color: var(--muted); font: 700 11px/1 var(--mono); }
+    .contrib h3 { margin-top: 15px; }
+    .contrib p { margin: 0; color: var(--muted); font-size: clamp(11px, .95vw, 16px); line-height: 1.5; }
+
+    .protocol-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+    .protocol-cell { padding: 21px 19px; border-right: 1px solid var(--line); }
+    .protocol-cell:last-child { border-right: 0; }
+    .protocol-cell strong { display: block; color: var(--blue); font: 700 clamp(25px, 2.3vw, 42px)/1 var(--serif); }
+    .protocol-cell span { display: block; margin-top: 10px; color: var(--muted); font-size: clamp(10px, .82vw, 15px); line-height: 1.45; }
+    .protocol-line { margin-top: 25px; display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { padding: 7px 10px; border: 1px solid var(--line); background: var(--paper); font: 700 clamp(9px, .7vw, 12px)/1.2 var(--mono); }
+
+    .result-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr); gap: 34px; align-items: center; }
+    .bar-list { display: grid; gap: 14px; }
+    .bar-row { display: grid; grid-template-columns: 165px minmax(0, 1fr) 86px; gap: 14px; align-items: center; }
+    .bar-label { font-weight: 750; font-size: clamp(11px, .9vw, 16px); }
+    .bar-track { height: clamp(29px, 2.4vw, 43px); background: #e2e1da; }
+    .bar { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 9px; color: #fff; font: 700 clamp(10px, .75vw, 13px)/1 var(--mono); }
+    .bar.splat { background: #767d78; }
+    .bar.photo { background: var(--orange); }
+    .bar.semantic { background: var(--blue); }
+    .bar.current { background: var(--green); }
+    .bar-value { text-align: right; font: 700 clamp(11px, .85vw, 15px)/1 var(--mono); }
+    .result-aside { padding: 24px; background: var(--green-soft); border-top: 5px solid var(--green); }
+    .result-aside .big { display: block; color: var(--green); font: 700 clamp(42px, 4vw, 74px)/1 var(--serif); }
+    .result-aside p { margin: 10px 0 0; color: #2e5141; font-size: clamp(12px, 1vw, 17px); line-height: 1.5; }
+    .sequence-strip { margin-top: 23px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+    .sequence { padding: 15px 12px 0 0; }
+    .sequence strong { color: var(--green); font: 700 clamp(18px, 1.5vw, 27px)/1 var(--serif); }
+    .sequence span { display: block; margin-top: 6px; color: var(--muted); font-size: clamp(9px, .68vw, 12px); }
+
+    .benchmark-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 32px; align-items: start; }
+    table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th, td { padding: clamp(6px, .52vw, 10px) 9px; border-bottom: 1px solid var(--line); text-align: right; font-size: clamp(9px, .73vw, 13px); white-space: nowrap; }
+    th { background: #e2e0d8; color: #434a45; font: 700 clamp(8px, .62vw, 11px)/1.25 var(--mono); text-transform: uppercase; }
+    th:first-child, td:first-child { text-align: left; }
+    tr.highlight td { background: var(--blue-soft); color: #133f9c; font-weight: 800; }
+    .benchmark-note { padding: 24px; background: var(--orange-soft); border-top: 5px solid var(--orange); }
+    .benchmark-note strong { font-family: var(--serif); font-size: clamp(21px, 1.9vw, 34px); }
+    .benchmark-note p { margin: 10px 0 0; color: #684133; font-size: clamp(11px, .9vw, 16px); line-height: 1.52; }
+
+    .dual-results { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .result-panel { padding: 22px; border-top: 5px solid var(--blue); background: var(--paper); }
+    .result-panel.runtime { border-color: var(--orange); }
+    .score-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+    .score-row span { font-size: clamp(10px, .83vw, 15px); }
+    .score-row strong { font: 700 clamp(12px, 1vw, 18px)/1 var(--mono); }
+    .score-row.current { color: var(--green); font-weight: 800; }
+    .boundary { margin-top: 16px; color: var(--muted); font-size: clamp(10px, .76vw, 13px); line-height: 1.45; }
+
+    .visual-layout { height: 73%; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: 26px; align-items: center; }
+    .contact-sheet { width: 100%; max-height: 100%; object-fit: contain; border: 1px solid var(--line); background: #ddd9cf; }
+    .visual-notes { display: grid; gap: 13px; }
+    .visual-note { padding: 16px 17px; border-left: 4px solid var(--blue); background: var(--paper); }
+    .visual-note:nth-child(2) { border-color: var(--green); }
+    .visual-note:nth-child(3) { border-color: var(--orange); }
+    .visual-note strong { display: block; }
+    .visual-note span { display: block; margin-top: 5px; color: var(--muted); font-size: clamp(10px, .8vw, 14px); line-height: 1.42; }
+
+    .trace { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+    .trace-step { position: relative; min-height: 175px; padding: 21px 19px; border-right: 1px solid var(--line); }
+    .trace-step:last-child { border-right: 0; }
+    .trace-step::after { content: "→"; position: absolute; right: -10px; top: 25px; z-index: 2; width: 20px; color: var(--blue); background: var(--surface); font-weight: 900; text-align: center; }
+    .trace-step:last-child::after { display: none; }
+    .trace-step .step { color: var(--blue); font: 700 10px/1 var(--mono); }
+    .trace-step strong { display: block; margin-top: 13px; font-size: clamp(12px, 1vw, 17px); }
+    .trace-step code { display: block; margin-top: 7px; color: var(--muted); font-size: clamp(8px, .6vw, 11px); overflow-wrap: anywhere; }
+    .trace-step p { margin: 8px 0 0; color: var(--muted); font-size: clamp(9px, .7vw, 12px); line-height: 1.45; }
+    .inventory { margin-top: 23px; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .inventory > div { padding: 12px 18px; border-left: 1px solid var(--line); }
+    .inventory > div:first-child { border-left: 0; }
+    .inventory strong { color: var(--blue); font: 700 clamp(25px, 2.1vw, 38px)/1 var(--serif); }
+    .inventory span { display: block; margin-top: 6px; color: var(--muted); font-size: clamp(9px, .68vw, 12px); }
+
+    .closing-grid { height: 100%; display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr); gap: 5vw; align-items: center; }
+    .closing-points { margin: 27px 0 0; padding: 0; list-style: none; }
+    .closing-points li { padding: 13px 0; border-bottom: 1px solid #3b423e; color: #d0d5d1; font-size: clamp(12px, 1vw, 18px); }
+    .closing-points strong { color: #fff; }
+    .closing-side { padding-left: 2.4vw; border-left: 1px solid #4b534f; }
+    .closing-side .metric { padding: 14px 0; border-bottom: 1px solid #3b423e; }
+    .closing-side strong { display: block; color: #83dfa9; font: 700 clamp(29px, 2.5vw, 46px)/1 var(--serif); }
+    .closing-side span { display: block; margin-top: 6px; color: #abb4ae; font-size: clamp(10px, .78vw, 14px); }
+
+    .hud {
+      position: fixed;
+      z-index: 50;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 9px;
+      border: 1px solid #565d59;
+      background: rgba(18, 22, 20, .92);
+      color: #fff;
+    }
+    .hud button { width: 35px; height: 31px; border: 0; background: transparent; color: #fff; cursor: pointer; font-size: 18px; }
+    .hud button:hover, .hud button:focus-visible { background: #3a413d; outline: 2px solid #9bb6ff; }
+    .counter { min-width: 70px; text-align: center; font: 700 11px/1 var(--mono); }
+    .progress { position: fixed; z-index: 51; left: 0; top: 0; height: 4px; width: 0; background: var(--blue); transition: width 160ms ease; }
+    @media (max-width: 800px) {
+      .slide-inner { padding: 22px 28px; }
+      .cover-grid, .method-layout, .result-grid, .benchmark-grid, .dual-results, .visual-layout, .closing-grid { grid-template-columns: 1fr; gap: 16px; }
+      .cover-side, .closing-side { display: none; }
+      .problem-grid { gap: 10px; }
+      .problem-card { padding: 15px; }
+      .method-points li { padding: 7px 0; }
+      .trace-step { padding: 12px 9px; min-height: 130px; }
+      .slide-head { grid-template-columns: 1fr; gap: 5px; }
+    }
+
+    @media print {
+      @page { size: 16in 9in; margin: 0; }
+      html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+      .deck { height: auto; }
+      .slide { position: relative; display: block !important; width: 16in; height: 9in; break-after: page; }
+      .slide-inner { position: relative; left: 0; top: 0; width: 16in; height: 9in; transform: none; }
+      .hud, .progress { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <main class="deck" id="deck">
+    <section class="slide dark active" data-title="封面">
+      <div class="slide-inner">
+        <div class="cover-grid">
+          <div>
+            <p class="eyebrow">Dynamic RGB-D Gaussian SLAM · Project Briefing</p>
+            <h1>DynaGS-SLAM</h1>
+            <div class="cover-rule"></div>
+            <p class="cover-subtitle">在动态场景中恢复对相机定位有用的观测，同时保持持久 Gaussian 地图的静态写入边界。</p>
+            <p class="cover-subtitle" style="font-size:clamp(12px,1vw,18px);color:#8f9b94">GDOR guarded-recovery mechanism · DYN-19 Full current configuration · DYN-21 Protocol-300 verification</p>
+          </div>
+          <div class="cover-side">
+            <div class="cover-metric"><strong>3.832 cm</strong><span>Protocol-300 平均 ATE</span></div>
+            <div class="cover-metric"><strong>0.57461</strong><span>平均 SSIM，四个本地方法中最高</span></div>
+            <div class="cover-metric"><strong>590 files</strong><span>完整 GitHub 可追溯快照</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="研究问题">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">01 · Problem</p><h2>动态遮挡下，Tracking 与 Mapping 需要不同权限</h2></div>
+          <p>硬动态 mask 能保护静态地图，但也会误删背景、边界和相机一致的观测，使位姿估计在高遮挡区间失去约束。</p>
+        </div>
+        <div class="content problem-grid">
+          <article class="problem-card"><span class="problem-index">01</span><h3>动态区域破坏静态假设</h3><p>移动人物和物体会污染相机估计，并在 Gaussian 地图中留下拖影、模糊和错误结构。</p></article>
+          <article class="problem-card"><span class="problem-index">02</span><h3>一律排除同样有代价</h3><p>语义 mask 会覆盖动态物体后的可见背景、暂时静止表面和由相机运动主导的像素。</p></article>
+          <article class="problem-card"><span class="problem-index">03</span><h3>关键是区分“可用”与“可写”</h3><p>观测可以对当前帧 tracking 有用，但仍不应获得 ORB MapPoint 或 Gaussian 的持久写入权。</p></article>
+        </div>
+        <div class="statement"><strong>DynaGS-SLAM 的核心问题：</strong>如何恢复足够的瞬态 tracking 支持，同时确保这些观测不会越权进入 persistent mapping。</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="方法">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">02 · Method</p><h2>Guarded recovery + two-route observation contract</h2></div>
+          <p>项目中的 GDOR 机制把 tracking support 与 mapping weight 分离。失败闭合：任何必要信号无效时，退回保守排除。</p>
+        </div>
+        <div class="content method-layout">
+          <img class="method-figure" src="../../../figures/fig2_method_schematic.png" alt="DynaGS-SLAM guarded recovery and separate tracking/mapping routes">
+          <ul class="method-points">
+            <li><strong>SUPPORT QUALIFICATION</strong><span>Temporal depth consistency、residual-flow consistency 与 tracking-risk state 联合筛选。</span></li>
+            <li><strong>TRANSIENT TRACKING</strong><span>合格像素只参与当前帧特征补充与相机估计，不生成持久动态状态。</span></li>
+            <li><strong>PERSISTENT MAPPING</strong><span>原始保守 mask 继续控制 Gaussian 初始化、更新、densification 与地图写入。</span></li>
+            <li><strong>AUDITABLE INVARIANT</strong><span>Recovered tracking support 与 map admission 的精确 overlap 必须为零。</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="贡献">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">03 · Contributions</p><h2>DynaGS-SLAM 当前工作的四项可验证贡献</h2></div>
+          <p>这里展示的是项目工作本身；DYN-19 和 DYN-21 是实验配置与验证批次，而不是项目名称。</p>
+        </div>
+        <div class="content contrib-grid">
+          <article class="contrib"><span class="num">01</span><h3>双通道观测权限</h3><p>Tracking utility 不自动授予 persistent Gaussian map authority，显式区分瞬态使用与长期写入。</p></article>
+          <article class="contrib"><span class="num">02</span><h3>受限动态观测恢复</h3><p>融合时间深度、残差光流与 tracking risk，在动态排除区内恢复一小部分可信支持。</p></article>
+          <article class="contrib"><span class="num">03</span><h3>可审计的地图隔离</h3><p>MapPoint rejection、RGB-D densification rejection 和 recovered-support overlap 均有运行时计数。</p></article>
+          <article class="contrib"><span class="num">04</span><h3>完整实验与制品链</h3><p>Tracking、mapping、runtime、真实渲染和 590 个文件均能回溯到冻结源码、计划和 SHA-256 清单。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="实验协议">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">04 · Protocol</p><h2>DYN-21 Protocol-300：四个真实运行单元</h2></div>
+          <p>该 release 是当前方法的可复查验证包。每个序列固定 seed 0、300 帧、unique association ≤ 0.02 s、fixed-scale SE(3)。</p>
+        </div>
+        <div class="content">
+          <div class="protocol-grid">
+            <div class="protocol-cell"><strong>4 / 4</strong><span>实际运行完成，零失败帧</span></div>
+            <div class="protocol-cell"><strong>1,200</strong><span>总 observations</span></div>
+            <div class="protocol-cell"><strong>640×480</strong><span>Mapping render，无裁剪</span></div>
+            <div class="protocol-cell"><strong>590</strong><span>Git-tracked artifacts</span></div>
+          </div>
+          <div class="protocol-line">
+            <span class="chip">TUM fr3/walking_xyz</span><span class="chip">TUM fr3/walking_halfsphere</span><span class="chip">Bonn person_tracking</span><span class="chip">Bonn crowd3</span>
+            <span class="chip">DYN-19 Full</span><span class="chip">public-GT pose for mapping diagnostic</span><span class="chip">seed 0</span>
+          </div>
+          <div class="statement" style="margin-top:34px"><strong>证据分层：</strong>Broad tracking 仅做外部报告定位；Protocol-300 tracking、mapping 和 runtime 来自本地冻结结果包，不混成“统一协议 SOTA”。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Tracking">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">05 · Tracking</p><h2>本地 Protocol-300：平均 ATE 降低 32.0%</h2></div>
+          <p>ATE RMSE，单位 cm，越低越好。当前 Full 相比 DynaGS semantic 在四个序列上均改善。</p>
+        </div>
+        <div class="content result-grid">
+          <div class="bar-list">
+            <div class="bar-row"><span class="bar-label">SplaTAM</span><div class="bar-track"><div class="bar splat" style="width:100%">109.659</div></div><span class="bar-value">109.659</span></div>
+            <div class="bar-row"><span class="bar-label">Photo-SLAM</span><div class="bar-track"><div class="bar photo" style="width:42.78%">46.915</div></div><span class="bar-value">46.915</span></div>
+            <div class="bar-row"><span class="bar-label">DynaGS semantic</span><div class="bar-track"><div class="bar semantic" style="width:5.14%"></div></div><span class="bar-value">5.637</span></div>
+            <div class="bar-row"><span class="bar-label">DynaGS-SLAM Full</span><div class="bar-track"><div class="bar current" style="width:3.49%"></div></div><span class="bar-value">3.832</span></div>
+          </div>
+          <aside class="result-aside"><span class="big">3.832 cm</span><h3>四序列平均 ATE</h3><p>从 semantic 的 5.637 cm 降至 3.832 cm；改善不是由单一场景拉动。</p></aside>
+        </div>
+        <div class="sequence-strip">
+          <div class="sequence"><strong>1.667</strong><span>fr3/w/xyz</span></div>
+          <div class="sequence"><strong>3.827</strong><span>fr3/w/half</span></div>
+          <div class="sequence"><strong>3.889</strong><span>bonn/ps_track</span></div>
+          <div class="sequence"><strong>5.945</strong><span>bonn/r3</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="外部定位">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">06 · Positioning</p><h2>DyPho-style broad comparison：只做描述性定位</h2></div>
+          <p>外部论文数值与本地三 seed DYN-19 行保留来源边界；不声明跨协议 best/second-best。</p>
+        </div>
+        <div class="content benchmark-grid">
+          <table aria-label="Broad tracking comparison">
+            <thead><tr><th>Method</th><th>w/xyz</th><th>w/half</th><th>w/static</th><th>s/half</th><th>Avg.</th></tr></thead>
+            <tbody>
+              <tr><td>Dyna-SLAM [ext]</td><td>1.7</td><td>2.6</td><td>0.7</td><td>2.8</td><td>2.0</td></tr>
+              <tr><td>RoDyn-SLAM [ext]</td><td>8.3</td><td>5.6</td><td>1.7</td><td>4.4</td><td>4.1</td></tr>
+              <tr><td>GassiDy [ext]</td><td>3.5</td><td>3.7</td><td>0.6</td><td>2.4</td><td>2.6</td></tr>
+              <tr><td>DGS-SLAM [ext]</td><td>4.1</td><td>5.5</td><td>0.6</td><td>4.1</td><td>3.0</td></tr>
+              <tr><td>DyPho-SLAM [ext]</td><td>1.6</td><td>2.6</td><td>0.6</td><td>1.6</td><td>1.6</td></tr>
+              <tr><td>DYN-19 Semantic [local]</td><td>2.341</td><td>3.379</td><td>0.737</td><td>24.175</td><td>7.658</td></tr>
+              <tr><td>DYN-19 MapMatched [local]</td><td>2.103</td><td>3.423</td><td>0.790</td><td>36.775</td><td>10.773</td></tr>
+              <tr class="highlight"><td>DynaGS-SLAM Full [local]</td><td>2.148</td><td>3.609</td><td>0.730</td><td>4.864</td><td>2.838</td></tr>
+            </tbody>
+          </table>
+          <aside class="benchmark-note"><strong>不能把两类数字合成同协议排名。</strong><p>`ext` 是来源论文报告值；`local` 是当前工程的三 seed 结果。该表回答“项目处于什么量级”，不回答“谁在严格相同协议下第一”。</p><p>真正同包可比较的结论来自上一页 Protocol-300 四方法结果。</p></aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Mapping 与 Runtime">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">07 · Mapping + Runtime</p><h2>SSIM 有竞争力；PSNR 与速度存在明确代价</h2></div>
+          <p>Mapping 保留动态前景，因此 PSNR/SSIM 仅作为 full-frame diagnostic。Runtime 为 end-to-end wall time。</p>
+        </div>
+        <div class="content dual-results">
+          <article class="result-panel">
+            <h3>Mapping diagnostic · Avg.</h3>
+            <div class="score-row"><span>SplaTAM</span><strong>12.933 / 0.43344</strong></div>
+            <div class="score-row"><span>Photo-SLAM</span><strong>14.857 / 0.55930</strong></div>
+            <div class="score-row"><span>DynaGS semantic</span><strong>14.364 / 0.57086</strong></div>
+            <div class="score-row current"><span>DynaGS-SLAM Full</span><strong>13.088 / 0.57461</strong></div>
+            <p class="boundary">PSNR dB / SSIM。Full 的平均 SSIM 最高，但平均 PSNR 低于 Photo-SLAM 与 semantic，因此不作无条件 mapping superiority claim。</p>
+          </article>
+          <article class="result-panel runtime">
+            <h3>Runtime · Aggregate throughput</h3>
+            <div class="score-row"><span>SplaTAM</span><strong>0.169 FPS</strong></div>
+            <div class="score-row"><span>Photo-SLAM</span><strong>11.777 FPS</strong></div>
+            <div class="score-row"><span>DynaGS semantic</span><strong>19.722 FPS</strong></div>
+            <div class="score-row current"><span>DynaGS-SLAM Full</span><strong>9.298 FPS</strong></div>
+            <p class="boundary">Full 的 guarded recovery 增加计算开销；当前只报告 end-to-end，不构造缺乏统一计时接口的 tracking/mapping 分项排名。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="真实图像">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">08 · Qualitative Evidence</p><h2>四个序列 × 五列真实输入与渲染证据</h2></div>
+          <p>所有面板来自真实输入、历史只读 baseline 或当前 Gaussian map 渲染，无生成式补图。</p>
+        </div>
+        <div class="content visual-layout">
+          <img class="contact-sheet" src="comparison/fig4_current_comparison_contact_sheet.png" alt="DynaGS-SLAM qualitative comparison contact sheet">
+          <div class="visual-notes">
+            <div class="visual-note"><strong>Methods</strong><span>Input、SplaTAM、Photo-SLAM、DynaGS semantic、DynaGS-SLAM Full。</span></div>
+            <div class="visual-note"><strong>Protocol</strong><span>640×480，无裁剪、无图像后处理，selected pose excluded。</span></div>
+            <div class="visual-note"><strong>Boundary</strong><span>动态前景仍在 reference 中；视觉结果与 full-frame metrics 必须结合证据边界阅读。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="工程追溯">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div><p class="eyebrow">09 · Traceability</p><h2>从 DynaGS-SLAM 方法到 GitHub 制品的完整链路</h2></div>
+          <p>`gdor-slam` 是当前 runner 与完整实验制品的托管仓库；DynaGS-SLAM 是项目与研究工作的名称。</p>
+        </div>
+        <div class="content">
+          <div class="trace">
+            <div class="trace-step"><span class="step">STEP 01</span><strong>冻结源码</strong><code>f1c00ec69c8…</code><p>当前 Protocol-300 runner 与配置。</p></div>
+            <div class="trace-step"><span class="step">STEP 02</span><strong>冻结计划</strong><code>frozen_plan.yaml</code><p>序列、seed、帧范围和输出根目录。</p></div>
+            <div class="trace-step"><span class="step">STEP 03</span><strong>实际运行</strong><code>dyn21_…_run01</code><p>轨迹、日志、metrics、Gaussian maps。</p></div>
+            <div class="trace-step"><span class="step">STEP 04</span><strong>结果注册</strong><code>fd42a51626e…</code><p>Tracking、mapping、runtime 与 builder。</p></div>
+            <div class="trace-step"><span class="step">STEP 05</span><strong>GitHub release</strong><code>895a08f12fd…</code><p>分支、tag、HTML 与 SHA-256 登记。</p></div>
+          </div>
+          <div class="inventory">
+            <div><strong>537</strong><span>raw run artifacts</span></div>
+            <div><strong>53</strong><span>comparison artifacts</span></div>
+            <div><strong>590 / 590</strong><span>remote-verified files</span></div>
+          </div>
+          <div class="statement"><strong>Repository boundary：</strong>完整 release 位于 <code>kenchikuliu/gdor-slam</code>；相关 mapping 源码另发布于 <code>kenchikuliu/DynaGS-SLAM</code> 的固定分支与 commit。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide dark" data-title="结论">
+      <div class="slide-inner">
+        <div class="closing-grid">
+          <div>
+            <p class="eyebrow">10 · Conclusion</p>
+            <h2>DynaGS-SLAM 恢复 tracking 支持，但不授予长期地图写入权</h2>
+            <ul class="closing-points">
+              <li><strong>方法：</strong>temporal depth + residual flow + risk-conditioned guarded recovery。</li>
+              <li><strong>Tracking：</strong>Protocol-300 平均 ATE 3.832 cm，相比 semantic 降低 32.0%。</li>
+              <li><strong>Mapping：</strong>平均 SSIM 0.57461，但 PSNR 与速度存在明确 trade-off。</li>
+              <li><strong>工程：</strong>590 个结果文件、源码 commit、冻结计划和哈希均可反查。</li>
+            </ul>
+          </div>
+          <div class="closing-side">
+            <div class="metric"><strong>3.832 cm</strong><span>Tracking Avg. ATE</span></div>
+            <div class="metric"><strong>0.57461</strong><span>Mapping Avg. SSIM</span></div>
+            <div class="metric"><strong>9.298 FPS</strong><span>Aggregate throughput</span></div>
+            <div class="metric"><strong>590 / 590</strong><span>Remote-verified artifacts</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="hud" role="toolbar" aria-label="幻灯片控制">
+    <button id="prev" type="button" aria-label="上一页" title="上一页">‹</button>
+    <span class="counter" id="counter">01 / 11</span>
+    <button id="next" type="button" aria-label="下一页" title="下一页">›</button>
+    <button id="fullscreen" type="button" aria-label="全屏" title="全屏">F</button>
+    <button id="print" type="button" aria-label="打印或导出 PDF" title="打印或导出 PDF">P</button>
+  </div>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    const progress = document.getElementById('progress');
+    let index = Math.max(0, Math.min(slides.length - 1, Number(location.hash.slice(1)) - 1 || 0));
+
+    function show(next, updateHash = true) {
+      index = Math.max(0, Math.min(slides.length - 1, next));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+      document.title = `DynaGS-SLAM | ${slides[index].dataset.title}`;
+      if (updateHash) history.replaceState(null, '', `#${index + 1}`);
+    }
+
+    document.getElementById('prev').addEventListener('click', () => show(index - 1));
+    document.getElementById('next').addEventListener('click', () => show(index + 1));
+    document.getElementById('fullscreen').addEventListener('click', async () => {
+      if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+      else await document.exitFullscreen();
+    });
+    document.getElementById('print').addEventListener('click', () => window.print());
+
+    document.addEventListener('keydown', (event) => {
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); show(index + 1); }
+      if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); show(index - 1); }
+      if (event.key === 'Home') show(0);
+      if (event.key === 'End') show(slides.length - 1);
+      if (event.key.toLowerCase() === 'f') document.getElementById('fullscreen').click();
+      if (event.key.toLowerCase() === 'p') window.print();
+    });
+
+    window.addEventListener('hashchange', () => {
+      const target = Number(location.hash.slice(1)) - 1;
+      if (Number.isInteger(target)) show(target, false);
+    });
+    show(index, false);
+  </script>
+</body>
+</html>
