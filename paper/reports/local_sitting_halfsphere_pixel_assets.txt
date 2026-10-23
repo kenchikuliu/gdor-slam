@@ -1,2 +1,3 @@
-# Local same-frame pixel asset candidates
-# Generated 2026-10-23; paths are local provenance, not public artifact claims.
+# Local retained pixel assets for TUM sitting_halfsphere
+# Audit date: 2026-10-23
+NO_MATCHING_PIXEL_MASK_ASSETS_FOUND
