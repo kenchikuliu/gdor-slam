@@ -1,0 +1,259 @@
+{
+  "archive": "/tmp/DYN19_main_dyn19_full.tar.gz",
+  "archive_bytes": 526517843,
+  "matching_assets": 63,
+  "assets": [
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/CameraTrajectory_AllFrames_TUM.txt",
+      "bytes": 112259
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/KeyFrameTrajectory_EuRoC.txt",
+      "bytes": 24085
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/KeyFrameTrajectory_TUM.txt",
+      "bytes": 19209
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/MaskTime.txt",
+      "bytes": 7518
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/ape_all_input_frames.zip",
+      "bytes": 45136
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/ape_valid_optimized_frames.zip",
+      "bytes": 45126
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/ate_rmse_m_all_input_frames.txt",
+      "bytes": 205
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/ate_rmse_m_valid_optimized_frames.txt",
+      "bytes": 205
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/frame_metrics.csv",
+      "bytes": 513857
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/recovered_support_overlap_certificate.json",
+      "bytes": 2392
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/recovered_support_overlap_certificate.log",
+      "bytes": 2392
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_rotation_all_input_frames.zip",
+      "bytes": 45153
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_rotation_rmse_deg_all_input_frames.txt",
+      "bytes": 265
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_rotation_rmse_deg_valid_optimized_frames.txt",
+      "bytes": 265
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_rotation_valid_optimized_frames.zip",
+      "bytes": 45140
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_translation_all_input_frames.zip",
+      "bytes": 45145
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_translation_rmse_m_all_input_frames.txt",
+      "bytes": 252
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_translation_rmse_m_valid_optimized_frames.txt",
+      "bytes": 252
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/rpe_translation_valid_optimized_frames.zip",
+      "bytes": 45138
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/used_times/keyframe_used_times.txt",
+      "bytes": 10294892
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0000/used_times/keyframe_used_timesfinal.txt",
+      "bytes": 3762
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/CameraTrajectory_AllFrames_TUM.txt",
+      "bytes": 112245
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/KeyFrameTrajectory_EuRoC.txt",
+      "bytes": 24537
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/KeyFrameTrajectory_TUM.txt",
+      "bytes": 19569
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/MaskTime.txt",
+      "bytes": 7518
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/ape_all_input_frames.zip",
+      "bytes": 45136
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/ape_valid_optimized_frames.zip",
+      "bytes": 45127
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/ate_rmse_m_all_input_frames.txt",
+      "bytes": 205
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/ate_rmse_m_valid_optimized_frames.txt",
+      "bytes": 205
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/frame_metrics.csv",
+      "bytes": 513688
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/recovered_support_overlap_certificate.json",
+      "bytes": 2392
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/recovered_support_overlap_certificate.log",
+      "bytes": 2392
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_rotation_all_input_frames.zip",
+      "bytes": 45150
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_rotation_rmse_deg_all_input_frames.txt",
+      "bytes": 265
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_rotation_rmse_deg_valid_optimized_frames.txt",
+      "bytes": 265
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_rotation_valid_optimized_frames.zip",
+      "bytes": 45144
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_translation_all_input_frames.zip",
+      "bytes": 45145
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_translation_rmse_m_all_input_frames.txt",
+      "bytes": 252
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_translation_rmse_m_valid_optimized_frames.txt",
+      "bytes": 252
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/rpe_translation_valid_optimized_frames.zip",
+      "bytes": 45138
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/used_times/keyframe_used_times.txt",
+      "bytes": 9317907
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0001/used_times/keyframe_used_timesfinal.txt",
+      "bytes": 3437
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/CameraTrajectory_AllFrames_TUM.txt",
+      "bytes": 112263
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/KeyFrameTrajectory_EuRoC.txt",
+      "bytes": 27341
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/KeyFrameTrajectory_TUM.txt",
+      "bytes": 21798
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/MaskTime.txt",
+      "bytes": 7518
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/ape_all_input_frames.zip",
+      "bytes": 45137
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/ape_valid_optimized_frames.zip",
+      "bytes": 45129
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/ate_rmse_m_all_input_frames.txt",
+      "bytes": 205
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/ate_rmse_m_valid_optimized_frames.txt",
+      "bytes": 205
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/frame_metrics.csv",
+      "bytes": 513759
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/recovered_support_overlap_certificate.json",
+      "bytes": 2392
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/recovered_support_overlap_certificate.log",
+      "bytes": 2392
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_rotation_all_input_frames.zip",
+      "bytes": 45151
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_rotation_rmse_deg_all_input_frames.txt",
+      "bytes": 265
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_rotation_rmse_deg_valid_optimized_frames.txt",
+      "bytes": 265
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_rotation_valid_optimized_frames.zip",
+      "bytes": 45141
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_translation_all_input_frames.zip",
+      "bytes": 45148
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_translation_rmse_m_all_input_frames.txt",
+      "bytes": 252
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_translation_rmse_m_valid_optimized_frames.txt",
+      "bytes": 252
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/rpe_translation_valid_optimized_frames.zip",
+      "bytes": 45138
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/used_times/keyframe_used_times.txt",
+      "bytes": 9227491
+    },
+    {
+      "path": "dyn19_full/tum_sitting_halfsphere/seed_0002/used_times/keyframe_used_timesfinal.txt",
+      "bytes": 3654
+    }
+  ]
+}
