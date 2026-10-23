@@ -34,6 +34,9 @@ It uses an unfinished author placeholder and is not a publication record.
   dashboard for the tracking, mapping, runtime, and ordered-ablation charts.
 - `dypho_style_gdor_dyn19/flowparse_paper_tables.html`: paper-style HTML preview
   following the Table I/II/III layouts in the supplied `FlowParse-SLAM.tex`.
+- `gdor_slam_briefing.html`: self-contained Chinese project briefing with
+  presentation mode, print/PDF layout, DYN-19 tracking and mapping comparisons,
+  ordered-ablation boundaries, route certificates, and reproducibility links.
 - `FIGURE_TABLE_MANIFEST.yaml`: figure/table-to-evidence mapping.
 - `EVIDENCE_MANIFEST.md`: public protocol and claim-boundary ledger.
 - `SHA256SUMS`: hashes for the published artifact files.

@@ -1,0 +1,18 @@
+{
+  "artifact": "paper/gdor_slam_briefing.html",
+  "validated_at": "2026-10-23",
+  "checks": {
+    "html_nonempty": 40837,
+    "relative_visual_assets": "pass",
+    "desktop_render_1440x1000": {
+      "status": "pass",
+      "screenshot_bytes": 107767
+    },
+    "mobile_render_390x844": {
+      "status": "pass",
+      "screenshot_bytes": 54688
+    },
+    "file_protocol_render": "pass"
+  },
+  "scope": "Rendering smoke test; numerical claims remain governed by paper/EVIDENCE_MANIFEST.md and paper/reports/evidence_validation.json."
+}
