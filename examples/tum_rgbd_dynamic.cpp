@@ -224,7 +224,9 @@ bool writeFrontendEvidence(
     const FrontendEvidenceFrame& current,
     const cv::Mat& current_depth,
     const cv::Mat& raw_semantic_mask,
+    const cv::Mat& raw_dynamic_mask,
     const cv::Mat& refined_static_mask,
+    const cv::Mat& mapping_weight,
     const std::filesystem::path& previous_rgb_source,
     const std::filesystem::path& current_rgb_source,
     const std::filesystem::path& current_depth_source,
@@ -235,9 +237,12 @@ bool writeFrontendEvidence(
     if (previous.frame_id + 1 != current.frame_id ||
         previous.bgr.empty() || current.bgr.empty() ||
         current_depth.empty() || raw_semantic_mask.empty() ||
-        refined_static_mask.empty() ||
+        raw_dynamic_mask.empty() || refined_static_mask.empty() ||
+        mapping_weight.empty() ||
         raw_semantic_mask.size() != current.bgr.size() ||
+        raw_dynamic_mask.size() != current.bgr.size() ||
         refined_static_mask.size() != current.bgr.size() ||
+        mapping_weight.size() != current.bgr.size() ||
         previous.map_point_ids.size() != previous.keypoints.size() ||
         current.map_point_ids.size() != current.keypoints.size() ||
         previous.outlier_flags.size() != previous.keypoints.size() ||
@@ -264,6 +269,22 @@ bool writeFrontendEvidence(
     raw_semantic_mask.convertTo(semantic_u8, CV_8UC1, 255.0);
     cv::Mat static_u8;
     refined_static_mask.convertTo(static_u8, CV_8UC1, 255.0);
+    cv::Mat raw_dynamic_u8;
+    raw_dynamic_mask.convertTo(raw_dynamic_u8, CV_8UC1, 255.0);
+    cv::Mat recovered_tracking_support;
+    cv::bitwise_and(
+        raw_dynamic_mask, refined_static_mask,
+        recovered_tracking_support);
+    cv::Mat recovered_u8;
+    recovered_tracking_support.convertTo(recovered_u8, CV_8UC1, 255.0);
+    cv::Mat mapping_admission;
+    cv::compare(mapping_weight, 0.5f, mapping_admission, cv::CMP_GE);
+    cv::Mat recovered_admission_overlap;
+    cv::bitwise_and(
+        recovered_tracking_support, mapping_admission,
+        recovered_admission_overlap);
+    cv::Mat overlap_u8;
+    recovered_admission_overlap.convertTo(overlap_u8, CV_8UC1, 255.0);
 
     cv::Mat keypoint_vis;
     cv::drawKeypoints(
@@ -317,8 +338,20 @@ bool writeFrontendEvidence(
             (output_dir / (current_stem + "_raw_semantic_mask.png")).string(),
             semantic_u8) &&
         cv::imwrite(
+            (output_dir / (current_stem + "_raw_dynamic_mask.png")).string(),
+            raw_dynamic_u8) &&
+        cv::imwrite(
             (output_dir / (current_stem + "_refined_static_mask.png")).string(),
             static_u8) &&
+        cv::imwrite(
+            (output_dir / (current_stem + "_recovered_tracking_support.png")).string(),
+            recovered_u8) &&
+        cv::imwrite(
+            (output_dir / (current_stem + "_mapping_admission.png")).string(),
+            mapping_admission) &&
+        cv::imwrite(
+            (output_dir / (current_stem + "_recovered_admission_overlap.png")).string(),
+            overlap_u8) &&
         cv::imwrite(
             (output_dir / (current_stem + "_orb_keypoints.png")).string(),
             keypoint_vis) &&
@@ -384,6 +417,14 @@ bool writeFrontendEvidence(
         << current.keypoints.size() << ",\n"
         << "  \"confirmed_map_point_match_count\": "
         << matches.size() << ",\n"
+        << "  \"raw_dynamic_pixels\": "
+        << cv::countNonZero(raw_dynamic_mask) << ",\n"
+        << "  \"recovered_tracking_pixels\": "
+        << cv::countNonZero(recovered_tracking_support) << ",\n"
+        << "  \"mapping_admission_pixels\": "
+        << cv::countNonZero(mapping_admission) << ",\n"
+        << "  \"recovered_admission_overlap_pixels\": "
+        << cv::countNonZero(recovered_admission_overlap) << ",\n"
         << "  \"sources\": {\n"
         << "    \"previous_rgb\": \""
         << jsonEscape(previous_rgb_source.string()) << "\",\n"
@@ -406,6 +447,16 @@ bool writeFrontendEvidence(
         << "\"exact compute() return matrix passed to System::TrackRGBD, "
         << "Tracking::GrabImageRGBD, Frame::Frame, and "
         << "Frame::ExtractORB\",\n"
+        << "    \"recovered_tracking_support\": "
+        << "\"raw_dynamic_mask AND refined_static_mask, identical to the "
+        << "route-certificate recovered-support definition\",\n"
+        << "    \"mapping_admission\": "
+        << "\"staticWeight >= 0.5, identical to the route-certificate "
+        << "persistent-admission threshold\",\n"
+        << "    \"recovered_admission_overlap\": "
+        << "\"recovered_tracking_support AND mapping_admission; a direct "
+        << "route-admission diagnostic, not independent zero-ghost ground "
+        << "truth\",\n"
         << "    \"orb_keypoints\": "
         << "\"Tracking::mCurrentFrame.mvKeysUn copied by System after "
         << "the target-frame TrackRGBD call\",\n"
