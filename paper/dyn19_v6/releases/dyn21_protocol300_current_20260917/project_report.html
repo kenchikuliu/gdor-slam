@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DynaGS-SLAM DYN-21 完整工程汇报</title>
+  <meta name="description" content="DynaGS-SLAM DYN-21 Protocol-300 完整工程、定量结果、图像证据与 GitHub 追溯汇报。">
+  <style>
+    :root {
+      --paper: #f4f2ed;
+      --surface: #fffefa;
+      --surface-2: #e8e5dc;
+      --ink: #161817;
+      --muted: #5d625c;
+      --line: #c7c4ba;
+      --line-strong: #777c75;
+      --blue: #174cc8;
+      --blue-soft: #e5edff;
+      --green: #13704b;
+      --green-soft: #e3f3eb;
+      --orange: #b83d20;
+      --orange-soft: #fff0e9;
+      --yellow: #e9b73f;
+      --mono: "IBM Plex Mono", "Noto Sans Mono CJK SC", "Noto Sans Mono", monospace;
+      --sans: "IBM Plex Sans", "Noto Sans CJK SC", "Noto Sans SC", sans-serif;
+      --serif: "Source Serif 4", "Noto Serif CJK SC", "Noto Serif SC", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.58;
+      letter-spacing: 0;
+    }
+    a { color: var(--blue); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { color: var(--orange); }
+    a:focus-visible, button:focus-visible, .table-wrap:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    code, pre { font-family: var(--mono); }
+    img { display: block; max-width: 100%; }
+
+    .masthead {
+      background: var(--ink);
+      color: #fff;
+      border-bottom: 5px solid var(--blue);
+    }
+    .masthead-inner {
+      width: min(1520px, 100%);
+      margin: 0 auto;
+      padding: 26px 30px 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 34px;
+      align-items: end;
+    }
+    .kicker {
+      margin: 0 0 7px;
+      color: #9fb8ff;
+      font: 700 12px/1.3 var(--mono);
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      max-width: 980px;
+      font: 700 50px/1.04 var(--serif);
+    }
+    .subtitle {
+      margin: 12px 0 0;
+      max-width: 980px;
+      color: #d8dad6;
+      font-size: 16px;
+    }
+    .release-status {
+      padding-left: 26px;
+      border-left: 1px solid #515650;
+      text-align: right;
+    }
+    .release-status span { display: block; }
+    .status-label { color: #aeb2ad; font: 700 10px/1.4 var(--mono); text-transform: uppercase; }
+    .status-value { margin-top: 4px; color: #77dfa5; font-size: 20px; font-weight: 800; }
+    .status-meta { margin-top: 6px; color: #d8dad6; font: 11px/1.5 var(--mono); }
+
+    .metric-band { background: var(--surface); border-bottom: 1px solid var(--line); }
+    .metric-grid {
+      width: min(1520px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .metric {
+      min-width: 0;
+      padding: 20px 24px 18px;
+      border-right: 1px solid var(--line);
+    }
+    .metric:first-child { border-left: 1px solid var(--line); }
+    .metric.primary { border-bottom: 4px solid var(--blue); }
+    .metric.verified { border-bottom: 4px solid var(--green); }
+    .metric-label { display: block; color: var(--muted); font: 700 10px/1.4 var(--mono); text-transform: uppercase; }
+    .metric-value { display: block; margin-top: 5px; font: 700 29px/1 var(--serif); white-space: nowrap; }
+    .metric-value small { font-size: 16px; }
+    .metric-note { display: block; margin-top: 8px; color: var(--muted); font-size: 12px; }
+
+    .protocol-band { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+    .protocol-inner {
+      width: min(1520px, 100%);
+      margin: 0 auto;
+      padding: 11px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 28px;
+      color: #3e433e;
+      font: 11px/1.55 var(--mono);
+    }
+    .protocol-inner strong { color: var(--ink); }
+
+    .section-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(244, 242, 237, 0.96);
+      border-bottom: 1px solid var(--line-strong);
+      backdrop-filter: blur(10px);
+    }
+    .section-nav-inner {
+      width: min(1520px, 100%);
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      overflow-x: auto;
+    }
+    .section-nav a {
+      flex: 0 0 auto;
+      padding: 14px 20px 12px;
+      border-bottom: 3px solid transparent;
+      color: #666b65;
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .section-nav a:first-child { margin-left: -20px; }
+    .section-nav a:hover, .section-nav a[aria-current="true"] { color: var(--blue); border-color: var(--blue); }
+
+    main { min-height: 60vh; }
+    .section { border-bottom: 1px solid var(--line); }
+    .section:nth-child(even) { background: var(--surface); }
+    .section-inner { width: min(1520px, 100%); margin: 0 auto; padding: 46px 30px 50px; }
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.42fr) minmax(0, 1fr);
+      gap: 42px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+    .section-index { display: block; margin-bottom: 6px; color: var(--blue); font: 700 11px/1.3 var(--mono); }
+    h2 { margin: 0; font: 700 34px/1.1 var(--serif); }
+    .section-heading p { margin: 2px 0 0; max-width: 900px; color: var(--muted); font-size: 16px; }
+    h3 { margin: 0; font: 700 23px/1.25 var(--serif); }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .summary-item { padding: 22px 22px 24px; border-right: 1px solid var(--line); }
+    .summary-item:last-child { border-right: 0; }
+    .summary-number { display: block; color: var(--blue); font: 700 13px/1 var(--mono); }
+    .summary-item strong { display: block; margin-top: 12px; font-size: 17px; }
+    .summary-item p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+
+    .verdict {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 28px;
+      padding: 24px 26px;
+      background: var(--blue-soft);
+      border-left: 5px solid var(--blue);
+    }
+    .verdict strong { font: 700 18px/1.3 var(--serif); }
+    .verdict p { margin: 0; color: #273454; }
+
+    .subsection { margin-top: 36px; }
+    .subsection:first-of-type { margin-top: 0; }
+    .subsection-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: baseline;
+      margin-bottom: 12px;
+      padding-top: 18px;
+      border-top: 2px solid var(--ink);
+    }
+    .subsection-heading small { color: var(--muted); font: 11px/1.5 var(--mono); text-align: right; }
+    .table-wrap { max-width: 100%; overflow-x: auto; background: var(--surface); border-bottom: 1px solid var(--line-strong); }
+    table { width: 100%; min-width: 880px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th, td { padding: 11px 13px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th { background: #dfdcd3; color: #353a35; font: 700 10px/1.35 var(--mono); text-transform: uppercase; }
+    th:first-child, td:first-child { position: sticky; left: 0; z-index: 1; text-align: left; }
+    th:first-child { z-index: 2; background: #d5d2c8; }
+    td:first-child { background: var(--surface); font-weight: 750; }
+    tbody tr:hover td { background: #f1f4ed; }
+    tbody tr:hover td:first-child { background: #f1f4ed; }
+    tr.current td { background: var(--blue-soft); }
+    tr.current td:first-child { background: #d6e2ff; color: #0c3da8; }
+    .best { color: var(--green); font-weight: 800; }
+    .source-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 5px;
+      border: 1px solid var(--line-strong);
+      color: #4c514c;
+      font: 700 9px/1.4 var(--mono);
+      vertical-align: 1px;
+    }
+    .source-badge.local { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+    .table-note { margin: 9px 0 0; color: var(--muted); font-size: 12px; }
+
+    .result-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .result-split > * { min-width: 0; }
+    .finding-list { margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+    .finding-list li {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .finding-index { color: var(--blue); font: 700 12px/1.5 var(--mono); }
+    .finding-copy strong { display: block; }
+    .finding-copy span { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; }
+
+    .evidence-figure { margin: 0; border-top: 2px solid var(--ink); }
+    .evidence-figure a { display: block; background: #dad7cd; }
+    .evidence-figure img { width: 100%; height: auto; }
+    .evidence-figure figcaption {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      padding: 13px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .evidence-actions { white-space: nowrap; font-family: var(--mono); }
+
+    .sequence-ledger {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .sequence-item { padding: 18px 18px 20px; border-right: 1px solid var(--line); }
+    .sequence-item:last-child { border-right: 0; }
+    .sequence-id { color: var(--blue); font: 700 11px/1.4 var(--mono); }
+    .sequence-item strong { display: block; margin-top: 8px; }
+    .sequence-item span { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+
+    .trace-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .trace-step { position: relative; min-width: 0; padding: 22px 22px 24px; border-right: 1px solid var(--line); }
+    .trace-step:last-child { border-right: 0; }
+    .trace-step::after {
+      content: "→";
+      position: absolute;
+      top: 22px;
+      right: -10px;
+      z-index: 2;
+      width: 19px;
+      height: 19px;
+      background: var(--paper);
+      color: var(--blue);
+      font: 700 16px/18px var(--mono);
+      text-align: center;
+    }
+    .trace-step:last-child::after { display: none; }
+    .trace-order { display: block; color: var(--blue); font: 700 11px/1 var(--mono); }
+    .trace-step strong { display: block; margin-top: 13px; }
+    .trace-step code { display: block; margin-top: 7px; color: #3c433d; font-size: 11px; overflow-wrap: anywhere; }
+    .trace-step p { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+
+    .ledger { margin-top: 30px; border-top: 2px solid var(--ink); }
+    .ledger-row {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr) 160px;
+      gap: 22px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .ledger-row strong { font-size: 13px; }
+    .ledger-row code { color: #3e443f; font-size: 11px; overflow-wrap: anywhere; }
+    .ledger-status { color: var(--green); font: 700 11px/1.5 var(--mono); text-align: right; }
+
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .inventory-item { padding: 22px; border-right: 1px solid var(--line); }
+    .inventory-item:last-child { border-right: 0; }
+    .inventory-item .count { color: var(--blue); font: 700 34px/1 var(--serif); }
+    .inventory-item strong { display: block; margin-top: 10px; }
+    .inventory-item p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+
+    .boundary-grid { margin-top: 30px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; }
+    .boundary {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 18px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .boundary strong { color: var(--orange); font: 700 11px/1.6 var(--mono); text-transform: uppercase; }
+    .boundary span { color: var(--muted); font-size: 13px; }
+
+    .command-block {
+      position: relative;
+      margin-top: 18px;
+      background: var(--ink);
+      color: #eef0ed;
+      border-left: 5px solid var(--green);
+    }
+    .command-block pre { margin: 0; padding: 20px 58px 20px 22px; overflow-x: auto; font-size: 12px; line-height: 1.7; }
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+      border: 1px solid #626761;
+      background: #242725;
+      color: #fff;
+      cursor: pointer;
+      font: 700 13px/1 var(--mono);
+    }
+    .copy-button:hover { background: var(--blue); border-color: var(--blue); }
+
+    .link-list { margin-top: 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 30px; }
+    .link-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+    .link-row a { font-weight: 750; }
+    .link-row code { color: var(--muted); font-size: 10px; }
+
+    footer { background: var(--ink); color: #cfd2ce; border-top: 5px solid var(--orange); }
+    .footer-inner {
+      width: min(1520px, 100%);
+      margin: 0 auto;
+      padding: 22px 30px;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      font: 10px/1.6 var(--mono);
+    }
+
+    @media (max-width: 1100px) {
+      .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metric:nth-child(3) { border-right: 0; }
+      .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .summary-item:nth-child(2) { border-right: 0; }
+      .trace-flow { grid-template-columns: 1fr; }
+      .trace-step { border-right: 0; border-bottom: 1px solid var(--line); }
+      .trace-step:last-child { border-bottom: 0; }
+      .trace-step::after { content: "↓"; top: auto; bottom: -10px; right: 22px; }
+      .inventory-grid { grid-template-columns: 1fr; }
+      .inventory-item { border-right: 0; border-bottom: 1px solid var(--line); }
+      .inventory-item:last-child { border-bottom: 0; }
+    }
+
+    @media (max-width: 820px) {
+      .masthead-inner { grid-template-columns: 1fr; padding: 24px 20px; }
+      h1 { font-size: 38px; }
+      .release-status { padding: 16px 0 0; border-left: 0; border-top: 1px solid #515650; text-align: left; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .metric:nth-child(3) { border-right: 1px solid var(--line); }
+      .metric:nth-child(2n) { border-right: 0; }
+      .protocol-inner, .section-nav-inner, .section-inner { padding-left: 20px; padding-right: 20px; }
+      .section-heading { grid-template-columns: 1fr; gap: 12px; }
+      .summary-grid, .result-split, .sequence-ledger, .boundary-grid, .link-list { grid-template-columns: 1fr; }
+      .summary-item, .sequence-item { border-right: 0; border-bottom: 1px solid var(--line); }
+      .summary-item:last-child, .sequence-item:last-child { border-bottom: 0; }
+      .verdict { grid-template-columns: 1fr; gap: 8px; }
+      .ledger-row { grid-template-columns: 1fr; gap: 5px; }
+      .ledger-status { text-align: left; }
+      .evidence-figure figcaption { grid-template-columns: 1fr; gap: 5px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 32px; }
+      .metric { padding: 16px 14px; }
+      .metric-value { font-size: 24px; }
+      .section-inner { padding-top: 36px; padding-bottom: 40px; }
+      h2 { font-size: 29px; }
+      .boundary { grid-template-columns: 1fr; gap: 3px; }
+    }
+
+    @media print {
+      .section-nav, .copy-button { display: none; }
+      .masthead { background: #fff; color: var(--ink); }
+      .subtitle, .status-meta { color: var(--muted); }
+      .section { break-inside: avoid; }
+      a { color: var(--ink); text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div>
+        <p class="kicker">DYN-21 / Protocol-300 / Complete Engineering Release</p>
+        <h1>DynaGS-SLAM 完整工程汇报</h1>
+        <p class="subtitle">从冻结源码、4 个实际运行到定量结果、真实渲染证据与 GitHub 完整快照的统一验收页面。</p>
+      </div>
+      <div class="release-status" role="status" aria-label="发布状态">
+        <span class="status-label">Release status</span>
+        <span class="status-value">COMPLETE · VERIFIED</span>
+        <span class="status-meta">590 / 590 artifacts · SHA-256 passed<br>snapshot c9207a1 · 2026-10-23 audit</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="metric-band" aria-label="核心指标">
+    <div class="metric-grid">
+      <div class="metric verified"><span class="metric-label">Actual runs</span><span class="metric-value">4 / 4</span><span class="metric-note">每个序列 300 帧，零失败帧</span></div>
+      <div class="metric verified"><span class="metric-label">Complete snapshot</span><span class="metric-value">590 <small>files</small></span><span class="metric-note">537 raw + 53 comparison</span></div>
+      <div class="metric primary"><span class="metric-label">Tracking · Avg. ATE</span><span class="metric-value">3.832 <small>cm</small></span><span class="metric-note">本地 Protocol-300</span></div>
+      <div class="metric"><span class="metric-label">Mapping · Avg. SSIM</span><span class="metric-value">0.57461</span><span class="metric-note">四方法中最高</span></div>
+      <div class="metric"><span class="metric-label">Mapping · Avg. PSNR</span><span class="metric-value">13.088 <small>dB</small></span><span class="metric-note">full-frame diagnostic</span></div>
+      <div class="metric"><span class="metric-label">Runtime · Aggregate</span><span class="metric-value">9.298 <small>FPS</small></span><span class="metric-note">1,200 observations</span></div>
+    </div>
+  </section>
+
+  <section class="protocol-band" aria-label="实验协议摘要">
+    <div class="protocol-inner">
+      <span><strong>METHOD</strong> DYN-19 Full</span>
+      <span><strong>SEED</strong> 0</span>
+      <span><strong>HORIZON</strong> frames [0, 300)</span>
+      <span><strong>ASSOCIATION</strong> unique ≤ 0.02 s</span>
+      <span><strong>ALIGNMENT</strong> fixed-scale SE(3)</span>
+      <span><strong>RENDER</strong> 640×480 · public-GT pose · no crop</span>
+    </div>
+  </section>
+
+  <nav class="section-nav" aria-label="汇报章节">
+    <div class="section-nav-inner">
+      <a href="#overview" aria-current="true">结论</a>
+      <a href="#results">定量结果</a>
+      <a href="#evidence">图像证据</a>
+      <a href="#traceability">工程追溯</a>
+      <a href="#reproduce">复现与文件</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section" id="overview">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><span class="section-index">01 / EXECUTIVE SUMMARY</span><h2>验收结论</h2></div>
+          <p>这不是只有论文表格的展示包。当前 release 同时保留可执行源码引用、冻结计划、运行日志、轨迹、逐帧指标、Gaussian 地图、相机参数、真实渲染、比较表、HTML 和哈希清单。</p>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-item"><span class="summary-number">01</span><strong>实验执行完整</strong><p>4 个冻结 run cell 全部完成，每个 cell 处理并跟踪 300 帧，结果目录不复用历史输出。</p></div>
+          <div class="summary-item"><span class="summary-number">02</span><strong>Tracking 明显改善</strong><p>DYN-19 Full 在本地 Protocol-300 的平均 ATE 为 3.832 cm，优于 semantic 的 5.637 cm。</p></div>
+          <div class="summary-item"><span class="summary-number">03</span><strong>Mapping 有明确边界</strong><p>平均 SSIM 最高，但 PSNR 低于 Photo-SLAM 与 semantic；因此只报告 full-frame diagnostic。</p></div>
+          <div class="summary-item"><span class="summary-number">04</span><strong>发布链可反查</strong><p>源码 commit、计划、原始运行和 comparison 均进入 GitHub release，并由两套 SHA-256 清单覆盖。</p></div>
+        </div>
+
+        <div class="verdict">
+          <strong>当前可以支持的主结论</strong>
+          <p>DYN-19 Full 在冻结的四序列 Protocol-300 本地包上提高了 tracking 稳定性，并在 mapping SSIM 上保持竞争力；结果、图像和运行制品均能回溯到固定源码与冻结计划。该证据不等价于跨论文统一协议下的全局 SOTA，也不将 full-frame PSNR/SSIM解释为静态地图的无条件优越性。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><span class="section-index">02 / QUANTITATIVE</span><h2>定量结果</h2></div>
+          <p>Broad tracking 用于论文层面的描述性定位；本地 Protocol-300、mapping 与 runtime 来自当前冻结结果包。外部报告与本地运行始终保留来源标签，不合并成同协议排名。</p>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-heading"><h3>Broad TUM Tracking Benchmark</h3><small>11 external-report + 3 local three-seed rows · ATE cm ↓</small></div>
+          <div class="table-wrap" tabindex="0">
+            <table aria-label="Broad TUM tracking benchmark">
+              <thead><tr><th>Method</th><th>w/xyz ATE ± Std</th><th>w/half ATE ± Std</th><th>w/static ATE ± Std</th><th>s/half ATE ± Std</th><th>Avg. ATE ± Std</th></tr></thead>
+              <tbody>
+                <tr><td>ORB-SLAM3 <span class="source-badge">EXT</span></td><td>28.1 ± 12.2</td><td>0.31 ± 9.0</td><td>2.0 ± 1.1</td><td>2.6 ± 1.6</td><td>15.8 ± 6.0</td></tr>
+                <tr><td>Dyna-SLAM <span class="source-badge">EXT</span></td><td>1.7 ± ×</td><td>2.6 ± ×</td><td>0.7 ± ×</td><td>2.8 ± ×</td><td>2.0 ± ×</td></tr>
+                <tr><td>NICE-SLAM <span class="source-badge">EXT</span></td><td>113.8 ± 48.9</td><td>×</td><td>137.3 ± 21.7</td><td>93.3 ± 35.3</td><td>114.8 ± 33.3</td></tr>
+                <tr><td>ESLAM <span class="source-badge">EXT</span></td><td>45.7 ± 28.5</td><td>60.8 ± 27.9</td><td>93.6 ± 20.7</td><td>3.6 ± 1.6</td><td>34.5 ± 13.5</td></tr>
+                <tr><td>RoDyn-SLAM <span class="source-badge">EXT</span></td><td>8.3 ± 5.5</td><td>5.6 ± 2.8</td><td>1.7 ± 0.9</td><td>4.4 ± 2.2</td><td>4.1 ± 2.3</td></tr>
+                <tr><td>SplaTAM <span class="source-badge">EXT</span></td><td>136.6 ± 33.7</td><td>185.4 ± 67.6</td><td>78.3 ± 23.5</td><td>14.1 ± 7.0</td><td>135.5 ± 109.6</td></tr>
+                <tr><td>GS-SLAM <span class="source-badge">EXT</span></td><td>37.2 ± 9.9</td><td>60.0 ± 20.7</td><td>8.4 ± 4.1</td><td>7.4 ± 5.4</td><td>28.5 ± 10.0</td></tr>
+                <tr><td>GassiDy <span class="source-badge">EXT</span></td><td>3.5 ± 1.6</td><td>3.7 ± 1.9</td><td>0.6 ± 0.3</td><td>2.4 ± 1.4</td><td>2.6 ± 1.3</td></tr>
+                <tr><td>DGS-SLAM <span class="source-badge">EXT</span></td><td>4.1 ± 2.2</td><td>5.5 ± 2.8</td><td>0.6 ± 0.2</td><td>4.1 ± 1.6</td><td>3.0 ± 1.5</td></tr>
+                <tr><td>Photo-SLAM <span class="source-badge">EXT</span></td><td>88.3 ± 48.9</td><td>33.5 ± 9.3</td><td>9.4 ± 6.3</td><td>3.2 ± 1.4</td><td>33.6 ± 16.3</td></tr>
+                <tr><td>DyPho-SLAM <span class="source-badge">EXT</span></td><td>1.6 ± 0.8</td><td>2.6 ± 1.3</td><td>0.6 ± 0.3</td><td>1.6 ± 0.7</td><td>1.6 ± 0.7</td></tr>
+                <tr><td>DYN-19 Semantic <span class="source-badge local">LOCAL</span></td><td>2.3413 ± 0.0126</td><td>3.3792 ± 0.1985</td><td>0.7370 ± 0.0209</td><td>24.1754 ± 12.5033</td><td>7.6582 ± 9.5825</td></tr>
+                <tr><td>DYN-19 MapMatched <span class="source-badge local">LOCAL</span></td><td>2.1032 ± 0.0308</td><td>3.4234 ± 0.0782</td><td>0.7901 ± 0.0130</td><td>36.7750 ± 5.0208</td><td>10.7729 ± 15.0411</td></tr>
+                <tr class="current"><td>DYN-19 Full <span class="source-badge local">LOCAL</span></td><td>2.1476 ± 0.0324</td><td>3.6092 ± 0.0581</td><td>0.7297 ± 0.0225</td><td>4.8639 ± 0.8029</td><td class="best">2.8376 ± 1.5508</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">`EXT` 为来源论文报告值，未与本地运行协议匹配；`LOCAL` 为 DYN-19 三种子结果。此表不声明跨协议 best/second-best。</p>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-heading"><h3>Local Protocol-300 Tracking</h3><small>seed 0 · frames [0, 300) · fixed-scale SE(3) · ATE cm ↓</small></div>
+          <div class="result-split">
+            <div class="table-wrap" tabindex="0">
+              <table aria-label="Local Protocol-300 tracking comparison">
+                <thead><tr><th>Method</th><th>fr3/w/xyz</th><th>fr3/w/half</th><th>bonn/ps_track</th><th>bonn/r3</th><th>Average</th></tr></thead>
+                <tbody>
+                  <tr><td>SplaTAM</td><td>46.378</td><td>218.839</td><td>40.287</td><td>133.131</td><td>109.659</td></tr>
+                  <tr><td>Photo-SLAM</td><td>45.614</td><td>25.011</td><td>92.505</td><td>24.531</td><td>46.915</td></tr>
+                  <tr><td>DynaGS semantic</td><td>1.707</td><td>3.935</td><td>5.827</td><td>11.080</td><td>5.637</td></tr>
+                  <tr class="current"><td>DYN-19 Full</td><td class="best">1.667</td><td class="best">3.827</td><td class="best">3.889</td><td class="best">5.945</td><td class="best">3.832</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ol class="finding-list">
+              <li><span class="finding-index">01</span><div class="finding-copy"><strong>四个本地序列均改善。</strong><span>当前 Full 在每一列均低于 semantic 对照，没有依赖单一场景拉低均值。</span></div></li>
+              <li><span class="finding-index">02</span><div class="finding-copy"><strong>平均 ATE 降低 32.0%。</strong><span>从 semantic 的 5.637 cm 降至 3.832 cm。</span></div></li>
+              <li><span class="finding-index">03</span><div class="finding-copy"><strong>统计边界明确。</strong><span>该表是 seed-0、300 帧本地核验，不提供方差估计。</span></div></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-heading"><h3>Mapping Diagnostic</h3><small>PSNR dB / SSIM ↑ · public-GT pose · selected pose excluded</small></div>
+          <div class="table-wrap" tabindex="0">
+            <table aria-label="Mapping comparison">
+              <thead><tr><th>Method</th><th>fr3/w/xyz</th><th>fr3/w/half</th><th>bonn/ps_track</th><th>bonn/r3</th><th>Average</th></tr></thead>
+              <tbody>
+                <tr><td>SplaTAM</td><td>11.771 / 0.30418</td><td>12.436 / 0.35140</td><td>13.016 / 0.58047</td><td>14.509 / 0.49772</td><td>12.933 / 0.43344</td></tr>
+                <tr><td>Photo-SLAM</td><td>14.830 / 0.40459</td><td>14.936 / 0.53600</td><td class="best">15.316 / 0.66293</td><td>14.345 / 0.63369</td><td>14.857 / 0.55930</td></tr>
+                <tr><td>DynaGS semantic</td><td class="best">15.491 / 0.45580</td><td class="best">15.447 / 0.56482</td><td>12.156 / 0.60761</td><td class="best">14.364 / 0.65523</td><td>14.364 / 0.57086</td></tr>
+                <tr class="current"><td>DYN-19 Full</td><td>14.976 / 0.47566</td><td>12.009 / 0.54068</td><td>11.589 / 0.63100</td><td>13.776 / 0.65111</td><td>13.088 / <span class="best">0.57461</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">动态前景保留在 reference 中，因此 PSNR/SSIM 只作为 full-frame diagnostic；当前 Full 的平均 SSIM 最高，但平均 PSNR 并非最高。</p>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-heading"><h3>Runtime</h3><small>end-to-end wall time · 1,200 observations · FPS ↑</small></div>
+          <div class="table-wrap" tabindex="0">
+            <table aria-label="Runtime comparison">
+              <thead><tr><th>Method</th><th>fr3/w/xyz [s]</th><th>fr3/w/half [s]</th><th>bonn/ps_track [s]</th><th>bonn/r3 [s]</th><th>Total [s]</th><th>FPS</th></tr></thead>
+              <tbody>
+                <tr><td>SplaTAM</td><td>2871.197</td><td>1568.175</td><td>1477.424</td><td>1178.818</td><td>7095.614</td><td>0.16912</td></tr>
+                <tr><td>Photo-SLAM</td><td>33.429</td><td>29.682</td><td>21.810</td><td>16.972</td><td>101.894</td><td>11.77699</td></tr>
+                <tr><td>DynaGS semantic</td><td>16.589</td><td>16.624</td><td>15.245</td><td>12.388</td><td>60.845</td><td class="best">19.72212</td></tr>
+                <tr class="current"><td>DYN-19 Full</td><td>38.769</td><td>38.788</td><td>27.135</td><td>24.369</td><td>129.061</td><td>9.29791</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">所有当前方法 cell 均由 status epoch delta 与 `/usr/bin/time` 交叉核对。没有统一的 tracking/mapping 分项计时，因此不做 component runtime 排名。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="evidence">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><span class="section-index">03 / VISUAL EVIDENCE</span><h2>真实图像证据</h2></div>
+          <p>20 个面板全部来自真实输入、历史只读 Protocol-300 baseline 或本轮最终 Gaussian map 渲染。统一展示 Input、SplaTAM、Photo-SLAM、DynaGS semantic 与 DYN-19 Full。</p>
+        </div>
+
+        <figure class="evidence-figure">
+          <a href="comparison/fig4_current_comparison_contact_sheet.png" target="_blank" rel="noopener">
+            <img src="comparison/fig4_current_comparison_contact_sheet.png" alt="四个序列、五种输入与方法的真实渲染对比总览">
+          </a>
+          <figcaption>
+            <span>四个冻结序列 × 五列真实证据；640×480，无裁剪、无图像后处理。点击图片可查看原尺寸。</span>
+            <span class="evidence-actions"><a href="comparison/index.html#qualitative">打开逐序列交互视图 →</a></span>
+          </figcaption>
+        </figure>
+
+        <div class="sequence-ledger" role="group" aria-label="定性证据序列">
+          <div class="sequence-item"><span class="sequence-id">FR3 / W / XYZ</span><strong>Frame 218</strong><span>ATE 1.667 cm · PSNR 14.976 · SSIM 0.47566</span></div>
+          <div class="sequence-item"><span class="sequence-id">FR3 / W / HALF</span><strong>Frame 255</strong><span>ATE 3.827 cm · PSNR 12.009 · SSIM 0.54068</span></div>
+          <div class="sequence-item"><span class="sequence-id">BONN / PS_TRACK</span><strong>Frame 232</strong><span>ATE 3.889 cm · PSNR 11.589 · SSIM 0.63100</span></div>
+          <div class="sequence-item"><span class="sequence-id">BONN / R3</span><strong>Frame 234</strong><span>ATE 5.945 cm · PSNR 13.776 · SSIM 0.65111</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="traceability">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><span class="section-index">04 / TRACEABILITY</span><h2>工程追溯链</h2></div>
+          <p>每条结论都可以沿着“源码 → 冻结计划 → 实际运行 → 比较构建 → GitHub 完整快照”反向定位。release 不只保存摘要，还包含本轮结果根目录的全部 590 个文件。</p>
+        </div>
+
+        <div class="trace-flow" role="group" aria-label="工程追溯流程">
+          <div class="trace-step"><span class="trace-order">STEP 01</span><strong>冻结运行源码</strong><code>f1c00ec69c8132f05d6ec1fc9e1303f84ce3e8d5</code><p>冻结 current-method Protocol-300 runner 与运行配置。</p></div>
+          <div class="trace-step"><span class="trace-order">STEP 02</span><strong>机器可读计划</strong><code>frozen_plan.yaml · a67a7b90…751d</code><p>固定 4 个序列、seed 0、300 帧和输出根目录。</p></div>
+          <div class="trace-step"><span class="trace-order">STEP 03</span><strong>4 个实际运行</strong><code>dyn21_protocol300_current_20260917_run01</code><p>轨迹、逐帧指标、日志、held-out evidence 与 Gaussian map。</p></div>
+          <div class="trace-step"><span class="trace-order">STEP 04</span><strong>结果注册</strong><code>fd42a51626eac2d6cf3c761ad1d49f68ef63b18e</code><p>注册 tracking、mapping、runtime、builder 和结果文档。</p></div>
+          <div class="trace-step"><span class="trace-order">STEP 05</span><strong>完整 GitHub 快照</strong><code>c9207a18de6beea47592e5e296628fad19b37bf9</code><p>537 raw + 53 comparison，远端重新导出后全部哈希通过。</p></div>
+        </div>
+
+        <div class="ledger" role="group" aria-label="GitHub 和制品清单">
+          <div class="ledger-row"><strong>主要工程仓库</strong><code>github.com/kenchikuliu/gdor-slam · release/dyn21-protocol300-current-20260917</code><span class="ledger-status">SYNCED</span></div>
+          <div class="ledger-row"><strong>完整 release tag</strong><code>dyn21-protocol300-current-20260917 → c9207a1</code><span class="ledger-status">VERIFIED</span></div>
+          <div class="ledger-row"><strong>相关 mapping 源码</strong><code>github.com/kenchikuliu/DynaGS-SLAM · dev/dyn21-mapping-evaluation-20260926 · 7d50616</code><span class="ledger-status">SYNCED</span></div>
+          <div class="ledger-row"><strong>Comparison manifest</strong><code>comparison/evidence_manifest.json · 7c869cbd…7186</code><span class="ledger-status">53 / 53</span></div>
+          <div class="ledger-row"><strong>Raw run manifest</strong><code>run_contract/raw_run_SHA256SUMS</code><span class="ledger-status">537 / 537</span></div>
+          <div class="ledger-row"><strong>Authoritative NAS root</strong><code>/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01</code><span class="ledger-status">RETAINED</span></div>
+        </div>
+
+        <div class="inventory-grid" role="group" aria-label="完整快照构成">
+          <div class="inventory-item"><span class="count">537</span><strong>Raw run artifacts</strong><p>日志、status、trajectory、frame metrics、held-out GT/render/mask、camera JSON、input PLY 与最终 Gaussian PLY。</p></div>
+          <div class="inventory-item"><span class="count">53</span><strong>Comparison artifacts</strong><p>HTML、20 个真实 panel、contact sheet、CSV、metrics、provenance、audit 与桌面/移动验证截图。</p></div>
+          <div class="inventory-item"><span class="count">590</span><strong>Remote-verified files</strong><p>从 GitHub remote ref 重新导出，comparison 53/53 与 raw 537/537 的 SHA-256 均通过。</p></div>
+        </div>
+
+        <div class="boundary-grid" role="group" aria-label="证据边界">
+          <div class="boundary"><strong>Tracking</strong><span>Broad 表允许外部报告与本地结果并列做描述性定位，但不声称统一协议排名。</span></div>
+          <div class="boundary"><strong>Mapping</strong><span>动态前景包含在 full-frame reference 中；PSNR/SSIM 不提升为静态地图 superiority claim。</span></div>
+          <div class="boundary"><strong>Runtime</strong><span>只报告 end-to-end wall time；缺少统一 component split 时不构造 tracking/mapping 分项速度。</span></div>
+          <div class="boundary"><strong>Historical Ours</strong><span>历史 failed-boundary `Ours` 始终独立，不重命名为当前 DYN-19 Full。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reproduce">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><span class="section-index">05 / REPRODUCTION</span><h2>复现与文件入口</h2></div>
+          <p>以下命令分别执行冻结的四序列实验、构建比较包和验证 GitHub release 中的完整快照。页面中的所有表格都能回到原始 CSV/JSON。</p>
+        </div>
+
+        <h3>执行与构建</h3>
+        <div class="command-block">
+          <button class="copy-button" type="button" data-copy aria-label="复制执行命令" title="复制执行命令">⧉</button>
+          <pre><code>scripts/run_dyn21_protocol300_current.sh
+python3 scripts/build_dyn21_protocol300_comparison.py --gpu 1</code></pre>
+        </div>
+
+        <h3 style="margin-top:30px">完整性验证</h3>
+        <div class="command-block">
+          <button class="copy-button" type="button" data-copy aria-label="复制验证命令" title="复制验证命令">⧉</button>
+          <pre><code>(cd comparison &amp;&amp; sha256sum -c ../SHA256SUMS)
+(cd run_artifacts &amp;&amp; sha256sum -c ../run_contract/raw_run_SHA256SUMS)</code></pre>
+        </div>
+
+        <div class="link-list" role="group" aria-label="核心文件">
+          <div class="link-row"><a href="comparison/index.html">定量与逐序列交互报告</a><code>comparison/index.html</code></div>
+          <div class="link-row"><a href="TRACEABILITY.json">机器可读追溯清单</a><code>TRACEABILITY.json</code></div>
+          <div class="link-row"><a href="comparison/evidence_manifest.json">Evidence manifest</a><code>comparison/evidence_manifest.json</code></div>
+          <div class="link-row"><a href="comparison/metrics.json">完整 metrics JSON</a><code>comparison/metrics.json</code></div>
+          <div class="link-row"><a href="comparison/tables/table1_tracking_broad.csv">Broad tracking CSV</a><code>14 rows</code></div>
+          <div class="link-row"><a href="comparison/tables/table1_tracking.csv">Protocol-300 tracking CSV</a><code>4 local methods</code></div>
+          <div class="link-row"><a href="comparison/tables/table2_mapping.csv">Mapping CSV</a><code>PSNR / SSIM</code></div>
+          <div class="link-row"><a href="comparison/tables/table3_runtime.csv">Runtime CSV</a><code>wall time / FPS</code></div>
+          <div class="link-row"><a href="run_contract/frozen_plan.yaml">冻结计划</a><code>a67a7b90…751d</code></div>
+          <div class="link-row"><a href="run_contract/raw_run_SHA256SUMS">Raw run SHA-256</a><code>537 entries</code></div>
+          <div class="link-row"><a href="https://github.com/kenchikuliu/gdor-slam/tree/release/dyn21-protocol300-current-20260917/paper/dyn19_v6/releases/dyn21_protocol300_current_20260917" target="_blank" rel="noopener">GitHub 完整 release</a><code>c9207a1</code></div>
+          <div class="link-row"><a href="https://github.com/kenchikuliu/DynaGS-SLAM/tree/dev/dyn21-mapping-evaluation-20260926" target="_blank" rel="noopener">相关 mapping 源码分支</a><code>7d50616</code></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>DYN21_PROTOCOL300_CURRENT_20260917</span>
+      <span>runner f1c00ec · registration fd42a51 · release c9207a1</span>
+      <span>HTML report generated October 23, 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    const navLinks = [...document.querySelectorAll('.section-nav a')];
+    const sections = [...document.querySelectorAll('main > section[id]')];
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach((link) => {
+        link.setAttribute('aria-current', String(link.hash === `#${visible.target.id}`));
+      });
+    }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.15, 0.5] });
+
+    sections.forEach((section) => observer.observe(section));
+
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const text = button.nextElementSibling.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = button.textContent;
+          button.textContent = '✓';
+          setTimeout(() => { button.textContent = original; }, 1200);
+        } catch (error) {
+          button.textContent = '!';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

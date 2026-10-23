@@ -5,6 +5,9 @@ This directory is the Git-tracked release package for the completed
 
 ## Contents
 
+- `project_report.html`: Chinese project-level presentation covering engineering
+  completion, tracking/mapping/runtime comparisons, real qualitative evidence,
+  claim boundaries, GitHub traceability, and reproduction commands.
 - `comparison/index.html`: self-contained report entry point.
 - `comparison/`: HTML, real comparison panels, tables, metrics, provenance,
   and validation screenshots.
@@ -30,6 +33,10 @@ Validate the complete snapshot with:
 (cd comparison && sha256sum -c ../SHA256SUMS)
 (cd run_artifacts && sha256sum -c ../run_contract/raw_run_SHA256SUMS)
 ```
+
+The project report is registered independently in `TRACEABILITY.json` with its
+SHA-256 digest so the presentation bytes can be verified without changing the
+frozen comparison and raw-run manifests.
 
 The related `DynaGS-SLAM` mapping-work commit `7d50616` is published separately
 on the branch recorded in `TRACEABILITY.json`. The authoritative DYN-21 runner

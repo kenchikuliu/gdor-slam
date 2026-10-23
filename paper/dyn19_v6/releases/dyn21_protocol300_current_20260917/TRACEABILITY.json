@@ -6,6 +6,13 @@
     "release_directory": "paper/dyn19_v6/releases/dyn21_protocol300_current_20260917",
     "report": "comparison/index.html",
     "report_sha256": "a7540bd886d03948f6efeb09a12b41fcdfbc5265eb3ddcdf7884ad6d55807750",
+    "project_report": {
+      "path": "project_report.html",
+      "sha256": "24553eda3d383f46b2e56472dee4715f51a8821c027c96e69ea843574f0e49b8",
+      "generated_at": "2026-10-23",
+      "language": "zh-CN",
+      "role": "complete project-level HTML presentation"
+    },
     "result_root": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn21_protocol300_current_20260917_run01",
     "result_root_bytes": 95037358,
     "result_root_file_count": 590,
