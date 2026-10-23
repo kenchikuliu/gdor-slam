@@ -3,115 +3,67 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
-import io
 import json
-import os
-import re
 import shutil
-import tarfile
 from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 
-IMAGE_EXTS = (".png", ".jpg", ".jpeg")
+def sha256_path(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
-def sha256(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
+def load_json(path: Path) -> dict:
+    with path.open(encoding="utf-8") as stream:
+        return json.load(stream)
 
 
-def image_from_member(tf: tarfile.TarFile, member: tarfile.TarInfo) -> tuple[Image.Image, bytes]:
-    data = tf.extractfile(member).read()
-    return Image.open(io.BytesIO(data)).convert("L"), data
+def load_binary_mask(path: Path, expected_size: tuple[int, int]) -> np.ndarray:
+    image = Image.open(path).convert("L")
+    if image.size != expected_size:
+        raise ValueError(
+            f"Mask {path} has size {image.size}, expected {expected_size}"
+        )
+    return np.asarray(image) > 127
 
 
-def frame_id(name: str) -> int | None:
-    stem = Path(name).stem
-    hits = re.findall(r"(?<!\d)(\d{3,7})(?!\d)", stem)
-    return int(hits[-1]) if hits else None
+def load_frame_row(path: Path, frame: int) -> dict[str, str]:
+    with path.open(newline="", encoding="utf-8") as stream:
+        for row in csv.DictReader(stream):
+            if int(row["frame"]) == frame:
+                return row
+    raise ValueError(f"Frame {frame} not found in {path}")
 
 
-def classify(name: str) -> str | None:
-    value = name.lower()
-    if not value.endswith(IMAGE_EXTS):
-        return None
-    if any(key in value for key in ("raw_static", "raw_mask", "pre_recovery", "mapping_mask")):
-        return "raw"
-    if any(key in value for key in ("recovered_support", "recovery_support", "recovered_mask")):
-        return "recovered"
-    if any(key in value for key in ("static_mask", "refined_mask", "tracking_mask")):
-        return "refined"
-    if any(key in value for key in ("admission", "mapping_weight", "map_weight")):
-        return "admission"
-    if any(key in value for key in ("rgb", "color", "frame")):
-        return "rgb"
-    return None
-
-
-def find_sequence_root() -> Path | None:
-    patterns = (
-        "**/rgbd_dataset_freiburg3_sitting_halfsphere",
-        "**/sitting_halfsphere",
-    )
-    roots = [Path("/home/slam"), Path("/media/slam"), Path("/mnt")]
-    for root in roots:
-        if not root.exists():
-            continue
-        for pattern in patterns:
-            for path in root.glob(pattern):
-                if (path / "rgb").is_dir() or (path / "associations.txt").is_file():
-                    return path
-    return None
-
-
-def rgb_for_frame(sequence: Path, index: int) -> Path | None:
-    association_files = [sequence / "associations.txt", sequence / "associate.txt"]
-    for association in association_files:
-        if not association.is_file():
-            continue
-        rows = []
-        for line in association.read_text(errors="ignore").splitlines():
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-            tokens = line.split()
-            rgb_tokens = [token for token in tokens if token.lower().startswith("rgb/")]
-            if rgb_tokens:
-                rows.append(rgb_tokens[0])
-        if rows:
-            index = max(0, min(index, len(rows) - 1))
-            candidate = sequence / rows[index]
-            if candidate.is_file():
-                return candidate
-    images = sorted((sequence / "rgb").glob("*")) if (sequence / "rgb").is_dir() else []
-    images = [path for path in images if path.suffix.lower() in IMAGE_EXTS]
-    if images:
-        return images[max(0, min(index, len(images) - 1))]
-    return None
-
-
-def bool_mask(image: Image.Image, shape: tuple[int, int] | None = None) -> np.ndarray:
-    if shape and image.size != (shape[1], shape[0]):
-        image = image.resize((shape[1], shape[0]), Image.Resampling.NEAREST)
-    array = np.asarray(image.convert("L"))
-    return array > 127
-
-
-def overlay(rgb: np.ndarray, mask: np.ndarray, color: tuple[int, int, int], alpha: float) -> Image.Image:
-    out = rgb.astype(np.float32).copy()
-    paint = np.zeros_like(out)
+def overlay(
+    rgb: np.ndarray,
+    mask: np.ndarray,
+    color: tuple[int, int, int],
+    alpha: float,
+) -> Image.Image:
+    output = rgb.astype(np.float32).copy()
+    paint = np.empty_like(output)
     paint[:] = color
-    out[mask] = out[mask] * (1.0 - alpha) + paint[mask] * alpha
-    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+    output[mask] = output[mask] * (1.0 - alpha) + paint[mask] * alpha
+    return Image.fromarray(np.clip(output, 0, 255).astype(np.uint8))
 
 
-def font(size: int, bold: bool = False) -> ImageFont.ImageFont:
+def get_font(size: int, bold: bool = False) -> ImageFont.ImageFont:
     candidates = [
-        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc" if bold else "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+        if bold
+        else "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+        if bold
+        else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
     ]
     for candidate in candidates:
         if Path(candidate).is_file():
@@ -119,153 +71,285 @@ def font(size: int, bold: bool = False) -> ImageFont.ImageFont:
     return ImageFont.load_default()
 
 
-def make_panel(image: Image.Image, title: str, subtitle: str, size: tuple[int, int]) -> Image.Image:
+def fit_image(image: Image.Image, size: tuple[int, int]) -> Image.Image:
+    output = image.copy()
+    output.thumbnail(size, Image.Resampling.LANCZOS)
+    return output
+
+
+def make_panel(
+    image: Image.Image,
+    title: str,
+    subtitle: str,
+    accent: str,
+    size: tuple[int, int],
+) -> Image.Image:
     width, height = size
-    canvas = Image.new("RGB", (width, height), "white")
+    canvas = Image.new("RGB", size, "#ffffff")
     draw = ImageDraw.Draw(canvas)
-    draw.text((18, 14), title, fill="#17282e", font=font(24, True))
-    draw.text((18, 49), subtitle, fill="#66777c", font=font(15))
-    available = (width - 36, height - 92)
-    fitted = image.copy()
-    fitted.thumbnail(available, Image.Resampling.LANCZOS)
+    draw.rectangle((0, 0, width - 1, height - 1), outline="#cbd7d3", width=2)
+    draw.rectangle((0, 0, width - 1, 8), fill=accent)
+    draw.text((18, 24), title, fill="#17282e", font=get_font(25, True))
+    draw.text((18, 62), subtitle, fill="#617176", font=get_font(16))
+    fitted = fit_image(image, (width - 36, height - 116))
     x = (width - fitted.width) // 2
-    y = 82 + (available[1] - fitted.height) // 2
+    y = 99 + (height - 116 - fitted.height) // 2
     canvas.paste(fitted, (x, y))
-    draw.rectangle((0, 0, width - 1, height - 1), outline="#d4ddda", width=2)
     return canvas
 
 
+def resolve_sources(evidence_dir: Path, frame: int) -> dict[str, Path]:
+    stem = f"frame_{frame:06d}"
+    paths = {
+        "rgb": evidence_dir / f"{stem}_rgb.png",
+        "raw_dynamic": evidence_dir / f"{stem}_raw_dynamic_mask.png",
+        "recovered": evidence_dir / f"{stem}_recovered_tracking_support.png",
+        "admission": evidence_dir / f"{stem}_mapping_admission.png",
+        "overlap": evidence_dir / f"{stem}_recovered_admission_overlap.png",
+        "refined_static": evidence_dir / f"{stem}_refined_static_mask.png",
+        "metadata": evidence_dir / "instrumentation_metadata.json",
+    }
+    missing = [str(path) for path in paths.values() if not path.is_file()]
+    if missing:
+        raise FileNotFoundError("Missing replay evidence:\n" + "\n".join(missing))
+    return paths
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("archive", type=Path)
+    parser = argparse.ArgumentParser(
+        description="Build a five-panel figure from runtime-exported pixel masks."
+    )
+    parser.add_argument("evidence_dir", type=Path)
     parser.add_argument("output_dir", type=Path)
+    parser.add_argument("--sequence", default="tum_sitting_halfsphere")
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--original-frame-metrics", type=Path, required=True)
+    parser.add_argument("--replay-frame-metrics", type=Path, required=True)
+    parser.add_argument("--mask-config", type=Path, required=True)
+    parser.add_argument("--binary", type=Path, required=True)
+    parser.add_argument("--source-file", type=Path, required=True)
+    parser.add_argument("--source-commit", required=True)
     args = parser.parse_args()
+
+    metadata_path = args.evidence_dir / "instrumentation_metadata.json"
+    metadata = load_json(metadata_path)
+    frame = int(metadata["current_frame"])
+    paths = resolve_sources(args.evidence_dir, frame)
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    selected = None
-    inventory = []
-    with tarfile.open(args.archive, "r:gz") as tf:
-        grouped: dict[int, dict[str, tarfile.TarInfo]] = {}
-        for member in tf.getmembers():
-            lower = member.name.lower()
-            if not member.isfile() or "sitting_halfsphere" not in lower:
-                continue
-            if not any(token in lower for token in ("seed0", "seed_0", "seed-0", "/0/")):
-                continue
-            kind = classify(member.name)
-            fid = frame_id(member.name)
-            if kind and fid is not None:
-                grouped.setdefault(fid, {})[kind] = member
-                inventory.append({"frame": fid, "kind": kind, "member": member.name, "bytes": member.size})
+    rgb_image = Image.open(paths["rgb"]).convert("RGB")
+    rgb = np.asarray(rgb_image)
+    expected_size = rgb_image.size
+    raw_dynamic = load_binary_mask(paths["raw_dynamic"], expected_size)
+    recovered = load_binary_mask(paths["recovered"], expected_size)
+    admission = load_binary_mask(paths["admission"], expected_size)
+    exported_overlap = load_binary_mask(paths["overlap"], expected_size)
+    computed_overlap = recovered & admission
+    if not np.array_equal(exported_overlap, computed_overlap):
+        raise ValueError("Exported overlap differs from recovered AND admission")
 
-        candidates = []
-        for fid, layers in grouped.items():
-            if "raw" not in layers and "refined" not in layers:
-                continue
-            raw_image, _ = image_from_member(tf, layers.get("raw", layers["refined"]))
-            raw = bool_mask(raw_image)
-            if "recovered" in layers:
-                recovered_image, _ = image_from_member(tf, layers["recovered"])
-                recovered = bool_mask(recovered_image, raw.shape)
-            elif "raw" in layers and "refined" in layers:
-                refined_image, _ = image_from_member(tf, layers["refined"])
-                refined = bool_mask(refined_image, raw.shape)
-                recovered = refined & ~raw
-            else:
-                continue
-            count = int(recovered.sum())
-            if count:
-                candidates.append((count, fid, layers, raw, recovered))
-        if not candidates:
-            raise RuntimeError("No same-frame raw/refined or recovered mask pair found in the archive")
-        candidates.sort(reverse=True, key=lambda item: item[0])
-        recovered_count, fid, layers, raw_static, recovered = candidates[0]
+    counts = {
+        "image_pixels": int(raw_dynamic.size),
+        "raw_dynamic": int(raw_dynamic.sum()),
+        "recovered_tracking_support": int(recovered.sum()),
+        "persistent_mapping_admission": int(admission.sum()),
+        "recovered_admission_overlap": int(computed_overlap.sum()),
+    }
+    metadata_counts = {
+        "raw_dynamic": int(metadata["raw_dynamic_pixels"]),
+        "recovered_tracking_support": int(metadata["recovered_tracking_pixels"]),
+        "persistent_mapping_admission": int(metadata["mapping_admission_pixels"]),
+        "recovered_admission_overlap": int(
+            metadata["recovered_admission_overlap_pixels"]
+        ),
+    }
+    for key, value in metadata_counts.items():
+        if counts[key] != value:
+            raise ValueError(
+                f"Pixel count mismatch for {key}: PNG={counts[key]}, metadata={value}"
+            )
 
-        if "admission" in layers:
-            admission_image, admission_bytes = image_from_member(tf, layers["admission"])
-            admission = bool_mask(admission_image, raw_static.shape)
-            admission_source = layers["admission"].name
-        else:
-            admission = raw_static.copy()
-            admission_bytes = admission.astype(np.uint8).tobytes()
-            admission_source = "derived from raw pre-recovery static mask"
+    original_row = load_frame_row(args.original_frame_metrics, frame)
+    replay_row = load_frame_row(args.replay_frame_metrics, frame)
 
-        rgb_source = None
-        if "rgb" in layers:
-            rgb_data = tf.extractfile(layers["rgb"]).read()
-            rgb_image = Image.open(io.BytesIO(rgb_data)).convert("RGB")
-            rgb_source = layers["rgb"].name
-        else:
-            sequence = find_sequence_root()
-            rgb_path = rgb_for_frame(sequence, fid) if sequence else None
-            if not rgb_path:
-                raise RuntimeError(f"No RGB frame found for processed frame index {fid}")
-            rgb_data = rgb_path.read_bytes()
-            rgb_image = Image.open(io.BytesIO(rgb_data)).convert("RGB")
-            rgb_source = str(rgb_path)
+    colors = {
+        "raw": (219, 61, 49),
+        "recovered": (15, 190, 102),
+        "admission": (27, 132, 218),
+        "overlap": (226, 33, 179),
+    }
+    panel_size = (350, 430)
+    panels = [
+        make_panel(
+            rgb_image,
+            "A  真实 RGB",
+            f"frame {frame} · seed {args.seed}",
+            "#66777c",
+            panel_size,
+        ),
+        make_panel(
+            overlay(rgb, raw_dynamic, colors["raw"], 0.62),
+            "B  恢复前排除",
+            f"raw dynamic · {counts['raw_dynamic']:,} px",
+            "#db3d31",
+            panel_size,
+        ),
+        make_panel(
+            overlay(rgb, recovered, colors["recovered"], 0.82),
+            "C  Tracking 恢复",
+            f"temporary use · {counts['recovered_tracking_support']:,} px",
+            "#0fbe66",
+            panel_size,
+        ),
+        make_panel(
+            overlay(rgb, admission, colors["admission"], 0.62),
+            "D  Mapping 准入",
+            f"persistent admission · {counts['persistent_mapping_admission']:,} px",
+            "#1b84da",
+            panel_size,
+        ),
+        make_panel(
+            Image.fromarray(
+                np.where(
+                    computed_overlap[..., None],
+                    np.asarray(colors["overlap"], dtype=np.uint8),
+                    np.asarray((18, 31, 36), dtype=np.uint8),
+                )
+            ),
+            "E  直接准入交集",
+            f"recovered ∩ admission · {counts['recovered_admission_overlap']:,} px",
+            "#e221b3",
+            panel_size,
+        ),
+    ]
 
-        h, w = raw_static.shape
-        rgb_image = rgb_image.resize((w, h), Image.Resampling.LANCZOS)
-        rgb = np.asarray(rgb_image)
-        excluded = ~raw_static
-        overlap = recovered & admission
+    width, height = 1900, 720
+    canvas = Image.new("RGB", (width, height), "#f2f5f3")
+    draw = ImageDraw.Draw(canvas)
+    draw.text(
+        (48, 27),
+        "GDOR-SLAM：同一真实帧上的 Tracking 使用权与 Mapping 准入权",
+        fill="#17282e",
+        font=get_font(37, True),
+    )
+    draw.text(
+        (50, 79),
+        "DYN-19 Full diagnostic replay · TUM sitting_halfsphere · not an original release mask artifact",
+        fill="#607176",
+        font=get_font(19),
+    )
+    gap = 16
+    x = 43
+    for panel in panels:
+        canvas.paste(panel, (x, 125))
+        x += panel_size[0] + gap
 
-        layers_out = {
-            "rgb": rgb_image,
-            "raw_exclusion": Image.fromarray((excluded * 255).astype(np.uint8)),
-            "recovered_support": Image.fromarray((recovered * 255).astype(np.uint8)),
-            "mapping_admission": Image.fromarray((admission * 255).astype(np.uint8)),
-            "overlap": Image.fromarray((overlap * 255).astype(np.uint8)),
+    draw.rounded_rectangle(
+        (43, 579, 1857, 686), radius=6, fill="#ffffff", outline="#cbd7d3", width=2
+    )
+    draw.text(
+        (68, 598),
+        "route invariant",
+        fill="#a43b32",
+        font=get_font(19, True),
+    )
+    draw.text(
+        (68, 630),
+        "recovered_support = raw_dynamic ∩ tracking_static;  mapping_admission = staticWeight ≥ 0.5;  overlap = 0 px",
+        fill="#17282e",
+        font=get_font(22, True),
+    )
+    draw.text(
+        (1125, 600),
+        f"Original run selector: {int(original_row['tracking_recovery_audit_pixels']):,} px",
+        fill="#607176",
+        font=get_font(17),
+    )
+    draw.text(
+        (1125, 630),
+        f"Replay observation: {counts['recovered_tracking_support']:,} px · direct overlap {counts['recovered_admission_overlap']:,} px",
+        fill="#607176",
+        font=get_font(17),
+    )
+
+    figure_path = args.output_dir / "fig_pixel_admission_real_frame.png"
+    canvas.save(figure_path, optimize=True)
+
+    public_source_dir = args.output_dir / "source"
+    public_source_dir.mkdir(exist_ok=True)
+    public_source_files = {}
+    for key, source_path in paths.items():
+        target_path = public_source_dir / source_path.name
+        shutil.copy2(source_path, target_path)
+        public_source_files[key] = {
+            "path": str(target_path.relative_to(args.output_dir)),
+            "sha256": sha256_path(target_path),
         }
-        layer_hashes = {}
-        for name, image in layers_out.items():
-            path = args.output_dir / f"pixel_admission_{name}.png"
-            image.save(path)
-            layer_hashes[name] = sha256(path.read_bytes())
 
-        panel_size = (700, 490)
-        panels = [
-            make_panel(rgb_image, "A 真实 RGB", f"TUM sitting_halfsphere · processed frame {fid}", panel_size),
-            make_panel(overlay(rgb, excluded, (210, 55, 45), .58), "B 恢复前排除区域", f"红色：raw mask 排除 · {int(excluded.sum()):,} px", panel_size),
-            make_panel(overlay(rgb, recovered, (20, 210, 105), .82), "C Tracking 恢复支持", f"绿色：临时 tracking-only · {recovered_count:,} px", panel_size),
-            make_panel(overlay(rgb, admission, (20, 145, 220), .42), "D Mapping 准入", f"蓝色：persistent admission · {int(admission.sum()):,} px", panel_size),
-            make_panel(overlay(rgb, overlap, (245, 35, 190), .95), "E 像素级 overlap audit", f"洋红：recovered ∩ admission · {int(overlap.sum()):,} px", panel_size),
-        ]
-        canvas = Image.new("RGB", (1480, 1640), "#f4f6f5")
-        draw = ImageDraw.Draw(canvas)
-        draw.text((40, 28), "GDOR-SLAM：同一真实帧上的像素使用权与地图准入", fill="#17282e", font=font(36, True))
-        draw.text((40, 78), "Tracking 可以临时借用绿色像素；Mapping 仍由恢复前的蓝色准入边界控制。", fill="#4f6267", font=font(21))
-        positions = [(30, 125), (750, 125), (30, 635), (750, 635), (390, 1145)]
-        for panel, position in zip(panels, positions):
-            canvas.paste(panel, position)
-        figure_path = args.output_dir / "fig_pixel_admission_real_frame.png"
-        canvas.save(figure_path)
-
-        provenance = {
-            "figure": figure_path.name,
-            "sequence": "tum_sitting_halfsphere",
-            "seed": 0,
-            "processed_frame_index": fid,
-            "archive": str(args.archive),
-            "archive_sha256": sha256(args.archive.read_bytes()),
-            "rgb_source": rgb_source,
-            "rgb_sha256": sha256(rgb_data),
-            "raw_mask_member": layers.get("raw", layers.get("refined")).name,
-            "refined_mask_member": layers.get("refined").name if layers.get("refined") else None,
-            "recovered_member": layers.get("recovered").name if layers.get("recovered") else "derived as refined AND NOT raw",
-            "mapping_admission_source": admission_source,
-            "pixel_counts": {
-                "image_pixels": int(h * w),
-                "raw_excluded": int(excluded.sum()),
-                "recovered_tracking_support": recovered_count,
-                "persistent_mapping_admission": int(admission.sum()),
-                "recovered_admission_overlap": int(overlap.sum()),
-            },
-            "layer_sha256": layer_hashes,
-            "inventory": inventory,
-            "claim_boundary": "The overlap panel audits direct pixel admission on this route. It is not independent ground truth for zero ghost contamination.",
-        }
-        (args.output_dir / "fig_pixel_admission_real_frame.provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
+    source_hashes = {
+        key: sha256_path(path)
+        for key, path in paths.items()
+        if key != "metadata"
+    }
+    provenance = {
+        "schema": "gdor-pixel-admission-figure-v1",
+        "figure": figure_path.name,
+        "figure_sha256": sha256_path(figure_path),
+        "evidence_kind": "diagnostic replay",
+        "sequence": args.sequence,
+        "seed": args.seed,
+        "processed_frame_index": frame,
+        "frame_index_basis": metadata["frame_index_basis"],
+        "selection": {
+            "policy": "maximum tracking_recovery_audit_pixels in the original DYN-19 Full sitting_halfsphere seed-0 frame log",
+            "original_frame_metrics": str(args.original_frame_metrics.resolve()),
+            "original_frame_metrics_sha256": sha256_path(
+                args.original_frame_metrics
+            ),
+            "original_tracking_recovery_audit_pixels": int(
+                original_row["tracking_recovery_audit_pixels"]
+            ),
+            "original_mapping_leak_pixels": int(
+                original_row["tracking_recovery_mapping_leak_pixels"]
+            ),
+        },
+        "replay": {
+            "evidence_dir": str(args.evidence_dir.resolve()),
+            "replay_frame_metrics": str(args.replay_frame_metrics.resolve()),
+            "replay_frame_metrics_sha256": sha256_path(args.replay_frame_metrics),
+            "binary": str(args.binary.resolve()),
+            "binary_sha256": sha256_path(args.binary),
+            "source_file": str(args.source_file.resolve()),
+            "source_file_sha256": sha256_path(args.source_file),
+            "source_commit_before_diagnostic_patch": args.source_commit,
+            "mask_config": str(args.mask_config.resolve()),
+            "mask_config_sha256": sha256_path(args.mask_config),
+            "association": metadata["sources"]["association"],
+            "association_sha256": sha256_path(
+                Path(metadata["sources"]["association"])
+            ),
+            "metadata": str(metadata_path.resolve()),
+            "metadata_sha256": sha256_path(metadata_path),
+        },
+        "pixel_counts": counts,
+        "public_source_files": public_source_files,
+        "source_png_sha256": source_hashes,
+        "definitions": metadata["evidence_contract"],
+        "claim_boundary": (
+            "This same-frame replay checks direct route admission using the exact "
+            "runtime masks. It is not an original DYN-19 release mask artifact, "
+            "does not establish independent zero-ghost ground truth, and does not "
+            "exclude indirect Mapping changes through an improved camera pose."
+        ),
+    }
+    provenance_path = (
+        args.output_dir / "fig_pixel_admission_real_frame.provenance.json"
+    )
+    provenance_path.write_text(
+        json.dumps(provenance, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    print(json.dumps({"figure": str(figure_path), "counts": counts}, indent=2))
 
 
 if __name__ == "__main__":

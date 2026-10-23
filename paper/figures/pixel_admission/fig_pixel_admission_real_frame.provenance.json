@@ -1,0 +1,91 @@
+{
+  "schema": "gdor-pixel-admission-figure-v1",
+  "figure": "fig_pixel_admission_real_frame.png",
+  "figure_sha256": "5f1029191d513fbb31b05fe04f43df119776f2562896683ac882d80ac3ead47a",
+  "evidence_kind": "diagnostic replay",
+  "sequence": "tum_sitting_halfsphere",
+  "seed": 0,
+  "processed_frame_index": 816,
+  "frame_index_basis": "zero-based association row",
+  "selection": {
+    "policy": "maximum tracking_recovery_audit_pixels in the original DYN-19 Full sitting_halfsphere seed-0 frame log",
+    "original_frame_metrics": "/mnt/nas_datasets/slam-experiments/DynaGS-SLAM/dyn19_main_20260914_14c6b2c_run01/dyn19_full/tum_sitting_halfsphere/seed_0000/frame_metrics.csv",
+    "original_frame_metrics_sha256": "55d06a5bdc6e3ad19c8619043ceef6c9bad24eb7cd400fd7929b5c73a1fe4eff",
+    "original_tracking_recovery_audit_pixels": 98018,
+    "original_mapping_leak_pixels": 0
+  },
+  "replay": {
+    "evidence_dir": "/home/slam/experiments/gdor_pixel_admission_replay_20261023/frame_000816_retry2/evidence",
+    "replay_frame_metrics": "/home/slam/experiments/gdor_pixel_admission_replay_20261023/frame_000816_retry2/output/frame_metrics.csv",
+    "replay_frame_metrics_sha256": "66e49917d83b027d062a69bfcf91a1fed178de8c512c83d453730239b0c0db27",
+    "binary": "/home/slam/DynaGS-SLAM-dyn19-publish/bin/tum_rgbd_dynamic",
+    "binary_sha256": "7b7177cbba38f0367d434806495dd7673d23e2b5285e16e85fd0e88f48a7d035",
+    "source_file": "/home/slam/DynaGS-SLAM-dyn19-publish/examples/tum_rgbd_dynamic.cpp",
+    "source_file_sha256": "a9d8aca927ede20e74301b3a14a7279ef9b3cc1080ce8ea9391d181e0fb61b69",
+    "source_commit_before_diagnostic_patch": "0e877f0bcebf78ea07d35e1da83b3b6000996ce7",
+    "mask_config": "/home/slam/DynaGS-SLAM-dyn19-publish/config/mask_config_dyn19_full.yaml",
+    "mask_config_sha256": "860bc5080043397d06f517b65528170adbbd474c416b844f1ab4a2a7d8abecc1",
+    "association": "/mnt/nvme_data/datasets/rgbd_dataset_freiburg3_sitting_halfsphere/associations.txt",
+    "association_sha256": "b4850b06929b824f946f092cfd04213e4685bdcfe7e991c8b36aa5e08654ad87",
+    "metadata": "/home/slam/experiments/gdor_pixel_admission_replay_20261023/frame_000816_retry2/evidence/instrumentation_metadata.json",
+    "metadata_sha256": "4ae3adc3d80ec94b2ff6a4961edd5f8176302517037788e56fe8e8a90aa4c2a6"
+  },
+  "pixel_counts": {
+    "image_pixels": 307200,
+    "raw_dynamic": 187204,
+    "recovered_tracking_support": 97905,
+    "persistent_mapping_admission": 119834,
+    "recovered_admission_overlap": 0
+  },
+  "public_source_files": {
+    "rgb": {
+      "path": "source/frame_000816_rgb.png",
+      "sha256": "f7567347d763258b127fb155a38b8e3873e93edf478e336d011caa567ee43ede"
+    },
+    "raw_dynamic": {
+      "path": "source/frame_000816_raw_dynamic_mask.png",
+      "sha256": "aab53fbf2807e9c97b459e01dcdb0dfca4a4cffbc7dedd45a483edafede1a90f"
+    },
+    "recovered": {
+      "path": "source/frame_000816_recovered_tracking_support.png",
+      "sha256": "513c9f9c1412aae6b24a7338b85e97d61b4764475535469ca06a3f6079ba1a17"
+    },
+    "admission": {
+      "path": "source/frame_000816_mapping_admission.png",
+      "sha256": "0d7e772813989e414b2003218c466f05a5a949a1a9a6a9dcba3881fb164de1b3"
+    },
+    "overlap": {
+      "path": "source/frame_000816_recovered_admission_overlap.png",
+      "sha256": "45e945d98ded38001430be13601895981708846604f9db9184b3b6af1dd62402"
+    },
+    "refined_static": {
+      "path": "source/frame_000816_refined_static_mask.png",
+      "sha256": "d0ef0781d4faf9da610dac34f855f115e6457b752b6135b18114ac5cb1c4d248"
+    },
+    "metadata": {
+      "path": "source/instrumentation_metadata.json",
+      "sha256": "4ae3adc3d80ec94b2ff6a4961edd5f8176302517037788e56fe8e8a90aa4c2a6"
+    }
+  },
+  "source_png_sha256": {
+    "rgb": "f7567347d763258b127fb155a38b8e3873e93edf478e336d011caa567ee43ede",
+    "raw_dynamic": "aab53fbf2807e9c97b459e01dcdb0dfca4a4cffbc7dedd45a483edafede1a90f",
+    "recovered": "513c9f9c1412aae6b24a7338b85e97d61b4764475535469ca06a3f6079ba1a17",
+    "admission": "0d7e772813989e414b2003218c466f05a5a949a1a9a6a9dcba3881fb164de1b3",
+    "overlap": "45e945d98ded38001430be13601895981708846604f9db9184b3b6af1dd62402",
+    "refined_static": "d0ef0781d4faf9da610dac34f855f115e6457b752b6135b18114ac5cb1c4d248"
+  },
+  "definitions": {
+    "raw_semantic_mask": "DynamicMaskRefiner::getSemanticMask() immediately after the target-frame compute() call",
+    "refined_static_mask": "exact compute() return matrix passed to System::TrackRGBD, Tracking::GrabImageRGBD, Frame::Frame, and Frame::ExtractORB",
+    "recovered_tracking_support": "raw_dynamic_mask AND refined_static_mask, identical to the route-certificate recovered-support definition",
+    "mapping_admission": "staticWeight >= 0.5, identical to the route-certificate persistent-admission threshold",
+    "recovered_admission_overlap": "recovered_tracking_support AND mapping_admission; a direct route-admission diagnostic, not independent zero-ghost ground truth",
+    "orb_keypoints": "Tracking::mCurrentFrame.mvKeysUn copied by System after the target-frame TrackRGBD call",
+    "orb_descriptors": "Tracking::mCurrentFrame.mDescriptors from the same frame and extractor invocation",
+    "orb_matches": "one-to-one intersection of non-outlier post-tracking MapPoint IDs in the previous and current frames; these are persistent ORB-SLAM3 track correspondences, not independently recomputed OpenCV matches",
+    "mask_serialization": "binary 0/1 matrices multiplied by 255 only for lossless PNG storage",
+    "post_processing": "none"
+  },
+  "claim_boundary": "This same-frame replay checks direct route admission using the exact runtime masks. It is not an original DYN-19 release mask artifact, does not establish independent zero-ghost ground truth, and does not exclude indirect Mapping changes through an improved camera pose."
+}

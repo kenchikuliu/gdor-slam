@@ -1867,7 +1867,9 @@ int main(int argc, char **argv)
                 instrumentation_written = writeFrontendEvidence(
                     instrument_output_dir,
                     previous_instrumented_frame, frontend_frame, imD,
-                    pMaskRefiner->getSemanticMask(), staticMask,
+                    pMaskRefiner->getSemanticMask(),
+                    pMaskRefiner->getRawDynamicMask(), staticMask,
+                    staticWeight,
                     dataset_root /
                         vstrImageFilenamesRGB[instrument_frame - 1],
                     dataset_root / vstrImageFilenamesRGB[instrument_frame],

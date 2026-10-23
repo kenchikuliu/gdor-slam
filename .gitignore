@@ -2,6 +2,8 @@
 build/
 build_*/
 **/build_*/
+ORB-SLAM3/Thirdparty/g2o/config.h
+model
 Testing/
 bin/
 lib/

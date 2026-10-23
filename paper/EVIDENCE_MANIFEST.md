@@ -62,9 +62,12 @@
 - Online static PSNR versus MapMatched: mean gain 0.773 dB, paired median gain
   0.515 dB, W/T/L 11/0/1, and the lowest-MapMatched cell at the same
   sequence/seed (14.009 dB to 16.551 dB).
-- Public provenance: `data/dyn19_release_provenance.json`; full trajectories,
-  masks, maps, renders, per-frame logs, certificates, plans, and summaries are
-  in the public `dyn19-results-20260914` release.
+- Public provenance: `data/dyn19_release_provenance.json`; trajectories, maps,
+  renders, per-frame metric logs, certificates, plans, and summaries are in the
+  public `dyn19-results-20260914` release. The release archive inventory does
+  not contain the same-frame runtime mask PNGs used by the diagnostic below;
+  those were produced by a separately labeled replay and are published with
+  their own hashes.
 - Boundary: DYN-19 is an ordered ablation, not a factorial design. Its mapping
   completeness and ghost-risk fields are proxies, not independent truth.
 
@@ -80,6 +83,35 @@
   support pixels and zero observed recovered-support/map-admission overlap.
 - Boundary: this is a representative route diagnostic, not independent
   ghost-contamination or complete-background truth.
+
+## DYN-19: Same-Frame Pixel-Admission Diagnostic Replay
+
+- Scope: TUM `sitting_halfsphere`, seed 0, processed frame 816 under the DYN-19
+  Full configuration. The frame was selected because it has the largest
+  `tracking_recovery_audit_pixels` count in the original retained seed-0
+  DYN-19 per-frame log.
+- Public figure: `figures/pixel_admission/fig_pixel_admission_real_frame.png`.
+- Public same-frame inputs: `figures/pixel_admission/source/` contains the RGB,
+  raw dynamic mask, recovered Tracking support, Mapping admission mask,
+  recovered/admission overlap mask, refined Tracking-static mask, and runtime
+  metadata used to build the figure.
+- Public provenance:
+  `figures/pixel_admission/fig_pixel_admission_real_frame.provenance.json`
+  records source paths, definitions, SHA-256 hashes, original-run selection
+  count, replay count, configuration hash, source hash, and binary hash.
+- Observed replay values: 187,204 raw-dynamic pixels, 97,905 recovered Tracking
+  support pixels, 119,834 persistent Mapping admission pixels, and zero direct
+  recovered/admission overlap pixels.
+- Original-run binding: the retained DYN-19 Full log records 98,018 audited
+  recovered-support pixels and zero leak pixels at the same frame. The replay
+  is close but not byte-identical, so it is explicitly labeled a diagnostic
+  replay rather than an original DYN-19 release mask artifact.
+- Exact route definitions: `recovered_support = raw_dynamic_mask AND
+  refined_static_mask`; `mapping_admission = staticWeight >= 0.5`; `overlap =
+  recovered_support AND mapping_admission`.
+- Boundary: this establishes a directly inspectable same-frame route-admission
+  observation. It is not independent ground truth for zero ghost contamination
+  and does not exclude indirect Mapping changes through the recovered pose.
 
 ## DYN-16: Common-View Mapping Diagnostic
 
